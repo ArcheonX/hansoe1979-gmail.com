@@ -1,2 +1,2 @@
-# SonyHRTraning
+# E-Traning System
 
