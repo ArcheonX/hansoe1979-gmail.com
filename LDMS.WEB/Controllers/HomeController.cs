@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using LDMS.WEB.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using LDMS.WEB.Models;
 
-namespace LDMS.WEB.Controllers
+namespace LDMS.MockUp.Controllers
 {
     public class HomeController : Controller
     {
@@ -21,7 +17,6 @@ namespace LDMS.WEB.Controllers
         public IActionResult Index()
         {
             return View();
-            
         }
 
         public IActionResult Privacy()
