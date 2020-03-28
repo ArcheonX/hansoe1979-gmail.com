@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj": {}
+    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj": {}
   },
   "projects": {
-    "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj": {
+    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj",
+        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj",
         "projectName": "LDMS.WEB",
-        "projectPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj",
-        "packagesPath": "C:\\Users\\hanso\\.nuget\\packages\\",
-        "outputPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.WEB\\obj\\",
+        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj",
+        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
+        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.WEB\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\hanso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +37,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -58,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

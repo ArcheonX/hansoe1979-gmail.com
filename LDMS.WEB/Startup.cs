@@ -50,7 +50,7 @@ namespace LDMS.WEB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Instructor}/{action=Add}/{id?}");
             });
         }
     }

@@ -8,23 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\hanso\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\pisit\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+      "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
       "projectName": "LDMS.Core",
-      "projectPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
-      "packagesPath": "C:\\Users\\hanso\\.nuget\\packages\\",
-      "outputPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\obj\\",
+      "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+      "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
+      "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\hanso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -62,7 +58,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
