@@ -21,7 +21,6 @@ Thumbs.db
 [Dd]ebug*/
 *.lib
 *.sbr
-obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
@@ -40,7 +39,9 @@ Storage.dat
 bin/*
 obj/*
 /bin/*
-/obj/*
+/obj/* 
+obj/
+bin/
 #ignore thumbnails created by windows
 #Ignore files build by Visual Studio
 
