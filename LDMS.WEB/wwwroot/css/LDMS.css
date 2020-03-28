@@ -1,0 +1,13 @@
+﻿
+.head-title h1 {
+    font-size: 28px !important;
+    color: white;
+    margin: 0 auto; 
+    font-weight: 400;
+}
+.logo-img{
+    height:70px;
+    width:350px;
+    right:10px;
+    position:fixed; 
+}

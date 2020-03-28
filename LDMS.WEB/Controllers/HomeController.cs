@@ -3,9 +3,9 @@ using LDMS.WEB.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace LDMS.MockUp.Controllers
+namespace LDMS.WEB.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 

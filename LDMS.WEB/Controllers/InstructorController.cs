@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LDMS.WEB.Controllers
 {
-    public class InstructorController : Controller
+    public class InstructorController : BaseController
     {
         private readonly ILogger<InstructorController> _logger;
 
