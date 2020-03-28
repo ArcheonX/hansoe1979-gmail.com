@@ -1,8 +1,315 @@
 ﻿@{
-    ViewData["Title"] = "Home Page Test";
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Header{
+    <script src="~/assets/plugins/highchart/highcharts.js"></script>
+    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
+    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
+}
+
+@section NavHeader{
+    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
+        <li class="breadcrumb-item active">I-Manage Learning Performance</li>
+    </ol>
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="row">
+        <div class="form-group row col-md-2">
+            <label for="example-text-input" class="col-lg-4 col-form-label">Platform</label>
+            <div class="col-5">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- All --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Softskill</a>
+                        <a class="dropdown-item" href="#">Legal and Complience</a>
+                        <a class="dropdown-item" href="#">Leadership and Complience</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row col-md-2">
+            <label for="example-text-input" class="col-lg-4 col-form-label">Course</label>
+            <div class="col-5">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- All --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Effective Meeting</a>
+                        <a class="dropdown-item" href="#">Human Relation</a>
+                        <a class="dropdown-item" href="#">Problem Solving</a>
+                        <a class="dropdown-item" href="#">TWI-JI</a>
+                        <a class="dropdown-item" href="#">Analytic</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row col-md-2">
+            <label for="example-text-input" class="col-lg-4 col-form-label">Year</label>
+            <div class="radio">
+                <input name="group1" type="radio" id="pyear" class="with-gap radio-col-blue-grey" checked />
+                <label for="pyear">Y2018</label>
+                <input name="group1" type="radio" id="cyear" class="with-gap radio-col-blue-grey" />
+                <label for="cyear">Y2019</label>
+            </div>
+        </div>
+        <div class="form-group row col-md-3">
+            <label for="example-text-input" class="col-lg-4 col-form-label">Quarter</label>
+            <div class="demo-checkbox ">
+                <input type="checkbox" id="chkq1" class="filled-in chk-col-blue-grey" checked />
+                <label for="chkq1">Q1</label>
+                <input type="checkbox" id="chkq2" class="filled-in chk-col-blue-grey" />
+                <label for="chkq2">Q2</label>
+                <input type="checkbox" id="chkq3" class="filled-in chk-col-blue-grey" />
+                <label for="chkq3">Q3</label>
+                <input type="checkbox" id="chkq4" class="filled-in chk-col-blue-grey" />
+                <label for="chkq4">Q4</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-2 col-md-3">
+            <div class="card">
+                <div class="card-block">
+                    <div class="d-flex flex-row">
+                        <div class="round round-lg align-self-center round-info"><i class="mdi mdi-newspaper"></i></div>
+                        <div class="m-l-10 align-self-center">
+                            <h5 class="text-muted m-b-0">Total Course</h5>
+                            <h3 class="m-b-0 font-light">30</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <!-- Column -->
+        <div class="col-lg-2 col-md-3">
+            <div class="card">
+                <div class="card-block">
+                    <div class="d-flex flex-row">
+                        <div class="round round-lg align-self-center round-warning"><i class="mdi mdi-account-multiple"></i></div>
+                        <div class="m-l-10 align-self-center">
+                            <h5 class="text-muted m-b-0">Target Group</h5>
+                            <h3 class="m-b-0 font-lgiht">270</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <!-- Column -->
+        <div class="col-lg-2 col-md-3">
+            <div class="card">
+                <div class="card-block">
+                    <div class="d-flex flex-row">
+                        <div class="round round-lg align-self-center round-primary"><i class="mdi mdi-chart-areaspline"></i></div>
+                        <div class="m-l-10 align-self-center">
+                            <h5 class="text-muted m-b-0">Avg.Course</h5>
+                            <h3 class="m-b-0 font-lgiht">4.7</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <div class="col-lg-6 col-xlg-6 col-md-5">
+            <div id="container"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="container1"></div>
+        </div>
+        <div class="col-lg-6">
+            <div id="container2"></div>
+        </div>
+    </div>
+  </div>
+
+ @section Scripts{
+        <script type="text/javascript">
+            Highcharts.chart('container', {
+                 chart: {
+                    backgroundColor: "#FDFDFD",
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Total Learning Cost Spending'
+                },
+
+                subtitle: {
+                    text: ''
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Number of Employees'
+                    }
+                },
+
+                xAxis: {
+                    categories: ['APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC', 'JAN', 'FEB', 'MAR'],
+                    accessibility: {
+                        rangeDescription: 'Range: 2010 to 2017'
+                    }
+                },
+
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        //pointStart: 2010
+                    }
+                },
+
+                series: [{
+                    name: 'Invest (K Baht)',
+                    data: [100, 120, 77, 55, 99, 54, 78, 34, 120, 200, 125, 88]
+                }, {
+                    name: 'Qualified (K Baht)',
+                    color: '#0ADF09',
+                    data: [55, 77, 88, 78, 99, 44, 67, 55]
+                }, {
+                    name: 'Lost (K Baht)',
+                    color: '#F34006',
+                    data: [77, 55, 89, 45, 90, 56, 120, 56]
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
+            });
+
+            Highcharts.setOptions({
+                 colors: ['#F34006', '#E4E3E3', '#DDDF00', '#0ADF09']
+                });
+            Highcharts.chart('container1', {
+                chart: {
+                    backgroundColor: "#FDFDFD",
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Not Start 15%',
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    y: 60
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            enabled: true,
+                            distance: -50,
+                            style: {
+                                fontWeight: 'bold',
+                                color: 'white'
+                            }
+                        },
+                        startAngle: -90,
+                        endAngle: 90,
+                        center: ['50%', '75%'],
+                        size: '110%'
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Browser share',
+                    innerSize: '50%',
+                    data: [
+                        ['Over Due', 58.9],
+                        ['Not Start', 13.29],
+                        ['On Progress', 13],
+                        ['Completed', 3.78]
+                    ]
+                }]
+            });
+
+
+           
+            Highcharts.chart('container2', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Top 5 by Course'
+            },
+            xAxis: {
+                categories: ['Effective Meeting', 'Human Relation', 'Problem Solving', 'TWI-JI', 'Analytical']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+                name: 'Not Start',
+                color :'#e4e3e3',
+                data: [5, 3, 4, 7, 2]
+            }, {
+                    name: 'On Progress',
+                color:'#FEF72F',
+                data: [2, 2, 3, 2, 1]
+            }, {
+                name: 'Completed',
+                color:'#63FB0A',
+                data: [3, 4, 4, 2, 5]
+            },
+            {
+                name: 'Over Due',
+                color:'#FB360A',
+                data: [3, 4, 4, 2, 5]
+            }]
+        });
+
+ </script>
+}
