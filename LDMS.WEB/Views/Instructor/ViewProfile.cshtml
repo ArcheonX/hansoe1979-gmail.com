@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewData["Title"] = "Instuctor Profile";
+}
+
+@section Header{
+
+    <script src="~/assets/plugins/highchart/highcharts.js"></script>
+    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
+    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+}
+
+@section NavHeader{
+    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
+        <li class="breadcrumb-item active">I-Manage Instructor Profile</li>
+    </ol>
+}
+
+<div class="card">
+    <div class="form-group m-2 row">
+        <div class="col-4">
+            <label class="breadcrumb-item active" style="font-size:larger">General Information</label>
+        </div>
+        <div class="col-8" style="text-align:right">
+            <button id="btnSave" class="btn btn-success waves-effect waves-light">Edit</button>
+            <button id="btnBack" class="btn btn-danger waves-effect waves-light">Back</button>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <form class="form">
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
+            <div class="col-4">
+                <label for="example-text-input" class="col-4 col-form-label" style="text-align:left">EXT-001</label>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
+            <div class="col-4">
+                <label class="col-form-label" style="text-align:left">Vera Plus Soft adsasdasdadsadasdasdas</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
+            <div class="col-4">
+                <label class="col-form-label" style="text-align:left">Pisit Imlerthiran</label>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Address</label>
+            <div class="col-4">
+                <label class="col-form-label" style="text-align:left">10,M9 Bangkadi Industrial</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Type</label>
+            <div class="col-4">
+                <label class="col-4 col-form-label" style="text-align:left">External</label>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">District</label>
+            <div class="col-4">
+                <label class="col-4 col-form-label" style="text-align:left">Pathumtani</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
+            <div class="col-4">
+                <label for="example-text-input" class="col-4 col-form-label" style="text-align:left">Active</label>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Sub Province</label>
+            <div class="col-4">
+                <label for="example-text-input" class="col-4 col-form-label" style="text-align:left">Bangkadi</label>
+            </div>
+
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Department</label>
+            <div class="col-4">
+                <label  class="col-form-label" style="text-align:left">N/A</label>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Province</label>
+            <div class="col-4">
+                <label  class="col-form-label" style="text-align:left">Mueng</label>
+            </div>
+
+        </div>
+
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Phone</label>
+            <div class="col-4">
+                <label  class="col-form-label" style="text-align:left">06502411444</label>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Post Code</label>
+            <div class="col-4">
+                <label class="col-form-label" style="text-align:left">10345</label>
+            </div>
+
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Email</label>
+            <div class="col-4">
+                <label class="col-form-label" style="text-align:left">pisit10@gmail.com</label>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="card">
+    <div class="form-group m-2 row">
+        <div class="col-4">
+            <label class="breadcrumb-item active" style="font-size:larger">Expperience Information</label>
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Education Level</label>
+        <div class="col-8">
+            <input class="form-control" type="text" value="" id="example-text-input" />
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Major</label>
+        <div class="col-8">
+            <input class="form-control" type="text" value="" id="example-text-input">
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Expperience</label>
+        <div class="col-8">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Skill & Profressional</label>
+        <div class="col-8">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Customer Reference</label>
+        <div class="col-8">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Manufacturing Area</label>
+        <div class="col-8">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+</div>
+
