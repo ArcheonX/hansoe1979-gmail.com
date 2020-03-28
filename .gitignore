@@ -37,7 +37,10 @@ _ReSharper*/
 /*.testsettings
 Index.dat
 Storage.dat
-
+bin/*
+obj/*
+/bin/*
+/obj/*
 #ignore thumbnails created by windows
 #Ignore files build by Visual Studio
 
@@ -53,3 +56,12 @@ QA*/
 */images/*
 /packages/*
 uploads/
+/LDMS.ViewModels/obj/Debug/netcoreapp3.1/LDMS.ViewModels.assets.cache
+/LDMS.ViewModels/obj/Debug/netcoreapp3.1/LDMS.ViewModels.csprojAssemblyReference.cache
+/LDMS.WEB/obj/Debug/netcoreapp3.1/LDMS.WEB.assets.cache
+/LDMS.WEB/obj/Debug/netcoreapp3.1/LDMS.WEB.csprojAssemblyReference.cache
+/LDMS.ViewModels/obj/Debug/netcoreapp3.1/LDMS.ViewModels.assets.cache
+/LDMS.ViewModels/obj/Debug/netcoreapp3.1/LDMS.ViewModels.csprojAssemblyReference.cache
+/LDMS.WEB/obj/Debug/netcoreapp3.1/LDMS.WEB.assets.cache
+/LDMS.WEB/obj/Debug/netcoreapp3.1/LDMS.WEB.csprojAssemblyReference.cache
+/LDMS.WEB/obj/Debug/netcoreapp3.1/LDMS.WEB.csprojAssemblyReference.cache

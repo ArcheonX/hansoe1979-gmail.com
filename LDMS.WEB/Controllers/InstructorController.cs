@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LDMS.WEB.Controllers
 {
-    public class InstructorController : Controller
+    public class InstructorController : BaseController
     {
         private readonly ILogger<InstructorController> _logger;
 
@@ -22,17 +22,6 @@ namespace LDMS.WEB.Controllers
         public IActionResult Add()
         {
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        }  
     }
 }
