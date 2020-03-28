@@ -58,3 +58,6 @@ QA*/
 /packages/*
 uploads/
 /.vs/LDMS/v16/.suo
+bin/
+obj/
+debug/
