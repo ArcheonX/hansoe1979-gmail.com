@@ -5,9 +5,10 @@
     margin: 0 auto; 
     font-weight: 400;
 }
-.logo-img{
-    height:70px;
-    width:350px;
-    right:10px;
-    position:fixed; 
+.logo-img {
+    height: 70px;
+    width: 350px;
+    right: 10px;
+    position: fixed;
+    margin-top: -32px;
 }

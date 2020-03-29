@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -11,8 +11,5 @@
   <ItemGroup>
     <ProjectReference Include="..\LDMS.Daos\LDMS.Daos.csproj" />
     <ProjectReference Include="..\LDMS.Domain\LDMS.Domain.csproj" />
-  </ItemGroup>
-
-
-
+  </ItemGroup> 
 </Project>
