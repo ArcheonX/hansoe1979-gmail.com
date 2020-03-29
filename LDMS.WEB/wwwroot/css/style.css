@@ -1086,7 +1086,17 @@ ul#themecolors li a.working:before{content:"\f00c";font-family:"FontAwesome";fon
                 background:-webkit-linear-gradient(left, #263238 0%, #263238 23%, #fc4b6c 23%, #fc4b6c 99%);
                 background:linear-gradient(to right, #263238 0%, #263238 23%, #fc4b6c 23%, #fc4b6c 99%)}
 .page-titles{padding-bottom:20px}
-.footer{bottom:0;color:#67757c;left:0px;padding:17px 15px;position:absolute;right:0;border-top:1px solid rgba(120,130,140,0.13);background:#fff}
+.footer {
+    bottom: 0;
+    color: #67757c;
+    left: 0px;
+    padding: 17px 15px;
+    position: absolute;
+    right: 0;
+    border-top: 1px solid rgba(120,130,140,0.13);
+    background: #fff;
+    padding-left: calc(25%);
+}
 .card{margin-bottom:30px}
 .card .card-subtitle{font-weight:300;margin-bottom:15px;color:#99abb4}
 .card-inverse .card-blockquote .blockquote-footer,.card-inverse .card-link,.card-inverse .card-subtitle,.card-inverse .card-text{color:rgba(255,255,255,0.65)}
