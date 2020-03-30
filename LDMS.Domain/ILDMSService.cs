@@ -5,12 +5,19 @@ using System.Text;
 
 namespace LDMS.Domain
 {
-   public abstract class ILDMSService
+    public abstract class ILDMSService
     {
-        protected ILDMSConnection _connection;
+        private ILDMSConnection _LDMSConnection;
         public ILDMSService(ILDMSConnection connection)
         {
-            _connection = connection;
+            _LDMSConnection = connection;
+        }
+        protected System.Data.IDbConnection Connection
+        {
+            get
+            {
+                return _LDMSConnection.GetConnection();
+            }
         }
     }
 }

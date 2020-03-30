@@ -1,6 +1,5 @@
-﻿using LDMS.Core;
-using LDMS.Domain;
-namespace LDMS.Services
+﻿using LDMS.Core; 
+namespace LDMS.Domain
 {
     public class LDAPAuthenticationService : ILDMSService
     {

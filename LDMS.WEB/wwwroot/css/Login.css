@@ -46,6 +46,7 @@
 body, html {
     height: 100%;
     font-family: Montserrat-Regular, sans-serif;
+    overflow:hidden
 }
 /*---------------------------------------------*/
 a {
@@ -566,4 +567,4 @@ iframe {
     border-top: 1px solid rgba(120,130,140,0.13);
     background: #fff;
     padding-left: calc(25%);
-}
+} 
