@@ -62,3 +62,4 @@ bin/
 obj/
 debug/
 *.assets.cache
+/LDMS.WEB/obj/Debug/netcoreapp3.1/LDMS.WEB.csprojAssemblyReference.cache
