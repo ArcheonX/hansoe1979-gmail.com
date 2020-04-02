@@ -1,15 +1,208 @@
-﻿
-@{
-    ViewData["Title"] = "Instructor";
+﻿@{
+    ViewData["Title"] = "Instructor Inventory";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Header{
+
+    <script src="~/assets/plugins/highchart/highcharts.js"></script>
+    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
+    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 }
 
 @section NavHeader{
     <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
-        <li class="breadcrumb-item active">Instructor</li>
+        <li class="breadcrumb-item active">I-Manage Instructor Inventory</li>
     </ol>
 }
 
+<div class="card">
+    <form class="form">
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- All --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Active</a>
+                        <a class="dropdown-item" href="#">In Active</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Type</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- Please Select --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Internal</a>
+                        <a class="dropdown-item" href="#">External</a>
+                    </div>
+                </div>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Experience</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="" id="example-text-input">
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="" id="example-text-input">
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-2">
+                <button id="btnSeacrh" class="btn btn-success waves-effect waves-light">Search</button>
+                <button id="btnAdd" class="btn btn-info waves-effect waves-light">Add</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="card">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">Data Export</h4>
+                    <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                    <div class="table-responsive m-t-40">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Instructor ID</th>
+                                    <th>Instructor Name</th>
+                                    <th>Type</th>
+                                    <th>Organization / Department</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>1</th>
+                                    <th>Instructor ID</th>
+                                    <th>Instructor Name</th>
+                                    <th>Type</th>
+                                    <th>Organization / Department</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <td>INT-001</td>
+                                    <td>Tiger Nixon</td>
+                                    <td>Internal</td>
+                                    <td>Human Resource</td>
+                                    <td>Active</td>
+                                    <td><i class="fa fa-pencil" /></td>
+                                    <td><i class="fa fa-trash-o" /></td>
 
+                                </tr>
+                                <tr>
+                                    <th>2</th>
+                                    <td>INT-002</td>
+                                    <td>Garrett Winters</td>
+                                    <td>Internal</td>
+                                    <td>Human Resource</td>
+                                    <td>Active</td>
+                                    <td><i class="fa fa-pencil" /></td>
+                                    <td><i class="fa fa-trash-o" /></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>EXT-001</td>
+                                    <td>Junior Technical Author</td>
+                                    <td>External</td>
+                                    <td>Professional Consultance</td>
+                                    <td>Active</td>
+                                    <td><i class="fa fa-pencil" /></td>
+                                    <td><i class="fa fa-trash-o" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+            $(document).ready(function () {
+                var table = $('#example').DataTable({
+                    "columnDefs": [{
+                        "visible": false,
+                        "targets": 2
+                    }],
+                    "order": [
+                        [2, 'asc']
+                    ],
+                    "displayLength": 25,
+                    "drawCallback": function (settings) {
+                        var api = this.api();
+                        var rows = api.rows({
+                            page: 'current'
+                        }).nodes();
+                        var last = null;
+                        api.column(2, {
+                            page: 'current'
+                        }).data().each(function (group, i) {
+                            if (last !== group) {
+                                $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                                last = group;
+                            }
+                        });
+                    }
+                });
+                // Order by the grouping
+                $('#example tbody').on('click', 'tr.group', function () {
+                    var currentOrder = table.order()[0];
+                    if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                        table.order([2, 'desc']).draw();
+                    } else {
+                        table.order([2, 'asc']).draw();
+                    }
+                });
+            });
+        });
+        $('#example23').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    </script>
+}

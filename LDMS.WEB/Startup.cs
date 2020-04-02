@@ -99,7 +99,7 @@ namespace LDMS.WEB
                 };
             });
 
-            services.AddScoped<CustomCookieAuthenticationEvents>(); 
+            services.AddScoped<CustomCookieAuthenticationEvents>();
             services.AddScoped<ILdapService, LdapService>();
             //services.AddScoped<Microsoft.AspNetCore.Identity.UserManager<LdapUser>, LdapUserManager>();
             //services.AddScoped<Microsoft.AspNetCore.Identity.SignInManager<LdapUser>, LdapSignInManager>();
@@ -111,7 +111,7 @@ namespace LDMS.WEB
                     services.AddScoped(mytype, myImple);
                 }
             }
-        } 
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -122,7 +122,7 @@ namespace LDMS.WEB
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error"); 
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
             app.UseRouting();
@@ -133,7 +133,7 @@ namespace LDMS.WEB
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             app.UseHttpsRedirection();
-            app.UseStaticFiles(); 
+            app.UseStaticFiles();
             app.UseAuthorization();
             app.UseAuthentication();
             var cookiePolicyOptions = new CookiePolicyOptions
@@ -144,8 +144,9 @@ namespace LDMS.WEB
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute( name: "default", pattern: "{controller=Home}/{action=Index}/{id?}"); 
-            }); 
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "Instructor", pattern: "{controller=Instructor}/{action=Add}/{id?}");
+            });
         }
-    } 
+    }
 }

@@ -1,0 +1,212 @@
+﻿
+@{
+    ViewData["Title"] = "Instuctor Add";
+}
+
+@section Header{
+
+    <script src="~/assets/plugins/highchart/highcharts.js"></script>
+    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
+    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+}
+
+@section NavHeader{
+    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
+        <li class="breadcrumb-item active">I-Manage Instructor Add</li>
+    </ol>
+}
+
+<div class="card">
+    <div class="form-group m-2 row">
+        <div class="col-4">
+            <label class="breadcrumb-item active" style="font-size:larger">General Information</label>
+        </div>
+        <div class="col-8" style="text-align:right">
+            <button id="btnSave" class="btn btn-success waves-effect waves-light">Save</button>
+            <button id="btnBack" class="btn btn-danger waves-effect waves-light">Back</button>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <form class="form">
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="Auto Genarate" id="example-text-input" disabled="disabled">
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="" id="example-text-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
+            <div class="col-3">
+                <input class="form-control" type="text" value="" id="example-text-input">
+            </div>
+            <div class="col-1">
+                <button id="btnSearch" style="margin-top:3px" class="btn btn-instagram waves-effect waves-light fa fa-search"></button> 
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Address</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="" id="example-text-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Type</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- Please Select --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Internal</a>
+                        <a class="dropdown-item" href="#">External</a>
+                    </div>
+                </div>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">District</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- Please Select --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Internal</a>
+                        <a class="dropdown-item" href="#">External</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- All --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Active</a>
+                        <a class="dropdown-item" href="#">In Active</a>
+                    </div>
+                </div>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Sub Province</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- Please Select --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Internal</a>
+                        <a class="dropdown-item" href="#">External</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Department</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- All --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Active</a>
+                        <a class="dropdown-item" href="#">In Active</a>
+                    </div>
+                </div>
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Province</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- Please Select --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Internal</a>
+                        <a class="dropdown-item" href="#">External</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Phone</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="" id="txtPhone">
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Post Code</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="" id="txtPostCode" disabled="disabled">
+            </div>
+
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Email</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="" id="txtPhone">
+            </div>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Picture Profile</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="" id="txtPostCode" disabled="disabled">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="card">
+    <div class="form-group m-2 row">
+        <div class="col-4">
+            <label class="breadcrumb-item active" style="font-size:larger">Expperience Information</label>
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Education Level</label>
+        <div class="col-8">
+            <input class="form-control" type="text" value="" id="example-text-input" />
+        </div>
+
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Major</label>
+        <div class="col-8">
+            <input class="form-control" type="text" value="" id="example-text-input">
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Expperience</label>
+        <div class="col-8">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Skill & Profressional</label>
+        <div class="col-8">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Customer Reference</label>
+        <div class="col-8">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Manufacturing Area</label>
+        <div class="col-8">
+            <textarea class="form-control" rows="5"></textarea>
+        </div>
+    </div>
+</div>
+

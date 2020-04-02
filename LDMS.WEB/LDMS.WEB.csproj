@@ -13,9 +13,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LDMS.Core\LDMS.Core.csproj" />
-    <ProjectReference Include="..\LDMS.Daos\LDMS.Daos.csproj" />
-    <ProjectReference Include="..\LDMS.Domain\LDMS.Domain.csproj" />
+    <ProjectReference Include="..\LDMS.Daos\LDMS.Daos.csproj" /> 
     <ProjectReference Include="..\LDMS.Services\LDMS.Services.csproj" />
     <ProjectReference Include="..\LDMS.ViewModels\LDMS.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup> 
 </Project>

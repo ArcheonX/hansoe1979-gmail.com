@@ -19,11 +19,15 @@ namespace LDMS.WEB.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Add()
         {
             return View();
         }
 
        
+        public IActionResult ViewProfile()
+        {
+            return View();
+        }
     }
 }
