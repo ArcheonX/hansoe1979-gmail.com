@@ -1,6 +1,6 @@
 ﻿using LDMS.Core; 
 
-namespace LDMS.Domain
+namespace LDMS.Services
 {
     public class LocalAuthenticationService : ILDMSService
     {

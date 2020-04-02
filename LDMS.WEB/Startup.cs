@@ -4,7 +4,8 @@ using System.Reflection;
 using System.Text;
 using LDMS.Core;
 using LDMS.Daos;
-using LDMS.Domain;
+using LDMS.Identity;
+using LDMS.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -56,7 +57,7 @@ namespace LDMS.WEB
             services.AddHttpContextAccessor();
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-
+            services.Configure<LdapSettings>(Configuration.GetSection("LdapSettings"));
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
@@ -97,7 +98,11 @@ namespace LDMS.WEB
                     ValidateAudience = false
                 };
             });
-            services.AddScoped<CustomCookieAuthenticationEvents>();
+
+            services.AddScoped<CustomCookieAuthenticationEvents>(); 
+            //services.AddScoped<ILdapService, LdapService>();
+            //services.AddScoped<Microsoft.AspNetCore.Identity.UserManager<LdapUser>, LdapUserManager>();
+            //services.AddScoped<Microsoft.AspNetCore.Identity.SignInManager<LdapUser>, LdapSignInManager>();
             Assembly service = Assembly.GetAssembly(typeof(ILDMSService));
             foreach (Type mytype in typeof(ILDMSService).Assembly.GetTypes().Where(mytype => !mytype.IsAbstract && mytype.IsSubclassOf(typeof(ILDMSService))))
             {
@@ -105,7 +110,7 @@ namespace LDMS.WEB
                 {
                     services.AddScoped(mytype, myImple);
                 }
-            }  
+            }
         } 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,6 +141,7 @@ namespace LDMS.WEB
                 MinimumSameSitePolicy = SameSiteMode.None,
             };
             app.UseCookiePolicy(cookiePolicyOptions);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute( name: "default", pattern: "{controller=Home}/{action=Index}/{id?}"); 

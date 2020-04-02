@@ -1,4 +1,4 @@
-﻿using LDMS.Domain;
+﻿using LDMS.Services;
 using LDMS.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ using System.Linq;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LDMS.WEB.Controllers
-{ 
+{
     public class AccountController : BaseController
     {
         // GET: /<controller>/

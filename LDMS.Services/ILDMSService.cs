@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LDMS.Domain
+namespace LDMS.Services
 {
     public abstract class ILDMSService
     {
@@ -16,7 +16,13 @@ namespace LDMS.Domain
         {
             get
             {
-                return _LDMSConnection.GetConnection();
+                var connection =  _LDMSConnection.GetConnection();
+
+                if (connection.State == System.Data.ConnectionState.Closed)
+                    connection.Open();
+
+                return connection;
+
             }
         }
     }
