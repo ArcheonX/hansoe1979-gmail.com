@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LDMS.Core\LDMS.Core.csproj" />
+    <ProjectReference Include="..\LDMS.Identity\LDMS.Identity.csproj" />
   </ItemGroup>
 
 </Project>

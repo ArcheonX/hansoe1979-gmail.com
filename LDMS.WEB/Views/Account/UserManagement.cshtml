@@ -1,0 +1,206 @@
+﻿@{
+    ViewData["Title"] = "User Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Header{
+    <script src="~/assets/plugins/highchart/highcharts.js"></script>
+    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
+    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
+}
+@section NavHeader{
+    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
+        <li class="breadcrumb-item active">I-Manage Learning Performance</li>
+    </ol>
+}
+<div class="text-center">
+    <div class="row">
+        @foreach (var std in ViewData["Users"] as IList<LDMS.ViewModels.LDMS_User>)
+        {
+            <div class="form-group row col-md-12">
+                <div class="col-3">  @std.Name </div>
+                <div class="col-3">  @std.Surname </div>
+                <div class="col-3">  @std.email </div>
+                <div class="col-3">  @std.Gender </div>
+            </div>
+        } 
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        Highcharts.chart('container', {
+            chart: {
+                backgroundColor: "#FDFDFD",
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+            title: {
+                text: 'Total Learning Cost Spending'
+            },
+
+            subtitle: {
+                text: ''
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Number of Employees'
+                }
+            },
+
+            xAxis: {
+                categories: ['APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC', 'JAN', 'FEB', 'MAR'],
+                accessibility: {
+                    rangeDescription: 'Range: 2010 to 2017'
+                }
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    //pointStart: 2010
+                }
+            },
+
+            series: [{
+                name: 'Invest (K Baht)',
+                data: [100, 120, 77, 55, 99, 54, 78, 34, 120, 200, 125, 88]
+            }, {
+                name: 'Qualified (K Baht)',
+                color: '#0ADF09',
+                data: [55, 77, 88, 78, 99, 44, 67, 55]
+            }, {
+                name: 'Lost (K Baht)',
+                color: '#F34006',
+                data: [77, 55, 89, 45, 90, 56, 120, 56]
+            }],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+        });
+
+        Highcharts.setOptions({
+            colors: ['#F34006', '#E4E3E3', '#DDDF00', '#0ADF09']
+        });
+        Highcharts.chart('container1', {
+            chart: {
+                backgroundColor: "#FDFDFD",
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+            title: {
+                text: 'Not Start 15%',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 60
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%'],
+                    size: '110%'
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                innerSize: '50%',
+                data: [
+                    ['Over Due', 58.9],
+                    ['Not Start', 13.29],
+                    ['On Progress', 13],
+                    ['Completed', 3.78]
+                ]
+            }]
+        });
+
+
+
+        Highcharts.chart('container2', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Top 5 by Course'
+            },
+            xAxis: {
+                categories: ['Effective Meeting', 'Human Relation', 'Problem Solving', 'TWI-JI', 'Analytical']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+                name: 'Not Start',
+                color: '#e4e3e3',
+                data: [5, 3, 4, 7, 2]
+            }, {
+                name: 'On Progress',
+                color: '#FEF72F',
+                data: [2, 2, 3, 2, 1]
+            }, {
+                name: 'Completed',
+                color: '#63FB0A',
+                data: [3, 4, 4, 2, 5]
+            },
+            {
+                name: 'Over Due',
+                color: '#FB360A',
+                data: [3, 4, 4, 2, 5]
+            }]
+        });
+
+    </script>
+}

@@ -21,7 +21,6 @@ Thumbs.db
 [Dd]ebug*/
 *.lib
 *.sbr
-obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
@@ -40,7 +39,9 @@ Storage.dat
 bin/*
 obj/*
 /bin/*
-/obj/*
+/obj/* 
+obj/
+bin/
 #ignore thumbnails created by windows
 #Ignore files build by Visual Studio
 
@@ -56,6 +57,11 @@ QA*/
 */images/*
 /packages/*
 uploads/
+/.vs/LDMS/v16/.suo
+bin/
+obj/
+debug/
+*.assets.cache
 /LDMS.ViewModels/obj/Debug/netcoreapp3.1/LDMS.ViewModels.assets.cache
 /LDMS.ViewModels/obj/Debug/netcoreapp3.1/LDMS.ViewModels.csprojAssemblyReference.cache
 /LDMS.WEB/obj/Debug/netcoreapp3.1/LDMS.WEB.assets.cache
@@ -79,3 +85,8 @@ uploads/
 /LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.assets.cache
 /.vs/LDMS/DesignTimeBuild/.dtbcache.v2
 /.vs/LDMS/DesignTimeBuild/.dtbcache.v2
+/LDMS.WEB/obj/project.nuget.cache
+/.vs/LDMS/v16/.suo
+/LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.csprojAssemblyReference.cache
+/LDMS.WEB/obj/LDMS.WEB.csproj.nuget.dgspec.json
+/LDMS.WEB/obj/project.nuget.cache

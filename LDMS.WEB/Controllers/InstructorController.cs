@@ -23,6 +23,8 @@ namespace LDMS.WEB.Controllers
         {
             return View();
         }
+
+       
         public IActionResult ViewProfile()
         {
             return View();

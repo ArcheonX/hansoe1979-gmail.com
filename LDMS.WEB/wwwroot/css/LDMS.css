@@ -2,12 +2,16 @@
 .head-title h1 {
     font-size: 28px !important;
     color: white;
-    margin: 0 auto; 
+    margin: 0 auto;
     font-weight: 400;
+   /* padding-left: calc(30%);
+    width: 1000px;
+    margin-left: calc(25%);*/
 }
-.logo-img{
-    height:70px;
-    width:350px;
-    right:10px;
-    position:fixed; 
+.logo-img {
+    height: 70px;
+    width: 350px;
+    right: 10px;
+    position: fixed;
+    margin-top: -32px;
 }
