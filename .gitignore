@@ -77,3 +77,5 @@ uploads/
 /LDMS.Core/obj/Debug/netcoreapp3.1/LDMS.Core.assets.cache
 /LDMS.Daos/obj/Debug/netcoreapp3.1/LDMS.Daos.assets.cache
 /LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.assets.cache
+/.vs/LDMS/DesignTimeBuild/.dtbcache.v2
+/.vs/LDMS/DesignTimeBuild/.dtbcache.v2
