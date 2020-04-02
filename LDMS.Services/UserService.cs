@@ -20,47 +20,16 @@ namespace LDMS.Services
     public class UserService : ILDMSService
     {
         private readonly AppSettings _appSettings;
-      /*  private readonly LDAPAuthenticationService _ldAPAuthenticationService;
-        private readonly LocalAuthenticationService _localAuthenticationService;*/
-
-        //private List<UserApplicationUser> _users = new List<UserApplicationUser>
-        //{
-        //    new UserApplicationUser("ted@bakersman.com") { Id = 6, FirstName = "Ted", LastName = "Facciani", Password = "azsx" ,
-        //        UserRole = new UserIdentityRole("User")
-        //        {
-        //             Id ="0002"
-        //        } },
-        //    new UserApplicationUser("nancy@bakersman.com") { Id = 1, FirstName = "Nancy", LastName = "Rogers", Password = "azsx" ,
-        //        UserRole = new UserIdentityRole("User")
-        //        {
-        //             Id ="0002"
-        //        } },
-        //    new UserApplicationUser("meghan@bakersman.com") { Id = 2, FirstName = "Meghan", LastName = "Ryan", Password = "azsx" ,
-        //        UserRole = new UserIdentityRole("User")
-        //        {
-        //             Id ="0002"
-        //        } },
-        //    new UserApplicationUser("melissa@bakersman.com") { Id = 3, FirstName = "Melissa", LastName = "Cusick ", Password = "azsx" ,
-        //        UserRole = new UserIdentityRole("User")
-        //        {
-        //             Id ="0002"
-        //        } },
-        //    new UserApplicationUser("chad@bakersman.com") { Id = 4, FirstName = "Chad", LastName = "DePasquale", Password = "azsx"  ,
-        //        UserRole = new UserIdentityRole("User")
-        //        {
-        //             Id ="0002"
-        //        } },
-        //    new UserApplicationUser("Yulia@bakersman.com") { Id = 5, FirstName = "Yulia", LastName = "Berestneva", Password = "azsx"  ,
-        //        UserRole = new UserIdentityRole("Administrator")
-        //        {
-        //             Id ="0001"
-        //        } }
-        //};
-        public UserService(IOptions<AppSettings> appSettings,/* LDAPAuthenticationService ldAPAuthenticationService, LocalAuthenticationService localAuthenticationService, */ILDMSConnection iLDMSConnection) : base(iLDMSConnection)
+       private readonly LDAPAuthenticationService _ldAPAuthenticationService;
+        private readonly LocalAuthenticationService _localAuthenticationService;
+        public UserService(IOptions<AppSettings> appSettings,
+            LDAPAuthenticationService ldAPAuthenticationService,
+            LocalAuthenticationService localAuthenticationService, 
+            ILDMSConnection iLDMSConnection) : base(iLDMSConnection)
         {
             _appSettings = appSettings.Value;
-           /* _ldAPAuthenticationService = ldAPAuthenticationService;
-            _localAuthenticationService = localAuthenticationService;*/
+            _ldAPAuthenticationService = ldAPAuthenticationService;
+            _localAuthenticationService = localAuthenticationService;
         }
         public IEnumerable<LDMS_User> GetAll()
         {
@@ -74,6 +43,13 @@ namespace LDMS.Services
         }
         public UserApplicationUser Authenticate(string username, string password)
         {
+            var isAuthenPass = false;
+            isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
+            if (!isAuthenPass)
+            {
+
+            }
+
             UserApplicationUser user = new UserApplicationUser(username);
             string userId = System.Guid.NewGuid().ToString();
             var tokenHandler = new JwtSecurityTokenHandler();

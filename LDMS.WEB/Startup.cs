@@ -100,7 +100,7 @@ namespace LDMS.WEB
             });
 
             services.AddScoped<CustomCookieAuthenticationEvents>(); 
-            //services.AddScoped<ILdapService, LdapService>();
+            services.AddScoped<ILdapService, LdapService>();
             //services.AddScoped<Microsoft.AspNetCore.Identity.UserManager<LdapUser>, LdapUserManager>();
             //services.AddScoped<Microsoft.AspNetCore.Identity.SignInManager<LdapUser>, LdapSignInManager>();
             Assembly service = Assembly.GetAssembly(typeof(ILDMSService));
