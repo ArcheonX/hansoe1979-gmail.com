@@ -11,6 +11,7 @@ namespace LDMS.ViewModels
 		public int ID_Role { get; set; }
 		public string Password { get; set; }
 		public int IsInstructor { get; set; }
+		public int IsSectionHead { get; set; } 
 		public string Remark { get; set; }
 		public string CreateBy { get; set; }
 		public DateTime CreateDate { get; set; }
