@@ -8,6 +8,7 @@ namespace LDMS.Services
     public abstract class ILDMSService
     {
         private ILDMSConnection _LDMSConnection;
+        protected const string _schema = "[dbo]";
         public ILDMSService(ILDMSConnection connection)
         {
             _LDMSConnection = connection;

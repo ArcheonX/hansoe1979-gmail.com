@@ -32,39 +32,46 @@ namespace LDMS.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            AppSettings appSettings = new AppSettings();
+            Configuration.GetSection("AppSettings").Bind(appSettings);
+            LdapSettings ldapSettings = new LdapSettings();
+            Configuration.GetSection("LdapSettings").Bind(ldapSettings);
+            JwtSettings jwtSettings = new JwtSettings();
+            Configuration.GetSection("JwtSettings").Bind(jwtSettings);
+            services.AddSingleton(appSettings);
+            services.AddSingleton(ldapSettings);
+            services.AddSingleton(jwtSettings);
+            services.AddHttpContextAccessor();
+            services.AddScoped<IAuthorizationHandler, Filters.MinimumExpHandler>();            
+            services.AddMemoryCache();
+            services.AddControllers();
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowAllOrigin",
+            //            builder =>
+            //            {
+            //                builder.AllowAnyOrigin()
+            //                        .AllowAnyMethod()
+            //                        .AllowAnyHeader()
+            //                        .AllowCredentials();
+            //            });
+            //});
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-            services.AddCors();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Administrator", policy => policy.RequireClaim("Administrator"));
-                options.AddPolicy("Manager", policy => policy.RequireClaim("Manager"));
-                options.AddPolicy("User", policy => policy.RequireClaim("User"));
-                options.AddPolicy("MinExperience", policy => policy.Requirements.Add(new Filters.MinimumExpRequirement(5)));
-            });
-            services.AddSingleton<IAuthorizationHandler, Filters.MinimumExpHandler>();
-
+            });   
+            services.ConfigureJWTService(Configuration);
+            services.ConfigureAppServices(Configuration);   
             services.AddControllers()
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            });
-            services.AddHttpContextAccessor();
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-            services.Configure<LdapSettings>(Configuration.GetSection("LdapSettings"));
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
-            services.AddSingleton<ILDMSConnection, ADOConnection>(serviceProvider =>
-            {
-                return new ADOConnection(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            });  
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -76,41 +83,11 @@ namespace LDMS.WEB
                 options.HeaderName = "X-XSRF-TOKEN";
                 options.SuppressXFrameOptionsHeader = false;
             });
-            services.AddControllersWithViews();
-            services.AddAuthentication(options =>
+            services.AddMvc(options =>
             {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie(options =>
-            {
-                options.EventsType = typeof(CustomCookieAuthenticationEvents);
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
-
-            services.AddScoped<CustomCookieAuthenticationEvents>();
-            services.AddScoped<ILdapService, LdapService>();
-            //services.AddScoped<Microsoft.AspNetCore.Identity.UserManager<LdapUser>, LdapUserManager>();
-            //services.AddScoped<Microsoft.AspNetCore.Identity.SignInManager<LdapUser>, LdapSignInManager>();
-            Assembly service = Assembly.GetAssembly(typeof(ILDMSService));
-            foreach (Type mytype in typeof(ILDMSService).Assembly.GetTypes().Where(mytype => !mytype.IsAbstract && mytype.IsSubclassOf(typeof(ILDMSService))))
-            {
-                foreach (Type myImple in service.GetTypes().Where(myImple => mytype.IsAssignableFrom(myImple)))
-                {
-                    services.AddScoped(mytype, myImple);
-                }
-            }
+            services.AddControllersWithViews();  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -146,6 +123,7 @@ namespace LDMS.WEB
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(name: "Instructor", pattern: "{controller=Instructor}/{action=Add}/{id?}");
+                endpoints.MapControllerRoute(name: "Account", pattern: "{controller=Account}/{action=Index}");
             });
         }
     }

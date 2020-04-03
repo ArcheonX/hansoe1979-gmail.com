@@ -53,15 +53,5 @@ namespace LDMS.Core
 
             return Enum.TryParse<T>(value, true, out T result) ? result : defaultValue;
         }
-        public static IEnumerable<UserApplicationUser> WithoutPasswords(this IEnumerable<UserApplicationUser> users)
-        {
-            return users.Select(x => x.WithoutPassword());
-        }
-
-        public static UserApplicationUser WithoutPassword(this UserApplicationUser user)
-        {
-            user.Password = null;
-            return user;
-        }
     }
 }

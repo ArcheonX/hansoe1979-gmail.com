@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using Dapper;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace LDMS.Services
 {
@@ -19,61 +20,87 @@ namespace LDMS.Services
     //}
     public class UserService : ILDMSService
     {
-        private readonly AppSettings _appSettings;
-       private readonly LDAPAuthenticationService _ldAPAuthenticationService;
+        private readonly JwtSettings _jwtSettings;
+        private readonly ILogger<UserService> _logger;
+
+        private readonly LDAPAuthenticationService _ldAPAuthenticationService;
         private readonly LocalAuthenticationService _localAuthenticationService;
-        public UserService(IOptions<AppSettings> appSettings,
+        public UserService(
+            JwtSettings jwtSettings, ILogger<UserService> logger,
             LDAPAuthenticationService ldAPAuthenticationService,
-            LocalAuthenticationService localAuthenticationService, 
+            LocalAuthenticationService localAuthenticationService,
             ILDMSConnection iLDMSConnection) : base(iLDMSConnection)
         {
-            _appSettings = appSettings.Value;
+            _jwtSettings = jwtSettings;
+            _logger = logger;
             _ldAPAuthenticationService = ldAPAuthenticationService;
             _localAuthenticationService = localAuthenticationService;
         }
-        public IEnumerable<LDMS_User> GetAll()
+        public IEnumerable<LDMS_M_User> GetAll()
         {
-            List<LDMS_User> groupMeetingsList = new List<LDMS_User>();
+            List<LDMS_M_User> groupMeetingsList = new List<LDMS_M_User>();
             using (System.Data.IDbConnection conn = Connection)
             {
-                groupMeetingsList = conn.Query<LDMS_User>("[vps].[SP_GetAllUsers]").ToList();
+                groupMeetingsList = conn.Query<LDMS_M_User>(_schema+".[usp_User_READ_ALL]").ToList();
                 return groupMeetingsList;
             }
             // return _users.WithoutPasswords();
         }
-        public UserApplicationUser Authenticate(string username, string password)
+        public LDMS_M_User Authenticate(string username, string password)
         {
-            var isAuthenPass = false;
-            isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
-            if (!isAuthenPass)
+            try
             {
+                bool isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
+                if (!isAuthenPass)
+                {
+                    isAuthenPass = _localAuthenticationService.Authenticate(username, password);
+                }
+                if (isAuthenPass)
+                {
+                    using (System.Data.IDbConnection conn = Connection)
+                    {
 
+                        var dictionary = new Dictionary<string, object>
+                        {
+                            { "@param_EmployeeId", username }
+                        };
+                        var parameters = new DynamicParameters(dictionary);
+                        var user = Connection.QuerySingle<LDMS_M_User>(_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId", parameters);
+                        if (user == null)
+                            return null;
+                        user.Token = GenerateJWT(user);
+                        return user;
+                        //IEnumerable<LDMS_M_UserRole> stores = Connection.Query<LDMS_M_UserRole, LDMS_M_Role, LDMS_M_UserRole>("[dbo].[usp_User_READ_BY_EmployeeId] @param_EmployeeId", (a, s) => { a.LDMS_M_Role = s; return a; }, splitOn: "ID_Role");
+                    }
+                }
+                else
+                {
+                    throw new Exception("");
+                }
+            }catch(Exception ex)
+            {
+                return null;
             }
+        }
+        private string GenerateJWT(LDMS_M_User authenticatedUser)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.JwtKey));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
-            UserApplicationUser user = new UserApplicationUser(username);
-            string userId = System.Guid.NewGuid().ToString();
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier,userId),
-                    new Claim(ClaimTypes.Name,username),
-                    new Claim("FullName", username),
-                    new Claim(ClaimTypes.Role,UserRole.Administrator.ToString()),
-                };
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            List<Claim> claims = new List<Claim>
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name,userId)
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                new Claim(JwtRegisteredClaimNames.Sub, authenticatedUser.EmployeeID),
+                new Claim(ClaimTypes.GivenName, authenticatedUser.Name),
+                new Claim(ClaimTypes.Surname, authenticatedUser.Surname),
+                new Claim(ClaimTypes.Email, authenticatedUser.Email),
+                new Claim(ClaimTypes.NameIdentifier, authenticatedUser.EmployeeID.ToString()),
+                new Claim(ClaimTypes.Name, authenticatedUser.EmployeeID)
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.Token = tokenHandler.WriteToken(token);
-            return user.WithoutPassword();
+            var token = new JwtSecurityToken(_jwtSettings.JwtIssuer, _jwtSettings.JwtIssuer,
+              claims,
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

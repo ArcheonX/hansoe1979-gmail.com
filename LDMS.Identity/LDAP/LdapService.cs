@@ -260,11 +260,10 @@ namespace LDMS.Identity
         public bool Authenticate(string distinguishedName, string password)
         {
             using (var ldapConnection = new LdapConnection() { SecureSocketLayer = true })
-            {
-                ldapConnection.Connect(this._ldapSettings.ServerName, this._ldapSettings.ServerPort);
-
+            { 
                 try
                 {
+                    ldapConnection.Connect(this._ldapSettings.ServerName, this._ldapSettings.ServerPort);
                     ldapConnection.Bind(distinguishedName, password);
 
                     return true;

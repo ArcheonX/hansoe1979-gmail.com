@@ -18,14 +18,16 @@ namespace LDMS.Identity
             IUserClaimsPrincipalFactory<LdapUser> claimsFactory,
             IOptions<IdentityOptions> optionsAccessor,
             ILogger<LdapSignInManager> logger,
-            IAuthenticationSchemeProvider schemes)
+            IAuthenticationSchemeProvider schemes,
+            IUserConfirmation<LdapUser> confirmation)
             : base(
                 ldapUserManager,
                 contextAccessor,
                 claimsFactory,
                 optionsAccessor,
                 logger,
-                schemes)
+                schemes,
+                confirmation)
         {
         }
 

@@ -5,22 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 
 namespace LDMS.Core
-{    
-    public class UserApplicationUser : Microsoft.AspNetCore.Identity.IdentityUser
-    {
-        public UserApplicationUser(string usernmame) : base(usernmame)
-        {
-
-        }
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        //public string Username { get; set; }
-        public string Password { get; set; }
-        public string Token { get; set; } 
-        public string UserCode { get; set; }
-        public UserIdentityRole UserRole { get; set; }
-    }
+{     
     public class UserIdentityRole : Microsoft.AspNetCore.Identity.IdentityRole
     {
         public UserIdentityRole(string roleName) : base(roleName)
