@@ -144,8 +144,8 @@ namespace LDMS.WEB
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(name: "Instructor", pattern: "{controller=Instructor}/{action=Add}/{id?}");
+                //endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "Instructor", pattern: "{controller=Instructor}/{action=index}/{id?}");
             });
         }
     }

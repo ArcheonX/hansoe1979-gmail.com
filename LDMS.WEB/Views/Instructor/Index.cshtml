@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model LDMS.ViewModels.LDMS_M_Instructor_Search
+
 @section Header{
 
     <script src="~/assets/plugins/highchart/highcharts.js"></script>
@@ -24,7 +26,8 @@
         <div class="form-group m-2 row">
             <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
             <div class="col-4">
-                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
+                <input class="form-control" type="text" name="Instructor_ID" placeholder="Instructor ID" asp-for="Instructor_ID">
             </div>
             <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
             <div class="col-4">
@@ -43,11 +46,13 @@
         <div class="form-group m-2 row">
             <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
             <div class="col-4">
-                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
+                <input class="form-control" type="text" name="Instructor_Name" placeholder="Instructor Name" asp-for="Instructor_Name">
             </div>
             <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
             <div class="col-4">
-                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
+                <input class="form-control" type="text" name="Organization" placeholder="Organization" asp-for="Organization">
             </div>
         </div>
         <div class="form-group m-2 row">
@@ -64,20 +69,22 @@
                     </div>
                 </div>
             </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Experience</label>
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Experience</label>
             <div class="col-4">
-                <input class="form-control" type="text" value="" id="example-text-input">
+                <!--<input class="form-control" type="text" value="" id="example-text-input">-->
+                <input class="form-control" type="text" name="Course_Experience" placeholder="Course Experience" asp-for="Course_Experience">
             </div>
         </div>
         <div class="form-group m-2 row">
             <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course</label>
             <div class="col-4">
-                <input class="form-control" type="text" value="" id="example-text-input">
+                <!--<input class="form-control" type="text" value="" id="example-text-input">-->
+                <input class="form-control" type="text" name="Course" placeholder="Course" asp-for="Course">
             </div>
             <div class="col-2">
             </div>
             <div class="col-2">
-                <button id="btnSeacrh" class="btn btn-success waves-effect waves-light">Search</button>
+                <button id="btnSeacrh" type="button" class="btn btn-success waves-effect waves-light" onclick="Search()">Search</button>
                 <button id="btnAdd" class="btn btn-info waves-effect waves-light">Add</button>
             </div>
         </div>
@@ -104,9 +111,9 @@
                                     <th>Delete</th>
                                 </tr>
                             </thead>
-                            <tfoot>
+                            <!--<tfoot>
                                 <tr>
-                                    <th>1</th>
+                                    <th>No</th>
                                     <th>Instructor ID</th>
                                     <th>Instructor Name</th>
                                     <th>Type</th>
@@ -115,40 +122,23 @@
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td>INT-001</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>Internal</td>
-                                    <td>Human Resource</td>
-                                    <td>Active</td>
-                                    <td><i class="fa fa-pencil" /></td>
-                                    <td><i class="fa fa-trash-o" /></td>
-
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                    <td>INT-002</td>
-                                    <td>Garrett Winters</td>
-                                    <td>Internal</td>
-                                    <td>Human Resource</td>
-                                    <td>Active</td>
-                                    <td><i class="fa fa-pencil" /></td>
-                                    <td><i class="fa fa-trash-o" /></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>EXT-001</td>
-                                    <td>Junior Technical Author</td>
-                                    <td>External</td>
-                                    <td>Professional Consultance</td>
-                                    <td>Active</td>
-                                    <td><i class="fa fa-pencil" /></td>
-                                    <td><i class="fa fa-trash-o" /></td>
-                                </tr>
-                            </tbody>
+                            </tfoot>-->
+                            @{int i = 1;}
+                            @foreach (var instructor in ViewData["Instructor"] as IList<LDMS.ViewModels.LDMS_M_Instructor>)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <th>@i</th>
+                                        <td>@instructor.Instructor_ID</td>
+                                        <td>@instructor.Instructor_Name</td>
+                                        <td>@instructor.Type</td>
+                                        <td>@instructor.Organization</td>
+                                        <td>@instructor.IsActive</td>
+                                        <td><i class="fa fa-pencil" /></td>
+                                        <td><i class="fa fa-trash-o" /></td>
+                                    </tr>
+                                </tbody>
+                            }
                         </table>
                     </div>
                 </div>
@@ -159,6 +149,35 @@
 
 @section Scripts {
     <script>
+
+        /*$("#btnSeacrh").click(function (e) {
+            alert("The paragraph was clicked.");
+        });*/
+
+        function Search() {
+            //var model;
+            //model.Instructor_ID = $("#Instructor_ID").val();
+            //alert('Instructor_ID : ' + $("#Instructor_ID").val());
+                         
+        var data = {
+            'Instructor_ID': $("#Instructor_ID").val(),
+            'Instructor_Name': $("#Instructor_Name").val()
+            }
+
+            $.ajax({
+                 url: "/Instructor/Search", // "/ControllerName/Method"
+                 data: data,
+                 type: "POST",
+                 success: function(response){
+                     //code to do something on success
+                 },
+                 error: function(response){
+                    //do error stuff here
+                 }
+            });
+
+        }
+
         $(document).ready(function () {
             $('#myTable').DataTable();
             $(document).ready(function () {
