@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-using LDMS.MockUp.Models;
+﻿using LDMS.MockUp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace LDMS.MockUp.Controllers
 {

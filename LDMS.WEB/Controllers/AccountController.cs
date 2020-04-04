@@ -10,15 +10,15 @@ namespace LDMS.WEB.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly UserService UserService; 
+        private readonly UserService UserService;
         // GET: /<controller>/
-        private readonly ILogger<AccountController> _logger; 
+        private readonly ILogger<AccountController> _logger;
         public AccountController(ILogger<AccountController> logger, UserService userService)
         {
             UserService = userService;
-            _logger = logger; 
+            _logger = logger;
         }
-       
+
         [Route("")]
         [Route("Account")]
         [Route("Account/Index")]
@@ -26,7 +26,7 @@ namespace LDMS.WEB.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -48,7 +48,7 @@ namespace LDMS.WEB.Controllers
                 return View("Index");
             }
         }
-         
+
         [Route("Account/UserManagement")]
         public IActionResult UserManagement()
         {
@@ -64,6 +64,6 @@ namespace LDMS.WEB.Controllers
             // HttpContext.Session.Remove("username");
             //await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
             return RedirectToAction("Index");
-        } 
+        }
     }
 }

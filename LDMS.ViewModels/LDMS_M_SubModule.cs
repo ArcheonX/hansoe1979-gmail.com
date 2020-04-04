@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LDMS.ViewModels
 {
@@ -11,7 +9,7 @@ namespace LDMS.ViewModels
 			LDMS_M_RolePermission = new LDMS_M_RolePermission();
 			LDMS_M_Module = new LDMS_M_Module();
 		}
-		public int ID { get; set; }
+		public int ID_SubModule { get; set; }
 		public string SubModuleID { get; set; }
 		public int ID_Module { get; set; }
 		public string SubModuleName_EN { get; set; }

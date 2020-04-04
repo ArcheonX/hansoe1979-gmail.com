@@ -1,12 +1,5 @@
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using LDMS.Core;
-using LDMS.Daos;
 using LDMS.Identity;
-using LDMS.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 
 namespace LDMS.WEB
@@ -31,9 +23,9 @@ namespace LDMS.WEB
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-           
+
             AppSettings appSettings = new AppSettings();
             Configuration.GetSection("AppSettings").Bind(appSettings);
 
@@ -47,7 +39,7 @@ namespace LDMS.WEB
             services.AddSingleton(ldapSettings);
             services.AddSingleton(jwtSettings);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IAuthorizationHandler, Filters.MinimumExpHandler>();            
+            services.AddScoped<IAuthorizationHandler, Filters.MinimumExpHandler>();
             services.AddMemoryCache();
             services.AddControllers();
             //services.AddCors(options =>
@@ -66,14 +58,14 @@ namespace LDMS.WEB
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });   
+            });
             services.ConfigureJWTService(Configuration);
-            services.ConfigureAppServices(Configuration);   
+            services.ConfigureAppServices(Configuration);
             services.AddControllers()
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            });  
+            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -89,8 +81,8 @@ namespace LDMS.WEB
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
-            services.AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews();
+                //.AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

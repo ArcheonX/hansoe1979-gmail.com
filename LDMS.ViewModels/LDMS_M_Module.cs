@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LDMS.ViewModels
 {
@@ -10,13 +8,13 @@ namespace LDMS.ViewModels
 		//{
 		//	LDMS_M_SubModules = new List<LDMS_M_SubModule>();
 		//}
-		public int ID { get; set; }
+		public int ID_Module { get; set; }
 		public string ModuleID { get; set; }
 		public string ModuleName_EN { get; set; }
 		public string ModuleName_TH { get; set; }
-		public int Sequence { get; set; }
+		public int Module_Sequence { get; set; }
 		public int Parent { get; set; }
-		public string URL { get; set; }
+		public string Module_URL { get; set; }
 		public string Icon { get; set; }
 		public string Description { get; set; }
 		public string CreateBy { get; set; }

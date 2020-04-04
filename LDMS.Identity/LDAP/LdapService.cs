@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+﻿using LDMS.Core;
 using Novell.Directory.Ldap;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
-using LDMS.Core;
 
 namespace LDMS.Identity
 {
@@ -45,9 +44,9 @@ namespace LDMS.Identity
 
             using (var ldapConnection = this.GetConnection())
             {
-                var search = ldapConnection.Search(_searchBase, LdapConnection.ScopeSub, filter,  this._attributes, false);
+                var search = ldapConnection.Search(_searchBase, LdapConnection.ScopeSub, filter, this._attributes, false);
 
-               // LdapMessage message;
+                // LdapMessage message;
                 while (search.HasMore())
                 {
                     Novell.Directory.Ldap.LdapEntry entry = null;
@@ -64,11 +63,11 @@ namespace LDMS.Identity
                         }
                     }
                     catch (LdapException e)
-                    { 
+                    {
                         throw e;
                     }
                     break;
-                } 
+                }
             }
 
             return groups;
@@ -111,7 +110,7 @@ namespace LDMS.Identity
 
             using (var ldapConnection = this.GetConnection())
             {
-                var search = ldapConnection.Search( this._searchBase, LdapConnection.ScopeSub, filter, this._attributes, false);
+                var search = ldapConnection.Search(this._searchBase, LdapConnection.ScopeSub, filter, this._attributes, false);
                 //LdapMessage message;
                 while (search.HasMore())
                 {
@@ -126,7 +125,7 @@ namespace LDMS.Identity
                         throw e;
                     }
                     break;
-                } 
+                }
             }
 
             return users;
@@ -140,7 +139,7 @@ namespace LDMS.Identity
 
             using (var ldapConnection = this.GetConnection())
             {
-                var search = ldapConnection.Search( this._searchBase, LdapConnection.ScopeSub,  filter, this._attributes, false);
+                var search = ldapConnection.Search(this._searchBase, LdapConnection.ScopeSub, filter, this._attributes, false);
 
                 while (search.HasMore())
                 {
@@ -258,7 +257,7 @@ namespace LDMS.Identity
         public bool Authenticate(string distinguishedName, string password)
         {
             using (var ldapConnection = new LdapConnection() { SecureSocketLayer = true })
-            { 
+            {
                 try
                 {
                     ldapConnection.Connect(this._ldapSettings.ServerName, this._ldapSettings.ServerPort);
@@ -311,7 +310,7 @@ namespace LDMS.Identity
 
             using (var ldapConnection = this.GetConnection())
             {
-                var search = ldapConnection.Search( searchBase, LdapConnection.ScopeSub, filter, this._attributes, false);
+                var search = ldapConnection.Search(searchBase, LdapConnection.ScopeSub, filter, this._attributes, false);
                 while (search.HasMore())
                 {
                     Novell.Directory.Ldap.LdapEntry entry = null;
@@ -338,7 +337,7 @@ namespace LDMS.Identity
                         throw e;
                     }
                     break;
-                } 
+                }
             }
 
             return allChildren;

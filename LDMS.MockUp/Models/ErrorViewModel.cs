@@ -1,5 +1,3 @@
-using System;
-
 namespace LDMS.MockUp.Models
 {
     public class ErrorViewModel

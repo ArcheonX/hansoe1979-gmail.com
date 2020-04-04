@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LDMS.Identity
+﻿namespace LDMS.Identity
 {
     public class LdapCredentials
     {

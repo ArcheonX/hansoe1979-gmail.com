@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using LDMS.WEB.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace LDMS.WEB.Controllers
@@ -24,7 +22,7 @@ namespace LDMS.WEB.Controllers
             return View();
         }
 
-       
+
         public IActionResult ViewProfile()
         {
             return View();

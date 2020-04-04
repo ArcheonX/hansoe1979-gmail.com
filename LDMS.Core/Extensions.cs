@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace LDMS.Core
 {
-   public static  class ExtensionMethods
+    public static class ExtensionMethods
     {
         public static void AddRange<T>(this ICollection<T> destination, IEnumerable<T> source)
         {

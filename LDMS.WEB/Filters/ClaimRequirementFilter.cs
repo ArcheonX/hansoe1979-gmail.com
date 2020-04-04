@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 
 namespace LDMS.WEB.Filters
 {
@@ -92,7 +92,7 @@ namespace LDMS.WEB.Filters
             }
 
         }
-        private  TokenValidationParameters GetTokenValidationParameters()
+        private TokenValidationParameters GetTokenValidationParameters()
         {
             return new TokenValidationParameters()
             {

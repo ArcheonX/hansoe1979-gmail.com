@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace LDMS.ViewModels.Menu
 {
@@ -11,7 +9,7 @@ namespace LDMS.ViewModels.Menu
         public string MenuUrl { get; set; }
         public bool CanRead { get; set; }
         public bool CadWrite { get; set; }
-        public string   MenuName { get; set; }
+        public string MenuName { get; set; }
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
         public List<SubNavigationMenu> SubMenus { get; set; }

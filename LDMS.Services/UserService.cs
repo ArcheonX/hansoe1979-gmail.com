@@ -1,16 +1,16 @@
-﻿using LDMS.Core;
+﻿using Dapper;
+using LDMS.Core;
 using LDMS.ViewModels;
+using LDMS.ViewModels.Menu;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Dapper;
-using System.Linq;
-using Microsoft.Extensions.Logging;
-using LDMS.ViewModels.Menu;
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace LDMS.Services
@@ -68,7 +68,7 @@ namespace LDMS.Services
                   splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant");
                 var user = items.ToList();
                 return user;
-            } 
+            }
         }
         public LDMS_M_User Authenticate(string username, string password)
         {
@@ -83,9 +83,9 @@ namespace LDMS.Services
                 {
                     using (System.Data.IDbConnection conn = Connection)
                     {
-                        var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant,LDMS_M_User>
+                        var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
                         (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
-                          map: (user,userRole,role,depart,plant) =>
+                          map: (user, userRole, role, depart, plant) =>
                           {
                               if (userRole != null)
                               {
@@ -102,12 +102,12 @@ namespace LDMS.Services
                         var user = items.FirstOrDefault();
                         if (user != null)
                         {
-                            user.Token = GenerateJWT(user); 
-                            System.Security.Principal.GenericIdentity userIdentity = new System.Security.Principal.GenericIdentity(user.EmployeeID); 
+                            user.Token = GenerateJWT(user);
+                            System.Security.Principal.GenericIdentity userIdentity = new System.Security.Principal.GenericIdentity(user.EmployeeID);
                             userIdentity.AddClaim(new Claim(ClaimTypes.Role, user.LDMS_M_UserRole.ID_Role.ToString()));
-                            userIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.EmployeeID));  
-                            HttpContext.User = new ClaimsPrincipal(userIdentity); ; 
-                            user.LDMS_M_UserRole.Password = null; 
+                            userIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.EmployeeID));
+                            HttpContext.User = new ClaimsPrincipal(userIdentity); ;
+                            user.LDMS_M_UserRole.Password = null;
                             return user;
                         }
                         else
@@ -148,10 +148,6 @@ namespace LDMS.Services
                 (_schema + ".[usp_RoleMenu_READ_By_Role] @paramRoleId",
                   map: (submodule, module, rolepermission, role) =>
                   {
-                      /* LDMS_M_Module lDMS_M_Module = module;
-                       lDMS_M_Module.LDMS_M_SubModules = new List<LDMS_M_SubModule>();
-                       lDMS_M_Module.LDMS_M_SubModules.Add(submodule);
-                       return lDMS_M_Module;*/
                       submodule.LDMS_M_Module = module;
                       submodule.LDMS_M_RolePermission = rolepermission;
                       if (rolepermission != null)
@@ -160,12 +156,13 @@ namespace LDMS.Services
                       }
                       return submodule;
                   },
-                  splitOn: "ID_SubModule,RolePermissionId,RoleId",
+                  splitOn: "ID_Module,RolePermissionId,RoleId",
                   param: new { @paramRoleId = roleId });
 
-                var groupMenu = items.GroupBy(e => e.LDMS_M_Module).OrderBy(e=>e.Key.Sequence);
-                foreach (var module in groupMenu)
+                var groupMenu = items.OrderBy(e => e.LDMS_M_Module.Module_Sequence).GroupBy(e => e.LDMS_M_Module.ID_Module);
+                foreach (var item in groupMenu)
                 {
+                    var module = items.Where(e => e.LDMS_M_Module.ID_Module == item.Key).Select(e => e.LDMS_M_Module).FirstOrDefault() ;
                     yield return new NavigationMenu()
                     {
                         ActionName = "",
@@ -173,10 +170,10 @@ namespace LDMS.Services
                         CanRead = true,
                         ControllerName = "",
                         MenuIco = "",
-                        MenuID = module.Key.ModuleID,
-                        MenuName = module.Key.ModuleName_EN,
-                        MenuUrl = module.Key.URL,
-                        SubMenus = module.OrderBy(e=>e.Sequence).Select(e => new SubNavigationMenu()
+                        MenuID = module.ModuleID,
+                        MenuName = module.ModuleName_EN,
+                        MenuUrl = module.Module_URL,
+                        SubMenus = item.OrderBy(e => e.Sequence).Select(e => new SubNavigationMenu()
                         {
                             MenuUrl = e.URL,
                             ActionName = "",
@@ -189,27 +186,27 @@ namespace LDMS.Services
                         }).ToList()
                     };
                 }
-            }            
-           /*
-            var list = connection.Query<Order, OrderDetail, Order>(
-                sql,
-                (order, orderDetail) =>
-                {
-                    Order orderEntry;
+            }
+            /*
+             var list = connection.Query<Order, OrderDetail, Order>(
+                 sql,
+                 (order, orderDetail) =>
+                 {
+                     Order orderEntry;
 
-                    if (!orderDictionary.TryGetValue(order.OrderID, out orderEntry))
-                    {
-                        orderEntry = order;
-                        orderEntry.OrderDetails = new List<OrderDetail>();
-                        orderDictionary.Add(orderEntry.OrderID, orderEntry);
-                    }
+                     if (!orderDictionary.TryGetValue(order.OrderID, out orderEntry))
+                     {
+                         orderEntry = order;
+                         orderEntry.OrderDetails = new List<OrderDetail>();
+                         orderDictionary.Add(orderEntry.OrderID, orderEntry);
+                     }
 
-                    orderEntry.OrderDetails.Add(orderDetail);
-                    return orderEntry;
-                },
-                splitOn: "OrderDetailID")
-            .Distinct()
-            .ToList();*/
+                     orderEntry.OrderDetails.Add(orderDetail);
+                     return orderEntry;
+                 },
+                 splitOn: "OrderDetailID")
+             .Distinct()
+             .ToList();*/
         }
         private string GenerateJWT(LDMS_M_User authenticatedUser)
         {
