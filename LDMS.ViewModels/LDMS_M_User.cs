@@ -12,22 +12,22 @@ namespace LDMS.ViewModels
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Nationality { get; set; }
-        public int ID_JobGrade { get; set; }
-        public int ID_JobTitle { get; set; }
+        public int? ID_JobGrade { get; set; }
+        public int? ID_JobTitle { get; set; }
         public int ID_Plant { get; set; }
-        public int ID_Center { get; set; }
-        public int ID_Division { get; set; }
-        public int ID_Department { get; set; }
-        public int ID_Section { get; set; }
-        public DateTime JoinDate { get; set; }
-        public DateTime OutDate { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public int? ID_Center { get; set; }
+        public int? ID_Division { get; set; }
+        public int? ID_Department { get; set; }
+        public int? ID_Section { get; set; }
+        public DateTime? JoinDate { get; set; }
+        public DateTime? OutDate { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string CreateBy { get; set; }
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         public string UpdateBy { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
         public byte IsActive { get; set; }
         public string Token { get; set; }
 

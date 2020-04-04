@@ -1,11 +1,13 @@
 ﻿using LDMS.Services;
 using LDMS.ViewModels.Menu;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LDMS.WEB.ViewComponents
 {
+    [Authorize]
     public class NavigationMenuViewComponent : ViewComponent
     {
         private readonly UserService UserService;
@@ -14,6 +16,7 @@ namespace LDMS.WEB.ViewComponents
         {
             UserService = userService;
         }
+        [Authorize]
         public async Task<IViewComponentResult> InvokeAsync()
         {
             List<NavigationMenu> menus = TempData["Menu"] as List<NavigationMenu>;

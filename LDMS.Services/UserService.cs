@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using LDMS.Core;
+using LDMS.Identity;
 using LDMS.ViewModels;
 using LDMS.ViewModels.Menu;
 using Microsoft.AspNetCore.Http;
@@ -102,12 +103,19 @@ namespace LDMS.Services
                         var user = items.FirstOrDefault();
                         if (user != null)
                         {
-                            user.Token = GenerateJWT(user);
+                            user.Token = JwtManager.GenerateJWT(HttpContext, user, _jwtSettings);
                             System.Security.Principal.GenericIdentity userIdentity = new System.Security.Principal.GenericIdentity(user.EmployeeID);
                             userIdentity.AddClaim(new Claim(ClaimTypes.Role, user.LDMS_M_UserRole.ID_Role.ToString()));
                             userIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.EmployeeID));
                             HttpContext.User = new ClaimsPrincipal(userIdentity); ;
-                            user.LDMS_M_UserRole.Password = null;
+                            user.LDMS_M_UserRole.Password = null; 
+                            HttpContext.Response.Set("FIRSNAME", user.Name, 120);
+                            HttpContext.Response.Set("LASTNAME", user.Surname, 120);
+                            HttpContext.Response.Set("FULLNAME", string.Format("{0} {1}",user.Name, user.Surname), 120);
+                            HttpContext.Response.Set("EMPLOYEEID", user.EmployeeID, 120);
+                            HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy", user.JoinDate.Value) : "", 120);
+                            HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0} {1}", user.LDMS_M_Department.DepartmentID,"" /*user.LDMS_M_Department.DepartmentName_EN*/) : "", 120);
+                            HttpContext.Response.Set("FACEIMAGE", "~/assets/images/users/1.jpg", 120);
                             return user;
                         }
                         else
@@ -129,10 +137,27 @@ namespace LDMS.Services
 
         public async Task<List<NavigationMenu>> GetMenuItemsAsync()
         {
-            //var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
-            //if (!isAuthenticated)
-            //    return new List<NavigationMenu>(); 
-            return BuildUserMenu(/*GetUserId(HttpContext.User)*/1).AsList();
+            var validateToken = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _jwtSettings.JwtIssuer ?? string.Empty,
+                ValidAudience = _jwtSettings.JwtAudience ?? string.Empty,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.JwtKey ?? string.Empty))
+            };
+            var token = JwtManager.GetToken(HttpContext.Request, validateToken);
+            if (!JwtManager.IsTokenValid(token, validateToken))
+            {
+                throw new Exception("Unauthorized");
+            }
+            var cliams = JwtManager.GetClaims(token, validateToken).ToList();
+            Claim claim = cliams.FirstOrDefault(o => o.Type.ToUpper() == ClaimTypes.Role.ToUpper());
+            if (claim == null) throw new Exception("Unauthorized");
+            int rolId = 0;
+            int.TryParse(claim.Value, out rolId);
+            return BuildUserMenu(rolId).AsList();
         }
 
         public string GetUserId(ClaimsPrincipal user)
@@ -186,51 +211,7 @@ namespace LDMS.Services
                         }).ToList()
                     };
                 }
-            }
-            /*
-             var list = connection.Query<Order, OrderDetail, Order>(
-                 sql,
-                 (order, orderDetail) =>
-                 {
-                     Order orderEntry;
-
-                     if (!orderDictionary.TryGetValue(order.OrderID, out orderEntry))
-                     {
-                         orderEntry = order;
-                         orderEntry.OrderDetails = new List<OrderDetail>();
-                         orderDictionary.Add(orderEntry.OrderID, orderEntry);
-                     }
-
-                     orderEntry.OrderDetails.Add(orderDetail);
-                     return orderEntry;
-                 },
-                 splitOn: "OrderDetailID")
-             .Distinct()
-             .ToList();*/
-        }
-        private string GenerateJWT(LDMS_M_User authenticatedUser)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.JwtKey));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, authenticatedUser.EmployeeID),
-                new Claim(ClaimTypes.GivenName, authenticatedUser.Name),
-                new Claim(ClaimTypes.Surname, authenticatedUser.Surname),
-                new Claim(ClaimTypes.Email, authenticatedUser.Email),
-                new Claim(ClaimTypes.NameIdentifier, authenticatedUser.EmployeeID),
-                new Claim(ClaimTypes.Name, authenticatedUser.EmployeeID),
-                new Claim("ID_Division", authenticatedUser.ID_Division.ToString()),
-                new Claim("ID_Center", authenticatedUser.ID_Center.ToString()),
-                new Claim("ID_Department", authenticatedUser.ID_Department.ToString()),
-                new Claim("ID_Section", authenticatedUser.ID_Section.ToString()),
-                new Claim(ClaimTypes.Role, authenticatedUser.LDMS_M_UserRole!=null? authenticatedUser.LDMS_M_UserRole.ID_Role.ToString():"0"),
-            };
-            var token = new JwtSecurityToken(_jwtSettings.JwtIssuer, _jwtSettings.JwtIssuer,
-              claims,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+            } 
+        } 
     }
 }

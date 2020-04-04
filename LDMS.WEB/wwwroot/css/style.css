@@ -1000,8 +1000,23 @@ form label{font-weight:400}
 .search-box .app-search .srh-btn{position:absolute;top:23px;cursor:pointer;background:#fff;width:15px;height:15px;right:20px;font-size:14px}
 .mini-sidebar .top-navbar .navbar-header{width:60px;text-align:center}
 .logo-center .top-navbar .navbar-header{position:absolute;left:0;right:0;margin:0 auto}
-.page-titles{background:#fff;margin:0 -30px 30px;padding:15px;box-shadow:1px 0 5px rgba(0,0,0,0.1)}
-.page-titles h3{margin-bottom:0px;margin-top:8px}
+.page-titles {
+    background: #fff;
+    margin: 0 -30px 10px;
+    padding: 15px;
+    box-shadow: 1px 0 5px rgba(0,0,0,0.1);
+}
+.page-body {
+    background: #fff;
+    margin: 0 -30px 10px;
+    padding: 15px;
+    box-shadow: 1px 0 5px rgba(0,0,0,0.1);
+}
+.page-titles h3
+{
+    margin-bottom:0px;
+    margin-top:8px
+}
 .page-titles .breadcrumb{padding:0px;background:transparent;font-size:14px}
 .page-titles .breadcrumb li{margin-top:0px;margin-bottom:0px}
 .page-titles .breadcrumb .breadcrumb-item+.breadcrumb-item::before{content:"\e649";font-family:themify;color:#a6b7bf;font-size:11px}
@@ -1088,10 +1103,16 @@ ul#themecolors li a.working:before{content:"\f00c";font-family:"FontAwesome";fon
 .megna-dark-theme{background:#263238;background:-moz-linear-gradient(left, #263238 0%, #263238 23%, #00897b 23%, #00897b 99%);
                   background:-webkit-linear-gradient(left, #263238 0%, #263238 23%, #00897b 23%, #00897b 99%);
                   background:linear-gradient(to right, #263238 0%, #263238 23%, #00897b 23%, #00897b 99%)}
-.red-dark-theme{background:#263238;background:-moz-linear-gradient(left, #263238 0%, #263238 23%, #fc4b6c 23%, #fc4b6c 99%);
+.red-dark-theme
+{
+    background:#263238;background:-moz-linear-gradient(left, #263238 0%, #263238 23%, #fc4b6c 23%, #fc4b6c 99%);
                 background:-webkit-linear-gradient(left, #263238 0%, #263238 23%, #fc4b6c 23%, #fc4b6c 99%);
-                background:linear-gradient(to right, #263238 0%, #263238 23%, #fc4b6c 23%, #fc4b6c 99%)}
-.page-titles{padding-bottom:20px}
+                background:linear-gradient(to right, #263238 0%, #263238 23%, #fc4b6c 23%, #fc4b6c 99%)
+}
+.page-titles
+{
+    padding-bottom:20px
+}
 .footer {
     bottom: 0;
     color: #67757c;

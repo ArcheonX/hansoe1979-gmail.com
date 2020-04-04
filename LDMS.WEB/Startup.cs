@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
+using System;
 
 namespace LDMS.WEB
 {
@@ -24,6 +26,10 @@ namespace LDMS.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(120);
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             AppSettings appSettings = new AppSettings();
@@ -41,18 +47,7 @@ namespace LDMS.WEB
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, Filters.MinimumExpHandler>();
             services.AddMemoryCache();
-            services.AddControllers();
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowAllOrigin",
-            //            builder =>
-            //            {
-            //                builder.AllowAnyOrigin()
-            //                        .AllowAnyMethod()
-            //                        .AllowAnyHeader()
-            //                        .AllowCredentials();
-            //            });
-            //});
+            services.AddControllers(); 
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -77,12 +72,15 @@ namespace LDMS.WEB
                 options.HeaderName = "X-XSRF-TOKEN";
                 options.SuppressXFrameOptionsHeader = false;
             });
+
+            //services.AddIdentity<IdentityUser, IdentityRole>() 
+            //   .AddDefaultTokenProviders();
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
-            services.AddControllersWithViews();
-                //.AddRazorRuntimeCompilation();
+            services.AddControllersWithViews(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +106,7 @@ namespace LDMS.WEB
             app.UseStaticFiles();
             app.UseAuthorization();
             app.UseAuthentication();
+            app.ConfigureJWT();
             var cookiePolicyOptions = new CookiePolicyOptions
             {
                 MinimumSameSitePolicy = SameSiteMode.None,

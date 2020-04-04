@@ -1,6 +1,7 @@
 ﻿using LDMS.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -28,6 +29,8 @@ namespace LDMS.WEB
             self.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -37,7 +40,7 @@ namespace LDMS.WEB
                         ValidIssuer = original.JwtIssuer ?? string.Empty,
                         ValidAudience = original.JwtAudience ?? string.Empty,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(original.JwtKey ?? string.Empty))
-                    };
+                    }; 
                 });
         }
 
@@ -46,18 +49,20 @@ namespace LDMS.WEB
         /// </summary>
         /// <param name="self"></param>
         public static void ConfigureJWT(this IApplicationBuilder self)
-        {
-            self.UseAuthentication();
-            //using (var serviceScope = ServiceActivator.GetScope())
-            //{
-            //    ILoggerFactory loggerFactory = serviceScope.ServiceProvider.GetService<ILoggerFactory>();
-            //    IOptionsMonitor<JwtConfiguration> option = (IOptionsMonitor<JwtConfiguration>)serviceScope.ServiceProvider.GetService(typeof(IOptionsMonitor<JwtConfiguration>)); 
-            //    ILogger logger = loggerFactory.CreateLogger(typeof(RegisterJWT));
-            //    option.OnChange((o, s) =>
-            //    {
-            //        logger.LogInformation($"JwtConfiguration reset to original.");
-            //    });
-            //}
+        {  
+            self.UseSession();
+            //Add JWToken to all incoming HTTP Request Header
+            self.Use(async (context, next) =>
+            {
+                var JWToken = context.Session.GetString("JWToken");
+                if (!string.IsNullOrEmpty(JWToken))
+                {
+                    context.Request.Headers.Add("Authorization", "Bearer " + JWToken);
+                }
+                await next();
+            });
+            //Add JWToken Authentication service
+            self.UseAuthentication(); 
         }
     }
 }
