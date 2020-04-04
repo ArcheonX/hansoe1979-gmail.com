@@ -8,7 +8,7 @@ namespace LDMS.ViewModels
 	{
 		public int ID { get; set; }
 		public string DepartmentID { get; set; }
-		public int ID_Division { get; set; }
+		public int? ID_Division { get; set; }
 		public string DepartmentName_EN { get; set; }
 		public string DepartmentName_TH { get; set; }
 		public string Description { get; set; }

@@ -43,109 +43,24 @@
         </header>
         <aside class="left-sidebar">
             <div class="scroll-sidebar">
-                <div class="user-profile" style="background: url(@Url.Content("~/assets/images/background/user-info.jpg")) no-repeat;">
-                    <div class="profile-img"> <img src="~/assets/images/users/1.jpg" alt="user" /> </div>
+                <div class="user-profile">
+                    <div class="profile-img"> <img src="~/assets/images/users/1.jpg" alt="user" /> </div> 
                     <div class="profile-text">
-                        <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe</a>
-                        <div class="dropdown-menu animated flipInY">
-                            <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
-                            <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
-                            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
-                            <div class="dropdown-divider"></div> <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
-                        </div>
+                        <a href="#" aria-expanded="false">I am : Taksa-on Putthaprasart</a>
+                        <a href="#" aria-expanded="false">My ID : 5085471415</a>
+                        <a href="#" aria-expanded="false">Join Date : 1-Feb-2014</a>
+                        <a href="#" aria-expanded="false">Department : HROD</a>
+                        @*<a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe</a>
+        <div class="dropdown-menu animated flipInY">
+            <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+            <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
+            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
+            <div class="dropdown-divider"></div> <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+        </div>*@
                     </div>
                 </div>
                 <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li class="nav-small-cap">I-Manage</li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-gauge"></i><span class="hide-menu">Learning Performance</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-monitor-multiple"></i><span class="hide-menu">Platform</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-newspaper"></i><span class="hide-menu">Course Information</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-account-box"></i><span class="hide-menu">Instructure Inventory</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-calendar-range"></i><span class="hide-menu">Schedule</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-file-chart"></i><span class="hide-menu">Report</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-settings"></i><span class="hide-menu">LDMS</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul id="sidebarnav">
-                        <li class="nav-small-cap">My Plan</li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-gauge"></i><span class="hide-menu">Learning Performance</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-monitor-multiple"></i><span class="hide-menu">Platform</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-newspaper"></i><span class="hide-menu">Course Information</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-account-box"></i><span class="hide-menu">Instructure Inventory</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-calendar-range"></i><span class="hide-menu">Schedule</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-file-chart"></i><span class="hide-menu">Report</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-settings"></i><span class="hide-menu">LDMS</span>
-                            </a>
-                        </li>
-                    </ul>
+                    @await Component.InvokeAsync("NavigationMenu")
                 </nav> 
             </div> 
         </aside> 

@@ -9,6 +9,9 @@ using System.Text;
 using Dapper;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using LDMS.ViewModels.Menu;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace LDMS.Services
 {
@@ -21,15 +24,18 @@ namespace LDMS.Services
     {
         private readonly JwtSettings _jwtSettings;
         private readonly ILogger<UserService> _logger;
-
+        protected IHttpContextAccessor HttpContextAccessor { get; private set; }
+        protected HttpContext HttpContext { get; private set; }
         private readonly LDAPAuthenticationService _ldAPAuthenticationService;
         private readonly LocalAuthenticationService _localAuthenticationService;
         public UserService(
             JwtSettings jwtSettings, ILogger<UserService> logger,
             LDAPAuthenticationService ldAPAuthenticationService,
             LocalAuthenticationService localAuthenticationService,
-            ILDMSConnection iLDMSConnection) : base(iLDMSConnection)
+            ILDMSConnection iLDMSConnection, IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection)
         {
+            HttpContextAccessor = httpContextAccessor;
+            HttpContext = httpContextAccessor.HttpContext;
             _jwtSettings = jwtSettings;
             _logger = logger;
             _ldAPAuthenticationService = ldAPAuthenticationService;
@@ -37,13 +43,32 @@ namespace LDMS.Services
         }
         public IEnumerable<LDMS_M_User> GetAll()
         {
-            List<LDMS_M_User> groupMeetingsList = new List<LDMS_M_User>();
             using (System.Data.IDbConnection conn = Connection)
             {
-                groupMeetingsList = conn.Query<LDMS_M_User>(_schema+".[usp_User_READ_ALL]").ToList();
-                return groupMeetingsList;
-            }
-            // return _users.WithoutPasswords();
+                var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
+                (_schema + ".[usp_User_READ_ALL]",
+                  map: (user, userRole, role, depart, plant) =>
+                  {
+                      if (userRole != null)
+                      {
+                          userRole.LDMS_M_Role = role;
+                          userRole.Password = null;
+                      }
+                      user.LDMS_M_UserRole = userRole;
+                      if (depart != null)
+                      {
+                          user.LDMS_M_Department = depart;
+                      }
+                      if (plant != null)
+                      {
+                          user.LDMS_M_Plant = plant;
+                      }
+                      return user;
+                  },
+                  splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant");
+                var user = items.ToList();
+                return user;
+            } 
         }
         public LDMS_M_User Authenticate(string username, string password)
         {
@@ -57,31 +82,38 @@ namespace LDMS.Services
                 if (isAuthenPass)
                 {
                     using (System.Data.IDbConnection conn = Connection)
-                    { 
-                        var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_User>
+                    {
+                        var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant,LDMS_M_User>
                         (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
-                          map: (u, c, a) =>
+                          map: (user,userRole,role,depart,plant) =>
                           {
-                              if( c != null)
-                              { 
-                                  c.LDMS_M_Role = a;
+                              if (userRole != null)
+                              {
+                                  userRole.LDMS_M_Role = role;
                               }
-                              u.LDMS_M_UserRole = c;
-                              return u;
+                              user.LDMS_M_UserRole = userRole;
+                              user.LDMS_M_Department = depart;
+                              user.LDMS_M_Plant = plant;
+                              return user;
                           },
-                          splitOn: "UserRoleId,RoleId",
-                          param: new { @param_EmployeeId = username });
+                          splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                            param: new { @param_EmployeeId = username });
+
                         var user = items.FirstOrDefault();
                         if (user != null)
                         {
-                            user.Token = GenerateJWT(user);
-                            user.LDMS_M_UserRole.Password = null;
+                            user.Token = GenerateJWT(user); 
+                            System.Security.Principal.GenericIdentity userIdentity = new System.Security.Principal.GenericIdentity(user.EmployeeID); 
+                            userIdentity.AddClaim(new Claim(ClaimTypes.Role, user.LDMS_M_UserRole.ID_Role.ToString()));
+                            userIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.EmployeeID));  
+                            HttpContext.User = new ClaimsPrincipal(userIdentity); ; 
+                            user.LDMS_M_UserRole.Password = null; 
                             return user;
                         }
                         else
                         {
                             throw new Exception("Unauthorized");
-                        } 
+                        }
                     }
                 }
                 else
@@ -94,18 +126,102 @@ namespace LDMS.Services
                 throw new Exception("Unauthorized");
             }
         }
+
+        public async Task<List<NavigationMenu>> GetMenuItemsAsync()
+        {
+            //var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+            //if (!isAuthenticated)
+            //    return new List<NavigationMenu>(); 
+            return BuildUserMenu(/*GetUserId(HttpContext.User)*/1).AsList();
+        }
+
+        public string GetUserId(ClaimsPrincipal user)
+        {
+            return ((ClaimsIdentity)user.Identity).FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
+
+        private IEnumerable<NavigationMenu> BuildUserMenu(int roleId)
+        {
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var items = Connection.Query<LDMS_M_SubModule, LDMS_M_Module, LDMS_M_RolePermission, LDMS_M_Role, LDMS_M_SubModule>
+                (_schema + ".[usp_RoleMenu_READ_By_Role] @paramRoleId",
+                  map: (submodule, module, rolepermission, role) =>
+                  {
+                      /* LDMS_M_Module lDMS_M_Module = module;
+                       lDMS_M_Module.LDMS_M_SubModules = new List<LDMS_M_SubModule>();
+                       lDMS_M_Module.LDMS_M_SubModules.Add(submodule);
+                       return lDMS_M_Module;*/
+                      submodule.LDMS_M_Module = module;
+                      submodule.LDMS_M_RolePermission = rolepermission;
+                      if (rolepermission != null)
+                      {
+                          submodule.LDMS_M_RolePermission.LDMS_M_Role = role;
+                      }
+                      return submodule;
+                  },
+                  splitOn: "ID_SubModule,RolePermissionId,RoleId",
+                  param: new { @paramRoleId = roleId });
+
+                var groupMenu = items.GroupBy(e => e.LDMS_M_Module).OrderBy(e=>e.Key.Sequence);
+                foreach (var module in groupMenu)
+                {
+                    yield return new NavigationMenu()
+                    {
+                        ActionName = "",
+                        CadWrite = true,
+                        CanRead = true,
+                        ControllerName = "",
+                        MenuIco = "",
+                        MenuID = module.Key.ModuleID,
+                        MenuName = module.Key.ModuleName_EN,
+                        MenuUrl = module.Key.URL,
+                        SubMenus = module.OrderBy(e=>e.Sequence).Select(e => new SubNavigationMenu()
+                        {
+                            MenuUrl = e.URL,
+                            ActionName = "",
+                            CadWrite = true,
+                            CanRead = true,
+                            ControllerName = "",
+                            MenuIco = "",
+                            MenuID = e.SubModuleID,
+                            MenuName = e.SubModuleName_EN
+                        }).ToList()
+                    };
+                }
+            }            
+           /*
+            var list = connection.Query<Order, OrderDetail, Order>(
+                sql,
+                (order, orderDetail) =>
+                {
+                    Order orderEntry;
+
+                    if (!orderDictionary.TryGetValue(order.OrderID, out orderEntry))
+                    {
+                        orderEntry = order;
+                        orderEntry.OrderDetails = new List<OrderDetail>();
+                        orderDictionary.Add(orderEntry.OrderID, orderEntry);
+                    }
+
+                    orderEntry.OrderDetails.Add(orderDetail);
+                    return orderEntry;
+                },
+                splitOn: "OrderDetailID")
+            .Distinct()
+            .ToList();*/
+        }
         private string GenerateJWT(LDMS_M_User authenticatedUser)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.JwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-
             List<Claim> claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, authenticatedUser.EmployeeID),
                 new Claim(ClaimTypes.GivenName, authenticatedUser.Name),
                 new Claim(ClaimTypes.Surname, authenticatedUser.Surname),
                 new Claim(ClaimTypes.Email, authenticatedUser.Email),
-                new Claim(ClaimTypes.NameIdentifier, authenticatedUser.EmployeeID.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, authenticatedUser.EmployeeID),
                 new Claim(ClaimTypes.Name, authenticatedUser.EmployeeID),
                 new Claim("ID_Division", authenticatedUser.ID_Division.ToString()),
                 new Claim("ID_Center", authenticatedUser.ID_Center.ToString()),

@@ -21,21 +21,19 @@ namespace LDMS.Identity
         "sAMAccountName", "sAMAccountName", "userPrincipalName", "displayName", "givenName", "sn", "description",
         "telephoneNumber", "mail", "streetAddress", "postalCode", "l", "st", "co", "c" };
 
-        public LdapService(IOptions<LdapSettings> ldapSettingsOptions)
+        public LdapService(LdapSettings ldapSettings)
         {
-            this._ldapSettings = ldapSettingsOptions.Value;
+            this._ldapSettings = ldapSettings;
             this._searchBase = this._ldapSettings.SearchBase;
         }
 
         private ILdapConnection GetConnection()
         {
             var ldapConnection = new LdapConnection() { SecureSocketLayer = this._ldapSettings.UseSSL };
-
             //Connect function will create a socket connection to the server - Port 389 for insecure and 3269 for secure    
             ldapConnection.Connect(this._ldapSettings.ServerName, this._ldapSettings.ServerPort);
             //Bind function with null user dn and password value will perform anonymous bind to LDAP server 
             ldapConnection.Bind(this._ldapSettings.Credentials.DomainUserName, this._ldapSettings.Credentials.Password);
-
             return ldapConnection;
         }
 

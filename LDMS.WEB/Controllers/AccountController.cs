@@ -10,13 +10,13 @@ namespace LDMS.WEB.Controllers
 {
     public class AccountController : BaseController
     {
+        private readonly UserService UserService; 
         // GET: /<controller>/
-        private readonly ILogger<AccountController> _logger;
-        private readonly UserService _userService;
+        private readonly ILogger<AccountController> _logger; 
         public AccountController(ILogger<AccountController> logger, UserService userService)
         {
-            _logger = logger;
-            _userService = userService;
+            UserService = userService;
+            _logger = logger; 
         }
        
         [Route("")]
@@ -36,7 +36,7 @@ namespace LDMS.WEB.Controllers
             {
                 return View(userModel);
             }
-            var user = _userService.Authenticate(userModel.Username, userModel.Password);
+            var user = UserService.Authenticate(userModel.Username, userModel.Password);
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
                 //return RedirectToAction("Index", "Home");
@@ -52,7 +52,7 @@ namespace LDMS.WEB.Controllers
         [Route("Account/UserManagement")]
         public IActionResult UserManagement()
         {
-            var users = _userService.GetAll().ToList();
+            var users = UserService.GetAll().ToList();
             ViewData["Users"] = users;
             return View();
         }

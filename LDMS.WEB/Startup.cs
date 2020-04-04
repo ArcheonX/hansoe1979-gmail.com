@@ -31,20 +31,22 @@ namespace LDMS.WEB
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            // services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
-
+        { 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+           
             AppSettings appSettings = new AppSettings();
             Configuration.GetSection("AppSettings").Bind(appSettings);
+
             LdapSettings ldapSettings = new LdapSettings();
             Configuration.GetSection("LdapSettings").Bind(ldapSettings);
+
             JwtSettings jwtSettings = new JwtSettings();
             Configuration.GetSection("JwtSettings").Bind(jwtSettings);
+
             services.AddSingleton(appSettings);
             services.AddSingleton(ldapSettings);
             services.AddSingleton(jwtSettings);
-            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, Filters.MinimumExpHandler>();            
             services.AddMemoryCache();
             services.AddControllers();
@@ -87,7 +89,8 @@ namespace LDMS.WEB
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
-            services.AddControllersWithViews();  
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

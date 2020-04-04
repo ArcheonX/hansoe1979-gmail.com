@@ -6,6 +6,10 @@ namespace LDMS.ViewModels
 {
 	public class LDMS_M_Module
 	{
+		//public LDMS_M_Module()
+		//{
+		//	LDMS_M_SubModules = new List<LDMS_M_SubModule>();
+		//}
 		public int ID { get; set; }
 		public string ModuleID { get; set; }
 		public string ModuleName_EN { get; set; }
@@ -20,5 +24,6 @@ namespace LDMS.ViewModels
 		public string UpdateBy { get; set; }
 		public DateTime UpdateDate { get; set; }
 		public byte IsActive { get; set; }
+		//public List<LDMS_M_SubModule> LDMS_M_SubModules { get; set; }
 	}
 }
