@@ -1,207 +1,238 @@
-﻿<div class="panel-body" style="width:100%;">
-    <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
-        <div class="row form-group">
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Employee ID</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <input type="text" class="form-control input-sm" />
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Job Grade</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <select required id="selectJobGrade" class="form-control" style="width: 100%">
-                    @foreach (var std in ViewData["JobsGrade"] as IList<LDMS.ViewModels.LDMS_M_JobGrade>)
-                    {
-                        <option value="@std.ID">@std.JobGradeID - @std.JobGradeName_EN</option>
-                    }
-                </select>
-            </div>
+﻿<form id="frmUserEditor">
+    <div class="panel-body" style="width:100%;">
+        <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Employee ID</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <input type="text" 
+                           required
+                           title="Please Enter Employee ID"
+                           id="txtEmployeeId"  class="form-control input-sm" />
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Job Grade</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <select id="selectJobGrade" 
+                            name="selectJobGrade" 
+                            required 
+                            title="Please Enter Job Grade" 
+                            class="form-control" style="width: 100%">
+                        @foreach (var std in ViewData["JobsGrade"] as IList<LDMS.ViewModels.LDMS_M_JobGrade>)
+                        {
+                            <option value="@std.ID">@std.JobGradeID - @std.JobGradeName_EN</option>
+                        }
+                    </select>
+                </div>
 
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Employee Name</label>
-                </span>
             </div>
-            <div class="col-sm-3 col-md-3">
-                <input type="text" class="form-control input-sm" />
-            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Employee Name</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <input type="text" 
+                           required 
+                           id="txtEmployeeName" 
+                           title="Please Enter Employee Name" class="form-control input-sm" />
+                </div>
 
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Job Title</label>
-                </span>
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Job Title</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <select id="selectJObTitle" 
+                            name="selectJObTitle"  
+                            required  
+                            title="Please Enter Job Title" 
+                            class="form-control" style="width: 100%">
+                        @foreach (var std in ViewData["JobTitle"] as IList<LDMS.ViewModels.LDMS_M_JobTitle>)
+                        {
+                            <option value="@std.ID">@std.JobTitleID - @std.JobTitleName_EN</option>
+                        }
+                    </select>
+                </div>
             </div>
-            <div class="col-sm-3 col-md-3">
-                <select id="selectJObTitle" required class="form-control" style="width: 100%">
-                    @foreach (var std in ViewData["JobTitle"] as IList<LDMS.ViewModels.LDMS_M_JobTitle>)
-                    {
-                        <option value="@std.ID">@std.JobTitleID - @std.JobTitleName_EN</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Gender</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <select id="selectGender" class="form-control" style="width: 100%">
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
-                </select>
-            </div>
-
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Center</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <select id="selectCenter" required class="form-control" style="width: 100%">
-                    @foreach (var std in ViewData["Center"] as IList<LDMS.ViewModels.LDMS_M_Center>)
-                    {
-                        <option value="@std.ID">@std.CenterID - @std.CenterName_EN</option>
-                    }
-                </select>
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Nationality</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <input type="text" class="form-control input-sm" />
-            </div>
-
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Division</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <select required id="selectDivision" class="form-control" style="width: 100%">
-                    @foreach (var std in ViewData["Division"] as IList<LDMS.ViewModels.LDMS_M_Division>)
-                    {
-                        <option value="@std.ID">@std.DivisionID - @std.DivisionName_EN</option>
-                    }
-                </select>
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Email</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <input type="text" class="form-control input-sm" />
-            </div>
-
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Department</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <select required id="selectDepartment" class="form-control" style="width: 100%">
-                    @foreach (var std in ViewData["Department"] as IList<LDMS.ViewModels.LDMS_M_Department>)
-                    {
-                        <option value="@std.ID">@std.DepartmentID - @std.DepartmentName_EN</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Phone</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <input type="text" class="form-control input-sm" />
-            </div>
-
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Section</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <select id="selectSection" class="form-control" style="width: 100%">
-                    @foreach (var std in ViewData["Section"] as IList<LDMS.ViewModels.LDMS_M_Section>)
-                    {
-                        <option value="@std.ID">@std.SectionID - @std.SectionName_EN</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Password</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <input type="password" class="form-control input-sm" />
-            </div>
-
-            <div class="col-sm-2 col-md-2">
-                <span class="pull-right">
-                    <label class="LabelCaption">Remark</label>
-                </span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <textarea style="width:100%"></textarea>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Gender</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <select id="selectGender" 
+                            name="selectGender"
+                            title="Please Enter Gender"
+                            class="form-control" style="width: 100%">
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                    </select>
+                </div> 
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Center</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <select id="selectCenter" 
+                            name="selectCenter" 
+                            required
+                            title="Please Enter Center"  
+                            class="form-control" style="width: 100%">
+                        @foreach (var std in ViewData["Center"] as IList<LDMS.ViewModels.LDMS_M_Center>)
+                        {
+                            <option value="@std.ID">@std.CenterID - @std.CenterName_EN</option>
+                        }
+                    </select>
+                </div>
             </div> 
-        </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Nationality</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <input type="text" id="txtNationality" class="form-control input-sm" />
+                </div>
 
-        <div class="row form-group">
-            <div class="col-sm-1 col-md-1 offset-10">
-                <button id="btnSaveEmployee" class="btn btn-success waves-effect waves-light" style="width:100%"> Save </button>
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Division</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <select id="selectDivision" 
+                            name="selectDivision" 
+                            title="Please Enter Division"
+                            required
+                            class="form-control" style="width: 100%"> 
+                    </select>
+                </div>
             </div>
-            <div class="col-sm-1 col-md-1" style="margin-left:-25px">
-                <button id="btnBack" class="btn btn-danger inactive waves-effect waves-light" style="width:90%">Back</button>
+
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Email</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <input type="text"  id="txtEmail" class="form-control input-sm" />
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Department</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <select id="selectDepartment" 
+                            name="selectDepartment"
+                            required
+                            title="Please Enter Department" 
+                            class="form-control" style="width: 100%"> 
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Phone</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <input type="text" id="txtPhone" class="form-control input-sm" />
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Section</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <select id="selectSection" 
+                            name="selectSection" 
+                            required 
+                            title="Please Enter Section" 
+                            class="form-control" style="width: 100%"> 
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Password</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <input type="password" 
+                           id="txtPassword"
+                           required 
+                           class="form-control input-sm" />
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Remark</label>
+                    </span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <textarea   id="txtRemark" rows="5" style="width:100%"></textarea>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-sm-1 col-md-1 offset-10">
+                    <button id="btnSaveEmployee" class="btn btn-success waves-effect waves-light" style="width:100%"> Save </button>
+                </div>
+                <div class="col-sm-1 col-md-1" style="margin-left:-25px">
+                    <button id="btnBack" class="btn btn-danger inactive waves-effect waves-light" style="width:90%">Back</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="panel-heading" style="width:100%;margin-top:25px;margin-left:25px;">Role Management</div>
-<div class="panel-body" style="width:100%;margin-top:25px;"> 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-fixed" id="dtUserList">
-            <thead style="background-color:#1e88e5;color:#ffffff">
-                <tr>
-                    <th style="text-align:center;width:100px">#</th>
-                    <th style="text-align:center">Role</th>
-                    <th style="text-align:center">Description</th>
-                    <th style="text-align:center">Action</th> 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var std in ViewData["Role"] as IList<LDMS.ViewModels.LDMS_M_Role>)
-                {
-                    <tr>
-                        <td style="text-align:center">#</td>
-                        <td style="text-align:left">@std.RoleName_EN</td>
-                        <td style="text-align:left">@std.RoleDescription</td> 
-                        <td style="text-align:center;width:75px"><input type="checkbox" style="width:100%" /> </td> 
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+    <div class="col-sm-12 col-md-12">
+        <div class="panel-heading" style="width:100%;margin-top:25px;margin-left:25px;">Role Management</div>
+        <div class="panel-body" style="width:100%;margin-top:25px;">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-fixed" id="dtUserList">
+                    <thead style="background-color:#1e88e5;color:#ffffff">
+                        <tr>
+                            <th style="text-align:center;width:100px">#</th>
+                            <th style="text-align:center;">Role</th>
+                            <th style="text-align:center">Description</th>
+                            <th style="text-align:center;width:100px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var std in ViewData["Role"] as IList<LDMS.ViewModels.LDMS_M_Role>)
+                        {
+                            <tr>
+                                <td style="text-align:center">@std.RowIndex</td>
+                                <td style="text-align:left">@std.RoleName_EN</td>
+                                <td style="text-align:left">@std.RoleDescription</td>
+                                <td style="text-align:center;width:100px">
+                                    <input type='checkbox' 
+                                           name='selectRole_@std.RoleId' 
+                                           value='selectRole_@std.RoleId' 
+                                           id="selectRole_@std.RoleId" /><label for="selectRole_@std.RoleId"> </label>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> 
+</form>

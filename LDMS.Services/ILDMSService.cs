@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using LDMS.Core;
+using LDMS.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,11 +25,12 @@ namespace LDMS.Services
                 return connection;
             }
         }
-        protected async Task<List<T>> All<T>(string table) where T : class
+        protected async Task<List<T>> All<T>(string table) where T : BaseViewModel
         {
             using (System.Data.IDbConnection conn = Connection)
             {
                 var results = Connection.Query<T>(_schema + ".[usp_"+ table + "_READ_ALL]");
+                int rowIndex = 0; 
                 return results.ToList();
             }
         }

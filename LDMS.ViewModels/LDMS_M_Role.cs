@@ -2,7 +2,7 @@
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_M_Role
+    public class LDMS_M_Role : BaseViewModel
     {
         public int RoleId { get; set; }
         public string RoleName_EN { get; set; }

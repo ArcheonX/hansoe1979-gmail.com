@@ -7,70 +7,34 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage LDMS</a></li>
     </ol>
-} 
-<script>
-    (function ($) {
-        $(document).ready(function () {
-            $('#dtUserList').DataTable({
-                "paging": true, // false to disable pagination (or any other option)
-                "ordering": false, // false to disable sorting (or any other option)
-                "searching": false, // false to disable search (or any other option)
-                "lengthChange": false,
-                "bAutoWidth": false,
-                "Filter": true,
-                "info": true,  // Will show "1 to n of n entries" Text at bottom
-                "bPaginate": false,
-                "bLengthChange": false,
-                "language": {
-                    "lengthMenu": "Display _MENU_ records per page",
-                    "zeroRecords": "Nothing found - sorry",
-                    "info": "page _PAGE_ of _PAGES_",
-                    "infoEmpty": "No records available",
-                    "infoFiltered": "(filtered from _MAX_ total records)"
-                }
-            });
-            $('.dataTables_length').addClass('bs-select');
-            $('#selectDepartment').select2({
-                allowClear: true,
-                closeOnSelect: false,
-                theme: "bootstrap",
-                placeholder: 'All'
-            });
-            $('#btnAddEmployee').click(function () {
-                $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-            });
-            $('#btnBack').click(function () {
-                $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-                $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-            });
-            //$('#btnSaveEmployee').click(function () {
-
-            //}
-        }); 
-    })(jQuery);
-</script>
+}
+<script src="~/assets/app/ImanageLDMS.js"></script>
 <div class="panel panel-primary" style="width:100%">
-    <div class="panel-body panel-body-begin"> 
+    <div class="panel-body panel-body-begin">
         <div class="form-horizontal">
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2">
-                    <button class="btn btn-info waves-effect waves-light" style="width:100%"> User </button>
+                    <button id="btnUser" class="btn btn-info waves-effect waves-light" style="width:100%"> User </button>
                 </div>
                 <div class="col-sm-2 col-md-2" style="margin-left:-25px">
-                    <button class="btn btn-info inactive waves-effect waves-light" style="width:100%">Master Report </button>
+                    <button id="btnMasterReport" class="btn btn-info btn-inactive waves-effect waves-light" style="width:100%">Master Report </button>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 </div>
 <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
-        <div id="viewAllUser" style="border-width:thin;border-style:solid;display:block;width:100%">
+    <div id="viewAllUser" style="display:block;width:100%">
+        @Html.Partial("_SearchEmployeeCritiria")
+        <div id="UserListcontent">
             @Html.Partial("_ViewAllUser")
         </div>
-
-        <div id="UserEditor" style="border-width:thin;border-style:solid;display:none;width:100%;">
-            @Html.Partial("_UserEditor")
-        </div> 
+    </div>
+    <div id="UserEditor" style="display:none;width:100%;">
+        @Html.Partial("_UserEditor")
+    </div>
+    <div id="MasterReport" style="display:none;width:100%;">
+        @Html.Partial("_MasterReport")
+    </div>
 </div>
-            
+@*border-width:thin;border-style:solid;*@

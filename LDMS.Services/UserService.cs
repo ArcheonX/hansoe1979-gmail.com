@@ -46,6 +46,7 @@ namespace LDMS.Services
         {
             using (System.Data.IDbConnection conn = Connection)
             {
+                int rowIndex = 1;
                 var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
                 (_schema + ".[usp_User_READ_ALL]",
                   map: (user, userRole, role, depart, plant) =>
@@ -64,6 +65,8 @@ namespace LDMS.Services
                       {
                           user.LDMS_M_Plant = plant;
                       }
+                      user.RowIndex = rowIndex;
+                      rowIndex++;
                       return user;
                   },
                   splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant");

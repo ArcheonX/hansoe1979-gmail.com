@@ -14,7 +14,7 @@ namespace LDMS.WEB.Controllers
         private readonly MasterService MasterService;
         // GET: /<controller>/
         private readonly ILogger<AccountController> _logger;
-        public AccountController(ILogger<AccountController> logger, 
+        public AccountController(ILogger<AccountController> logger,
             UserService userService,
             MasterService masterService)
         {
@@ -64,8 +64,8 @@ namespace LDMS.WEB.Controllers
         }
 
 
-        [HttpGet] 
-        [Route("Account/UserManagement")] 
+        [HttpGet]
+        [Route("Account/UserManagement")]
         public IActionResult UserManagement()
         {
             var users = UserService.GetAll().ToList();
@@ -74,11 +74,30 @@ namespace LDMS.WEB.Controllers
             ViewData["JobTitle"] = MasterService.GetAllJobTitles().Result;
             ViewData["Center"] = MasterService.GetAllCenters().Result;
             ViewData["Division"] = MasterService.GetAllDivisions().Result;
-            ViewData["Department"] = MasterService.GetAllDepartments().Result;          
+            ViewData["Department"] = MasterService.GetAllDepartments().Result;
             ViewData["Section"] = MasterService.GetAllSections().Result;
             ViewData["Role"] = MasterService.GetAllRoles().Result;
             return View();
         }
-         
+        [HttpGet]
+        [Route("Account/SearchEmployee")]
+        public IActionResult SearchEmployee(SearchEmployeeModel model)
+        {
+            var users = UserService.GetAll().ToList();
+            if (!string.IsNullOrEmpty(model.EmployeeId))
+            {
+                users = users.Where(e => e.EmployeeID.ToLower().StartsWith(model.EmployeeId.ToLower())).ToList();
+            }
+            if (!string.IsNullOrEmpty(model.EmployeeName))
+            {
+                users = users.Where(e => e.Name.ToLower().StartsWith(model.EmployeeName.ToLower()) || e.Surname.ToLower().StartsWith(model.EmployeeName.ToLower())).ToList();
+            }
+            if (model.Departments!=null && model.Departments.Any())
+            {
+                users = users.Where(e => model.Departments.Contains(e.ID_Department.GetValueOrDefault())).ToList();
+            }
+            ViewData["Users"] = users;
+            return PartialView("_ViewAllUser", users);
+        }
     }
 }

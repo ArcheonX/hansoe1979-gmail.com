@@ -2,7 +2,7 @@
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_M_Center
+    public class LDMS_M_Center : BaseViewModel
     {
         public int ID { get; set; }
         public string CenterID { get; set; }

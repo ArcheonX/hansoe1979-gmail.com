@@ -2,7 +2,7 @@
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_M_User : Microsoft.AspNetCore.Identity.IdentityUser
+    public class LDMS_M_User : BaseViewModel
     {
         public string EmployeeID { get; set; }
         public byte IsAD { get; set; }

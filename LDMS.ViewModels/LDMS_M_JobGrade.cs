@@ -2,7 +2,7 @@
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_M_JobGrade
+    public class LDMS_M_JobGrade:BaseViewModel
     {
         public int ID { get; set; }
         public string JobGradeID { get; set; }
