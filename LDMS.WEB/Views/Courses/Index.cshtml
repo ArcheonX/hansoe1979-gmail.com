@@ -1,7 +1,73 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Course Training";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+@section Header{
 
+    <script src="~/assets/plugins/highchart/highcharts.js"></script>
+    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
+    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+}
+
+@section NavHeader{
+    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
+        <li class="breadcrumb-item active">I-Manage Course Information</li>
+    </ol>
+}
+
+<div class="card">
+    <form class="form">
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course ID</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="HR-S001-01" id="CourseID">
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Name</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="Engineering PT-WI 1" id="CourseName">
+            </div>
+        </div>
+        <div class="input-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Status</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- All --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Active</a>
+                        <a class="dropdown-item" href="#">In Active</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="input-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Learn Method</label>
+            <div class="col-4">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary">-- All --</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Class Room</a>
+                        <a class="dropdown-item" href="#">All Asset Pool</a>
+                        <a class="dropdown-item" href="#">Public Training</a>
+                        <a class="dropdown-item" href="#">LMS</a>
+                        <a class="dropdown-item" href="#">Other</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+   
+</div>

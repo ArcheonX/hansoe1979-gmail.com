@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {}
+    "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {}
   },
   "projects": {
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+    "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "projectUniqueName": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
         "projectName": "LDMS.Core",
-        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
-        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\obj\\",
+        "projectPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "packagesPath": "C:\\Users\\hanso\\.nuget\\packages\\",
+        "outputPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\hanso\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -37,6 +40,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -52,21 +61,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {
+    "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
+        "projectUniqueName": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
         "projectName": "LDMS.Daos",
-        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
-        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Daos\\obj\\",
+        "projectPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
+        "packagesPath": "C:\\Users\\hanso\\.nuget\\packages\\",
+        "outputPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\hanso\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -79,8 +91,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
-                "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
+              "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+                "projectPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
               }
             }
           }
@@ -93,6 +105,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.30, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -108,7 +126,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
