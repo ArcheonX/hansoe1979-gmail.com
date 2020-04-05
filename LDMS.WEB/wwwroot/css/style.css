@@ -941,10 +941,19 @@ textarea{resize:none}
 .custom-control-input:focus ~ .custom-control-indicator{box-shadow:none}
 .custom-control-input:checked ~ .custom-control-indicator{background-color:#26c6da}
 form label{font-weight:400}
-.form-group{margin-bottom:25px}
+.form-group
+{
+    margin-bottom:25px;
+    margin-top:-15px;
+}
 .form-horizontal label{margin-bottom:0px}
 .form-control-static{padding-top:0px}
-.form-bordered .form-group{border-bottom:1px solid rgba(120,130,140,0.13);padding-bottom:20px}
+.form-bordered 
+.form-group
+{
+    border-bottom:1px solid rgba(120,130,140,0.13);
+    padding-bottom:20px
+}
 .card-no-border .card{border-color:#d7dfe3;border-radius:4px;box-shadow:0px 5px 20px rgba(0,0,0,0.05)}
 .card-no-border .sidebar-footer{background:#f2f6f8}
 .card-no-border .sidebar-nav>ul>li>a.active{background:#fff}

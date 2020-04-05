@@ -11,11 +11,15 @@ namespace LDMS.WEB.Controllers
     public class AccountController : BaseController
     {
         private readonly UserService UserService;
+        private readonly MasterService MasterService;
         // GET: /<controller>/
         private readonly ILogger<AccountController> _logger;
-        public AccountController(ILogger<AccountController> logger, UserService userService)
+        public AccountController(ILogger<AccountController> logger, 
+            UserService userService,
+            MasterService masterService)
         {
             UserService = userService;
+            MasterService = masterService;
             _logger = logger;
         }
 
@@ -49,13 +53,6 @@ namespace LDMS.WEB.Controllers
             }
         }
 
-        [Route("Account/UserManagement")]
-        public IActionResult UserManagement()
-        {
-            var users = UserService.GetAll().ToList();
-            ViewData["Users"] = users;
-            return View();
-        }
         [Route("Logout")]
         [Route("Account/Logout")]
         [HttpGet]
@@ -65,5 +62,23 @@ namespace LDMS.WEB.Controllers
             //await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
             return RedirectToAction("Index");
         }
+
+
+        [HttpGet] 
+        [Route("Account/UserManagement")] 
+        public IActionResult UserManagement()
+        {
+            var users = UserService.GetAll().ToList();
+            ViewData["Users"] = users;
+            ViewData["JobsGrade"] = MasterService.GetAllJobGrades().Result;
+            ViewData["JobTitle"] = MasterService.GetAllJobTitles().Result;
+            ViewData["Center"] = MasterService.GetAllCenters().Result;
+            ViewData["Division"] = MasterService.GetAllDivisions().Result;
+            ViewData["Department"] = MasterService.GetAllDepartments().Result;          
+            ViewData["Section"] = MasterService.GetAllSections().Result;
+            ViewData["Role"] = MasterService.GetAllRoles().Result;
+            return View();
+        }
+         
     }
 }

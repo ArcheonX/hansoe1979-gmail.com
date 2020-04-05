@@ -19,6 +19,10 @@
     background: white;
     color:#000000
 }
+.panel-body-begin {
+    margin-top: 10px;
+    width: 100%;
+}
 .panel.with-nav-tabs .panel-heading {
     padding: 5px 5px 0 5px;
 }
