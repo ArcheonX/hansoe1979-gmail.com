@@ -52,7 +52,7 @@ BEGIN
 	 FROM 
 	 LDMS_M_RolePermission rolm   WITH (NOLOCK) 
 	 INNER JOIN LDMS_M_Role rol   WITH (NOLOCK)  on rolm.ID_Role = rol.ID AND rol.IsActive =1
-	 INNER JOIN LDMS_M_SubModule subm  WITH (NOLOCK)  on rolm.ID_Module = subm.ID and subm.IsActive =1
+	 INNER JOIN LDMS_M_SubModule subm  WITH (NOLOCK)  on rolm.ID_SubModule = subm.ID and subm.IsActive =1
 	 INNER JOIN LDMS_M_Module mol WITH (NOLOCK)  on subm.ID_Module = mol.ID and mol.IsActive =1
 	 WHERE rolm.IsActive = 1 and rol.ID = @paramRoleId
 END

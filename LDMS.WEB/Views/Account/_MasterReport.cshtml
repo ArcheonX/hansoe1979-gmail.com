@@ -52,10 +52,10 @@
                 </div>
                 <div class="col-sm-3 col-md-3">
                     <select required id="selectMasterReportDepartment" name="selectMasterReportDepartment" title="Please Enter Department" class="form-control" style="width: 100%">
-                        @foreach (var std in ViewData["Department"] as IList<LDMS.ViewModels.LDMS_M_Department>)
+                        @*@foreach (var std in ViewData["Department"] as IList<LDMS.ViewModels.LDMS_M_Department>)
                         {
                             <option value="@std.ID">@std.DepartmentID - @std.DepartmentName_EN</option>
-                        }
+                        }*@
                     </select>
                 </div>
             </div>
@@ -67,10 +67,10 @@
                 </div>
                 <div class="col-sm-3 col-md-3">
                     <select id="selectMasterReportJobGrade" name="selectMasterReportJobGrade" class="form-control" style="width: 100%">
-                        @foreach (var std in ViewData["JobsGrade"] as IList<LDMS.ViewModels.LDMS_M_JobGrade>)
+                        @*@foreach (var std in ViewData["JobsGrade"] as IList<LDMS.ViewModels.LDMS_M_JobGrade>)
                         {
                             <option value="@std.ID">@std.JobGradeID - @std.JobGradeName_EN</option>
-                        }
+                        }*@
                     </select>
                 </div>
             </div>

@@ -19,15 +19,15 @@ namespace LDMS.Identity
             List<Claim> claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, authenticatedUser.EmployeeID),
-                new Claim(ClaimTypes.GivenName, authenticatedUser.Name),
-                new Claim(ClaimTypes.Surname, authenticatedUser.Surname),
-                new Claim(ClaimTypes.Email, authenticatedUser.Email),
+                new Claim(ClaimTypes.GivenName, string.IsNullOrEmpty(authenticatedUser.Name)?"":authenticatedUser.Name),
+                new Claim(ClaimTypes.Surname, string.IsNullOrEmpty(authenticatedUser.Surname)?"":authenticatedUser.Surname),
+                new Claim(ClaimTypes.Email, string.IsNullOrEmpty(authenticatedUser.Email)?"":authenticatedUser.Email),
                 new Claim(ClaimTypes.NameIdentifier, authenticatedUser.EmployeeID),
                 new Claim(ClaimTypes.Name, authenticatedUser.EmployeeID),
-                new Claim("ID_Division", authenticatedUser.ID_Division.ToString()),
-                new Claim("ID_Center", authenticatedUser.ID_Center.ToString()),
-                new Claim("ID_Department", authenticatedUser.ID_Department.ToString()),
-                new Claim("ID_Section", authenticatedUser.ID_Section.ToString()),
+                new Claim("ID_Division", authenticatedUser.ID_Division.GetValueOrDefault().ToString()),
+                new Claim("ID_Center", authenticatedUser.ID_Center.GetValueOrDefault().ToString()),
+                new Claim("ID_Department", authenticatedUser.ID_Department.GetValueOrDefault().ToString()),
+                new Claim("ID_Section",authenticatedUser.LDMS_M_UserRole!=null? authenticatedUser.LDMS_M_UserRole.ID_Section.ToString():""),
                 new Claim(ClaimTypes.Role, authenticatedUser.LDMS_M_UserRole!=null? authenticatedUser.LDMS_M_UserRole.ID_Role.ToString():"0"),
             };
             var JWToken = new JwtSecurityToken(jwtSettings.JwtIssuer, jwtSettings.JwtIssuer, claims, expires: DateTime.Now.AddDays(120), signingCredentials: credentials);

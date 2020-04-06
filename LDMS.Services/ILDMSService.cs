@@ -29,8 +29,7 @@ namespace LDMS.Services
         {
             using (System.Data.IDbConnection conn = Connection)
             {
-                var results = Connection.Query<T>(_schema + ".[usp_"+ table + "_READ_ALL]");
-                int rowIndex = 0; 
+                var results = Connection.Query<T>(_schema + ".[usp_"+ table + "_READ_ALL]"); 
                 return results.ToList();
             }
         }

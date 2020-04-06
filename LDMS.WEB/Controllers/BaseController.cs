@@ -4,5 +4,6 @@ namespace LDMS.WEB.Controllers
 {
     public class BaseController : Controller
     {
+       
     }
 }

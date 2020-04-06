@@ -10,7 +10,7 @@ namespace LDMS.ViewModels
 		}
 		public int RolePermissionId { get; set; }
 		public int ID_Role { get; set; }
-		public int ID_Module { get; set; }
+		public int ID_SubModule { get; set; }
 		public int PermissionType { get; set; }
 		public string RolePermissionDescription { get; set; }
 		public string CreateBy { get; set; }
