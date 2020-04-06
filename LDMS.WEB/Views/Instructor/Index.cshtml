@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model LDMS.ViewModels.LDMS_M_Instructor_Search
+
 @section Header{
 
     <script src="~/assets/plugins/highchart/highcharts.js"></script>
@@ -175,6 +177,35 @@
 </div> 
 @section Scripts {
     <script>
+
+        /*$("#btnSeacrh").click(function (e) {
+            alert("The paragraph was clicked.");
+        });*/
+
+        function Search() {
+            //var model;
+            //model.Instructor_ID = $("#Instructor_ID").val();
+            //alert('Instructor_ID : ' + $("#Instructor_ID").val());
+                         
+        var data = {
+            'Instructor_ID': $("#Instructor_ID").val(),
+            'Instructor_Name': $("#Instructor_Name").val()
+            }
+
+            $.ajax({
+                 url: "/Instructor/Search", // "/ControllerName/Method"
+                 data: data,
+                 type: "POST",
+                 success: function(response){
+                     //code to do something on success
+                 },
+                 error: function(response){
+                    //do error stuff here
+                 }
+            });
+
+        }
+
         $(document).ready(function () {
             $('select').select2({
                 allowClear: true,

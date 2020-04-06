@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace LDMS.ViewModels
 {
@@ -28,6 +30,6 @@ namespace LDMS.ViewModels
         public DateTime Create_Date { get; set; }
         public string Update_By { get; set; }
         public DateTime Update_Date { get; set; }
-        public byte IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }
