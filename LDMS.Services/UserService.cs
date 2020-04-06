@@ -42,13 +42,13 @@ namespace LDMS.Services
             _ldAPAuthenticationService = ldAPAuthenticationService;
             _localAuthenticationService = localAuthenticationService;
         }
-        public IEnumerable<LDMS_M_User> GetAll()
-        {
+        public async Task<List<LDMS_M_User>> GetAll(string employeeId =null,string employeeName = null, List<int> departments = null)
+        { 
             using (System.Data.IDbConnection conn = Connection)
             {
                 int rowIndex = 1;
                 var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                (_schema + ".[usp_User_READ_ALL]",
+                (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments",
                   map: (user, userRole, role, depart, plant) =>
                   {
                       if (userRole != null)
@@ -69,7 +69,8 @@ namespace LDMS.Services
                       rowIndex++;
                       return user;
                   },
-                  splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant");
+                  splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                  param: new { @paramEmployeeId = employeeId, @paramEmployeeName = employeeName, @paramdepartments = departments != null ? string.Join(",", departments) : null });
                 var user = items.ToList();
                 return user;
             }

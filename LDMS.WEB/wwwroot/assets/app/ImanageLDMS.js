@@ -1,6 +1,6 @@
 ﻿(function ($) { 
     $(document).ready(function () {
-            CreateDataTablePaging($);
+           // CreateDataTablePaging($);
             $('.dataTables_length').addClass('bs-select'); 
             $('select[name="selectCenter"]').on('change', function () {
                 var centerId = $(this).val();
@@ -75,44 +75,37 @@
             $('#btnSaveEmployee').click(function () {
                 if (!$("#frmUserEditor").valid()) return;
             }); 
-        $('#btnSearchEmployee').click(function () {
-            var searmodel = {
-                EmployeeId: $("#txtFilterEmployeeID").val(),
-                EmployeeName: $("#txtFilterEmployeeName").val(),
-                Departments: []
-            };
-            var values = $('#selectFilterDepartment').val();
-            values.forEach(myFunction);
-            function myFunction(item, index) {
-                if (item != "All") {
-                    searmodel.Departments.push(parseInt(item));
-                }
-            }
-
-            $.ajax({
-                url: "/Account/SearchEmployee",
-                type: "GET",
-                dataType: "json",
-                cache: false,
-                data: searmodel, //JSON.stringify(searmodel),
-                success: function (data) {
-                    $('#UserListcontent').html(data);
-                    CreateDataTablePaging($);
-                },
-                error: function (xhr, ajaxOptions, thrownError) { 
-                    debugger;
-                  //  alert(xhr.status);
-                }
-            });
+        $('#btnSearchEmployee').click(function () {  
+            SearchEmployee($);
         }); 
         $("input[type='datetime']").datepicker(); 
         $('select').select2({
             allowClear: true,
             closeOnSelect: false,
             theme: "bootstrap" 
-        }); 
+        });
+        SearchEmployee($);
     })
 })(jQuery);
+
+function SearchEmployee($) { 
+    var deps = $('#selectFilterDepartment').val();
+            var searmodel = {
+                    EmployeeId: $("#txtFilterEmployeeID").val(),
+                    EmployeeName: $("#txtFilterEmployeeName").val(),
+                    Departments: deps != null && deps != undefined ? deps.join(",") : null
+                }; 
+            $.ajax({
+                url: "/Account/SearchEmployee",
+                type: "GET",
+                data: searmodel,
+            })
+                .done(function (partialViewResult) { 
+                    $('#UserListcontent').empty();
+                    $('#UserListcontent').html(partialViewResult);
+                    CreateDataTablePaging($);
+        });
+}
 
 function CreateDataTablePaging($) {
     $('#dtUserList').DataTable({

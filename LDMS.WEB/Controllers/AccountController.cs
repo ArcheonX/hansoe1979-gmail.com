@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using System.Threading.Tasks;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LDMS.WEB.Controllers
@@ -68,8 +69,8 @@ namespace LDMS.WEB.Controllers
         [Route("Account/UserManagement")]
         public IActionResult UserManagement()
         {
-            var users = UserService.GetAll().ToList();
-            ViewData["Users"] = users;
+            //var users = UserService.GetAll().ToList();
+            //ViewData["Users"] = users;
             ViewData["JobsGrade"] = MasterService.GetAllJobGrades().Result;
             ViewData["JobTitle"] = MasterService.GetAllJobTitles().Result;
             ViewData["Center"] = MasterService.GetAllCenters().Result;
@@ -81,22 +82,14 @@ namespace LDMS.WEB.Controllers
         }
         [HttpGet]
         [Route("Account/SearchEmployee")]
-        public IActionResult SearchEmployee(SearchEmployeeModel model)
+        public async Task<ActionResult> SearchEmployee(SearchEmployeeModel model)
         {
-            var users = UserService.GetAll().ToList();
-            if (!string.IsNullOrEmpty(model.EmployeeId))
+            int[] departments = new int[0];
+            if (model.Departments != null && model.Departments.Any())
             {
-                users = users.Where(e => e.EmployeeID.ToLower().StartsWith(model.EmployeeId.ToLower())).ToList();
+                departments = model.Departments.Split(",").Select(int.Parse).ToArray();
             }
-            if (!string.IsNullOrEmpty(model.EmployeeName))
-            {
-                users = users.Where(e => e.Name.ToLower().StartsWith(model.EmployeeName.ToLower()) || e.Surname.ToLower().StartsWith(model.EmployeeName.ToLower())).ToList();
-            }
-            if (model.Departments!=null && model.Departments.Any())
-            {
-                users = users.Where(e => model.Departments.Contains(e.ID_Department.GetValueOrDefault())).ToList();
-            }
-            ViewData["Users"] = users;
+            var users = await UserService.GetAll(model.EmployeeId, model.EmployeeName, departments.ToList());
             return PartialView("_ViewAllUser", users);
         }
     }

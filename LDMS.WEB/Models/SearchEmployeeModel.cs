@@ -9,6 +9,6 @@ namespace LDMS.WEB.Models
     {
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
-        public List<int> Departments { get; set; }
+        public string Departments { get; set; }
     }
 }
