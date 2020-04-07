@@ -3,9 +3,21 @@
     <div class="panel-body" style="width:100%;">
         <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
             <div class="row form-group">
+                <div class="col-sm-2 col-md-2  offset-1">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <input type="checkbox" asp-for="IsInstructer" name="isInstructer" id="isInstructer" /><label for="isInstructer">Instructer</label>
+                    </span>
+                </div>
                 <div class="col-sm-2 col-md-2">
                     <span class="pull-right" style="vertical-align:middle">
-                        <label class="LabelCaption">Employee ID <font  color="#f60b0b">*</font></label>
+                        <input type="checkbox" asp-for="IsSectionHead"  name="isSectionHead" id="isSectionHead" /><label for="isSectionHead">Section Head</label>
+                    </span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Employee ID <font color="#f60b0b">*</font></label>
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
@@ -67,7 +79,7 @@
                             name="selectJObTitle"
                             asp-for="JobTitleId"
                             title="Please Enter Job Title"
-                             class="form-control required"
+                            class="form-control required"
                             style="width: 100%">
                     </select>
                 </div>
@@ -100,7 +112,7 @@
                             name="selectCenter"
                             asp-for="CenterId"
                             title="Please Enter Center"
-                             class="form-control required"
+                            class="form-control required"
                             style="width: 100%">
                     </select>
                 </div>
@@ -125,7 +137,7 @@
                             name="selectDivision"
                             title="Please Enter Division"
                             asp-for="DivisionId"
-                             class="form-control required"
+                            class="form-control required"
                             style="width: 100%">
                     </select>
                 </div>
@@ -156,7 +168,7 @@
                             name="selectDepartment"
                             asp-for="DepartmentId"
                             title="Please Enter Department"
-                             class="form-control required"
+                            class="form-control required"
                             style="width: 100%">
                     </select>
                 </div>
@@ -181,7 +193,7 @@
                             name="selectSection"
                             title="Please Enter Section"
                             asp-for="SectionId"
-                             class="form-control required"
+                            class="form-control required"
                             style="width: 100%">
                     </select>
                 </div>
@@ -208,10 +220,9 @@
                     <textarea id="txtRemark" rows="5" style="width:100%"></textarea>
                 </div>
             </div>
-
-            <div class="row form-group">
+            <div class="row form-group"> 
                 <div class="col-sm-1 col-md-1 offset-10">
-                    <button id="btnSaveEmployee" class="btn btn-success waves-effect waves-light" style="width:100%"> Save </button>
+                    <button id="btnSaveEmployee" type="submit" class="btn btn-success waves-effect waves-light" style="width:100%"> Save </button>
                 </div>
                 <div class="col-sm-1 col-md-1" style="margin-left:-25px">
                     <button id="btnBack" class="btn btn-danger inactive waves-effect waves-light" style="width:90%">Back</button>

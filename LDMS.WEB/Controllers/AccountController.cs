@@ -80,16 +80,16 @@ namespace LDMS.WEB.Controllers
             return PartialView("_ViewAllUser", users);
         }
 
-        [HttpPut]
-        [Route("Account/Add")]
-        public async Task<ActionResult> CreateNewUser(SearchEmployeeModel model)
+        [HttpPost]
+        [Route("Account/SaveEmployee")]
+        public async Task<ActionResult> SaveEmployee([FromBody]Models.Employee.EmployeeModel model)
         {
-            int[] departments = new int[0];
-            if (model.Departments != null && model.Departments.Any())
-            {
-                departments = model.Departments.Split(",").Select(int.Parse).ToArray();
-            }
-            var users = await UserService.GetAll(model.EmployeeId, model.EmployeeName, departments.ToList());
+            //int[] departments = new int[0];
+            //if (model.Departments != null && model.Departments.Any())
+            //{
+            //    departments = model.Departments.Split(",").Select(int.Parse).ToArray();
+            //}
+            var users = await UserService.GetAll();
             return PartialView("_ViewAllUser", users);
         }
 

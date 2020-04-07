@@ -21,7 +21,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT ROW_NUMBER() OVER(ORDER BY ID ASC)  as RowIndex,ID AS RoleId,RoleName_EN,RoleName_TH,RoleDescription  FROM LDMS_M_Role WITH (NOLOCK)  WHERE IsActive=1;
+	SELECT ROW_NUMBER() OVER(ORDER BY ID ASC)  as RowIndex,ID AS RoleId,ISNULL(RoleName_EN,'') AS RoleName_EN,ISNULL(RoleName_TH,'') AS RoleName_TH,ISNULL(RoleDescription,'') AS RoleDescription  FROM LDMS_M_Role WITH (NOLOCK)  WHERE IsActive=1;
 END
 GO
 

@@ -42,6 +42,11 @@ namespace LDMS.Services
             _ldAPAuthenticationService = ldAPAuthenticationService;
             _localAuthenticationService = localAuthenticationService;
         }
+
+        public async Task<List<LDMS_M_User>> GetAll()
+        {
+            return await GetAll(null, null, null);
+        }
         public async Task<List<LDMS_M_User>> GetAll(string employeeId =null,string employeeName = null, List<int> departments = null)
         { 
             using (System.Data.IDbConnection conn = Connection)

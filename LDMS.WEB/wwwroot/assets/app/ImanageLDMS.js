@@ -127,6 +127,45 @@
             });
             $('#btnSaveEmployee').click(function () {
                 if (!$("#frmUserEditor").valid()) return;
+                        var emloyeeModel = {
+                            EmployeeId: $("#txtEmployeeId").val(),
+                            EmployeeName: $("#txtEmployeeName").val(),
+                            EmployeeSurName: $("#txtEmployeeSurName").val(),
+                            JobGradeId: $("#selectJobGrade").val(),
+                            JobTitleId: $("#selectJObTitle").val(),
+                            Gender: $("#selectGender").val(),
+                            CenterId: $("#selectCenter").val(),
+                            Nationality: $("#txtNationality").val(),
+                            DivisionId: $("#selectDivision").val(),
+                            Email: $("#txtEmail").val(),
+                            DepartmentId: $("#selectDepartment").val(),
+                            Phone: $("#txtPhone").val(),
+                            SectionId: $("#selectSection").val(),
+                            Password: $("#txtPassword").val(),
+                            Remark: $("#txtRemark").val(),
+                            RoleId: "",
+                } 
+                $('#dtUserRoleList > tbody  > tr').each(function () { 
+                    var self = $(this);
+                    var roleId = self.find("td").eq(1).text(); //self.find("td").eq(1).find(":text").val();
+                    var isSelected = self.find("td").eq(4).find("input[type='checkbox']").prop("checked");
+                    if (isSelected) {
+                        emloyeeModel.RoleId = parseInt(roleId);
+                    } 
+                });  
+                $.ajax({
+                    url: "/Account/SaveEmployee",
+                    type: "POST",
+                 //   contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(emloyeeModel)
+                }).done(function (result) {
+                        debugger;
+                }).fail(function (jqXHR, textStatus) {
+                    debugger;
+                    return;
+                  });
+
             }); 
         $('#btnSearchEmployee').click(function () {  
             SearchEmployee($);
@@ -222,7 +261,8 @@ function CreateEditor($) {
         var table = tbody.length ? tbody : $('#dtUserRoleList');   
         $.each(items, function () { 
             var row = '<tr>' +
-                '<td style = "text-align:center">' + this.RowIndex+'</td>' +
+                '<td style = "text-align:center">' + this.RowIndex + '</td>' +
+                '<td style = "text-align:center;display:none">' + this.RoleId + '</td>' +
                 '<td style="text-align:left">' + this.RoleName_EN+'</td>' +
                 '<td style="text-align:left">' + this.RoleDescription+'</td>' +
                 '<td style="text-align:center;width:100px"><input type="checkbox" name="selectRole_' + this.RoleId + ' value="selectRole_' + this.RoleId + '"  id="selectRole_' + this.RoleId + '"/><label for="selectRole_' + this.RoleId +'"> </label> </td >' +
