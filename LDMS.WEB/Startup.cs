@@ -54,7 +54,7 @@ namespace LDMS.WEB
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.ConfigureJWTService(Configuration);
+            services.ConfigureJWTService(jwtSettings);
             services.ConfigureAppServices(Configuration);
             services.AddControllers()
             .AddNewtonsoftJson(options =>
@@ -71,11 +71,7 @@ namespace LDMS.WEB
             {
                 options.HeaderName = "X-XSRF-TOKEN";
                 options.SuppressXFrameOptionsHeader = false;
-            });
-
-            //services.AddIdentity<IdentityUser, IdentityRole>() 
-            //   .AddDefaultTokenProviders();
-
+            }); 
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());

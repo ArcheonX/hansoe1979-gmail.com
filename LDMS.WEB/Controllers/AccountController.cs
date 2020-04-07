@@ -37,7 +37,7 @@ namespace LDMS.WEB.Controllers
             {
                 return View(userModel);
             }
-            var user = UserService.Authenticate(userModel.Username, userModel.Password);
+            var user = UserService.Authenticattion(userModel.Username, userModel.Password);
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
                 //return RedirectToAction("Index", "Home");
@@ -78,6 +78,53 @@ namespace LDMS.WEB.Controllers
             }
             var users = await UserService.GetAll(model.EmployeeId, model.EmployeeName, departments.ToList());
             return PartialView("_ViewAllUser", users);
+        }
+
+        [HttpPut]
+        [Route("Account/Add")]
+        public async Task<ActionResult> CreateNewUser(SearchEmployeeModel model)
+        {
+            int[] departments = new int[0];
+            if (model.Departments != null && model.Departments.Any())
+            {
+                departments = model.Departments.Split(",").Select(int.Parse).ToArray();
+            }
+            var users = await UserService.GetAll(model.EmployeeId, model.EmployeeName, departments.ToList());
+            return PartialView("_ViewAllUser", users);
+        }
+
+        [HttpGet]
+        [Route("Account/View")]
+        public async Task<ActionResult> ReadEmployee(string employeeId)
+        {
+            var user = UserService.GetUserByEmployeeId(employeeId);
+            if (user != null)
+            {
+                var userView = new Models.Employee.EmployeeModel()
+                {
+                    CenterId = user.ID_Center.GetValueOrDefault(),
+                    DepartmentId = user.ID_Department.GetValueOrDefault(),
+                    DivisionId = user.ID_Division.GetValueOrDefault(),
+                    Email = user.Email,
+                    EmployeeId = user.EmployeeID,
+                    EmployeeName = user.Name,
+                    EmployeeSurName = user.Surname,
+                    Gender = user.Gender,
+                    JobGradeId = user.ID_JobGrade.GetValueOrDefault(),
+                    JobTitleId = user.ID_JobTitle.GetValueOrDefault(),
+                    Nationality = user.Nationality,
+                    Password = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Password : "",
+                    Phone = user.PhoneNumber,
+                    Remark = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Remark : "",
+                    RoleId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Role : 0,
+                    SectionId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault() : 0
+                };
+                return PartialView("_UserEditor", userView);
+            }
+            else
+            {
+                return PartialView("_UserEditor", new Models.Employee.EmployeeModel());
+            } 
         }
     }
 }

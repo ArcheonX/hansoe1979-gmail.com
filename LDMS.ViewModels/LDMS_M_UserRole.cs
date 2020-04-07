@@ -8,6 +8,7 @@ namespace LDMS.ViewModels
         public string EmployeeID { get; set; }
         public int ID_Role { get; set; }
         public string Password { get; set; }
+        public string passwordSalt { get; set; }
         public int IsInstructor { get; set; }
         public int IsSectionHead { get; set; }
         public int? ID_Section { get; set; }

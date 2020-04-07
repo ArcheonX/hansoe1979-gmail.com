@@ -10,20 +10,14 @@ using System.Text;
 namespace LDMS.WEB
 {
     public static class RegisterJWT
-    {
-        private static JwtSettings original;
+    { 
         /// <summary>
         /// Configure JWT
         /// </summary>
         /// <param name="self"></param>
         /// <param name="configuration"></param>
-        public static void ConfigureJWTService(this IServiceCollection self, IConfiguration configuration)
-        {
-            //self.Configure<JwtConfiguration>(configuration.GetSection(ConfigurationKeys.Jwt));
-            //original = configuration.Get<JwtConfiguration>(ConfigurationKeys.Jwt);
-            var jwtSettingsSection = configuration.GetSection("JwtSettings");
-            original = jwtSettingsSection.Get<JwtSettings>();
-
+        public static void ConfigureJWTService(this IServiceCollection self, JwtSettings original)
+        { 
             System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             self.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -42,6 +36,7 @@ namespace LDMS.WEB
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(original.JwtKey ?? string.Empty))
                     }; 
                 });
+            Identity.JwtManager.Instance.InitialConfig(original);
         }
 
         /// <summary>
