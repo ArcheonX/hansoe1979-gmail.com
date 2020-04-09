@@ -36,7 +36,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="fix-header card-no-border" style="overflow:no-display">
+<body class="fix-header card-no-border" style="overflow:hidden;background:linear-gradient(bottom, #fff, #00c6fb);">
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
@@ -57,44 +57,42 @@
                 <div class="logo-img"><img src="~/assets/images/svg/STT.svg" alt="homepage" /></div>
             </nav>
         </header>
-        <div class="page-wrapper" style="overflow:hidden">
-            <div class="limiter">
-                <div class="container-login100">
-                    <div class="wrap-login100 p-t-190 p-b-30">
-                        <form class="login100-form validate-form" asp-action="Login">
-                            <div asp-validation-summary="ModelOnly" class="text-danger">@ViewBag.error</div>
-                            <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
-                                <input class="input100" type="text" name="Username" placeholder="Username" asp-for="Username">
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                            </div>
-                            <div class="wrap-input100 validate-input m-b-10" data-validate="Password is required">
-                                <input class="input100" type="password" name="Password" placeholder="Password" asp-for="Password">
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="fa fa-lock"></i>
-                                </span>
-                            </div>
-                            @*<div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
-                                </label>
-                            </div>*@
-                            <div class="container-login100-form-btn p-t-10">
-                                <button id="btn-frm-login" type="submit" class="login100-form-btn">Login </button>
-                            </div>
-                            <div class="text-center w-full p-t-25 p-b-230">
-                                <a href="#" class="txt1"> Forgot Password? </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+        <div class="page-wrapper">
+            <div class="container-login100">
+                <div class="wrap-login100 p-t-190 p-b-30" style="overflow:hidden;min-height:850px;">
+                    <form class="login100-form validate-form" asp-action="Login">
+                        <div asp-validation-summary="ModelOnly" class="text-danger">@ViewBag.error</div>
+                        <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
+                            <input class="input100" type="text" name="Username" placeholder="Username" asp-for="Username">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-10" data-validate="Password is required">
+                            <input class="input100" type="password" name="Password" placeholder="Password" asp-for="Password">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </div>
+                        @*<div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                </label>
+            </div>*@
+                        <div class="container-login100-form-btn p-t-10">
+                            <button id="btn-frm-login" type="submit" class="login100-form-btn">Login </button>
+                        </div>
+                        <div class="text-center w-full p-t-25 p-b-230">
+                            <a href="#" class="txt1"> Forgot Password? </a>
+                        </div>
+                    </form>
+                    <footer class="footer">
+                        <span class="text-center">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </span>
+                    </footer>
+                </div> 
             </div>
-            <footer class="footer">
-                <span class="text-center">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </span>
-            </footer>
         </div>
     </div>
     <script src="~/assets/plugins/jquery/jquery.min.js"></script>

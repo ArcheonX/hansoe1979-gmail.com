@@ -23,6 +23,7 @@ namespace LDMS.WEB.Controllers
         [Route("")]
         [Route("Account")]
         [Route("Account/Index")]
+        [AllowAnonymous] 
         public IActionResult Index()
         {
             return View();
@@ -30,7 +31,8 @@ namespace LDMS.WEB.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [Route("Login")]
+        [Route("Account/Login")]
         public IActionResult Login(LoginViewModel userModel)
         {
             if (!ModelState.IsValid)
@@ -40,8 +42,8 @@ namespace LDMS.WEB.Controllers
             var user = UserService.Authenticattion(userModel.Username, userModel.Password);
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
-                //return RedirectToAction("Index", "Home");
-                return RedirectToAction("UserManagement");
+                return RedirectToAction("Index", "Home");
+               // return RedirectToAction("UserManagement");
             }
             else
             {
@@ -50,9 +52,9 @@ namespace LDMS.WEB.Controllers
             }
         }
 
-        [Route("Logout")]
-        [Route("Account/Logout")]
         [HttpGet]
+        [Route("Logout")]
+        [Route("Account/Logout")]      
         public IActionResult Logout()
         {
             // HttpContext.Session.Remove("username");
@@ -62,13 +64,13 @@ namespace LDMS.WEB.Controllers
 
 
         [HttpGet]
-        [Route("Account/UserManagement")]
+        [Route("Account/UserManagement")] 
         public IActionResult UserManagement()
         { 
             return View();
         }
         [HttpGet]
-        [Route("Account/SearchEmployee")]
+        [Route("Account/SearchEmployee")] 
         public async Task<ActionResult> SearchEmployee(SearchEmployeeModel model)
         {
             int[] departments = new int[0];
@@ -81,8 +83,8 @@ namespace LDMS.WEB.Controllers
         }
 
         [HttpPost]
-        [Route("Account/SaveEmployee")]
-        public async Task<ActionResult> SaveEmployee([FromBody]Models.Employee.EmployeeModel model)
+        [Route("Account/SaveEmployee")] 
+        public async Task<ActionResult> SaveEmployee(Models.Employee.EmployeeModel model)
         {
             //int[] departments = new int[0];
             //if (model.Departments != null && model.Departments.Any())
@@ -94,7 +96,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [HttpGet]
-        [Route("Account/View")]
+        [Route("Account/View")] 
         public async Task<ActionResult> ReadEmployee(string employeeId)
         {
             var user = UserService.GetUserByEmployeeId(employeeId);

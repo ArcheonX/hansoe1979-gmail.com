@@ -47,8 +47,8 @@ namespace LDMS.Services
         {
             return await GetAll(null, null, null);
         }
-        public async Task<List<LDMS_M_User>> GetAll(string employeeId =null,string employeeName = null, List<int> departments = null)
-        { 
+        public async Task<List<LDMS_M_User>> GetAll(string employeeId = null, string employeeName = null, List<int> departments = null)
+        {
             using (System.Data.IDbConnection conn = Connection)
             {
                 //int rowIndex = 1;
@@ -179,7 +179,7 @@ namespace LDMS.Services
         }
 
         public async Task<List<NavigationMenu>> GetMenuItemsAsync()
-        {           
+        {
             var token = JwtManager.Instance.GetToken(HttpContext.Request);
             if (!JwtManager.Instance.IsTokenValid(token))
             {
@@ -191,7 +191,7 @@ namespace LDMS.Services
             int rolId = 0;
             int.TryParse(claim.Value, out rolId);
             return BuildUserMenu(rolId).AsList();
-        } 
+        }
 
         private IEnumerable<NavigationMenu> BuildUserMenu(int roleId)
         {
@@ -215,7 +215,7 @@ namespace LDMS.Services
                 var groupMenu = items.OrderBy(e => e.LDMS_M_Module.Module_Sequence).GroupBy(e => e.LDMS_M_Module.ID_Module);
                 foreach (var item in groupMenu)
                 {
-                    var module = items.Where(e => e.LDMS_M_Module.ID_Module == item.Key).Select(e => e.LDMS_M_Module).FirstOrDefault() ;
+                    var module = items.Where(e => e.LDMS_M_Module.ID_Module == item.Key).Select(e => e.LDMS_M_Module).FirstOrDefault();
                     yield return new NavigationMenu()
                     {
                         ActionName = "",
@@ -228,18 +228,18 @@ namespace LDMS.Services
                         MenuUrl = module.Module_URL,
                         SubMenus = item.OrderBy(e => e.Sequence).Select(e => new SubNavigationMenu()
                         {
-                            MenuUrl = e.URL,
-                            ActionName = "",
+                            MenuUrl = e.SubModule_URL,
+                            ActionName = e.SubModule_URL.Split('/').Length > 1 ? e.SubModule_URL.Split('/')[1] : "",
                             CadWrite = true,
                             CanRead = true,
-                            ControllerName = "",
+                            ControllerName = e.SubModule_URL.Split('/').Length > 0 ? e.SubModule_URL.Split('/')[0] : "",
                             MenuIco = "",
                             MenuID = e.SubModuleID,
                             MenuName = e.SubModuleName_EN
                         }).ToList()
                     };
                 }
-            } 
-        } 
+            }
+        }
     }
 }

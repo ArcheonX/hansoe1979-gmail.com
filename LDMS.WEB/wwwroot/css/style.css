@@ -975,7 +975,7 @@ form label{font-weight:400}
 .boxed #main-wrapper 
 .sidebar-footer{position:absolute}
 .boxed #main-wrapper .footer{display:none}
-.page-wrapper{background:#eef5f9;padding-bottom:60px}
+.page-wrapper{background:#eef5f9;padding-bottom:60px;min-height:900px;}
 .container-fluid {
     padding: 0 30px 25px 150px
 }
@@ -1020,6 +1020,7 @@ form label{font-weight:400}
     margin: 0 -30px 10px;
     padding: 15px;
     box-shadow: 1px 0 5px rgba(0,0,0,0.1);
+    min-height:900px;
 }
 .page-titles h3
 {
@@ -1132,6 +1133,7 @@ ul#themecolors li a.working:before{content:"\f00c";font-family:"FontAwesome";fon
     border-top: 1px solid rgba(120,130,140,0.13);
     background: #fff;
     padding-left: calc(25%);
+    height:100px;
 }
 .card{margin-bottom:30px}
 .card .card-subtitle{font-weight:300;margin-bottom:15px;color:#99abb4}
@@ -1835,7 +1837,7 @@ a.mytooltip{font-weight:500;color:#009efb}
 .user-profile {
     position: relative;
     background-size: cover;
-    width: 300px;
+    width: 100%;
     background-image: url("../assets/images/background/user-info.jpg") 
 }
         .user-profile .profile-img {
@@ -1906,7 +1908,7 @@ a.mytooltip{font-weight:500;color:#009efb}
     50%{box-shadow:0 0 0 10px rgba(0,0,0,0.1);opacity:1;-webkit-transform:scale3d(1, 1, 0.5);transform:scale3d(1, 1, 0.5)}
     100%{box-shadow:0 0 0 20px rgba(0,0,0,0.1);opacity:0;-webkit-transform:scale3d(1, 1, 0.5);transform:scale3d(1, 1, 0.5)}} 
 .sidebar-footer a{padding:15px;width:33.333337%;float:left;text-align:center;font-size:18px}
-.scroll-sidebar{padding-bottom:60px}
+.scroll-sidebar{padding-bottom:60px;overflow-y:scroll}
 .collapse.in{display:block}
 .sidebar-nav {
     background: #fff;
@@ -1919,7 +1921,14 @@ a.mytooltip{font-weight:500;color:#009efb}
     padding:0px;
 }
 .sidebar-nav ul li{list-style:none}
-.sidebar-nav ul li a{color:#607d8b;padding:8px 35px 8px 15px;display:block;font-size:15px;border-radius:4px;white-space:nowrap}
+    .sidebar-nav ul li a {
+        color: #607d8b;
+        padding: 8px 35px 8px 15px;
+        display: block;
+        /*font-size:15px;*/
+        border-radius: 4px;
+        white-space: nowrap
+    }
 .sidebar-nav ul li a.active,.sidebar-nav ul li a:hover{color:#26c6da}
 .sidebar-nav ul li a.active{font-weight:500;color:#263238}
 .sidebar-nav ul li ul{padding-left:5px;padding-top:10px}

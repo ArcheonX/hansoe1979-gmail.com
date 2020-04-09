@@ -1,5 +1,5 @@
-USE [veraplus_ldms]
-GO
+--USE [veraplus_ldms]
+--GO
 
 /****** Object:  StoredProcedure [dbo].[usp_Section_READ_ALL]    Script Date: 4/6/2020 11:09:10 PM ******/
 SET ANSI_NULLS ON

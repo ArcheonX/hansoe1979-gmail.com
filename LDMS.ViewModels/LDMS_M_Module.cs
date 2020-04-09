@@ -14,7 +14,7 @@ namespace LDMS.ViewModels
 		public string ModuleName_TH { get; set; }
 		public int Module_Sequence { get; set; }
 		public int Parent { get; set; }
-		public string Module_URL { get; set; }
+		public string Module_URL { get; set; } 
 		public string Icon { get; set; }
 		public string Description { get; set; }
 		public string CreateBy { get; set; }

@@ -66,25 +66,25 @@
             </nav>
         </header>
         <aside class="left-sidebar">
-            <div class="scroll-sidebar">
-                <div class="user-profile">
-                    <div class="profile-img"> 
-                        <img src= '@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" /> 
-                    </div>
-                    <div class="profile-text">
-                        <a href="#" aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
-                        <a href="#" aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
-                        <a href="#" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
-                        <a href="#" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
-                        @*<a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe</a>
-        <div class="dropdown-menu animated flipInY">
-            <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
-            <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
-            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
-            <div class="dropdown-divider"></div> <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
-        </div>*@
-                    </div>
+            <div class="user-profile">
+                <div class="profile-img">
+                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
                 </div>
+                <div class="profile-text">
+                    <a href="#" aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                    <a href="#" aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                    <a href="#" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                    <a href="#" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                    @*<a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe</a>
+                <div class="dropdown-menu animated flipInY">
+                    <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+                    <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
+                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
+                    <div class="dropdown-divider"></div> <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                </div>*@
+                </div>
+            </div>
+            <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     @await Component.InvokeAsync("NavigationMenu")
                 </nav>
@@ -97,12 +97,8 @@
                         @RenderSection("NavHeader", required: false)
                     </div>
                 </div>
-                <div class="row page-body">
-                    @*<div class="card">
-                        <div class="card-block">*@
-                    @RenderBody()
-                    @*</div>
-                        </div>*@
+                <div class="row page-body"> 
+                    @RenderBody() 
                 </div>
             </div>
             <footer class="footer">

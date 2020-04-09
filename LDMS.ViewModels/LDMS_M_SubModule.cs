@@ -16,7 +16,7 @@ namespace LDMS.ViewModels
 		public string SubModuleName_TH { get; set; }
 		public int Sequence { get; set; }
 		public int Parent { get; set; }
-		public string URL { get; set; }
+		public string SubModule_URL { get; set; }
 		public string Icon { get; set; }
 		public string Description { get; set; }
 		public string CreateBy { get; set; }
