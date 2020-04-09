@@ -67,15 +67,15 @@ namespace LDMS.WEB
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            //services.AddAntiforgery(options =>
-            //{
-            //    options.HeaderName = "X-XSRF-TOKEN";
-            //    options.SuppressXFrameOptionsHeader = false;
-            //}); 
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            //});
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-XSRF-TOKEN";
+                options.SuppressXFrameOptionsHeader = false;
+            });
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
             services.AddControllersWithViews(); 
         }
 
