@@ -241,5 +241,84 @@ namespace LDMS.Services
                 }
             }
         }
+
+        public bool DeleteUser(string employeeId)
+        {
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var items = Connection.Query(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
+                    new
+                    {
+                        @paramEmployeeId = employeeId,
+                        @paramUpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                    });
+                return true;
+            }
+        }
+        public bool CreateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
+        {
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var passsalt = PasswordHelper.CreateSalt();
+                var items = Connection.Query(_schema + ".[usp_User_Create] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Password,@PasswordSalt ,@Remark,@PhoneNumber, @Email ,@CreateBy",
+                    new
+                    {
+                        @EmployeeId= user.EmployeeID,
+                        @EmployeeName = user.Name, 
+                        @EmployeeSurName = user.Surname,
+                        @JobGradeId = user.ID_JobGrade,
+                        @JobTitleId = user.ID_JobTitle,
+                        @CenterId = user.ID_Center,
+                        @DivisionId = user.ID_Division,
+                        @DepartmentId = user.ID_Department,
+                        @SectionId = userRole.ID_Section,
+                        @RoleId = userRole.ID_Role,
+                        @IsInstructer = userRole.IsInstructor,
+                        @IsSectionHead = userRole.IsSectionHead,
+                        @Nationality = user.Nationality,
+                        @Gender= user.Gender,
+                        @PasswordSalt = passsalt,
+                        @Password = PasswordHelper.GenerateSaltedHash(user.EmployeeID, passsalt),                    
+                        @Remark =userRole.Remark,
+                        @PhoneNumber = user.PhoneNumber,
+                        @Email = user.Email,
+                        @CreateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                    });
+                return true;
+            }
+        }
+
+        public bool UpdateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
+        {
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                //var passsalt = PasswordHelper.CreateSalt();
+                var items = Connection.Query(_schema + ".[usp_User_Update] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Remark,@PhoneNumber @Email ,@UpdateBy",
+                    new
+                    {
+                        @EmployeeId = user.EmployeeID,
+                        @EmployeeName = user.Name,
+                        @EmployeeSurName = user.Surname,
+                        @JobGradeId = user.ID_JobGrade,
+                        @JobTitleId = user.ID_JobTitle,
+                        @CenterId = user.ID_Center,
+                        @DivisionId = user.ID_Division,
+                        @DepartmentId = user.ID_Department,
+                        @SectionId = userRole.ID_Section,
+                        @RoleId = userRole.ID_Role,
+                        @IsInstructer = userRole.IsInstructor,
+                        @IsSectionHead = userRole.IsSectionHead,
+                        @Nationality = user.Nationality,
+                        @Gender = user.Gender,
+                        //@PasswordSalt = passsalt,
+                        //@Password = PasswordHelper.GenerateSaltedHash(userRole.Password, passsalt),
+                        @Remark = userRole.Remark,
+                        @PhoneNumber = user.PhoneNumber,
+                        @Email = user.Email,
+                        @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                    });
+                return true;
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace LDMS.WEB.Models.Employee
 {
     public class EmployeeModel
     {
+        public bool IsEditMode { get; set; }
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public string EmployeeSurName { get; set; }
@@ -26,5 +27,6 @@ namespace LDMS.WEB.Models.Employee
         public int RoleId { get; set; }
         public bool IsInstructer { get; set; }
         public bool IsSectionHead { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

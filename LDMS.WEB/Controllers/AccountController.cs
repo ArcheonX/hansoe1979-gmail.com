@@ -1,8 +1,10 @@
 ﻿using LDMS.Services;
+using LDMS.ViewModels;
 using LDMS.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -69,6 +71,7 @@ namespace LDMS.WEB.Controllers
         { 
             return View();
         }
+      
         [HttpGet]
         [Route("Account/SearchEmployee")] 
         public async Task<ActionResult> SearchEmployee(SearchEmployeeModel model)
@@ -83,18 +86,103 @@ namespace LDMS.WEB.Controllers
         }
 
         [HttpPost]
-        [Route("Account/SaveEmployee")] 
+        [Route("Account/Employee")]
         public async Task<ActionResult> SaveEmployee(Models.Employee.EmployeeModel model)
         {
-            //int[] departments = new int[0];
-            //if (model.Departments != null && model.Departments.Any())
-            //{
-            //    departments = model.Departments.Split(",").Select(int.Parse).ToArray();
-            //}
-            var users = await UserService.GetAll();
-            return PartialView("_ViewAllUser", users);
+            try
+            {
+                LDMS_M_User user = new LDMS_M_User()
+                {
+                    Email = model.Email,
+                    Name = model.EmployeeName,
+                    Nationality = model.Nationality,
+                    PhoneNumber = model.PhoneNumber,
+                    Surname = model.EmployeeSurName,
+                    IsAD = 1,
+                    EmployeeID = model.EmployeeId,
+                    Gender = model.Gender,
+                    ID_Center = model.CenterId,
+                    ID_Department = model.DepartmentId,
+                    ID_Division = model.DivisionId,
+                    ID_JobGrade = model.JobGradeId,
+                    ID_JobTitle = model.JobTitleId,
+                    IsActive = 1
+                };
+                LDMS_M_UserRole userRole = new LDMS_M_UserRole()
+                {
+                    EmployeeID = model.EmployeeId,
+                    IsActive = 1,
+                    ID_Role = model.RoleId,
+                    ID_Section = model.SectionId,
+                    IsInstructor = model.IsInstructer ? 1 : 0,
+                    IsSectionHead = model.IsSectionHead ? 1 : 0,
+                    Password = model.Password,
+                    Remark = model.Remark
+                };
+                UserService.CreateUser(user, userRole);
+                return Ok(model);
+            }
+            catch(Exception exp)
+            {
+                return BadRequest();
+            }
         }
-
+        [HttpPut]
+        [Route("Account/Employee")]
+        public async Task<ActionResult> UpdateEmployee(Models.Employee.EmployeeModel model)
+        {
+            try
+            {
+                LDMS_M_User user = new LDMS_M_User()
+                {
+                    Email = model.Email,
+                    Name = model.EmployeeName,
+                    Nationality = model.Nationality,
+                    PhoneNumber = model.PhoneNumber,
+                    Surname = model.EmployeeSurName,
+                    IsAD = 1,
+                    EmployeeID = model.EmployeeId,
+                    Gender = model.Gender,
+                    ID_Center = model.CenterId,
+                    ID_Department = model.DepartmentId,
+                    ID_Division = model.DivisionId,
+                    ID_JobGrade = model.JobGradeId,
+                    ID_JobTitle = model.JobTitleId,
+                    IsActive = 1
+                };
+                LDMS_M_UserRole userRole = new LDMS_M_UserRole()
+                {
+                    EmployeeID = model.EmployeeId,
+                    IsActive = 1,
+                    ID_Role = model.RoleId,
+                    ID_Section = model.SectionId,
+                    IsInstructor = model.IsInstructer ? 1 : 0,
+                    IsSectionHead = model.IsSectionHead ? 1 : 0,
+                    Password = model.Password,
+                    Remark = model.Remark
+                };
+                UserService.UpdateUser(user, userRole);
+                return Ok(model);
+            }
+            catch (Exception exp)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete]
+        [Route("Account/Employee")]
+        public async Task<ActionResult> RemoveEmployee(string empployeeId)
+        {
+            try
+            {
+                UserService.DeleteUser(empployeeId);
+                return Ok(empployeeId);
+            }
+            catch (Exception exp)
+            {
+                return BadRequest();
+            }
+        }
         [HttpGet]
         [Route("Account/View")] 
         public async Task<ActionResult> ReadEmployee(string employeeId)
