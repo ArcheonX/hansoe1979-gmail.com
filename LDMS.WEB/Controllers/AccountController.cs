@@ -169,8 +169,8 @@ namespace LDMS.WEB.Controllers
                 return BadRequest();
             }
         }
-        [HttpDelete]
-        [Route("Account/Employee")]
+        [HttpPost]
+        [Route("Account/RemoveEmployee")]
         public async Task<ActionResult> RemoveEmployee(string empployeeId)
         {
             try

@@ -130,55 +130,61 @@
                 if (!$("#frmUserEditor").valid()) {
                     return false;
             }
-            var roleId = 0;
-            $('#dtUserRoleList > tbody  > tr').each(function () {
-                var self = $(this);
-                var roleId = self.find("td").eq(1).text(); //self.find("td").eq(1).find(":text").val();
-                var isSelected = self.find("td").eq(4).find("input[type='checkbox']").prop("checked");
-                if (isSelected) {
-                    roleId = parseInt(roleId); 
-                }
-            });
-            var empModel = {
-                IsEditMode: $("#userEditMode").val() == "true",
-                EmployeeId: $("#txtEmployeeId").val(),
-                EmployeeName: $("#txtEmployeeName").val(),
-                EmployeeSurName: $("#txtEmployeeSurName").val(),
-                JobGradeId: parseInt($("#selectJobGrade").val()),
-                JobTitleId: parseInt($("#selectJObTitle").val()),
-                Gender: $("#selectGender").val(),
-                CenterId: parseInt($("#selectCenter").val()),
-                Nationality: $("#txtNationality").val(),
-                DivisionId: parseInt($("#selectDivision").val()),
-                Email: $("#txtEmail").val(),
-                DepartmentId: parseInt($("#selectDepartment").val()),
-                Phone: $("#txtPhone").val(),
-                SectionId: parseInt($("#selectSection").val()),
-                Password: $("#txtPassword").val(),
-                Remark: $("#txtRemark").val(),
-                RoleId: roleId,
-                IsInstructer: $("#isInstructer").val()=="true",
-                IsSectionHead: $("#isSectionHead").val() == "true"
-            };  
-            $.ajax({
-                type: empModel.IsEditMode ? "PUT": "POST",
-                url:  '/Account/Employee',
-                data: empModel, 
-                success: function (response) {
-                    $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-                    $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                    $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                    SearchEmployee();  
-                },
-                failure: function (response) {
-                    alert(response.responseText);
-                },
-                error: function (response) {
-                    alert(response.responseText);
+            MessageController.ConfirmCallback("Are you sure you want to do this?", "Confirm change", function (res) {
+                if (res) {
+                    var roleId = 0;
+                    $('#dtUserRoleList > tbody  > tr').each(function () {
+                        var self = $(this);
+                        var roleId = self.find("td").eq(1).text(); //self.find("td").eq(1).find(":text").val();
+                        var isSelected = self.find("td").eq(4).find("input[type='checkbox']").prop("checked");
+                        if (isSelected) {
+                            roleId = parseInt(roleId);
+                        }
+                    });
+                    var empModel = {
+                        IsEditMode: $("#userEditMode").val() == "true",
+                        EmployeeId: $("#txtEmployeeId").val(),
+                        EmployeeName: $("#txtEmployeeName").val(),
+                        EmployeeSurName: $("#txtEmployeeSurName").val(),
+                        JobGradeId: parseInt($("#selectJobGrade").val()),
+                        JobTitleId: parseInt($("#selectJObTitle").val()),
+                        Gender: $("#selectGender").val(),
+                        CenterId: parseInt($("#selectCenter").val()),
+                        Nationality: $("#txtNationality").val(),
+                        DivisionId: parseInt($("#selectDivision").val()),
+                        Email: $("#txtEmail").val(),
+                        DepartmentId: parseInt($("#selectDepartment").val()),
+                        Phone: $("#txtPhone").val(),
+                        SectionId: parseInt($("#selectSection").val()),
+                        Password: $("#txtPassword").val(),
+                        Remark: $("#txtRemark").val(),
+                        RoleId: roleId,
+                        IsInstructer: $("#isInstructer").val() == "true",
+                        IsSectionHead: $("#isSectionHead").val() == "true"
+                    };
+                    $.ajax({
+                        type: empModel.IsEditMode ? "PUT" : "POST",
+                        url: '/Account/Employee',
+                        data: empModel,
+                        success: function (response) {
+                            $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
+                            $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+                            $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+                            SearchEmployee();
+                        },
+                        failure: function (response) {
+                            MessageController.Error(response.responseText, "Error");
+                        },
+                        error: function (response) {
+                            MessageController.Error(response.responseText, "Error");
+                        }
+                    });
+                    return false; 
+                } else {
+                    return false; 
                 }
             });  
-            return false; 
-           }); 
+          }); 
         $('#btnSearchEmployee').click(function () {  
             SearchEmployee();
         }); 
@@ -224,8 +230,30 @@
         }
     })
 })(jQuery); 
- 
 
+function DeleteEmployee(employeeId) { 
+    MessageController.WarningCallback("Are you sure you want to delete Employee '" + employeeId + "'?", "Confirm Delete!", function (res) { 
+        if (res)
+        {
+            $.ajax({
+                type: "Post",
+                url: '/Account/RemoveEmployee',
+                data: employeeId,
+                success: function (response) { 
+                    SearchEmployee();
+                },
+                failure: function (response) {
+                    debugger;
+                    MessageController.Error(response.responseText, "Error");
+                },
+                error: function (response) {
+                    debugger;
+                    MessageController.Error(response.responseText, "Error");
+                }
+            });
+        }
+    });
+}
 function CreateEditor(employeeId) {
     $("#userEditMode").val("true");
     $('select[name="selectDivision"]').val(null);
@@ -371,16 +399,6 @@ function SearchEmployee() {
             alert(response.responseText);
         }
     }); 
-        //    $.ajax({
-        //        url: "/Account/SearchEmployee",
-        //        type: "GET",
-        //        data: searmodel,
-        //    })
-        //        .done(function (partialViewResult) { 
-        //            $('#UserListcontent').empty();
-        //            $('#UserListcontent').html(partialViewResult);
-        //            CreateDataTablePaging($);
-        //});
 }
 
 function CreateDataTablePaging() {

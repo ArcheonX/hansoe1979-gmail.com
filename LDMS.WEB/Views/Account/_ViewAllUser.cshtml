@@ -1,4 +1,5 @@
 ﻿@model List<LDMS.ViewModels.LDMS_M_User>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <div class="panel panel-default" style="margin-top:-15px;width:100%;">
     <div class="panel-body" style="width:100%;margin-top:25px;">
         <div class="table-responsive">
@@ -40,13 +41,13 @@
                                     </a>
                                 </td>
                                 <td style="text-align:center">
-                                    @if (@std.IsAD == 1)
+                                    @if (@std.IsAD == 1 || (@HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"] == @std.EmployeeID))
                                     {
                                         <img src='@Url.Content("~/assets/images/svg/icon-delete.svg")' class="light-logo" alt="homepage" />
                                     }
                                     else
                                     {
-                                        <a href="#" id="btnDeleteEmployee"> <img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class="light-logo" alt="homepage" /> </a>
+                                        <a onclick="DeleteEmployee('@std.EmployeeID')" style="cursor:pointer" id="btnDeleteEmployee"> <img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class="light-logo" alt="homepage" /> </a>
                                     }
                                 </td>
                             </tr>
