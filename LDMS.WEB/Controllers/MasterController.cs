@@ -16,6 +16,12 @@ namespace LDMS.WEB.Controllers
             MasterService = masterService;
         }
         [HttpGet]
+        [Route("Organization/Section")]
+        public IActionResult Section()
+        {
+            return View();
+        }
+        [HttpGet]
         [Route("Master/GetAllCenters")]
         public IActionResult GetAllCenters()
         {

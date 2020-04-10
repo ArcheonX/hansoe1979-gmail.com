@@ -62,7 +62,7 @@ button {
     margin: 0.6em;
 }
     .panel-body-begin {
-        margin-top: 10px;
+        margin-top: 20px;
         width: 100%;
     }
 
@@ -358,3 +358,28 @@ button {
             color: #fff; /* active text color */
             background-color: #a94442; /* active bg color */
         }
+
+ul.myErrorClass,
+input.myErrorClass,
+textarea.myErrorClass,
+select.myErrorClass {
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: #cc0000 !important;
+    background-color: #f3d8d8 !important;
+    background-image: url(http://goo.gl/GXVcmC) !important;
+    background-position: 50% 50% !important;
+    background-repeat: repeat !important;
+    color: #f60b0b !important;
+}
+ul.myErrorClass input {
+        color: #f60b0b !important;
+}
+ul.myErrorClass label {
+        color: #f60b0b !important;
+}
+label.myErrorClass {
+    color: #f60b0b !important;
+    font-size: 11px;
+    display: block;
+}

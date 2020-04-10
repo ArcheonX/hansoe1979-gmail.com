@@ -1,5 +1,5 @@
-USE [veraplus_ldms]
-GO
+--USE [veraplus_ldms]
+--GO
 
 /****** Object:  StoredProcedure [dbo].[usp_RoleMenu_READ_By_Role]    Script Date: 4/6/2020 11:09:02 PM ******/
 SET ANSI_NULLS ON
@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- exec [usp_RoleMenu_READ_By_Role] 1
+-- exec [usp_RoleMenu_READ_By_Role] 7
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_RoleMenu_READ_By_Role]
 	-- Add the parameters for the stored procedure here
@@ -32,14 +32,14 @@ BEGIN
 	 subm.SubModuleID,
 	 subm.SubModuleName_EN,
 	 subm.SubModuleName_TH,
-	 subm.URL AS SubModule_URL,
+	  ISNULL(subm.URL,'Home/Index')  AS SubModule_URL,
 
 	 mol.ID AS ID_Module,
 	 mol.ModuleID,
 	 mol.ModuleName_EN,
 	 mol.ModuleName_TH,
 	 mol.Sequence as Module_Sequence,
-	 mol.URL as Module_URL,
+	 ISNULL(mol.URL,'Home/Index')   as Module_URL,
 	 
 	 rolm.ID as RolePermissionId,
 	 rolm.PermissionType,
