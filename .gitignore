@@ -91,3 +91,7 @@ debug/
 /LDMS.WEB/obj/LDMS.WEB.csproj.nuget.dgspec.json
 /LDMS.WEB/obj/project.nuget.cache
 /LDMS.WEB/obj/Debug/netcoreapp3.1/LDMS.WEB.csprojAssemblyReference.cache
+/LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.csprojAssemblyReference.cache
+/LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.csprojAssemblyReference.cache
+/LDMS.Services/obj/Debug/netcoreapp3.1/LDMS.Services.csprojAssemblyReference.cache
+/LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.csprojAssemblyReference.cache
