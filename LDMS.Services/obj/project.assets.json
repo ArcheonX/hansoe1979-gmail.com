@@ -2217,10 +2217,7 @@
         },
         "runtime": {
           "bin/placeholder/LDMS.Domain.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        }
       },
       "LDMS.Identity/1.0.0": {
         "type": "project",

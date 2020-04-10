@@ -32,14 +32,14 @@ BEGIN
 	 subm.SubModuleID,
 	 subm.SubModuleName_EN,
 	 subm.SubModuleName_TH,
-	  ISNULL(subm.URL,'Home/Index')  AS SubModule_URL,
+	  ISNULL(subm.URL,'')  AS SubModule_URL,
 
 	 mol.ID AS ID_Module,
 	 mol.ModuleID,
 	 mol.ModuleName_EN,
 	 mol.ModuleName_TH,
 	 mol.Sequence as Module_Sequence,
-	 ISNULL(mol.URL,'Home/Index')   as Module_URL,
+	 ISNULL(mol.URL,'')   as Module_URL,
 	 
 	 rolm.ID as RolePermissionId,
 	 rolm.PermissionType,

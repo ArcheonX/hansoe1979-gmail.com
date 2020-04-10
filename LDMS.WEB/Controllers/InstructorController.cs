@@ -11,7 +11,9 @@ namespace LDMS.WEB.Controllers
         {
             _logger = logger;
         }
-
+        [HttpGet]
+        [Route("Instructor")]
+        [Route("Instructor/Index")]
         public IActionResult Index()
         {
             return View();
@@ -22,7 +24,8 @@ namespace LDMS.WEB.Controllers
             return View();
         }
 
-
+        [HttpGet] 
+        [Route("Instructor/View")]
         public IActionResult ViewProfile()
         {
             return View();
