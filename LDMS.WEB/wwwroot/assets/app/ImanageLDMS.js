@@ -131,6 +131,7 @@
                     return false;
             }
             MessageController.ConfirmCallback("Are you sure you want to do this?", "Confirm change", function (res) {
+                debugger;
                 if (res) {
                     var roleId = 0;
                     $('#dtUserRoleList > tbody  > tr').each(function () {
@@ -162,27 +163,9 @@
                         IsInstructer: $("#isInstructer").val() == "true",
                         IsSectionHead: $("#isSectionHead").val() == "true"
                     };
-                    $.ajax({
-                        type: empModel.IsEditMode ? "PUT" : "POST",
-                        url: '/Account/Employee',
-                        data: empModel,
-                        success: function (response) {
-                            $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-                            $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                            $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                            SearchEmployee();
-                        },
-                        failure: function (response) {
-                            MessageController.Error(response.responseText, "Error");
-                        },
-                        error: function (response) {
-                            MessageController.Error(response.responseText, "Error");
-                        }
-                    });
-                    return false; 
-                } else {
-                    return false; 
-                }
+                    CreateEmployee(empModel); 
+                } 
+                return false; 
             });  
           }); 
         $('#btnSearchEmployee').click(function () {  
@@ -230,6 +213,44 @@
         }
     })
 })(jQuery); 
+function UpdateEmployee(empModel) {
+    $.ajax({
+        type: "POST",
+        url: '/Account/UpdateEmployee',
+        data: empModel,
+        success: function (response) {
+            $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
+            $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+            $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+            SearchEmployee();
+        },
+        failure: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        },
+        error: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        }
+    });
+}
+function CreateEmployee(empModel) {
+    $.ajax({
+        type: "POST",
+        url: '/Account/CreateEmployee',
+        data: empModel,
+        success: function(response) {
+            $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
+            $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+            $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+            SearchEmployee();
+        },
+        failure: function(response) {
+            MessageController.Error(response.responseText, "Error");
+        },
+        error: function(response) {
+            MessageController.Error(response.responseText, "Error");
+        }
+    });
+}
 
 function DeleteEmployee(employeeId) { 
     MessageController.WarningCallback("Are you sure you want to delete Employee '" + employeeId + "'?", "Confirm Delete!", function (res) { 

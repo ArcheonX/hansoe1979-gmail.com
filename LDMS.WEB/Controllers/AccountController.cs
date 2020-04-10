@@ -86,7 +86,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [HttpPost]
-        [Route("Account/Employee")]
+        [Route("Account/CreateEmployee")]
         public async Task<ActionResult> SaveEmployee(Models.Employee.EmployeeModel model)
         {
             try
@@ -127,8 +127,8 @@ namespace LDMS.WEB.Controllers
                 return BadRequest();
             }
         }
-        [HttpPut]
-        [Route("Account/Employee")]
+        [HttpPost]
+        [Route("Account/UpdateEmployee")]
         public async Task<ActionResult> UpdateEmployee(Models.Employee.EmployeeModel model)
         {
             try
