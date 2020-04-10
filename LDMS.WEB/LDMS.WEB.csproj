@@ -25,6 +25,7 @@
     <Folder Include="Views\Shared\Components\NavigationMenu\" />
     <Folder Include="wwwroot\assets\plugins\datatable\" />
     <Folder Include="wwwroot\assets\plugins\jquery-validation\" />
+    <Folder Include="wwwroot\assets\plugins\sweetalert\" />
     <Folder Include="wwwroot\assets\plugins\selecttwo\" />
   </ItemGroup> 
 </Project>
