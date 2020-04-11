@@ -6,6 +6,7 @@ namespace LDMS.ViewModels
 {
     public class LDMS_M_Instructor
     {
+        public int rownumber { get; set; }
         public int ID { get; set; }
         public string Instructor_ID { get; set; }
         public string Instructor_Name { get; set; }
@@ -31,5 +32,8 @@ namespace LDMS.ViewModels
         public string Update_By { get; set; }
         public DateTime Update_Date { get; set; }
         public bool IsActive { get; set; }
+
+        public int ID_Course { get; set; }
+        public string CourseName { get; set; }
     }
 }

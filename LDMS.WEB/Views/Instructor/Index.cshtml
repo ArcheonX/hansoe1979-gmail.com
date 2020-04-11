@@ -21,128 +21,105 @@
     </ol>
 }
 
-<div class="card">
-    <form class="form">
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
-            <div class="col-4">
-                <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
-                <input class="form-control" type="text" name="Instructor_ID" placeholder="Instructor ID" asp-for="Instructor_ID">
-            </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
-            <div class="col-4">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-secondary">-- All --</button>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Active</a>
-                        <a class="dropdown-item" href="#">In Active</a>
-                    </div>
+<form class="form">
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
+        <div class="col-4">
+            <input class="form-control" type="text" name="Instructor_ID" placeholder="Instructor ID">
+        </div>
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
+        <div class="col-4">
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary">-- All --</button>
+                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Active</a>
+                    <a class="dropdown-item" href="#">In Active</a>
                 </div>
             </div>
         </div>
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
-            <div class="col-4">
-                <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
-                <input class="form-control" type="text" name="Instructor_Name" placeholder="Instructor Name" asp-for="Instructor_Name">
-            </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
-            <div class="col-4">
-                <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
-                <input class="form-control" type="text" name="Organization" placeholder="Organization" asp-for="Organization">
-            </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
+        <div class="col-4">
+            <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
+            <input class="form-control" type="text" name="Instructor_Name" placeholder="Instructor Name" asp-for="Instructor_Name">
         </div>
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Type</label>
-            <div class="col-4">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-secondary">-- Please Select --</button>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Internal</a>
-                        <a class="dropdown-item" href="#">External</a>
-                    </div>
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
+        <div class="col-4">
+            <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
+            <input class="form-control" type="text" name="Organization" placeholder="Organization" asp-for="Organization">
+        </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Type</label>
+        <div class="col-4">
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary">-- Please Select --</button>
+                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Internal</a>
+                    <a class="dropdown-item" href="#">External</a>
                 </div>
             </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Experience</label>
-            <div class="col-4">
-                <!--<input class="form-control" type="text" value="" id="example-text-input">-->
-                <input class="form-control" type="text" name="Course_Experience" placeholder="Course Experience" asp-for="Course_Experience">
-            </div>
         </div>
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course</label>
-            <div class="col-4">
-                <!--<input class="form-control" type="text" value="" id="example-text-input">-->
-                <input class="form-control" type="text" name="Course" placeholder="Course" asp-for="Course">
-            </div>
-            <div class="col-2">
-            </div>
-            <div class="col-2">
-                <button id="btnSeacrh" type="button" class="btn btn-success waves-effect waves-light" onclick="Search()">Search</button>
-                <button id="btnAdd" class="btn btn-info waves-effect waves-light">Add</button>
-            </div>
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Experience</label>
+        <div class="col-4">
+            <!--<input class="form-control" type="text" value="" id="example-text-input">-->
+            <input class="form-control" type="text" name="Course_Experience" placeholder="Course Experience" asp-for="Course_Experience">
         </div>
-    </form>
-</div>
-<div class="card">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-block">
-                    <h4 class="card-title">Data Export</h4>
-                    <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
-                    <div class="table-responsive m-t-40">
-                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Instructor ID</th>
-                                    <th>Instructor Name</th>
-                                    <th>Type</th>
-                                    <th>Organization / Department</th>
-                                    <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <!--<tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Instructor ID</th>
-                                    <th>Instructor Name</th>
-                                    <th>Type</th>
-                                    <th>Organization / Department</th>
-                                    <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </tfoot>-->
-                            @{int i = 1;}
-                            @foreach (var instructor in ViewData["Instructor"] as IList<LDMS.ViewModels.LDMS_M_Instructor>)
-                            {
-                                <tbody>
-                                    <tr>
-                                        <th>@i</th>
-                                        <td>@instructor.Instructor_ID</td>
-                                        <td>@instructor.Instructor_Name</td>
-                                        <td>@instructor.Type</td>
-                                        <td>@instructor.Organization</td>
-                                        <td>@instructor.IsActive</td>
-                                        <td><i class="fa fa-pencil" /></td>
-                                        <td><i class="fa fa-trash-o" /></td>
-                                    </tr>
-                                </tbody>
-                            }
-                        </table>
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="form-group m-2 row">
+        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course</label>
+        <div class="col-4">
+            <!--<input class="form-control" type="text" value="" id="example-text-input">-->
+            <input class="form-control" type="text" name="Course" placeholder="Course" asp-for="CourseName">
+        </div>
+        <div class="col-2"></div>
+        <div class="col-4">
+            <button id="btnSeacrh" type="button" class="btn btn-success waves-effect waves-light btn-command" onclick="Search()">Search</button>
+            <button id="btnAdd" class="btn btn-info waves-effect waves-light btn-command">Add</button>
+        </div>
+    </div>
+</form>
+<div class="row">
+    <div class="col-12">
+        
+        <div class="table-responsive m-t-40">
+            <table id="example23" class="display nowrap table table-hover table-striped table-bordered color-table info-table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Instructor ID</th>
+                        <th>Instructor Name</th>
+                        <th>Type</th>
+                        <th>Organization / Department</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var instructor in ViewData["Instructor"] as IList<LDMS.ViewModels.LDMS_M_Instructor>)
+                    {
+
+                        <tr>
+                            <th>@instructor.rownumber</th>
+                            <td>@instructor.Instructor_ID</td>
+                            <td>@instructor.Instructor_Name</td>
+                            <td>@instructor.Type</td>
+                            <td>@instructor.Organization</td>
+                            <td>@instructor.IsActive</td>
+                            <td><i class="fa fa-pencil" /></td>
+                            <td><i class="fa fa-trash-o" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -158,22 +135,22 @@
             //var model;
             //model.Instructor_ID = $("#Instructor_ID").val();
             //alert('Instructor_ID : ' + $("#Instructor_ID").val());
-                         
-        var data = {
-            'Instructor_ID': $("#Instructor_ID").val(),
-            'Instructor_Name': $("#Instructor_Name").val()
+
+            var data = {
+                'Instructor_ID': $("#Instructor_ID").val(),
+                'Instructor_Name': $("#Instructor_Name").val()
             }
 
             $.ajax({
-                 url: "/Instructor/Search", // "/ControllerName/Method"
-                 data: data,
-                 type: "POST",
-                 success: function(response){
-                     //code to do something on success
-                 },
-                 error: function(response){
+                url: "/Instructor/Search", // "/ControllerName/Method"
+                data: data,
+                type: "POST",
+                success: function (response) {
+                    //code to do something on success
+                },
+                error: function (response) {
                     //do error stuff here
-                 }
+                }
             });
 
         }

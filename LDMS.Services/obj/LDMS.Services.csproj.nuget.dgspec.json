@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj": {}
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj": {}
   },
   "projects": {
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
         "projectName": "LDMS.Core",
-        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
-        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -74,21 +77,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj",
         "projectName": "LDMS.Domain",
-        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj",
-        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Domain\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -101,11 +107,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
-                "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
               },
-              "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj": {
-                "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj"
               }
             }
           }
@@ -143,21 +149,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj",
         "projectName": "LDMS.Identity",
-        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj",
-        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Identity\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -170,8 +179,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
-                "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
               }
             }
           }
@@ -213,21 +222,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj",
         "projectName": "LDMS.Services",
-        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj",
-        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Services\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -240,11 +252,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
-                "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj"
               },
-              "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
-                "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj"
               }
             }
           }
@@ -286,21 +298,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj",
         "projectName": "LDMS.ViewModels",
-        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj",
-        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.ViewModels\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -348,7 +363,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

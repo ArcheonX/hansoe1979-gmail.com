@@ -21,13 +21,24 @@ namespace LDMS.Services
             _appSettings = appSettings.Value;
         }
 
-        public IEnumerable<LDMS_M_Instructor> GetInstructors(LDMS_M_Instructor_Search crieria)
+        public Paging_Result GetInstructors(LDMS_M_Instructor_Search crieria)
         {
+            Paging_Result ret = new Paging_Result();
             List<LDMS_M_Instructor> InstructorList = new List<LDMS_M_Instructor>();
             using (System.Data.IDbConnection conn = Connection)
             {
-                InstructorList = conn.Query<LDMS_M_Instructor>("[dbo].[sp_M_Instructor_Select]").ToList();
-                return InstructorList.ToList();
+                var grid= conn.QueryMultiple("[dbo].[sp_M_Instructor_SelectPaging]", crieria, commandType: System.Data.CommandType.StoredProcedure);
+
+                InstructorList = grid.Read<LDMS_M_Instructor>().ToList();
+                var totalRec = grid.Read().ToList();
+
+                ret.Results = InstructorList;
+                ret.TotalRecords = totalRec[0].TotalRecords;
+
+                //InstructorList = conn.QueryMul<LDMS_M_Instructor>("[dbo].[sp_M_Instructor_SelectPaging]", crieria, commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+
+                return ret;
             }
         }
     }
