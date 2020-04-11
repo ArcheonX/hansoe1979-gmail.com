@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -26,76 +27,70 @@ namespace LDMS.WEB.Controllers
         [AllowAnonymous]
         [Route("Login")]
         [Route("Account/Login")]
-        public IActionResult Login(LoginViewModel userModel)
+        public async Task<IActionResult> Login(LoginViewModel userModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(userModel);
             }
-            var user = UserService.Authenticattion(userModel.Username, userModel.Password);
+            var user = (UserService.Authenticattion(userModel.Username, userModel.Password).Data as LDMS_M_User);
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
-                return RedirectToAction("Index", "Home");
-                // return RedirectToAction("UserManagement");
+                return RedirectToAction("Index", "Home"); 
             }
             else
             {
                 ViewBag.error = "Invalid Account";
                 return View("Index");
             }
-        }
-
+        } 
         [Route("")]
         [Route("Account")]
         [Route("Account/Index")]
         [AllowAnonymous] 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
-        }
-
-
+        } 
         [HttpGet]
         [Route("Logout")]
         [Route("Account/Logout")]      
-        public IActionResult Logout()
-        {
-            // HttpContext.Session.Remove("username");
-            //await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+        public async Task<IActionResult> Logout()
+        { 
             return RedirectToAction("Index");
-        }
-
-
+        } 
         [HttpGet]
         [Route("Account/UserManagement")] 
-        public IActionResult UserManagement()
-        { 
+        public async Task<IActionResult> UserManagement()
+        {
             return View();
-        }
-      
+        }      
         [HttpGet]
-        [Route("Account/SearchEmployee")] 
-        public async Task<ActionResult> SearchEmployee(SearchEmployeeModel model)
+        [Route("Account/SearchEmployee")]
+        [ResponseCache(NoStore = true, Duration = 0)]
+        public async Task<IActionResult> SearchEmployee(SearchEmployeeModel model)
         {
             int[] departments = new int[0];
             if (model.Departments != null && model.Departments.Any())
             {
                 departments = model.Departments.Split(",").Select(int.Parse).ToArray();
             }
-            var users = await UserService.GetAll(model.EmployeeId, model.EmployeeName, departments.ToList());
+            var users = (await UserService.GetAll(model.EmployeeId, model.EmployeeName, departments.ToList())).Data as List<LDMS_M_User>;
+            //ViewData["Employees"] = users;
+            //return Response(users);
             return PartialView("_ViewAllUser", users);
         }
-        [HttpGet]
-        [Route("Account/View")]
-        public async Task<ActionResult> ReadEmployee(string employeeId)
+        [HttpGet] 
+        [Route("Account/ReadEmployee")] 
+        public async Task<IActionResult> ReadEmployee(string employeeId)
         {
-            var user = UserService.GetUserByEmployeeId(employeeId);
+            var user = (UserService.GetUserByEmployeeId(employeeId).Data as LDMS_M_User);
             if (user != null)
             {
                 var userView = new Models.Employee.EmployeeModel()
                 {
                     CenterId = user.ID_Center.GetValueOrDefault(),
-                    DepartmentId = user.ID_Department.GetValueOrDefault(),
+                    DepartmentId = user.LDMS_M_Department!=null? user.LDMS_M_Department.ID_Department:0,
                     DivisionId = user.ID_Division.GetValueOrDefault(),
                     Email = user.Email,
                     EmployeeId = user.EmployeeID,
@@ -109,19 +104,20 @@ namespace LDMS.WEB.Controllers
                     Phone = user.PhoneNumber,
                     Remark = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Remark : "",
                     RoleId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Role : 0,
-                    SectionId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault() : 0
+                    SectionId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault() : 0,
+                    IsInstructer = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsInstructor == 1 : false,
+                    IsSectionHead = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsSectionHead == 1 : false,
                 };
-                return PartialView("_UserEditor", userView);
+                return Response(new ServiceResult(userView));
             }
             else
             {
-                return PartialView("_UserEditor", new Models.Employee.EmployeeModel());
+                return Response(new ServiceResult(new Models.Employee.EmployeeModel()));
             }
         }
-
         [HttpPost]
         [Route("Account/CreateEmployee")]
-        public async Task<ActionResult> SaveEmployee(Models.Employee.EmployeeModel model)
+        public async Task<IActionResult> SaveEmployee(Models.Employee.EmployeeModel model)
         {
             try
             {
@@ -153,17 +149,16 @@ namespace LDMS.WEB.Controllers
                     Password = model.Password,
                     Remark = model.Remark
                 };
-                UserService.CreateUser(user, userRole);
-                return Ok(model);
+                return Response(await UserService.CreateUser(user, userRole));
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
-                return BadRequest();
+                return Response(new ServiceResult(exp));
             }
         }
         [HttpPost]
         [Route("Account/UpdateEmployee")]
-        public async Task<ActionResult> UpdateEmployee(Models.Employee.EmployeeModel model)
+        public async Task<IActionResult> UpdateEmployee(Models.Employee.EmployeeModel model)
         {
             try
             {
@@ -194,27 +189,25 @@ namespace LDMS.WEB.Controllers
                     IsSectionHead = model.IsSectionHead ? 1 : 0,
                     Password = model.Password,
                     Remark = model.Remark
-                };
-                UserService.UpdateUser(user, userRole);
-                return Ok(model);
+                }; 
+                return Response(await UserService.UpdateUser(user, userRole));
             }
             catch (Exception exp)
             {
-                return BadRequest();
+                return Response(new ServiceResult(exp));
             }
         }
         [HttpPost]
         [Route("Account/RemoveEmployee")]
-        public async Task<ActionResult> RemoveEmployee(string empployeeId)
+        public async Task<IActionResult> RemoveEmployee(string employeeId)
         {
             try
-            {
-                UserService.DeleteUser(empployeeId);
-                return Ok(empployeeId);
+            { 
+                return Response(await UserService.DeleteUser(employeeId));
             }
             catch (Exception exp)
             {
-                return BadRequest();
+                return Response(new ServiceResult(exp));
             }
         }
        

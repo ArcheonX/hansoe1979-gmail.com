@@ -23,46 +23,45 @@ namespace LDMS.WEB.Controllers
         }
         [HttpGet]
         [Route("Master/GetAllCenters")]
-        public IActionResult GetAllCenters()
+        public async Task<IActionResult> GetAllCenters()
         {
-            return Json(MasterService.GetAllCenters().Result);
-            //return MasterService.GetAllCenters().Result; 
+            return Response(await MasterService.GetAllCenters());
         }
         [HttpGet]
         [Route("Master/GetAllJobGrades")]
-        public IActionResult GetAllJobGrades()
+        public async Task<IActionResult> GetAllJobGrades()
         {
-            return Json(MasterService.GetAllJobGrades().Result);
+            return Response(await MasterService.GetAllJobGrades());
         }
         [HttpGet]
         [Route("Master/GetAllJobTitles")]
-        public IActionResult GetAllJobTitles()
+        public async Task<IActionResult> GetAllJobTitles()
         {
-            return Json(MasterService.GetAllJobTitles().Result); 
+            return Response(await MasterService.GetAllJobTitles()); 
         }
         [HttpGet]
         [Route("Master/GetAllDivisions")]
-        public IActionResult GetAllDivisions()
+        public async Task<IActionResult> GetAllDivisions()
         {
-            return Json(MasterService.GetAllDivisions().Result);
+            return Response(await MasterService.GetAllDivisions());
         }
         [HttpGet]
         [Route("Master/GetAllDepartments")]
-        public IActionResult GetAllDepartments()
+        public async Task<IActionResult> GetAllDepartments()
         {
-            return Json(MasterService.GetAllDepartments().Result);
+            return Response(await MasterService.GetAllDepartments());
         }
         [HttpGet]
         [Route("Master/GetAllSections")]
-        public IActionResult GetAllSections()
+        public async Task<IActionResult> GetAllSections()
         {
-            return Json(MasterService.GetAllSections().Result);
+            return Response(await MasterService.GetAllSections());
         }
         [HttpGet]
         [Route("Master/GetAllRoles")]
-        public IActionResult GetAllRoles()
+        public async Task<IActionResult> GetAllRoles()
         {
-            return Json(MasterService.GetAllRoles().Result); 
+            return Response(await MasterService.GetAllRoles()); 
         }
 
     }

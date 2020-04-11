@@ -14,33 +14,33 @@ namespace LDMS.Services
         {
 
         } 
-        public async Task<List<ViewModels.LDMS_M_JobGrade>> GetAllJobGrades()
+        public async Task<ServiceResult> GetAllJobGrades()
         {
-            return await All<ViewModels.LDMS_M_JobGrade>("JobGrade"); 
+            return new ServiceResult(await All<ViewModels.LDMS_M_JobGrade>("JobGrade"));
         }
-        public async Task<List<ViewModels.LDMS_M_Center>> GetAllCenters()
+        public async Task<ServiceResult> GetAllCenters()
         {
-            return await All<ViewModels.LDMS_M_Center>("Center"); 
+            return new ServiceResult(await All<ViewModels.LDMS_M_Center>("Center"));
         }
-        public async Task<List<ViewModels.LDMS_M_Department>> GetAllDepartments()
+        public async Task<ServiceResult> GetAllDepartments()
         {
-            return await All<ViewModels.LDMS_M_Department>("Department"); 
+            return new ServiceResult(await All<ViewModels.LDMS_M_Department>("Department"));
         }
-        public async Task<List<ViewModels.LDMS_M_Division>> GetAllDivisions()
+        public async Task<ServiceResult> GetAllDivisions()
         {
-            return await All<ViewModels.LDMS_M_Division>("Division");
+            return new ServiceResult(await All<ViewModels.LDMS_M_Division>("Division"));
         }
-        public async Task<List<ViewModels.LDMS_M_JobTitle>> GetAllJobTitles()
+        public async Task<ServiceResult> GetAllJobTitles()
         {
-            return await All<ViewModels.LDMS_M_JobTitle>("JobTitle");
+            return new ServiceResult(await All<ViewModels.LDMS_M_JobTitle>("JobTitle"));
         }
-        public async Task<List<ViewModels.LDMS_M_Section>> GetAllSections()
+        public async Task<ServiceResult> GetAllSections()
         {
-            return await All<ViewModels.LDMS_M_Section>("Section");
+            return new ServiceResult(await All<ViewModels.LDMS_M_Section>("Section"));
         }
-        public async Task<List<ViewModels.LDMS_M_Role>> GetAllRoles()
+        public async Task<ServiceResult> GetAllRoles()
         {
-            return await All<ViewModels.LDMS_M_Role>("Role");
+            return new ServiceResult(await All<ViewModels.LDMS_M_Role>("Role"));
         }
     }
 }

@@ -43,11 +43,11 @@ namespace LDMS.Services
             _localAuthenticationService = localAuthenticationService;
         }
 
-        public async Task<List<LDMS_M_User>> GetAll()
+        public async Task<ServiceResult> GetAll()
         {
-            return await GetAll(null, null, null);
+            return new ServiceResult(await GetAll(null, null, null));
         }
-        public async Task<List<LDMS_M_User>> GetAll(string employeeId = null, string employeeName = null, List<int> departments = null)
+        public async Task<ServiceResult> GetAll(string employeeId = null, string employeeName = null, List<int> departments = null)
         {
             using (System.Data.IDbConnection conn = Connection)
             {
@@ -65,6 +65,7 @@ namespace LDMS.Services
                       if (depart != null)
                       {
                           user.LDMS_M_Department = depart;
+                          user.ID_Department = depart.ID_Department;
                       }
                       if (plant != null)
                       {
@@ -77,10 +78,10 @@ namespace LDMS.Services
                   splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
                   param: new { @paramEmployeeId = employeeId, @paramEmployeeName = employeeName, @paramdepartments = departments != null ? string.Join(",", departments) : null });
                 var user = items.ToList();
-                return user;
+                return new ServiceResult(user);
             }
         }
-        public LDMS_M_User GetUserByEmployeeId(string employeeId)
+        public ServiceResult GetUserByEmployeeId(string employeeId)
         {
             using (System.Data.IDbConnection conn = Connection)
             {
@@ -93,18 +94,25 @@ namespace LDMS.Services
                              userRole.LDMS_M_Role = role;
                          }
                          user.LDMS_M_UserRole = userRole;
-                         user.LDMS_M_Department = depart;
-                         user.LDMS_M_Plant = plant;
+                         if (plant != null)
+                         {
+                             user.LDMS_M_Plant = plant;
+                         }
+                         if (depart != null)
+                         {
+                             user.LDMS_M_Department = depart;
+                             user.ID_Department = depart.ID_Department;
+                         }
                          return user;
                      },
                      splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
                        param: new { @param_EmployeeId = employeeId });
 
                 var user = items.FirstOrDefault();
-                return user;
+                return new ServiceResult(user);
             }
         }
-        public LDMS_M_User Authenticattion(string username, string password)
+        public ServiceResult Authenticattion(string username, string password)
         {
             try
             {
@@ -168,13 +176,13 @@ namespace LDMS.Services
                     HttpContext.Response.Set("FACEIMAGE", "~/assets/images/users/1.jpg", 120);
                     HttpContext.Response.Set("JWToken", user.Token, 120);
                     HttpContext.Session.SetString("JWToken", user.Token);
-                    return user;
+                    return new ServiceResult(user);
                 }
 
             }
             catch (Exception ex)
             {
-                throw new Exception("Unauthorized");
+                return new ServiceResult(new Exception("Unauthorized"));
             }
         }
 
@@ -242,82 +250,140 @@ namespace LDMS.Services
             }
         }
 
-        public bool DeleteUser(string employeeId)
+        public async Task<ServiceResult> DeleteUser(string employeeId)
         {
             using (System.Data.IDbConnection conn = Connection)
             {
-                var items = Connection.Query(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
+                var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
                     new
                     {
                         @paramEmployeeId = employeeId,
                         @paramUpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
                     });
-                return true;
+                if (items != null && items.Any())
+                {
+                    return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                }
+                return new ServiceResult();
             }
         }
-        public bool CreateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
+       
+        public async Task<ServiceResult> CreateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                var passsalt = PasswordHelper.CreateSalt();
-                var items = Connection.Query(_schema + ".[usp_User_Create] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Password,@PasswordSalt ,@Remark,@PhoneNumber, @Email ,@CreateBy",
-                    new
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var passsalt = PasswordHelper.CreateSalt();
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Create] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Password,@PasswordSalt ,@Remark,@PhoneNumber, @Email ,@CreateBy",
+                        new
+                        {
+                            @EmployeeId = user.EmployeeID,
+                            @EmployeeName = user.Name,
+                            @EmployeeSurName = user.Surname,
+                            @JobGradeId = user.ID_JobGrade,
+                            @JobTitleId = user.ID_JobTitle,
+                            @CenterId = user.ID_Center,
+                            @DivisionId = user.ID_Division,
+                            @DepartmentId = user.ID_Department,
+                            @SectionId = userRole.ID_Section,
+                            @RoleId = userRole.ID_Role,
+                            @IsInstructer = userRole.IsInstructor,
+                            @IsSectionHead = userRole.IsSectionHead,
+                            @Nationality = user.Nationality,
+                            @Gender = user.Gender,
+                            @PasswordSalt = passsalt,
+                            @Password = PasswordHelper.GenerateSaltedHash(user.EmployeeID, passsalt),
+                            @Remark = userRole.Remark,
+                            @PhoneNumber = user.PhoneNumber,
+                            @Email = user.Email,
+                            @CreateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
                     {
-                        @EmployeeId= user.EmployeeID,
-                        @EmployeeName = user.Name, 
-                        @EmployeeSurName = user.Surname,
-                        @JobGradeId = user.ID_JobGrade,
-                        @JobTitleId = user.ID_JobTitle,
-                        @CenterId = user.ID_Center,
-                        @DivisionId = user.ID_Division,
-                        @DepartmentId = user.ID_Department,
-                        @SectionId = userRole.ID_Section,
-                        @RoleId = userRole.ID_Role,
-                        @IsInstructer = userRole.IsInstructor,
-                        @IsSectionHead = userRole.IsSectionHead,
-                        @Nationality = user.Nationality,
-                        @Gender= user.Gender,
-                        @PasswordSalt = passsalt,
-                        @Password = PasswordHelper.GenerateSaltedHash(user.EmployeeID, passsalt),                    
-                        @Remark =userRole.Remark,
-                        @PhoneNumber = user.PhoneNumber,
-                        @Email = user.Email,
-                        @CreateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                    });
-                return true;
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    return GetUserByEmployeeId(user.EmployeeID);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(ex);
             }
         }
 
-        public bool UpdateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
+        public async Task<ServiceResult> UpdateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                //var passsalt = PasswordHelper.CreateSalt();
-                var items = Connection.Query(_schema + ".[usp_User_Update] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Remark,@PhoneNumber @Email ,@UpdateBy",
-                    new
+                using (System.Data.IDbConnection conn = Connection)
+                { 
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Update] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Remark,@PhoneNumber @Email ,@UpdateBy",
+                        new
+                        {
+                            @EmployeeId = user.EmployeeID,
+                            @EmployeeName = user.Name,
+                            @EmployeeSurName = user.Surname,
+                            @JobGradeId = user.ID_JobGrade,
+                            @JobTitleId = user.ID_JobTitle,
+                            @CenterId = user.ID_Center,
+                            @DivisionId = user.ID_Division,
+                            @DepartmentId = user.ID_Department,
+                            @SectionId = userRole.ID_Section,
+                            @RoleId = userRole.ID_Role,
+                            @IsInstructer = userRole.IsInstructor,
+                            @IsSectionHead = userRole.IsSectionHead,
+                            @Nationality = user.Nationality,
+                            @Gender = user.Gender, 
+                            @Remark = userRole.Remark,
+                            @PhoneNumber = user.PhoneNumber,
+                            @Email = user.Email,
+                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
                     {
-                        @EmployeeId = user.EmployeeID,
-                        @EmployeeName = user.Name,
-                        @EmployeeSurName = user.Surname,
-                        @JobGradeId = user.ID_JobGrade,
-                        @JobTitleId = user.ID_JobTitle,
-                        @CenterId = user.ID_Center,
-                        @DivisionId = user.ID_Division,
-                        @DepartmentId = user.ID_Department,
-                        @SectionId = userRole.ID_Section,
-                        @RoleId = userRole.ID_Role,
-                        @IsInstructer = userRole.IsInstructor,
-                        @IsSectionHead = userRole.IsSectionHead,
-                        @Nationality = user.Nationality,
-                        @Gender = user.Gender,
-                        //@PasswordSalt = passsalt,
-                        //@Password = PasswordHelper.GenerateSaltedHash(userRole.Password, passsalt),
-                        @Remark = userRole.Remark,
-                        @PhoneNumber = user.PhoneNumber,
-                        @Email = user.Email,
-                        @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                    });
-                return true;
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    return GetUserByEmployeeId(user.EmployeeID);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(ex);
+            }
+        }
+
+        public async Task<ServiceResult> ChangePassword(string employeeId, string oldPassword,string newPassword)
+        {
+            try
+            {
+                var emp = GetUserByEmployeeId(employeeId);
+
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var passsalt = PasswordHelper.CreateSalt();
+                    var newHaspass = PasswordHelper.GenerateSaltedHash(newPassword, passsalt);
+                    var oldPasshash = PasswordHelper.GenerateSaltedHash(oldPassword, (emp.Data as LDMS_M_User).LDMS_M_UserRole.passwordSalt);
+
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ChangePassword] @EmployeeId, @OldPassword, @Password,@PasswordSalt",
+                        new
+                        {
+                            @EmployeeId = employeeId,
+                            @OldPassword = oldPasshash,
+                            @Password = newHaspass,
+                            @PasswordSalt = passsalt,
+                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    return emp;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(ex);
             }
         }
     }

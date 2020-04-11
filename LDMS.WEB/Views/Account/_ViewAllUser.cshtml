@@ -24,7 +24,7 @@
                                 <td style="text-align:center">@std.RowIndex</td>
                                 <td style="text-align:center">@std.EmployeeID</td>
                                 <td style="text-align:center">@std.Name   @std.Surname</td>
-                                <td style="text-align:center">@std.LDMS_M_Department.DepartmentID - @std.LDMS_M_Department.DepartmentName_EN</td>
+                                <td style="text-align:left">@std.LDMS_M_Department.DepartmentID - @std.LDMS_M_Department.DepartmentName_EN</td>
                                 <td style="text-align:center">
                                     @if (@std.IsAD == 1)
                                     {
@@ -36,7 +36,7 @@
                                     }
                                 </td>
                                 <td style="text-align:center">
-                                    <a href="#" id="btnEditEmployee">
+                                    <a onclick="EditEmployee('@std.EmployeeID')"  style="cursor:pointer" id="btnEditEmployee">
                                         <img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class="light-logo svg-colorize-blue" alt="homepage" />
                                     </a>
                                 </td>

@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_User_READ_BY_EmployeeId] 'STT00001'
+-- EXEC [dbo].[usp_User_READ_BY_EmployeeId] 'STD001'
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_User_READ_BY_EmployeeId]
 	-- Add the parameters for the stored procedure here

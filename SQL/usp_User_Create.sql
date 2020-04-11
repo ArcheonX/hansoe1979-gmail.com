@@ -119,7 +119,8 @@ INSERT INTO [dbo].[LDMS_M_UserRole]
            ,[CreateBy]
            ,[CreateDate] 
            ,[IsActive]
-           ,[PasswordSalt])
+           ,[PasswordSalt]
+		   ,[IsForceChangePass])
      VALUES
            (@EmployeeId
            ,@RoleId
@@ -131,7 +132,8 @@ INSERT INTO [dbo].[LDMS_M_UserRole]
            ,@CreateBy
            ,GETDATE() 
            ,1
-           ,@PasswordSalt);
+           ,@PasswordSalt,
+		   0);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH

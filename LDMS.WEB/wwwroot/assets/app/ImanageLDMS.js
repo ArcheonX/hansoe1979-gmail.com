@@ -1,6 +1,12 @@
-﻿var initialLoad = true;
-(function ($) { 
+﻿(function ($) {
+    "use strict";
     $(document).ready(function () {   
+        $("input[type='datetime']").datepicker();
+        $('select').select2({
+            allowClear: true,
+            closeOnSelect: true,
+            theme: "bootstrap"
+        });
         var validobj = $("#frmUserEditor").validate({ 
             onkeyup: false,
             errorClass: "myErrorClass",
@@ -23,60 +29,21 @@
                 validobj.form();
             }
             var centerId = $(this).val();
-            $.ajax({
-                url: "/Master/GetAllDivisions",
-                type: "GET",
-            }).done(function (items) { 
-                var options = $('#selectDivision');
-                options.empty();
-                options.append($("<option />").val(null).text("Please select"));
-                $.each(items, function () { 
-                    if (this.ID_Center == centerId) {
-                        options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
-                    }
-                });
-                $('select[name="selectDivision"]').val(null);
-            }); 
-            });
+            ReloadDivision($, centerId,null); 
+        });
         $('select[name="selectDivision"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
-            } 
-                var divisionId = $(this).val(); 
-                $.ajax({
-                    url: "/Master/GetAllDepartments",
-                    type: "GET",
-                }).done(function (items) { 
-                    var options = $('#selectDepartment');
-                    options.empty();
-                    options.append($("<option />").val(null).text("Please select"));
-                    $.each(items, function () {
-                        if (this.ID_Division == divisionId) {
-                            options.append($("<option />").val(this.ID).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
-                        }
-                    });
-                    $('select[name="selectDepartment"]').val(null);
-                }); 
-            });
+            }
+            var divisionId = $(this).val();
+            ReloadDepartment($, divisionId, null); 
+        });
         $('select[name="selectDepartment"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
             } 
-                var departmentId = $(this).val();
-                $.ajax({
-                    url: "/Master/GetAllSections",
-                    type: "GET",
-                }).done(function (items) { 
-                    var options = $('#selectSection');
-                    options.empty();
-                    options.append($("<option />").val(null).text("Please select"));
-                    $.each(items, function () {
-                        if (this.ID_Department == departmentId) {
-                            options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
-                        }
-                    });
-                    $('select[name="selectSection"]').val(null);
-                }); 
+            var departmentId = $(this).val();
+            ReloadSection($, departmentId, null);  
         }); 
         $('select[name="selectSection"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
@@ -97,40 +64,43 @@
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
             }
-        })
-            $('#btnUser').click(function () {
-                $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-                $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+        });
 
-                $('#btnUser').attr("class","btn btn-info waves-effect waves-light");
-                $('#btnMasterReport').attr("class", "btn btn-info btn-inactive waves-effect waves-light");
-            });
-            $('#btnMasterReport').click(function () {
-                $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-
-                $('#btnUser').attr("class", "btn btn-info btn-inactive waves-effect waves-light");
-                $('#btnMasterReport').attr("class", "btn btn-info waves-effect waves-light");
-            });
-        $('#btnAddEmployee').click(function () { 
-                CreateEditor($); 
-                $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-                $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-            });
-            $('#btnBack').click(function () {
-                $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-                $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-            });
+        //$('input[type="checkbox"]').on('change', function () {
+        //    debugger;
+        //    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+        //}); 
+        $('#btnUser').click(function () {
+            $('#viewAllUser').attr("style", "display:block;width:100%");
+            $('#UserEditor').attr("style", "display:none;width:100%");
+            $('#MasterReport').attr("style", "display:none;width:100%");
+            $('#btnUser').attr("class", "btn btn-info waves-effect waves-light");
+            $('#btnMasterReport').attr("class", "btn btn-inactive waves-effect waves-light");
+        });
+        $('#btnMasterReport').click(function () {
+            $('#viewAllUser').attr("style", "display:none;width:100%");
+            $('#UserEditor').attr("style", "display:none;width:100%");
+            $('#MasterReport').attr("style", "display:block;width:100%");
+            $('#btnUser').attr("class", "btn btn-inactive waves-effect waves-light");
+            $('#btnMasterReport').attr("class", "btn btn-info waves-effect waves-light");
+        });
+        $('#btnAddEmployee').click(function () {
+            $('#viewAllUser').attr("style", "display:none;width:100%");
+            $('#UserEditor').attr("style", "display:block;width:100%");
+            $('#MasterReport').attr("style", "display:none;width:100%");
+            CreateEditor($, null); 
+        });
+        $('#btnBack').click(function () {
+            $('#viewAllUser').attr("style", "display:block;width:100%");
+            $('#UserEditor').attr("style", "display:none;width:100%");
+            $('#MasterReport').attr("style", "display:none;width:100%");
+        });
         $('#btnSaveEmployee').click(function (event) {
             event.preventDefault();
             if (!$("#frmUserEditor").valid()) {
                 return false;
             }
-            MessageController.ConfirmCallback("Are you sure you want to do this?", "Confirm change", function (res) { 
+            MessageController.ConfirmCallback("Are you sure you want to do this?", "Confirm change", function (res) {
                 if (!res) {
                     return false;
                 }
@@ -172,6 +142,7 @@
                         $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
                         $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
                         $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+                        MessageController.Success("Create Employee Success.", "Success");
                         SearchEmployee();
                     },
                     failure: function (response) {
@@ -182,52 +153,152 @@
                     }
                 });
                 return false;
-            }); 
-        $('#btnSearchEmployee').click(function () {  
-            SearchEmployee();
+           }); 
         }); 
-        if (initialLoad) { 
-            $("input[type='datetime']").datepicker();
-            $('select').select2({
-                allowClear: true,
-                closeOnSelect: true,
-                theme: "bootstrap"
-            });
+        $('#btnSearchEmployee').click(function () { 
+            SearchEmployee();
+        });
+        SearchEmployee($);
 
-            SearchEmployee(); 
-            $.ajax({
-                url: "/Master/GetAllDepartments",
-                type: "GET", 
-            }).done(function (items) { 
-                var options = $('#selectFilterDepartment'); 
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetAllDepartments", 
+            success: function (response) { 
+                var options = $('#selectFilterDepartment');
                 var optionsreport = $('#selectMasterReportDepartment');
                 options.append($("<option />").val(null).text("---All---"));
                 optionsreport.append($("<option />").val(null).text("---All---"));
 
-                $.each(items, function () {
-                    options.append($("<option />").val(this.ID).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
-                    optionsreport.append($("<option />").val(this.ID).text('('+this.DepartmentID + ') ' + this.DepartmentName_EN));
-                }); 
-
-                $('select[name="selectFilterDepartment"]').val(null);
-                $('select[name="selectMasterReportDepartment"]').val(null);
-            }); 
-            $.ajax({
-                url: "/Master/GetAllJobGrades",
-                type: "GET",
-            }).done(function (items) {
-                var options = $('#selectMasterReportJobGrade');
-                options.append($("<option />").val(null).text("---All---"));
-                $.each(items, function () {
-                    options.append($("<option />").val(this.ID).text(this.JobGradeName_EN)); 
-                }); 
-                $('select[name="selectMasterReportJobGrade"]').val(null);
-            });
-
-            initialLoad = false;
-        }
+                $.each(response.Data, function () {
+                    options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
+                    optionsreport.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
+                });
+                $('select[name="selectMasterReportDepartment"]').val(null).trigger('change');
+                $('select[name="selectFilterDepartment"]').val(null).trigger('change');
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetAllJobGrades", 
+            success: function (response) { 
+                var options = $('#selectMasterReportJobGrade'); 
+                options.append($("<option />").val(null).text("---All---")); 
+                $.each(response.Data, function () {
+                    options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
+                });
+                $('select[name="selectMasterReportJobGrade"]').val(null).trigger('change');
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        }); 
     })
-})(jQuery); 
+})(jQuery);
+function checkboxonlyOne(checkbox) {
+    var checkboxes = document.getElementsByName(checkbox.name);
+    $.each(checkboxes, function () {
+        if (this !== checkbox) {
+            this.prop('checked', false); 
+        }
+    }); 
+}
+function ReloadDivision($, centerId, callback) {
+    var options = $('#selectDivision');
+    options.empty();
+    if (centerId && centerId!="") {
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetAllDivisions",
+            success: function (response) {
+                options.append($("<option />").val(null).text("Please select"));
+                $.each(response.Data, function () {
+                    if (this.ID_Center == centerId) {
+                        options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
+                    }
+                });
+                options.val($("#userDivisionId").val()).trigger('change');
+                if (callback) {
+                    callback($("#userDivisionId").val());
+                }
+            },
+            failure: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            },
+            error: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            }
+        });
+    }
+}
+
+function ReloadDepartment($, divisionId, callback) {
+    var options = $('#selectDepartment');
+    options.empty();
+    if (divisionId && divisionId!="") {
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetAllDepartments",
+            success: function (response) {
+
+                options.append($("<option />").val(null).text("Please select"));
+                $.each(response.Data, function () {
+                    if (this.ID_Division == divisionId) {
+                        options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
+                    }
+                });
+                options.val($("#userDepartmentId").val()).trigger('change');
+                if (callback) {
+                    callback($("#userDepartmentId").val());
+                }
+            },
+            failure: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            },
+            error: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            }
+        });
+    }
+}
+
+function ReloadSection($, departmentId, callback) { 
+    var options = $('#selectSection');
+    options.empty();
+    if (departmentId && departmentId!="") {
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetAllSections",
+            success: function (response) {
+                options.append($("<option />").val(null).text("Please select"));
+                $.each(response.Data, function () { 
+                    if (this.ID_Department == departmentId) {
+                        options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
+                    }
+                });
+                options.val($("#userSectionId").val()).trigger('change');
+                if (callback) {
+                    callback($("#userSectionId").val());
+                }
+            },
+            failure: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            },
+            error: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            }
+        });
+    }
+}
+
 function UpdateEmployee(empModel) {
     $.ajax({
         type: "POST",
@@ -252,189 +323,202 @@ function CreateEmployee(empModel) {
         type: "POST",
         url: '/Account/CreateEmployee',
         data: empModel,
-        success: function(response) {
+        success: function (response) {
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
             $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
             $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
             SearchEmployee();
         },
-        failure: function(response) {
+        failure: function (response) {
             MessageController.Error(response.responseText, "Error");
         },
-        error: function(response) {
+        error: function (response) {
             MessageController.Error(response.responseText, "Error");
         }
     });
 }
-
-function DeleteEmployee(employeeId) { 
-    MessageController.WarningCallback("Are you sure you want to delete Employee '" + employeeId + "'?", "Confirm Delete!", function (res) { 
-        if (res)
-        {
+function DeleteEmployee(employeeId) {
+    MessageController.WarningCallback("Are you sure you want to delete Employee '" + employeeId + "'?", "Confirm Delete!", function (res) {
+        if (res) {
             $.ajax({
                 type: "Post",
                 url: '/Account/RemoveEmployee',
-                data: employeeId,
-                success: function (response) { 
+                data: { 'employeeId': employeeId },
+                success: function (response) {
                     SearchEmployee();
                 },
-                failure: function (response) {
-                    debugger;
+                failure: function (response) { 
                     MessageController.Error(response.responseText, "Error");
                 },
-                error: function (response) {
-                    debugger;
+                error: function (response) { 
                     MessageController.Error(response.responseText, "Error");
                 }
             });
         }
     });
 }
-function CreateEditor(employeeId) {
-    $("#userEditMode").val("true");
-    $('select[name="selectDivision"]').val(null);
-    $('select[name="selectDepartment"]').val(null);
-    $('select[name="selectSection"]').val(null);
-    $('select[name="selectGender"]').val(null);
-    $.ajax({
-        url: "/Master/GetAllJobGrades",
-        type: "GET",
-    }).done(function (grades) {
-        $('#selectJobGrade').select2();
-        var options = $('#selectJobGrade');
-        options.append($("<option />").val(null).text("Please select"));
-        $.each(grades, function () {
-            options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
-        });
-        $('select[name="selectJobGrade"]').val(null);
-    });
-    $.ajax({
-        url: "/Master/GetAllJobTitles",
-        type: "GET",
-    }).done(function (JobTitles) {
-        $('#selectJObTitle').select2();
-        var options = $('#selectJObTitle');
-        options.append($("<option />").val(null).text("Please select"));
-        $.each(JobTitles, function () {
-            options.append($("<option />").val(this.ID).text(this.JobTitleName_EN));
-        });
-        $('select[name="selectJObTitle"]').val(null);
-    });
-    $.ajax({
-        url: "/Master/GetAllCenters",
-        type: "GET",
-    }).done(function (centers) {
-        var options = $('#selectCenter');
-        options.append($("<option />").val(null).text("Please select"));
-        $.each(centers, function () {
-            options.append($("<option />").val(this.ID).text('(' + this.CenterID + ') ' + this.CenterName_EN));
-        });
-        $('select[name="selectCenter"]').val(null);
-    });
-    $.ajax({
-        url: "/Master/GetAllRoles",
-        type: "GET",
-    }).done(function (items) {
-        var tbody = $('#dtUserRoleList').children('tbody');
-        var table = tbody.length ? tbody : $('#dtUserRoleList');
-        $.each(items, function () {
-            var row = '<tr>' +
-                '<td style = "text-align:center">' + this.RowIndex + '</td>' +
-                '<td style = "text-align:center;display:none">' + this.RoleId + '</td>' +
-                '<td style="text-align:left">' + this.RoleName_EN + '</td>' +
-                '<td style="text-align:left">' + this.RoleDescription + '</td>' +
-                '<td style="text-align:center;width:100px"><input type="checkbox" name="selectRole_' + this.RoleId + ' value="selectRole_' + this.RoleId + '"  id="selectRole_' + this.RoleId + '"/><label for="selectRole_' + this.RoleId + '"> </label> </td >' +
-                '</tr>';
-            //Add row
-            table.append(row);
-        });
-    });
-}
 
-function CreateEditor() { 
+function EditEmployee(employeeId) {
+    $('#viewAllUser').attr("style", "display:none;width:100%");
+    $('#UserEditor').attr("style", "display:block;width:100%");
+    $('#MasterReport').attr("style", "display:none;width:100%");
+    CreateEditor($, employeeId); 
+}
+function CreateEditor($, employeeId) { 
     $("#userEditMode").val("false");
     $('select[name="selectDivision"]').val(null);
     $('select[name="selectDepartment"]').val(null);
     $('select[name="selectSection"]').val(null);
-    $('select[name="selectGender"]').val(null);
+    $('select[name="selectGender"]').val(null); 
+    $("#userCenterId").val(null);
+    $("#userDivisionId").val(null);
+    $("#userDepartmentId").val(null);
+    $("#userSectionId").val(null);  
     $.ajax({
-        url: "/Master/GetAllJobGrades",
         type: "GET",
-    }).done(function(grades) {
-        $('#selectJobGrade').select2();
-        var options = $('#selectJobGrade');
-        options.append($("<option />").val(null).text("Please select"));
-        $.each(grades, function() {
-            options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
-        });
-        $('select[name="selectJobGrade"]').val(null);
-    });
-    $.ajax({
-        url: "/Master/GetAllJobTitles",
-        type: "GET",
-    }).done(function(JobTitles) {
-        $('#selectJObTitle').select2();
-        var options = $('#selectJObTitle');
-        options.append($("<option />").val(null).text("Please select"));
-        $.each(JobTitles, function() {
-            options.append($("<option />").val(this.ID).text(this.JobTitleName_EN));
-        });
-        $('select[name="selectJObTitle"]').val(null);
-    });
-    $.ajax({
-        url: "/Master/GetAllCenters",
-        type: "GET",
-    }).done(function(centers) { 
-        var options = $('#selectCenter');
-        options.append($("<option />").val(null).text("Please select"));
-        $.each(centers, function() {
-            options.append($("<option />").val(this.ID).text('(' + this.CenterID + ') ' + this.CenterName_EN));
-        });
-        $('select[name="selectCenter"]').val(null);
-    });
-    $.ajax({
-        url: "/Master/GetAllRoles",
-        type: "GET",
-    }).done(function (items) {  
-        var tbody = $('#dtUserRoleList').children('tbody');
-        var table = tbody.length ? tbody : $('#dtUserRoleList');   
-        $.each(items, function () { 
-            var row = '<tr>' +
-                '<td style = "text-align:center">' + this.RowIndex + '</td>' +
-                '<td style = "text-align:center;display:none">' + this.RoleId + '</td>' +
-                '<td style="text-align:left">' + this.RoleName_EN+'</td>' +
-                '<td style="text-align:left">' + this.RoleDescription+'</td>' +
-                '<td style="text-align:center;width:100px"><input type="checkbox" name="selectRole_' + this.RoleId + ' value="selectRole_' + this.RoleId + '"  id="selectRole_' + this.RoleId + '"/><label for="selectRole_' + this.RoleId +'"> </label> </td >' +
-                '</tr>'; 
-            //Add row
-            table.append(row);  
-        }); 
+        url: "/Master/GetAllJobGrades", 
+        success: function (response) {
+            var options = $('#selectJobGrade');
+            options.append($("<option />").val(null).text("Please select"));
+            $.each(response.Data, function () {
+                options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
+            });
+            $('select[name="selectJobGrade"]').val(null).trigger('change');
+        },
+        failure: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        },
+        error: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        }
     }); 
+
+    $.ajax({
+        type: "GET",
+        url: "/Master/GetAllJobTitles", 
+        success: function (response) {
+            var options = $('#selectJObTitle');
+            options.append($("<option />").val(null).text("Please select"));
+            $.each(response.Data, function () {
+                options.append($("<option />").val(this.ID).text(this.JobTitleName_EN));
+            });
+            $('select[name="selectJObTitle"]').val(null).trigger('change');
+        },
+        failure: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        },
+        error: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        }
+    });  
+    $.ajax({
+        type: "GET",
+        url: "/Master/GetAllCenters",
+        success: function (response) {
+            var options = $('#selectCenter');
+            options.append($("<option />").val(null).text("Please select"));
+            $.each(response.Data, function () {
+                options.append($("<option />").val(this.ID).text(this.CenterName_EN));
+            });
+            $('select[name="selectCenter"]').val(null).trigger('change');
+        },
+        failure: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        },
+        error: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        }
+    });  
+    $.ajax({
+        type: "GET",
+        url: "/Master/GetAllRoles",
+        success: function (response) {
+            var tbody = $('#dtUserRoleList').children('tbody');
+            var table = tbody.length ? tbody : $('#dtUserRoleList');
+            $.each(response.Data, function () {
+                var row = '<tr>' +
+                    '<td style="text-align:center">' + this.RowIndex + '</td>' +
+                    '<td style="text-align:center;display:none">' + this.RoleId + '</td>' +
+                    '<td style="text-align:left">' + this.RoleName_EN + '</td>' +
+                    '<td style="text-align:left">' + this.RoleDescription + '</td>' +
+                    '<td style="text-align:center;width:100px"><input type="checkbox" name="selectUserRole" value="' + this.RoleId + '"  id="selectRole_' + this.RoleId + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.RoleId + '"> </label> </td >' +
+                    '</tr>'; 
+                table.append(row);
+            }); 
+        },
+        failure: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        },
+        error: function (response) {
+            MessageController.Error(response.responseText, "Error");
+        }
+    });
+    if (employeeId != undefined && employeeId != "") {
+        $.ajax({
+            type: "GET",
+            url: "/Account/ReadEmployee",
+            data: { 'employeeId': employeeId },
+            success: function (response) {
+                $("#userEditMode").val("true");
+                var user = response.Data; 
+                $("#userCenterId").val(user.CenterId);
+                $("#userDivisionId").val(user.DivisionId);
+                $("#userDepartmentId").val(user.DepartmentId);
+                $("#userSectionId").val(user.SectionId);  
+
+                $('#selectCenter').val(user.CenterId).trigger('change');
+                ReloadDivision($, user.CenterId, function () { 
+                    ReloadDepartment($, user.DivisionId, function () {
+                        ReloadSection($, user.DepartmentId, null);
+                    });
+                }); 
+                $('#selectGender').val(user.Gender).trigger('change'); 
+                $('#selectJobGrade').val(user.JobGradeId).trigger('change');
+                $('#selectJObTitle').val(user.JobTitleId).trigger('change');
+
+                $('#txtEmployeeId').val(user.EmployeeId); 
+                $('#txtEmployeeName').val(user.EmployeeName); 
+                $('#txtEmployeeSurName').val(user.EmployeeSurName); 
+                $('#txtNationality').val(user.Nationality); 
+                $('#txtEmail').val(user.Email); 
+                $('#txtPhone').val(user.Phone); 
+                $('#txtRemark').val(user.Remark);  
+                $('#isInstructer').val(user.EmployeeId); 
+                $('#isSectionHead').val(user.EmployeeId); 
+            },
+            failure: function (response) { 
+                MessageController.Error(response.responseText, "Error");
+            },
+            error: function (response) { 
+                MessageController.Error(response.responseText, "Error");
+            }
+        });
+    }
 }
 
-function SearchEmployee() { 
+function SearchEmployee() {
     var deps = $('#selectFilterDepartment').val();
-            var searmodel = {
-                    EmployeeId: $("#txtFilterEmployeeID").val(),
-                    EmployeeName: $("#txtFilterEmployeeName").val(),
-                    Departments: deps != null && deps != undefined ? deps.join(",") : null
+    var searmodel = {
+        EmployeeId: $("#txtFilterEmployeeID").val(),
+        EmployeeName: $("#txtFilterEmployeeName").val(),
+        Departments: deps != null && deps != undefined ? deps.join(",") : null
     }; 
     $.ajax({
         type: "GET",
         url: "/Account/SearchEmployee",
         data: searmodel,
-        success: function (response) {
+        success: function (response) {  
             $('#UserListcontent').empty();
             $('#UserListcontent').html(response);
-            CreateDataTablePaging();
+            CreateDataTablePaging(); 
         },
-        failure: function (response) {
+        failure: function (response) {  
             alert(response.responseText);
         },
-        error: function (response) {
+        error: function (response) {  
             alert(response.responseText);
         }
-    }); 
+    });
 }
 
 function CreateDataTablePaging() {
@@ -456,5 +540,5 @@ function CreateDataTablePaging() {
             "infoFiltered": "(filtered from _MAX_ total records)"
         }
     });
-    $('.dataTables_length').addClass('bs-select'); 
+    $('.dataTables_length').addClass('bs-select');
 }
