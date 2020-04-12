@@ -51,23 +51,25 @@ namespace LDMS.WEB.Controllers
         public async Task<IActionResult> Index()
         {
             return View();
-        } 
+        }
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Logout")]
         [Route("Account/Logout")]      
         public async Task<IActionResult> Logout()
         { 
             return RedirectToAction("Index");
-        } 
+        }
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Account/UserManagement")] 
         public async Task<IActionResult> UserManagement()
         {
             return View();
-        }      
+        }
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
-        [Route("Account/SearchEmployee")]
-        [ResponseCache(NoStore = true, Duration = 0)]
+        [Route("Account/SearchEmployee")] 
         public async Task<IActionResult> SearchEmployee(SearchEmployeeModel model)
         {
             int[] departments = new int[0];
@@ -80,8 +82,9 @@ namespace LDMS.WEB.Controllers
             //return Response(users);
             return PartialView("_ViewAllUser", users);
         }
-        [HttpGet] 
-        [Route("Account/ReadEmployee")] 
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]  
+        [HttpGet]
+        [Route("Account/ReadEmployee")]
         public async Task<IActionResult> ReadEmployee(string employeeId)
         {
             var user = (UserService.GetUserByEmployeeId(employeeId).Data as LDMS_M_User);
@@ -90,7 +93,7 @@ namespace LDMS.WEB.Controllers
                 var userView = new Models.Employee.EmployeeModel()
                 {
                     CenterId = user.ID_Center.GetValueOrDefault(),
-                    DepartmentId = user.LDMS_M_Department!=null? user.LDMS_M_Department.ID_Department:0,
+                    DepartmentId = user.LDMS_M_Department != null ? user.LDMS_M_Department.ID_Department : 0,
                     DivisionId = user.ID_Division.GetValueOrDefault(),
                     Email = user.Email,
                     EmployeeId = user.EmployeeID,
@@ -101,12 +104,13 @@ namespace LDMS.WEB.Controllers
                     JobTitleId = user.ID_JobTitle.GetValueOrDefault(),
                     Nationality = user.Nationality,
                     Password = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Password : "",
-                    Phone = user.PhoneNumber,
+                    PhoneNumber = user.PhoneNumber,
                     Remark = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Remark : "",
                     RoleId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Role : 0,
                     SectionId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault() : 0,
                     IsInstructer = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsInstructor == 1 : false,
                     IsSectionHead = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsSectionHead == 1 : false,
+                    IsAD = user.IsAD == 1
                 };
                 return Response(new ServiceResult(userView));
             }
@@ -210,6 +214,20 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(exp));
             }
         }
-       
+
+        [HttpPost]
+        [Route("Account/ResetPassword")]
+        public async Task<IActionResult> ResetPassword(string employeeId)
+        {
+            try
+            {
+                return Response(await UserService.ResetPassword(employeeId));
+            }
+            catch (Exception exp)
+            {
+                return Response(new ServiceResult(exp));
+            }
+        }
+
     }
 }

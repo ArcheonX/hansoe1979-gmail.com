@@ -171,7 +171,7 @@ namespace LDMS.Services
                     HttpContext.Response.Set("LASTNAME", user.Surname, 120);
                     HttpContext.Response.Set("FULLNAME", string.Format("{0} {1}", user.Name, user.Surname), 120);
                     HttpContext.Response.Set("EMPLOYEEID", user.EmployeeID, 120);
-                    HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy", user.JoinDate.Value) : "", 120);
+                    HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.Value) : "", 120);
                     HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0} {1}", user.LDMS_M_Department.DepartmentID, "" /*user.LDMS_M_Department.DepartmentName_EN*/) : "", 120);
                     HttpContext.Response.Set("FACEIMAGE", "~/assets/images/users/1.jpg", 120);
                     HttpContext.Response.Set("JWToken", user.Token, 120);
@@ -267,7 +267,30 @@ namespace LDMS.Services
                 return new ServiceResult();
             }
         }
-       
+
+        public async Task<ServiceResult> ResetPassword(string employeeId)
+        {
+            var passsalt = PasswordHelper.CreateSalt();
+            var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword] @EmployeeId,@Password,@PasswordSalt,@UpdateBy",
+                    new
+                    {
+                        @EmployeeId = employeeId, 
+                        @Password = newHaspass,
+                        @PasswordSalt = passsalt,
+                        @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                    });
+                if (items != null && items.Any())
+                {
+                    return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                }
+                return new ServiceResult();
+            }
+        }
+
+
         public async Task<ServiceResult> CreateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
         {
             try
@@ -318,7 +341,7 @@ namespace LDMS.Services
             {
                 using (System.Data.IDbConnection conn = Connection)
                 { 
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Update] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Remark,@PhoneNumber @Email ,@UpdateBy",
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Update] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Remark,@PhoneNumber, @Email ,@UpdateBy",
                         new
                         {
                             @EmployeeId = user.EmployeeID,
@@ -365,7 +388,7 @@ namespace LDMS.Services
                     var newHaspass = PasswordHelper.GenerateSaltedHash(newPassword, passsalt);
                     var oldPasshash = PasswordHelper.GenerateSaltedHash(oldPassword, (emp.Data as LDMS_M_User).LDMS_M_UserRole.passwordSalt);
 
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ChangePassword] @EmployeeId, @OldPassword, @Password,@PasswordSalt",
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ChangePassword] @EmployeeId, @OldPassword, @Password,@PasswordSalt,@UpdateBy",
                         new
                         {
                             @EmployeeId = employeeId,

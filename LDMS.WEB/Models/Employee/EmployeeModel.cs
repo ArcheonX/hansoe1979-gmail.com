@@ -19,8 +19,7 @@ namespace LDMS.WEB.Models.Employee
         public string Nationality { get; set; }
         public int DivisionId { get; set; }
         public string Email { get; set; }
-        public int DepartmentId { get; set; }
-        public string Phone { get; set; }
+        public int DepartmentId { get; set; } 
         public int SectionId { get; set; }
         public string Password { get; set; } 
         public string Remark { get; set; } 
@@ -28,5 +27,6 @@ namespace LDMS.WEB.Models.Employee
         public bool IsInstructer { get; set; }
         public bool IsSectionHead { get; set; }
         public string PhoneNumber { get; set; }
+        public bool IsAD { get; set; }
     }
 }

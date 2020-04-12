@@ -33,9 +33,7 @@ CREATE OR ALTER PROCEDURE usp_User_Update
 	@IsInstructer INT,
 	@IsSectionHead INT,
 	@Nationality nvarchar(50)  =null,
-	@Gender nvarchar(10)  =null,
-	@Password  nvarchar(1024),
-	@PasswordSalt  nvarchar(1024),
+	@Gender nvarchar(10)  =null, 
 	@Remark nvarchar(250)  =null,
 	@PhoneNumber  nvarchar(50)  =null,
 	@Email  nvarchar(50)  =null,
@@ -77,13 +75,11 @@ BEGIN TRY
 	
 	UPDATE	[dbo].[LDMS_M_UserRole]
 		SET [ID_Role] = @RoleId
-           ,[Password] = @Password
-           ,[IsInstructor] = @IsInstructer
-           ,[IsSectionHead] =@IsSectionHead
+           --,[IsInstructor] = @IsInstructer
+           --,[IsSectionHead] =@IsSectionHead
            ,[ID_Section] = @SectionId
            ,[Remark] = @Remark 
            ,[IsActive] = 1
-           ,[PasswordSalt] = @PasswordSalt
 		   	WHERE [EmployeeID]  = @EmployeeId; 
 
 		COMMIT TRANSACTION;

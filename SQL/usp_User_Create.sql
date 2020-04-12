@@ -112,8 +112,8 @@ INSERT INTO [dbo].[LDMS_M_UserRole]
            ([EmployeeID]
            ,[ID_Role]
            ,[Password]
-           ,[IsInstructor]
-           ,[IsSectionHead]
+           --,[IsInstructor]
+           --,[IsSectionHead]
            ,[ID_Section]
            ,[Remark]
            ,[CreateBy]
@@ -125,8 +125,8 @@ INSERT INTO [dbo].[LDMS_M_UserRole]
            (@EmployeeId
            ,@RoleId
            ,@Password
-           ,@IsInstructer
-           ,@IsSectionHead
+           --,@IsInstructer
+           --,@IsSectionHead
            ,@SectionId
            ,@Remark
            ,@CreateBy

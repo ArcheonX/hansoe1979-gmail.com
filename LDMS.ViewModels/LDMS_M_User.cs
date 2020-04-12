@@ -29,7 +29,6 @@ namespace LDMS.ViewModels
         public DateTime? UpdateDate { get; set; }
         public byte IsActive { get; set; }
         public string Token { get; set; }
-
         public string RefreshToken { get; set; }
 
         public LDMS_M_UserRole LDMS_M_UserRole { get; set; }

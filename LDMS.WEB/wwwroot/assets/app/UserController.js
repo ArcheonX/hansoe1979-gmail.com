@@ -64,12 +64,28 @@
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
             }
+        }); 
+        $('#btnResetPassword').click(function () {
+            MessageController.ConfirmCallback("Are you sure you want to reset to default password?", "Confirm change", function (res) {
+                if (res) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/Account/ResetPassword',
+                        data: { 'employeeId': $("#txtEmployeeId").val() },
+                        success: function (response) { 
+                            MessageController.Success("Reset password success.", "Success");
+                            SearchEmployee();
+                        },
+                        failure: function (response) {
+                            MessageController.Error(response.responseText, "Error");
+                        },
+                        error: function (response) {
+                            MessageController.Error(response.responseText, "Error");
+                        }
+                    });
+                }
+            });
         });
-
-        //$('input[type="checkbox"]').on('change', function () {
-        //    debugger;
-        //    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
-        //}); 
         $('#btnUser').click(function () {
             $('#viewAllUser').attr("style", "display:block;width:100%");
             $('#UserEditor').attr("style", "display:none;width:100%");
@@ -106,11 +122,12 @@
                 }
                 var roleId = 0;
                 $('#dtUserRoleList > tbody  > tr').each(function () {
-                    var self = $(this);
-                    var roleId = self.find("td").eq(1).text(); //self.find("td").eq(1).find(":text").val();
+                    var self = $(this); 
                     var isSelected = self.find("td").eq(4).find("input[type='checkbox']").prop("checked");
                     if (isSelected) {
-                        roleId = parseInt(roleId);
+                        var value = self.find("td").eq(1).text(); //self.find("td").eq(1).find(":text").val();
+                        roleId = parseInt(value);
+                        return false;
                     }
                 });
                 var empModel = {
@@ -134,24 +151,30 @@
                     IsInstructer: $("#isInstructer").val() == "true",
                     IsSectionHead: $("#isSectionHead").val() == "true"
                 };
-                $.ajax({
-                    type: "POST",
-                    url: '/Account/CreateEmployee',
-                    data: empModel,
-                    success: function (response) {
-                        $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-                        $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                        $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                        MessageController.Success("Create Employee Success.", "Success");
-                        SearchEmployee();
-                    },
-                    failure: function (response) {
-                        MessageController.Error(response.responseText, "Error");
-                    },
-                    error: function (response) {
-                        MessageController.Error(response.responseText, "Error");
-                    }
-                });
+                debugger;
+                if ($("#userEditMode").val() == "true") {
+                    UpdateEmployee(empModel);
+                } else {
+                    CreateEmployee(empModel);
+                }
+                //$.ajax({
+                //    type: "POST",
+                //    url: '/Account/CreateEmployee',
+                //    data: empModel,
+                //    success: function (response) {
+                //        $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
+                //        $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+                //        $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+                //        MessageController.Success("Create Employee Success.", "Success");
+                //        SearchEmployee();
+                //    },
+                //    failure: function (response) {
+                //        MessageController.Error(response.responseText, "Error");
+                //    },
+                //    error: function (response) {
+                //        MessageController.Error(response.responseText, "Error");
+                //    }
+                //});
                 return false;
            }); 
         }); 
@@ -374,6 +397,10 @@ function CreateEditor($, employeeId) {
     $("#userDivisionId").val(null);
     $("#userDepartmentId").val(null);
     $("#userSectionId").val(null);  
+    $("#btnResetPassword").attr("style", "display:none;width:100%");
+    $("#isInstructer").prop("checked", false); 
+    $("#isSectionHead").prop("checked", false); 
+
     $.ajax({
         type: "GET",
         url: "/Master/GetAllJobGrades", 
@@ -435,6 +462,7 @@ function CreateEditor($, employeeId) {
         success: function (response) {
             var tbody = $('#dtUserRoleList').children('tbody');
             var table = tbody.length ? tbody : $('#dtUserRoleList');
+            table.empty();
             $.each(response.Data, function () {
                 var row = '<tr>' +
                     '<td style="text-align:center">' + this.RowIndex + '</td>' +
@@ -460,12 +488,22 @@ function CreateEditor($, employeeId) {
             data: { 'employeeId': employeeId },
             success: function (response) {
                 $("#userEditMode").val("true");
-                var user = response.Data; 
+                var user = response.Data;
                 $("#userCenterId").val(user.CenterId);
                 $("#userDivisionId").val(user.DivisionId);
                 $("#userDepartmentId").val(user.DepartmentId);
-                $("#userSectionId").val(user.SectionId);  
+                $("#userSectionId").val(user.SectionId);
+                if (user.IsAD == false) {
+                    $("#btnResetPassword").attr("style", "display:block;width:100%");
+                }
 
+                if (user.IsInstructer == true) {
+                    $("#isInstructer").prop("checked", true); 
+                }  
+
+                if (user.IsSectionHead == true) {
+                    $("#isSectionHead").prop("checked", true); 
+                }
                 $('#selectCenter').val(user.CenterId).trigger('change');
                 ReloadDivision($, user.CenterId, function () { 
                     ReloadDepartment($, user.DivisionId, function () {
@@ -474,8 +512,7 @@ function CreateEditor($, employeeId) {
                 }); 
                 $('#selectGender').val(user.Gender).trigger('change'); 
                 $('#selectJobGrade').val(user.JobGradeId).trigger('change');
-                $('#selectJObTitle').val(user.JobTitleId).trigger('change');
-
+                $('#selectJObTitle').val(user.JobTitleId).trigger('change'); 
                 $('#txtEmployeeId').val(user.EmployeeId); 
                 $('#txtEmployeeName').val(user.EmployeeName); 
                 $('#txtEmployeeSurName').val(user.EmployeeSurName); 
@@ -484,7 +521,15 @@ function CreateEditor($, employeeId) {
                 $('#txtPhone').val(user.Phone); 
                 $('#txtRemark').val(user.Remark);  
                 $('#isInstructer').val(user.EmployeeId); 
-                $('#isSectionHead').val(user.EmployeeId); 
+                $('#isSectionHead').val(user.EmployeeId);  
+                $('#dtUserRoleList > tbody  > tr').each(function () { 
+                    var self = $(this); 
+                    var roleId = parseInt(self.find("td").eq(1).text());
+                    if (roleId == user.RoleId) {
+                        var check = self.find("td").eq(4).find("input[type='checkbox']");
+                        check.prop("checked", true);
+                    } 
+                }); 
             },
             failure: function (response) { 
                 MessageController.Error(response.responseText, "Error");

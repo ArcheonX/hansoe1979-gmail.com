@@ -204,18 +204,23 @@
                         </div>
                         <div class="col-sm-2 col-md-2 offset-1">
                             <span class="pull-right" style="vertical-align:middle">
-                                <input type="checkbox" asp-for="IsInstructer" name="isInstructer" id="isInstructer" /><label for="isInstructer">Instructer</label>
+                                <input type="checkbox" disabled="disabled"  asp-for="IsInstructer" name="isInstructer" id="isInstructer" /><label for="isInstructer">Instructer</label>
                             </span>
                         </div>
                         <div class="col-sm-2 col-md-2">
                             <span class="pull-right" style="vertical-align:middle">
-                                <input type="checkbox" asp-for="IsSectionHead" name="isSectionHead" id="isSectionHead" /><label for="isSectionHead">Section Head</label>
+                                <input type="checkbox" disabled="disabled" asp-for="IsSectionHead" name="isSectionHead" id="isSectionHead" /><label for="isSectionHead">Section Head</label>
                             </span>
                         </div>
                     </div>
                 </form>
                 <div class="row form-group">
-                    <div class="col-sm-1 col-md-1 offset-10">
+                    <div class="col-sm-2 col-md-2 offset-8">
+                        <span class="pull-right">
+                            <button id="btnResetPassword" class="btn btn-warning waves-effect waves-light" style="display:none;width:100%"> Reset Password </button>
+                        </span>                        
+                    </div>
+                    <div class="col-sm-1 col-md-1">
                         <button id="btnSaveEmployee" class="btn btn-success waves-effect waves-light" style="width:100%"> Save </button>
                     </div>
                     <div class="col-sm-1 col-md-1" style="margin-left:-25px">
