@@ -42,5 +42,11 @@ namespace LDMS.Services
         {
             return new ServiceResult(await All<ViewModels.LDMS_M_Role>("Role"));
         }
+
+        public async Task<ServiceResult> GetAllSections(int departmentId)
+        {
+            var items = await All<ViewModels.LDMS_M_Section>("Section");
+            return new ServiceResult(items.Where(e => e.ID_Department == departmentId).ToList());
+        }
     }
 }

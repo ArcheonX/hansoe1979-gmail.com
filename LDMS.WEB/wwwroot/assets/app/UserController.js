@@ -156,25 +156,7 @@
                     UpdateEmployee(empModel);
                 } else {
                     CreateEmployee(empModel);
-                }
-                //$.ajax({
-                //    type: "POST",
-                //    url: '/Account/CreateEmployee',
-                //    data: empModel,
-                //    success: function (response) {
-                //        $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
-                //        $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                //        $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-                //        MessageController.Success("Create Employee Success.", "Success");
-                //        SearchEmployee();
-                //    },
-                //    failure: function (response) {
-                //        MessageController.Error(response.responseText, "Error");
-                //    },
-                //    error: function (response) {
-                //        MessageController.Error(response.responseText, "Error");
-                //    }
-                //});
+                } 
                 return false;
            }); 
         }); 

@@ -1,16 +1,139 @@
 ﻿@{
     ViewData["Title"] = "I-Manage Section";
     Layout = "~/Views/Shared/_Layout.cshtml";
-} 
+}
 @section NavHeader{
     <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage Section</a></li>
-        </ol>
-    }
-<div class="panel panel-primary" style="margin-top:-15px;width:100%;min-height:800px;">
-    <div class="panel-body" style="width:100%;">
-        <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage Section</a></li>
+    </ol>
+}
+<script src="~/assets/app/SectionController.js"></script>
+<div class="panel panel-primary" style="width:100%;">
+    <div class="panel-body panel-body-begin">
+        <div class="form-horizontal">
+            <div class="row form-group" style="margin-top:-25px;">
+                <div class="col-sm-2 col-md-2">
+                    <button id="btnSection" class="btn btn-info waves-effect waves-light" style="width:100%"> Section</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+<div id="viewAllUser" style="margin-top:-15px;width:100%;">
+    <div style="width:100%;">
+        <div style="display: block; width: 100%; border-width: thin; border-style: solid;">
+            <div class="panel panel-default" style="width: 100%;">
+                <div class="panel-body">
+                    <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right" style="vertical-align:middle">
+                                    <label class="LabelCaption">Division</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" 
+                                       style="width: 100%"
+                                       id="txtDivision"
+                                       disabled="disabled" 
+                                       value="Human Resource"
+                                       class="form-control" /> 
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right" style="vertical-align: middle">
+                                    <label class="LabelCaption">Department</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" 
+                                       style="width: 100%"
+                                       id="txtDepartment"
+                                       disabled="disabled"
+                                       value="Human Resource"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right" style="vertical-align:middle">
+                                    <label class="LabelCaption">Section</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <select id="selectSection"
+                                        name="selectSection"
+                                        title="Please Enter Section"
+                                        class="form-control required"
+                                        style="width: 100%">
+                                </select>
+                            </div>
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right" style="vertical-align:middle">
+                                    <label class="LabelCaption">Keyword</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text"
+                                       title="Please Enter Employee ID"
+                                       id="txtEmployeeId"
+                                       style="width: 100%"
+                                       class="form-control required" />
+                            </div>
+                        </div>
+                        <div class="row form-group" style="padding-top:15px;">
+                            <div class="col-sm-1 col-md-1 offset-1">
+                                <button id="btnSaveEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
+                                    <img  style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />Search
+                                </button>
+                            </div>
+                            <div class="col-sm-2 col-md-2">
+                                <button id="btnBack" class="btn btn-outline-danger waves-effect waves-light" style="width:100%">
+                                    <img style="width:25px;height:25px" src="~/assets/images/svg/icon-edit-blue.svg" />&nbsp;&nbsp;Edit Section
+                                </button>
+                            </div>
+                            <div class="col-sm-1 col-md-1 offset-6">
+                                <button id="btnSaveEmployee" class="btn btn-outline-primary waves-effect waves-light" style="width:100%">
+                                    <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" />&nbsp;&nbsp;Import
+                                </button>
+                            </div>
+                            <div class="col-sm-1 col-md-1">
+                                <button id="btnBack" class="btn btn-outline-primary waves-effect waves-light" style="width:100%">
+                                    <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" />&nbsp;&nbsp;Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="viewListEmployee" style="display:block;width:100%">
+            <div class="panel panel-default" style="margin-top:-15px;width:100%;">
+                <div class="panel-body" style="width:100%;margin-top:25px;">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-fixed" id="dtListEmployee">
+                            <thead style="background-color:#1e88e5;color:#ffffff">
+                                <tr>
+                                    <th style="text-align:center;width:100px">#</th>
+                                    <th style="text-align:center">Employee ID</th>
+                                    <th style="text-align:center;width:100px">Job Grade</th>
+                                    <th style="text-align:center;width:100px">Job Title</th>
+                                    <th style="text-align:center;width:150px">Section Head</th>
+                                    <th style="text-align:center;">Section</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="MasterReport" style="display:none;width:100%">
         </div>
     </div>
 </div>
+

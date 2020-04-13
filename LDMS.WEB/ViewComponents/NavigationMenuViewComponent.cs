@@ -19,13 +19,21 @@ namespace LDMS.WEB.ViewComponents
         [Authorize]
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            List<NavigationMenu> menus = TempData["Menu"] as List<NavigationMenu>;
-            if (menus == null || menus.Count <= 0)
+            try
             {
-                menus = await UserService.GetMenuItemsAsync();
+                List<NavigationMenu> menus = TempData["Menu"] as List<NavigationMenu>;
+                if (menus == null || menus.Count <= 0)
+                {
+                    menus = await UserService.GetMenuItemsAsync();
+                }
+                //ViewData["Menu"] = menus; 	 
+                return View(menus);
             }
-            //ViewData["Menu"] = menus; 	 
-            return View(menus);
+            catch
+            {
+                List<NavigationMenu> menus = new List<NavigationMenu>();
+                return View(menus);
+            }
         }
     }
 }

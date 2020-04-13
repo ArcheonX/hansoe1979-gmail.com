@@ -36,7 +36,14 @@ namespace LDMS.WEB.Controllers
             var user = (UserService.Authenticattion(userModel.Username, userModel.Password).Data as LDMS_M_User);
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
-                return RedirectToAction("Index", "Home"); 
+                if (user.LDMS_M_UserRole.IsForceChangePass == 1)
+                {
+                    return RedirectToAction("ForceChangePassword", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                } 
             }
             else
             {
@@ -44,6 +51,7 @@ namespace LDMS.WEB.Controllers
                 return View("Index");
             }
         } 
+       
         [Route("")]
         [Route("Account")]
         [Route("Account/Index")]
@@ -52,7 +60,14 @@ namespace LDMS.WEB.Controllers
         {
             return View();
         }
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+         
+        [Route("Account/ForceChange")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForceChangePassword()
+        {
+            return View();
+        }
+         
         [HttpGet]
         [Route("Logout")]
         [Route("Account/Logout")]      
@@ -60,13 +75,14 @@ namespace LDMS.WEB.Controllers
         { 
             return RedirectToAction("Index");
         }
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+         
         [HttpGet]
         [Route("Account/UserManagement")] 
         public async Task<IActionResult> UserManagement()
         {
             return View();
         }
+         
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Account/SearchEmployee")] 
@@ -82,6 +98,7 @@ namespace LDMS.WEB.Controllers
             //return Response(users);
             return PartialView("_ViewAllUser", users);
         }
+         
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]  
         [HttpGet]
         [Route("Account/ReadEmployee")]
@@ -119,6 +136,7 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(new Models.Employee.EmployeeModel()));
             }
         }
+         
         [HttpPost]
         [Route("Account/CreateEmployee")]
         public async Task<IActionResult> SaveEmployee(Models.Employee.EmployeeModel model)
@@ -160,6 +178,7 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(exp));
             }
         }
+         
         [HttpPost]
         [Route("Account/UpdateEmployee")]
         public async Task<IActionResult> UpdateEmployee(Models.Employee.EmployeeModel model)
@@ -201,6 +220,7 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(exp));
             }
         }
+         
         [HttpPost]
         [Route("Account/RemoveEmployee")]
         public async Task<IActionResult> RemoveEmployee(string employeeId)
@@ -214,7 +234,7 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(exp));
             }
         }
-
+         
         [HttpPost]
         [Route("Account/ResetPassword")]
         public async Task<IActionResult> ResetPassword(string employeeId)
@@ -228,6 +248,5 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(exp));
             }
         }
-
     }
 }

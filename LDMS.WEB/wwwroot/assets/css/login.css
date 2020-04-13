@@ -1,0 +1,77 @@
+
+
+
+body { font-size:1.125rem !important;   }
+
+.wrap-login {
+    position: absolute;
+    z-index: 999;
+    width: 440px;
+    border: 3px solid #2d2f39;
+    background: #f2f2f2;
+    border-radius: 30px;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.wrap-login .container-label-check input:checked~.txt {
+    color: inherit;
+}
+
+.wrap-login .checkmark {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: 21px;
+    width: 21px;
+    background-color: #FFF;
+    border: 1px solid #606060;
+
+
+}
+
+.wrap-login .container-label-check:hover input~.checkmark {
+    background-color: #fff;
+}
+
+.wrap-login .txt {
+    margin-left: 14px;
+}
+
+.wrap-login .container-label-check .checkmark:after {
+    left: 7px;
+    top: 4px;
+    width: 5px;
+    height: 9px;
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.wrap-login ul { margin:0; padding:0;}
+.wrap-login ul li { margin:0; padding:0; display: block; width: 100%  }
+label { display: block !important; }
+
+.txt-head { font-size:36px; font-weight:bold; }
+.form { padding:14px; }
+
+label { margin-bottom:5px !important; color:var(--main) !important; }
+.form-control { color: #000 !important;  }
+.form-group  { margin:0 0 15px 0!important; }
+
+.password { font-family:var(--font-family-sans-serif)!important; font-size:20px;  }
+
+ul.box-forgotpass { margin:18px 0 0 0; padding:0; display: flex; }
+ul.box-forgotpass li {  }
+ul.box-forgotpass li i { font-size:35px; display: block; float: left; margin-right:10px; margin-top:-6px}
+.box-check {  display: flex; justify-content: flex-end; }
+ul.box-forgotpass li.box-btn {justify-content: flex-end; display: flex; width: 20%; margin-top:-10px;}
+ul.box-forgotpass li.box-btn .btn {background:#e3a22c; border:none; border-radius: var(--radius-btn); font-weight:700; font-size:20px; padding:5px 20px;}
+ul.box-forgotpass li a { color:var(--main); }

@@ -1,0 +1,85 @@
+@media screen and (max-width: 1600px) { 
+        .wrapper{
+            height: 100%;
+            width: 100%;
+            margin: 0 auto;
+            zoom: 90%;
+        }
+        .wrap-content {
+             zoom: 85%;
+        }
+        .wrap-modal-user{
+            zoom: 90%;
+        }
+        .white-popup-block{
+            zoom: 90%;
+        }
+        .head-infoR span {
+            font-variant: all-small-caps;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .wrap-icon-table-in-progress {
+            float: right;
+            width: 200px;
+            height: 50px ;
+            text-align: center; 
+            margin-top: -30px;
+            padding-left: 30px;
+        }
+        .box-reports {
+            border-radius: 8px;
+            border: 1px solid #2d2f39;
+            width: 50%;
+            margin: 0 20px;
+            height: 1100px;
+        }
+        .wrap-scroll {
+            width: 92%;
+            height: 900px;
+            background: #FFF;
+            margin: 5px 4% 5% 4%;
+            position: relative;
+            z-index: 9999;
+            border: 1px solid #000;
+            border-radius: 10px;
+        }
+        
+        #scrollbarall-dynamic {
+            width: 98%;
+            height: 850px;
+            padding: 0 0.5% 0 0;
+            overflow-y: scroll;
+            float: left;
+            position: relative;
+            z-index: 999;
+            background: url(../img/bg/line.png);
+            background-repeat: repeat-y, repeat;
+            background-position: top right 15px;
+        }
+        
+        .form-style {
+            background: #FFF;
+            padding: 0 8px 0 0;
+            border-radius: 12px;
+            height: 600px;
+
+        }
+        .report-field{
+            height: 750px;
+            overflow-x: hidden;
+        }
+         .report-summary{
+            height: 550px;
+            overflow-x: hidden;
+        }        
+        .scrollbar-d {
+            width: 98.9%;
+            height: 550px;
+            padding: 0 0.5% 0 0;
+            overflow-y: scroll;
+            float: left;
+            position: relative;
+            z-index: 999;
+        }  
+    }

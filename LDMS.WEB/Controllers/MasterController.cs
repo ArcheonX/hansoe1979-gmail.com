@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LDMS.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LDMS.WEB.Controllers
@@ -15,6 +16,7 @@ namespace LDMS.WEB.Controllers
         {
             MasterService = masterService;
         }
+        
         [HttpGet]
         [Route("Organization/Section")]
         public IActionResult Section()
@@ -56,6 +58,13 @@ namespace LDMS.WEB.Controllers
         public async Task<IActionResult> GetAllSections()
         {
             return Response(await MasterService.GetAllSections());
+        }
+
+        [HttpGet]
+        [Route("Master/Sections")]
+        public async Task<IActionResult> GetAllSections(int departmentId)
+        {
+            return Response(await MasterService.GetAllSections(departmentId));
         }
         [HttpGet]
         [Route("Master/GetAllRoles")]

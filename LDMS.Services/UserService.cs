@@ -171,8 +171,12 @@ namespace LDMS.Services
                     HttpContext.Response.Set("LASTNAME", user.Surname, 120);
                     HttpContext.Response.Set("FULLNAME", string.Format("{0} {1}", user.Name, user.Surname), 120);
                     HttpContext.Response.Set("EMPLOYEEID", user.EmployeeID, 120);
-                    HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.Value) : "", 120);
-                    HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0} {1}", user.LDMS_M_Department.DepartmentID, "" /*user.LDMS_M_Department.DepartmentName_EN*/) : "", 120);
+                    HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.GetValueOrDefault()) : "", 120);
+                    HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0} {1}", user.LDMS_M_Department.DepartmentID, "") : "", 120);
+                    HttpContext.Response.Set("PLANTID", user.ID_Plant.ToString(), 120);
+                    HttpContext.Response.Set("DIVISIONID", user.LDMS_M_Department != null ? string.Format("{0} {1}", user.LDMS_M_Department.ID_Division) : "", 120);
+                    HttpContext.Response.Set("DEPARTMENTID", user.LDMS_M_Department != null ? string.Format("{0} {1}", user.LDMS_M_Department.ID_Department) : "", 120);
+                    HttpContext.Response.Set("SECTIONTID", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault().ToString() : "0", 120);
                     HttpContext.Response.Set("FACEIMAGE", "~/assets/images/users/1.jpg", 120);
                     HttpContext.Response.Set("JWToken", user.Token, 120);
                     HttpContext.Session.SetString("JWToken", user.Token);
@@ -188,17 +192,24 @@ namespace LDMS.Services
 
         public async Task<List<NavigationMenu>> GetMenuItemsAsync()
         {
-            var token = JwtManager.Instance.GetToken(HttpContext.Request);
-            if (!JwtManager.Instance.IsTokenValid(token))
+            try
+            {
+                var token = JwtManager.Instance.GetToken(HttpContext.Request);
+                if (!JwtManager.Instance.IsTokenValid(token))
+                {
+                    throw new Exception("Unauthorized");
+                }
+                var cliams = JwtManager.Instance.GetClaims(token).ToList();
+                Claim claim = cliams.FirstOrDefault(o => o.Type.ToUpper() == ClaimTypes.Role.ToUpper());
+                if (claim == null) throw new Exception("Unauthorized");
+                int rolId = 0;
+                int.TryParse(claim.Value, out rolId);
+                return BuildUserMenu(rolId).AsList();
+            }
+            catch
             {
                 throw new Exception("Unauthorized");
             }
-            var cliams = JwtManager.Instance.GetClaims(token).ToList();
-            Claim claim = cliams.FirstOrDefault(o => o.Type.ToUpper() == ClaimTypes.Role.ToUpper());
-            if (claim == null) throw new Exception("Unauthorized");
-            int rolId = 0;
-            int.TryParse(claim.Value, out rolId);
-            return BuildUserMenu(rolId).AsList();
         }
 
         private IEnumerable<NavigationMenu> BuildUserMenu(int roleId)

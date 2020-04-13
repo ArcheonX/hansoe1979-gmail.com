@@ -29,6 +29,26 @@
             return false;
         }
 
+        var loginModel = { 
+            Username: $("#txtUserName").val(),
+            Password: $("#txtPassword").val() 
+        };
+        $.ajax({
+            type: "POST",
+            url: "/Account/Login",
+            data: loginModel,
+            success: function (response) {
+                debugger;
+            },
+            failure: function (response) {
+                MessageController.Error(response.responseText, "Error");
+                debugger;
+            },
+            error: function (response) {
+                MessageController.Error(response.responseText, "Error");
+                debugger;
+            }
+        });  
     });
 $('.validate-form .input100').each(function () {
     $(this).focus(function () {
