@@ -21,7 +21,8 @@
         <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="~/lib/jquery/dist/jquery-3.1.1.min.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/tether.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -39,7 +40,7 @@
         <link rel="stylesheet" type="text/css" href="css/vendor/animate/animate.css">
         <link rel="stylesheet" type="text/css" href="css/vendor/css-hamburgers/hamburgers.min.css">
         <link href="~/css/Login.css" rel="stylesheet">
-        <link href="~/css/LDMS.css" rel="stylesheet"> 
+        <link href="~/css/LDMS.css" rel="stylesheet">
         <link href="~/css/util.css" rel="stylesheet">
         <link href="~/css/colors/blue.css" id="theme" rel="stylesheet">
         <script src="~/assets/app/loginController.js"></script>
@@ -76,23 +77,10 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger">@ViewBag.error</div>
                             <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
                                 <input class="input100" type="text" name="Username" required title="Please Enter User Name (Employee ID)" placeholder="Username" asp-for="Username">
-                                @*<span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="fa fa-user"></i>
-                                </span>*@
                             </div>
                             <div class="wrap-input100 validate-input m-b-10" data-validate="Password is required">
                                 <input class="input100" type="password" name="Password" required title="Please Enter Password (Default : Employee ID)" placeholder="Password" asp-for="Password">
-                                @*<span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="fa fa-lock"></i>
-                                </span>*@
                             </div>
-                            @*<div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
-                </label>
-            </div>*@
                         </form>
                         <div class="container-login100-form-btn p-t-10">
                             <button id="btn-frm-login" class="login100-form-btn">Login </button>
