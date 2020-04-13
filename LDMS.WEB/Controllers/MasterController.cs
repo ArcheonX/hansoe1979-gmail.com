@@ -100,6 +100,6 @@ namespace LDMS.WEB.Controllers
         {
             return Response(await MasterService.GetAllRoles()); 
         }
-
+         
     }
 }

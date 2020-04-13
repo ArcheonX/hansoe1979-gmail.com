@@ -15,29 +15,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LDMS.Services
-{
-    //public interface IUserService
-    //{
-    //    UserApplicationUser Authenticate(string username, string password);
-    //    IEnumerable<UserApplicationUser> GetAll();
-    //}
+{ 
     public class UserService : ILDMSService
-    {
-        private readonly JwtSettings _jwtSettings;
+    { 
         private readonly ILogger<UserService> _logger;
-        protected IHttpContextAccessor HttpContextAccessor { get; private set; }
-        protected HttpContext HttpContext { get; private set; }
+        protected IHttpContextAccessor HttpContextAccessor { get; private set; } 
         private readonly LDAPAuthenticationService _ldAPAuthenticationService;
         private readonly LocalAuthenticationService _localAuthenticationService;
-        public UserService(
-            JwtSettings jwtSettings, ILogger<UserService> logger,
+        public UserService(ILogger<UserService> logger,
             LDAPAuthenticationService ldAPAuthenticationService,
             LocalAuthenticationService localAuthenticationService,
-            ILDMSConnection iLDMSConnection, IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection)
+            ILDMSConnection iLDMSConnection, 
+            IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection, httpContextAccessor)
         {
             HttpContextAccessor = httpContextAccessor;
-            HttpContext = httpContextAccessor.HttpContext;
-            _jwtSettings = jwtSettings;
+            
             _logger = logger;
             _ldAPAuthenticationService = ldAPAuthenticationService;
             _localAuthenticationService = localAuthenticationService;
@@ -51,6 +43,7 @@ namespace LDMS.Services
             }
             catch (Exception x)
             {
+                _logger.LogError(x.Message);
                 return new ServiceResult(x);
             }
         }
@@ -89,6 +82,7 @@ namespace LDMS.Services
             }
             catch (Exception x)
             {
+                _logger.LogError(x.Message);
                 return new ServiceResult(x);
             }
         }
@@ -127,67 +121,83 @@ namespace LDMS.Services
             }
             catch (Exception x)
             {
+                _logger.LogError(x.Message);
                 return new ServiceResult(x);
             }
         }
         public async Task<ServiceResult> GetAllEmployeeByDepartmentId(int departmentId)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                   (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
-                     map: (user, userRole, role, depart, plant) =>
-                     {
-                         if (userRole != null)
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
+                       (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
+                         map: (user, userRole, role, depart, plant) =>
                          {
-                             userRole.LDMS_M_Role = role;
-                         }
-                         user.LDMS_M_UserRole = userRole;
-                         if (plant != null)
-                         {
-                             user.LDMS_M_Plant = plant;
-                         }
-                         if (depart != null)
-                         {
-                             user.LDMS_M_Department = depart;
-                             user.ID_Department = depart.ID_Department;
-                         }
-                         return user;
-                     },
-                     splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
-                       param: new { @param_DepartmentId = departmentId });
-                var user = items.ToList();
-                return new ServiceResult(user);
+                             if (userRole != null)
+                             {
+                                 userRole.LDMS_M_Role = role;
+                             }
+                             user.LDMS_M_UserRole = userRole;
+                             if (plant != null)
+                             {
+                                 user.LDMS_M_Plant = plant;
+                             }
+                             if (depart != null)
+                             {
+                                 user.LDMS_M_Department = depart;
+                                 user.ID_Department = depart.ID_Department;
+                             }
+                             return user;
+                         },
+                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                           param: new { @param_DepartmentId = departmentId });
+                    var user = items.ToList();
+                    return new ServiceResult(user);
+                }
+            }catch(Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
         public async Task<ServiceResult> GetAllEmployeeBySectionId(int sectionId)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                   (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
-                     map: (user, userRole, role, depart, plant) =>
-                     {
-                         if (userRole != null)
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
+                       (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
+                         map: (user, userRole, role, depart, plant) =>
                          {
-                             userRole.LDMS_M_Role = role;
-                         }
-                         user.LDMS_M_UserRole = userRole;
-                         if (plant != null)
-                         {
-                             user.LDMS_M_Plant = plant;
-                         }
-                         if (depart != null)
-                         {
-                             user.LDMS_M_Department = depart;
-                             user.ID_Department = depart.ID_Department;
-                         }
-                         return user;
-                     },
-                     splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
-                       param: new { @param_SectionId = sectionId });
-                var user = items.ToList();
-                return new ServiceResult(user);
+                             if (userRole != null)
+                             {
+                                 userRole.LDMS_M_Role = role;
+                             }
+                             user.LDMS_M_UserRole = userRole;
+                             if (plant != null)
+                             {
+                                 user.LDMS_M_Plant = plant;
+                             }
+                             if (depart != null)
+                             {
+                                 user.LDMS_M_Department = depart;
+                                 user.ID_Department = depart.ID_Department;
+                             }
+                             return user;
+                         },
+                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                           param: new { @param_SectionId = sectionId });
+                    var user = items.ToList();
+                    return new ServiceResult(user);
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
@@ -267,6 +277,7 @@ namespace LDMS.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return new ServiceResult(new Exception("Unauthorized"));
             }
         }
@@ -287,8 +298,9 @@ namespace LDMS.Services
                 int.TryParse(claim.Value, out rolId);
                 return BuildUserMenu(rolId).AsList();
             }
-            catch
+            catch(Exception x)
             {
+                _logger.LogError(x.Message);
                 throw new Exception("Unauthorized");
             }
         }
@@ -344,6 +356,7 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> DeleteUser(string employeeId)
         {
+            try { 
             using (System.Data.IDbConnection conn = Connection)
             {
                 var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
@@ -357,11 +370,18 @@ namespace LDMS.Services
                     return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                 }
                 return new ServiceResult();
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
         public async Task<ServiceResult> ResetPassword(string employeeId)
         {
+            try { 
             var passsalt = PasswordHelper.CreateSalt();
             var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
             using (System.Data.IDbConnection conn = Connection)
@@ -379,6 +399,12 @@ namespace LDMS.Services
                     return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                 }
                 return new ServiceResult();
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
@@ -420,9 +446,10 @@ namespace LDMS.Services
                     return await GetUserByEmployeeId(user.EmployeeID);
                 }
             }
-            catch (Exception ex)
+            catch (Exception x)
             {
-                return new ServiceResult(ex);
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
@@ -461,9 +488,10 @@ namespace LDMS.Services
                     return await GetUserByEmployeeId(user.EmployeeID);
                 }
             }
-            catch (Exception ex)
+            catch (Exception x)
             {
-                return new ServiceResult(ex);
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
@@ -495,9 +523,10 @@ namespace LDMS.Services
                     return emp;
                 }
             }
-            catch (Exception ex)
+            catch (Exception x)
             {
-                return new ServiceResult(ex);
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
     }
