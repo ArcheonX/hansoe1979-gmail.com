@@ -28,4 +28,11 @@
     <Folder Include="wwwroot\assets\plugins\sweetalert2\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\css\svg-colorize.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,72 @@
 ﻿
 var MessageController = function () {
+    var blockUI = function (options) {
+        options = $.extend(true, {}, options);
+        var html = '';
+        if (options.animate) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
+        } else if (options.iconOnly) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="~/assets/images/loading-spinner-grey.gif" align=""></div>';
+        } else if (options.textOnly) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><span>  ' + (options.message ? options.message : 'LOADING...') + '</span></div>';
+        } else {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="~/assets/images/loading-spinner-grey.gif" align=""><span>  ' + (options.message ? options.message : 'LOADING...') + '</span></div>';
+        }
+        if (options.target) { // element blocking
+            var el = $(options.target);
+            if (el.height() <= ($(window).height())) {
+                options.cenrerY = true;
+            }
+            el.block({
+                message: html,
+                baseZ: options.zIndex ? options.zIndex : 1000,
+                centerY: options.cenrerY !== undefined ? options.cenrerY : false,
+                centerX: options.centerX !== undefined ? options.centerX : false,
+                css: {
+                    top: '10%',
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none'
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                    opacity: options.boxed ? 0.05 : 0.5,
+                    cursor: 'wait'
+                }
+            });
+        } else { // page blocking
+            $.blockUI({
+                message: html,
+                baseZ: options.zIndex ? options.zIndex : 1000,
+                css: {
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none'
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                    opacity: options.boxed ? 0.05 : 0.5,
+                    cursor: 'wait'
+                }
+            });
+        }
+    }
+    var unblockUI = function (target) {
+        if (target) {
+            if ($(target)) {
+                $(target).unblock({
+                    onUnblock: function () {
+                        $(target).css('position', '');
+                        $(target).css('zoom', '');
+                    }
+                });
+            } else {
+                $.unblockUI();
+            }
+        } else {
+            $.unblockUI();
+        }
+    } 
     var Success = function (message, title) { 
         swal({
             title: title,
@@ -82,19 +149,7 @@ var MessageController = function () {
             closeOnCancel: true,
             focusConfirm: true,
             showLoaderOnConfirm: true
-        }); 
-        //swal({
-        //    title: "Are you sure?",
-        //    text: "Your will not be able to recover this imaginary file!",
-        //    type: "warning",
-        //    showCancelButton: true,
-        //    confirmButtonClass: "btn-danger",
-        //    confirmButtonText: "Yes, delete it!",
-        //    closeOnConfirm: false
-        //},
-        //    function () {
-        //        swal("Deleted!", "Your imaginary file has been deleted.", "success");
-        //    });
+        });  
     }
     var ConfirmCallback = function (message, title, callback) {      
         swal({
@@ -142,30 +197,36 @@ var MessageController = function () {
         }); 
     }
 
-    return {
-        Success: function (message, title) {
-            return Success(message, title);
-        },
-        SuccessCallback:function (message, title, callback) {
-            return SuccessCallback(message, title, callback);
-        },
-        Warning: function (message, title) {
-            return Warning(message, title);
-        },
-        WarningCallback: function (message, title, callback) {
-            return WarningCallback(message, title, callback);
-        },
-        Confirm: function (message, title) {
-            return Confirm(message, title);
-        },
-        ConfirmCallback: function (message, title, callback) {
-            return ConfirmCallback(message, title, callback);
-        },
-        Error: function (message, title) {
-            return Error(message, title);
-        },
-        ErrorCallback: function (message, title, callback) {
-            return ErrorCallback(message, title, callback);
-        }
+return {
+    BlockUI: function (options) {
+        return blockUI(options);
+    },
+    UnblockUI: function (options) {
+        return unblockUI(options);
+    },
+    Success: function (message, title) {
+        return Success(message, title);
+    },
+    SuccessCallback: function (message, title, callback) {
+        return SuccessCallback(message, title, callback);
+    },
+    Warning: function (message, title) {
+        return Warning(message, title);
+    },
+    WarningCallback: function (message, title, callback) {
+        return WarningCallback(message, title, callback);
+    },
+    Confirm: function (message, title) {
+        return Confirm(message, title);
+    },
+    ConfirmCallback: function (message, title, callback) {
+        return ConfirmCallback(message, title, callback);
+    },
+    Error: function (message, title) {
+        return Error(message, title);
+    },
+    ErrorCallback: function (message, title, callback) {
+        return ErrorCallback(message, title, callback);
     }
+}
 }();

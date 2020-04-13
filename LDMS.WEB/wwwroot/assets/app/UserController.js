@@ -150,8 +150,7 @@
                     RoleId: roleId,
                     IsInstructer: $("#isInstructer").val() == "true",
                     IsSectionHead: $("#isSectionHead").val() == "true"
-                };
-                debugger;
+                }; 
                 if ($("#userEditMode").val() == "true") {
                     UpdateEmployee(empModel);
                 } else {

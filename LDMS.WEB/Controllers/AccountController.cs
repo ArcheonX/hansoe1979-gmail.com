@@ -14,12 +14,12 @@ namespace LDMS.WEB.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly UserService UserService; 
+        private readonly UserService UserService;
         // GET: /<controller>/
         private readonly ILogger<AccountController> _logger;
         public AccountController(ILogger<AccountController> logger, UserService userService)
         {
-            UserService = userService; 
+            UserService = userService;
             _logger = logger;
         }
 
@@ -33,59 +33,65 @@ namespace LDMS.WEB.Controllers
             {
                 return View(userModel);
             }
-            var user = (UserService.Authenticattion(userModel.Username, userModel.Password).Data as LDMS_M_User);
+            var user = (await UserService.Authenticattion(userModel.Username, userModel.Password)).Data as LDMS_M_User;
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
                 if (user.LDMS_M_UserRole.IsForceChangePass == 1)
                 {
-                    return RedirectToAction("ForceChangePassword", "Account");
+                    return Response(new ServiceResult("Account/ForceChangePassword"));
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
-                } 
+                    return Response(new ServiceResult("Home/Index"));
+                }
             }
             else
             {
-                ViewBag.error = "Invalid Account";
-                return View("Index");
+                return Response(new ServiceResult(new UnauthorizedAccessException("Invalid Account")));
             }
-        } 
-       
+        }
+
         [Route("")]
         [Route("Account")]
         [Route("Account/Index")]
-        [AllowAnonymous] 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View();
         }
-         
+
         [Route("Account/ForceChange")]
         [AllowAnonymous]
         public async Task<IActionResult> ForceChangePassword()
         {
             return View();
         }
-         
+
         [HttpGet]
         [Route("Logout")]
-        [Route("Account/Logout")]      
+        [Route("Account/Logout")]
         public async Task<IActionResult> Logout()
-        { 
+        {
             return RedirectToAction("Index");
         }
-         
+
         [HttpGet]
-        [Route("Account/UserManagement")] 
+        [Route("Account/UserManagement")]
         public async Task<IActionResult> UserManagement()
         {
             return View();
         }
-         
+
+        [Route("Account/MyProfile")]
+        public async Task<IActionResult> MyProfile()
+        {
+            return View();
+        }
+
+
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
-        [Route("Account/SearchEmployee")] 
+        [Route("Account/SearchEmployee")]
         public async Task<IActionResult> SearchEmployee(SearchEmployeeModel model)
         {
             int[] departments = new int[0];
@@ -98,13 +104,13 @@ namespace LDMS.WEB.Controllers
             //return Response(users);
             return PartialView("_ViewAllUser", users);
         }
-         
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]  
+
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Account/ReadEmployee")]
         public async Task<IActionResult> ReadEmployee(string employeeId)
         {
-            var user = (UserService.GetUserByEmployeeId(employeeId).Data as LDMS_M_User);
+            var user = (await UserService.GetUserByEmployeeId(employeeId)).Data as LDMS_M_User;
             if (user != null)
             {
                 var userView = new Models.Employee.EmployeeModel()
@@ -136,7 +142,7 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(new Models.Employee.EmployeeModel()));
             }
         }
-         
+
         [HttpPost]
         [Route("Account/CreateEmployee")]
         public async Task<IActionResult> SaveEmployee(Models.Employee.EmployeeModel model)
@@ -178,7 +184,7 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(exp));
             }
         }
-         
+
         [HttpPost]
         [Route("Account/UpdateEmployee")]
         public async Task<IActionResult> UpdateEmployee(Models.Employee.EmployeeModel model)
@@ -212,7 +218,7 @@ namespace LDMS.WEB.Controllers
                     IsSectionHead = model.IsSectionHead ? 1 : 0,
                     Password = model.Password,
                     Remark = model.Remark
-                }; 
+                };
                 return Response(await UserService.UpdateUser(user, userRole));
             }
             catch (Exception exp)
@@ -220,13 +226,13 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(exp));
             }
         }
-         
+
         [HttpPost]
         [Route("Account/RemoveEmployee")]
         public async Task<IActionResult> RemoveEmployee(string employeeId)
         {
             try
-            { 
+            {
                 return Response(await UserService.DeleteUser(employeeId));
             }
             catch (Exception exp)
@@ -234,7 +240,7 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(exp));
             }
         }
-         
+
         [HttpPost]
         [Route("Account/ResetPassword")]
         public async Task<IActionResult> ResetPassword(string employeeId)
@@ -247,6 +253,22 @@ namespace LDMS.WEB.Controllers
             {
                 return Response(new ServiceResult(exp));
             }
+        }
+
+
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [HttpGet]
+        [Route("Account/EmployeeByDepartment")]
+        public async Task<IActionResult> ReadEmployeeByDepartment(int departmentId)
+        {
+            return Response(new ServiceResult((await UserService.GetAllEmployeeByDepartmentId(departmentId))));
+        }
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [HttpGet]
+        [Route("Account/EmployeeBySection")]
+        public async Task<IActionResult> ReadEmployeeBySection(int sectionId)
+        {
+            return Response(new ServiceResult((await UserService.GetAllEmployeeBySectionId(sectionId))));
         }
     }
 }
