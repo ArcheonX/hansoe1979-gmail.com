@@ -31,9 +31,9 @@ namespace LDMS.ViewModels
         public string Token { get; set; }
         public string RefreshToken { get; set; }
 
-        public LDMS_M_UserRole LDMS_M_UserRole { get; set; }
-
+        public LDMS_M_UserRole LDMS_M_UserRole { get; set; } 
         public LDMS_M_Department LDMS_M_Department { get; set; }
+
         public LDMS_M_Plant LDMS_M_Plant { get; set; }
         public LDMS_M_User()
         {

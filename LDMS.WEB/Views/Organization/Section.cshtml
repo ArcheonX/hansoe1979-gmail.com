@@ -11,18 +11,18 @@
 <script src="~/assets/app/SectionController.js"></script>
 <div class="panel panel-primary" style="width:100%;">
     <div class="panel-body panel-body-begin">
-        <div class="form-horizontal">
+        @*<div class="form-horizontal">
             <div class="row form-group" style="margin-top:-25px;">
                 <div class="col-sm-2 col-md-2">
                     <button id="btnSection" class="btn btn-info waves-effect waves-light" style="width:100%"> Section</button>
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>
 <div id="viewAllUser" style="margin-top:-15px;width:100%;display:block;"> 
-        @await Html.PartialAsync("_userListView")  
+        @await Html.PartialAsync("section/_userListView")  
 </div> 
 <div id="editSection" style="margin-top:-15px;width:100%;display:none;">
-    @await Html.PartialAsync("_SectionEditor")
+    @await Html.PartialAsync("section/_SectionEditor")
 </div>

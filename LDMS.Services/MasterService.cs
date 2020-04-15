@@ -109,8 +109,12 @@ namespace LDMS.Services
         {
             try
             {
-                var items = (await GetAllSections()).Data as List<ViewModels.LDMS_M_Section>;
-                return new ServiceResult(items.Where(e => e.ID_Department == departmentId).ToList());
+                var items = ((await GetAllSections()).Data as List<ViewModels.LDMS_M_Section>).Where(e => e.ID_Department == departmentId).ToList();
+                foreach (var item in items)
+                {
+                    item.RowIndex = items.IndexOf(item) + 1;
+                }
+                return new ServiceResult(items);
             }
             catch (Exception x)
             {

@@ -1,0 +1,107 @@
+﻿<div style="width: 100%; border-width: thin; border-style: solid;">
+    <div class="panel panel-default" style="width: 100%;margin-top:25px;">
+        <div class="panel-body panel-body-begin">
+            <div class="form-horizontal">
+                <input type="hidden" id="sectionId" value="null" />
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Division</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="text"
+                               style="width: 100%"
+                               id="txtEditDivision"
+                               disabled="disabled"
+                               value=""
+                               class="form-control" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right" style="vertical-align: middle">
+                            <label class="LabelCaption">Department</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="text"
+                               style="width: 100%"
+                               id="txtEditDepartment"
+                               disabled="disabled"
+                               value="Human Resource"
+                               class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="row form-group">
+                    <div class="col-sm-1 col-md-1 offset-10"></div>
+                    <div class="col-sm-1 col-md-1" style="margin-left:-25px">
+                        <button id="btnBack" class="btn btn-outline-primary inactive waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div style="width: 100%; border-width: thin; border-style: solid;">
+    <div class="panel panel-default" style="width: 100%;margin-top:25px;">
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <form id="frmSectionEditor">
+                    <div class="row form-group">
+                        <div class="col-sm-2 col-md-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption">Section abbreviation</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-3 col-md-3">
+                            <input type="text"
+                                   title="Please Enter Section abbreviation"
+                                   id="txtSectionId"
+                                   required
+                                   style="width: 100%"
+                                   class="form-control required" />
+                        </div>
+                        <div class="col-sm-1 col-md-1">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption">Section Name</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-3 col-md-3">
+                            <input type="text"
+                                   title="Please Enter Section Name"
+                                   id="txtSectionName"
+                                   required
+                                   style="width: 100%"
+                                   class="form-control required" />
+                        </div>
+                    </div>
+                </form>
+                <div class="row form-group">
+                    <div class="col-sm-1 col-md-1 offset-9">
+                        <button id="btnSavSection" class="btn btn-outline-success waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:25px" src="~/assets/images/svg/save.svg" />&nbsp;&nbsp;Save
+                        </button>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <button id="btnClear" class="btn btn-outline-danger waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-do-not-red.svg" />&nbsp;&nbsp;Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" style="width:100%;margin-top:25px;">
+            <div class="table-responsive">
+                @await Html.PartialAsync("section/_sectionListView")
+            </div>
+        </div>
+    </div>
+</div>
