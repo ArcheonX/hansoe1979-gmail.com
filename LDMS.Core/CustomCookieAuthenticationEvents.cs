@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,8 +18,8 @@ namespace LDMS.Core
 
             if (string.IsNullOrEmpty(lastChanged) /*|| !_userRepository.ValidateLastChanged(lastChanged)*/)
             {
-                context.RejectPrincipal(); 
-                await context.HttpContext.SignOutAsync( CookieAuthenticationDefaults.AuthenticationScheme);
+                context.RejectPrincipal();
+                await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
         }
     }

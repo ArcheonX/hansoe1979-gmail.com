@@ -1,0 +1,20 @@
+﻿@model List<LDMS.ViewModels.Menu.NavigationMenu>
+@foreach (var item in Model) //ViewData["Menu"] as IList<LDMS.ViewModels.Menu.NavigationMenu>)
+{
+    <ul id="sidebarnav">
+        <li class="nav-small-cap">@item.MenuName</li>
+        @*<li class="nav-item active">
+            <a class="nav-link text" asp-area="" asp-controller="@item.ControllerName" asp-action="@item.ActionName">@item.Name</a>
+        </li>*@ 
+        @foreach (var itm in item.SubMenus)
+        {
+            <li style="padding-left:25px">
+                <a class="waves-effect waves-dark"
+                   asp-controller="@itm.ControllerName" asp-action="@itm.ActionName" aria-expanded="false">
+                    <i class="mdi mdi-gauge"></i><span class="hide-menu">@itm.MenuName</span>
+                </a>
+            </li>
+            @*<a class="dropdown-item" asp-area="" asp-controller="@itm.ControllerName" asp-action="@itm.ActionName">@itm.Name</a>*@
+        }
+    </ul>
+ }

@@ -1,25 +1,18 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-
-namespace LDMS.Core
-{    
-    public class UserApplicationUser : Microsoft.AspNetCore.Identity.IdentityUser
+﻿namespace LDMS.Core
+{
+    public class IdentityExtension : System.Security.Principal.IIdentity
     {
-        public UserApplicationUser(string usernmame) : base(usernmame)
+        public IdentityExtension()
+        { }
+        public IdentityExtension(string name)
         {
-
+            this.Name = name;
         }
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        //public string Username { get; set; }
-        public string Password { get; set; }
-        public string Token { get; set; } 
-        public string UserCode { get; set; }
-        public UserIdentityRole UserRole { get; set; }
+        public string AuthenticationType => "Kerberos";
+
+        public bool IsAuthenticated => true;
+
+        public string Name { get; set; }
     }
     public class UserIdentityRole : Microsoft.AspNetCore.Identity.IdentityRole
     {

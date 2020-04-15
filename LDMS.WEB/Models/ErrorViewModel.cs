@@ -1,5 +1,3 @@
-using System;
-
 namespace LDMS.WEB.Models
 {
     public class ErrorViewModel

@@ -10,10 +10,34 @@
     <meta name="author" content="">
 
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
-    <link href="~/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/css/style.css" rel="stylesheet">
-    <link href="~/css/LDMS.css" rel="stylesheet">
-    <link href="~/css/colors/blue.css" id="theme" rel="stylesheet">
+    <link href="~/assets/plugins/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="~/assets/plugins/selecttwo/css/select2.css" type="text/css" rel="stylesheet" />
+    <link href="~/assets/plugins/selecttwo/css/select2-bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/assets/plugins/jquery-ui/themes/ui-lightness/jquery-ui.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/style.css" type="text/css" rel="stylesheet">
+    <link href="~/css/LDMS.css" type="text/css" rel="stylesheet">
+    <link href="~/css/colors/blue.css" id="theme" type="text/css" rel="stylesheet">
+    <link href="~/css/svg-colorize.css" type="text/css" rel="stylesheet">
+    <link href="~/assets/plugins/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
+
+    <script src="~/assets/plugins/jquery/jquery.min.js"></script>
+    <script src="~/assets/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="~/assets/plugins/datatable/datatables.js"></script>
+    <script src="~/assets/plugins/bootstrap/js/tether.min.js"></script>
+    <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.slimscroll.js"></script>
+    <script src="~/js/waves.js"></script>
+    <script src="~/js/sidebarmenu.js"></script>
+    <script src="~/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="~/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="~/assets/plugins/highchart/highcharts.js"></script>
+    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
+    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
+    <script src="~/assets/plugins/selecttwo/js/select2.full.min.js"></script>
+    <script src="~/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/assets/plugins/sweetalert/sweetalert.min.js"></script>
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -27,6 +51,7 @@
         }
     </style>
     @RenderSection("Header", required: false)
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 </head>
 <body class="fix-header card-no-border">
     <div class="preloader">
@@ -40,156 +65,55 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="index.html">
                         <b>
-                            <img src="~/assets/images/logo-light-icon.png" class="light-logo" alt="homepage"  />
-                            <img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
-                        </b> 
+                            <img src='@Url.Content("~/assets/images/logo-light-icon.png")' class="light-logo" alt="homepage" />
+                            <img src='@Url.Content("~/assets/images/logo-light-text.png")' class="light-logo" alt="homepage" />
+                        </b>
                     </a>
-                </div> 
+                </div>
                 <div class="head-title"><h1>Learning and Development Management System</h1></div>
-                <div class="logo-img"><img src="~/assets/images/svg/STT.svg" alt="homepage"/></div>
+                <div class="logo-img"><img src="~/assets/images/svg/STT.svg" alt="homepage" /></div>
             </nav>
         </header>
         <aside class="left-sidebar">
-            <div class="scroll-sidebar">
-                <div class="user-profile" style="background: url(@Url.Content("~/assets/images/background/user-info.jpg")) no-repeat;">
-                    <div class="profile-img"> <img src="~/assets/images/users/1.jpg" alt="user" /> </div>
-                    <div class="profile-text">
-                        <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe</a>
-                        <div class="dropdown-menu animated flipInY">
-                            <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
-                            <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
-                            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
-                            <div class="dropdown-divider"></div> <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
-                        </div>
-                    </div>
+            <div class="user-profile">
+                <div class="profile-img">
+                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
                 </div>
+                <div class="profile-text">
+                    <a href="#" aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                    <a href="#" aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                    <a href="#" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                    <a href="#" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                    @*<a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe</a>
+                <div class="dropdown-menu animated flipInY">
+                    <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+                    <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
+                    <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
+                    <div class="dropdown-divider"></div> <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                </div>*@
+                </div>
+            </div>
+            <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li class="nav-small-cap">I-Manage</li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-gauge"></i><span class="hide-menu">Learning Performance</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-monitor-multiple"></i><span class="hide-menu">Platform</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-newspaper"></i><span class="hide-menu">Course Information</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-account-box"></i><span class="hide-menu">Instructure Inventory</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-calendar-range"></i><span class="hide-menu">Schedule</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-file-chart"></i><span class="hide-menu">Report</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-settings"></i><span class="hide-menu">LDMS</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul id="sidebarnav">
-                        <li class="nav-small-cap">My Plan</li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-gauge"></i><span class="hide-menu">Learning Performance</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-monitor-multiple"></i><span class="hide-menu">Platform</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-newspaper"></i><span class="hide-menu">Course Information</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-account-box"></i><span class="hide-menu">Instructure Inventory</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-calendar-range"></i><span class="hide-menu">Schedule</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-file-chart"></i><span class="hide-menu">Report</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark"
-                               href="@Url.Content("~/Home/Index/")" aria-expanded="false">
-                                <i class="mdi mdi-settings"></i><span class="hide-menu">LDMS</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav> 
-            </div> 
-        </aside> 
+                    @await Component.InvokeAsync("NavigationMenu")
+                </nav>
+            </div>
+        </aside>
         <div class="page-wrapper">
-            <div class="container-fluid"> 
+            <div class="container-fluid">
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
                         @RenderSection("NavHeader", required: false)
                     </div>
-                </div> 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-block">
-                                @RenderBody()
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="row page-body"> 
+                    @RenderBody() 
                 </div>
             </div>
             <footer class="footer">
-                ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์
-                เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
+                ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
             </footer>
         </div>
-    </div>
-    <script src="~/assets/plugins/jquery/jquery.min.js"></script>
-    <script src="~/assets/plugins/bootstrap/js/tether.min.js"></script>
-    <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/js/jquery.slimscroll.js"></script>
-    <script src="~/js/waves.js"></script>
-    <script src="~/js/sidebarmenu.js"></script>
-    <script src="~/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="~/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <script src="~/js/custom.min.js"></script>
-    <script src="~/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script> 
-    @RenderSection("Scripts", required: false)
+    </div> 
 </body>
 </html>

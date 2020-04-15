@@ -20,110 +20,161 @@
         <li class="breadcrumb-item active">I-Manage Instructor Inventory</li>
     </ol>
 }
-
-<form class="form">
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
-        <div class="col-4">
-            <input class="form-control" type="text" name="Instructor_ID" placeholder="Instructor ID">
-        </div>
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
-        <div class="col-4">
-            <div class="btn-group">
-                <button type="button" class="btn btn-secondary">-- All --</button>
-                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Active</a>
-                    <a class="dropdown-item" href="#">In Active</a>
+<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+    <div class="panel-body" style="width:100%;">
+        <form class="form">
+            <div class="form-group m-2 row">
+                <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
+                <div class="col-4">
+                    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                </div>
+                <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
+                <div class="col-4">
+                    <select id="selectStatus"
+                            name="selectStatus"
+                            class="form-control" style="width: 100%">
+                        <option value="MALE">Active</option>
+                        <option value="FEMALE">In Active</option>
+                    </select>
+                    @*<div class="btn-group">
+            <button type="button" class="btn btn-secondary">-- All --</button>
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Active</a>
+                <a class="dropdown-item" href="#">In Active</a>
+            </div>
+        </div>*@
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
-        <div class="col-4">
-            <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
-            <input class="form-control" type="text" name="Instructor_Name" placeholder="Instructor Name" asp-for="Instructor_Name">
-        </div>
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
-        <div class="col-4">
-            <!--<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">-->
-            <input class="form-control" type="text" name="Organization" placeholder="Organization" asp-for="Organization">
-        </div>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Type</label>
-        <div class="col-4">
-            <div class="btn-group">
-                <button type="button" class="btn btn-secondary">-- Please Select --</button>
-                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Internal</a>
-                    <a class="dropdown-item" href="#">External</a>
+            <div class="form-group m-2 row">
+                <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
+                <div class="col-4">
+                    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                </div>
+                <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
+                <div class="col-4">
+                    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
                 </div>
             </div>
-        </div>
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Experience</label>
-        <div class="col-4">
-            <!--<input class="form-control" type="text" value="" id="example-text-input">-->
-            <input class="form-control" type="text" name="Course_Experience" placeholder="Course Experience" asp-for="Course_Experience">
-        </div>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course</label>
-        <div class="col-4">
-            <!--<input class="form-control" type="text" value="" id="example-text-input">-->
-            <input class="form-control" type="text" name="Course" placeholder="Course" asp-for="CourseName">
-        </div>
-        <div class="col-2"></div>
-        <div class="col-4">
-            <button id="btnSeacrh" type="button" class="btn btn-success waves-effect waves-light btn-command" onclick="Search()">Search</button>
-            <button id="btnAdd" class="btn btn-info waves-effect waves-light btn-command">Add</button>
-        </div>
-    </div>
-</form>
-<div class="row">
-    <div class="col-12">
-        
-        <div class="table-responsive m-t-40">
-            <table id="example23" class="display nowrap table table-hover table-striped table-bordered color-table info-table" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Instructor ID</th>
-                        <th>Instructor Name</th>
-                        <th>Type</th>
-                        <th>Organization / Department</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var instructor in ViewData["Instructor"] as IList<LDMS.ViewModels.LDMS_M_Instructor>)
-                    {
-
-                        <tr>
-                            <th>@instructor.rownumber</th>
-                            <td>@instructor.Instructor_ID</td>
-                            <td>@instructor.Instructor_Name</td>
-                            <td>@instructor.Type</td>
-                            <td>@instructor.Organization</td>
-                            <td>@instructor.IsActive</td>
-                            <td><i class="fa fa-pencil" /></td>
-                            <td><i class="fa fa-trash-o" /></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+            <div class="form-group m-2 row">
+                <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Type</label>
+                <div class="col-4">
+                    <select id="selectType"
+                            name="selectType" 
+                            class="form-control" style="width: 100%">
+                        <option value="MALE">Internal</option>
+                        <option value="FEMALE">External</option>
+                    </select>
+                    @*<div class="btn-group">
+            <button type="button" class="btn btn-secondary">-- Please Select --</button>
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Internal</a>
+                <a class="dropdown-item" href="#">External</a>
+            </div>
+        </div>*@
+                </div>
+                <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Experience</label>
+                <div class="col-4">
+                    <input class="form-control" type="text" value="" id="example-text-input">
+                </div>
+            </div>
+            <div class="form-group m-2 row">
+                <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course</label>
+                <div class="col-4">
+                    <input class="form-control" type="text" value="" id="example-text-input">
+                </div>
+                <div class="col-2">
+                </div>
+                <div class="col-1">
+                    <button id="btnSeacrh" class="btn btn-success waves-effect waves-light">Search</button>
+                </div>
+                <div class="col-1">
+                    <button id="btnAdd" class="btn btn-info waves-effect waves-light">Add</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
+<div class="panel panel-primary" style="width:100%;">
+    <div class="panel-body" style="width:100%;">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block">
+                        <h4 class="card-title">Data Export</h4>
+                        <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                        <div class="table-responsive m-t-40">
+                            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Instructor ID</th>
+                                        <th>Instructor Name</th>
+                                        <th>Type</th>
+                                        <th>Organization / Department</th>
+                                        <th>Status</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>1</th>
+                                        <th>Instructor ID</th>
+                                        <th>Instructor Name</th>
+                                        <th>Type</th>
+                                        <th>Organization / Department</th>
+                                        <th>Status</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <tr>
+                                        <th>1</th>
+                                        <td>INT-001</td>
+                                        <td>Tiger Nixon</td>
+                                        <td>Internal</td>
+                                        <td>Human Resource</td>
+                                        <td>Active</td>
+                                        <td><i class="fa fa-pencil" /></td>
+                                        <td><i class="fa fa-trash-o" /></td>
 
+                                    </tr>
+                                    <tr>
+                                        <th>2</th>
+                                        <td>INT-002</td>
+                                        <td>Garrett Winters</td>
+                                        <td>Internal</td>
+                                        <td>Human Resource</td>
+                                        <td>Active</td>
+                                        <td><i class="fa fa-pencil" /></td>
+                                        <td><i class="fa fa-trash-o" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>EXT-001</td>
+                                        <td>Junior Technical Author</td>
+                                        <td>External</td>
+                                        <td>Professional Consultance</td>
+                                        <td>Active</td>
+                                        <td><i class="fa fa-pencil" /></td>
+                                        <td><i class="fa fa-trash-o" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
 @section Scripts {
     <script>
 
@@ -156,6 +207,12 @@
         }
 
         $(document).ready(function () {
+            $('select').select2({
+                allowClear: true,
+                closeOnSelect: true,
+                theme: "bootstrap"
+            });
+
             $('#myTable').DataTable();
             $(document).ready(function () {
                 var table = $('#example').DataTable({

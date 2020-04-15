@@ -1,41 +1,46 @@
-﻿using LDMS.Core;
-using LDMS.ViewModels;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+﻿using Dapper;
+using LDMS.Core;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Dapper;
 using System.Linq;
-
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LDMS.Services
 {
-    public class MasterService : ILDMSService
+   public class MasterService : ILDMSService
     {
-        private readonly AppSettings _appSettings;
-        public MasterService(IOptions<AppSettings> appSettings,
-            ILDMSConnection iLDMSConnection) : base(iLDMSConnection)
+        public MasterService(ILDMSConnection iLDMSConnection) : base(iLDMSConnection)
         {
-            _appSettings = appSettings.Value;
-        }
 
-        public List<LDMS_CodeLookup> GetCodeLookups(string tableName, string fieldName)
+        } 
+        public async Task<List<ViewModels.LDMS_M_JobGrade>> GetAllJobGrades()
         {
-            List<LDMS_CodeLookup> result = new List<LDMS_CodeLookup>();
-            using (System.Data.IDbConnection conn = Connection)
-            {
-                var p = new DynamicParameters();
-                p.Add("@TableName", tableName);
-                p.Add("@FieldName", fieldName);
-
-                result = conn.Query<LDMS_CodeLookup>("[dbo].[sp_M_CodeLookUp_Select]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
-
-                return result;
-            }
+            return await All<ViewModels.LDMS_M_JobGrade>("JobGrade"); 
         }
-
+        public async Task<List<ViewModels.LDMS_M_Center>> GetAllCenters()
+        {
+            return await All<ViewModels.LDMS_M_Center>("Center"); 
+        }
+        public async Task<List<ViewModels.LDMS_M_Department>> GetAllDepartments()
+        {
+            return await All<ViewModels.LDMS_M_Department>("Department"); 
+        }
+        public async Task<List<ViewModels.LDMS_M_Division>> GetAllDivisions()
+        {
+            return await All<ViewModels.LDMS_M_Division>("Division");
+        }
+        public async Task<List<ViewModels.LDMS_M_JobTitle>> GetAllJobTitles()
+        {
+            return await All<ViewModels.LDMS_M_JobTitle>("JobTitle");
+        }
+        public async Task<List<ViewModels.LDMS_M_Section>> GetAllSections()
+        {
+            return await All<ViewModels.LDMS_M_Section>("Section");
+        }
+        public async Task<List<ViewModels.LDMS_M_Role>> GetAllRoles()
+        {
+            return await All<ViewModels.LDMS_M_Role>("Role");
+        }
     }
 }

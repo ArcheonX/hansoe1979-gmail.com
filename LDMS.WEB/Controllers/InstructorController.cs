@@ -15,9 +15,7 @@ namespace LDMS.WEB.Controllers
         {
             _logger = logger;
             _instructorService = instructorService;
-        }
-
-        [Route("")]
+        } 
         [Route("Instructor")]
         [Route("Instructor/Index")]
         public IActionResult Index( LDMS_M_Instructor_Search criteria )

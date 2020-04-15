@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LDMS.ViewModels
+﻿namespace LDMS.ViewModels
 {
     public class LoginRequest
     {

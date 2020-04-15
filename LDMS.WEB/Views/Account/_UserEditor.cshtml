@@ -1,0 +1,262 @@
+﻿@model LDMS.WEB.Models.Employee.EmployeeModel
+<form id="frmUserEditor">
+    <input type="hidden" id="userEditMode" value="false" />
+    <div class="panel-body" style="width:100%;">
+        <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+            @*<div class="row form-group">
+                <div class="col-sm-2 col-md-2  offset-1">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <input type="checkbox" asp-for="IsInstructer" name="isInstructer" id="isInstructer" /><label for="isInstructer">Instructer</label>
+                    </span>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <input type="checkbox" asp-for="IsSectionHead"  name="isSectionHead" id="isSectionHead" /><label for="isSectionHead">Section Head</label>
+                    </span>
+                </div>
+            </div>*@
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Employee ID <font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text"
+                           title="Please Enter Employee ID"
+                           id="txtEmployeeId"
+                           asp-for="EmployeeId"
+                           style="width: 100%"
+                           class="form-control required" />
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Job Grade<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectJobGrade"
+                            name="selectJobGrade"
+                            asp-for="JobGradeId"
+                            title="Please Enter Job Grade"
+                            class="form-control required"
+                            style="width: 100%">
+                    </select>
+                </div>
+
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Employee Name<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <input type="text"
+                           id="txtEmployeeName"
+                           asp-for="EmployeeName"
+                           title="Please Enter Employee Name"
+                           style="width: 100%"
+                           placeholder="Employee Name"
+                           class="form-control required" />
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <input type="text"
+                           id="txtEmployeeSurName"
+                           asp-for="EmployeeSurName"
+                           placeholder="Employee Surname"
+                           title="Please Enter Employee Surname"
+                           style="width: 100%"
+                           class="form-control required" />
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Job Title<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectJObTitle"
+                            name="selectJObTitle"
+                            asp-for="JobTitleId"
+                            title="Please Enter Job Title"
+                            class="form-control required"
+                            style="width: 100%">
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Gender<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectGender"
+                            name="selectGender"
+                            title="Please Enter Gender"
+                            asp-for="Gender"
+                            class="form-control required"
+                            style="width: 100%">
+                        <option value="null">Please select</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                    </select>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Center<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectCenter"
+                            name="selectCenter"
+                            asp-for="CenterId"
+                            title="Please Enter Center"
+                            class="form-control required"
+                            style="width: 100%">
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Nationality</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text" id="txtNationality" class="form-control input-sm" />
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Division<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectDivision"
+                            name="selectDivision"
+                            title="Please Enter Division"
+                            asp-for="DivisionId"
+                            class="form-control required"
+                            style="width: 100%">
+                    </select>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Email</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text"
+                           title="Please Enter Email"
+                           style="width: 100%"
+                           id="txtEmail"
+                           asp-for="Email"
+                           class="form-control" />
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Department<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectDepartment"
+                            name="selectDepartment"
+                            asp-for="DepartmentId"
+                            title="Please Enter Department"
+                            class="form-control required"
+                            style="width: 100%">
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Phone</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text" id="txtPhone" class="form-control input-sm" />
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Section<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectSection"
+                            name="selectSection"
+                            title="Please Enter Section"
+                            asp-for="SectionId"
+                            class="form-control required"
+                            style="width: 100%">
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                @*<div class="col-sm-2 col-md-2">
+            <span class="pull-right" style="vertical-align:middle">
+                <label class="LabelCaption">Password</label>
+            </span>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <input type="password"
+                   id="txtPassword"
+                   asp-for="Password"
+                   class="form-control input-sm" />
+        </div>*@
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <label class="LabelCaption">Remark</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <textarea id="txtRemark" rows="5" style="width:100%"></textarea>
+                </div>
+                <div class="col-sm-2 col-md-2 offset-1">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <input type="checkbox" asp-for="IsInstructer" name="isInstructer" id="isInstructer" /><label for="isInstructer">Instructer</label>
+                    </span>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right" style="vertical-align:middle">
+                        <input type="checkbox" asp-for="IsSectionHead" name="isSectionHead" id="isSectionHead" /><label for="isSectionHead">Section Head</label>
+                    </span>
+                </div>
+            </div>
+            <div class="row form-group"> 
+                <div class="col-sm-1 col-md-1 offset-10"> 
+                    <button id="btnSaveEmployee"  id="btnSaveEmployee" class="btn btn-success waves-effect waves-light" style="width:100%"> Save </button>
+                </div>
+                <div class="col-sm-1 col-md-1" style="margin-left:-25px"> 
+                    <button id="btnBack" class="btn btn-danger inactive waves-effect waves-light" style="width:90%">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12">
+        <div class="panel-heading" style="width:100%;margin-top:25px;margin-left:25px;">Role Management</div>
+        <div class="panel-body" style="width:100%;margin-top:25px;">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-fixed" id="dtUserRoleList">
+                    <thead style="background-color:#1e88e5;color:#ffffff">
+                        <tr>
+                            <th style="text-align:center;width:100px">#</th>
+                            <th style="text-align:center;">Role</th>
+                            <th style="text-align:center">Description</th>
+                            <th style="text-align:center;width:100px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
