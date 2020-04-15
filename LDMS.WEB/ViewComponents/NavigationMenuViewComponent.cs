@@ -21,12 +21,12 @@ namespace LDMS.WEB.ViewComponents
         {
             try
             {
-                List<NavigationMenu> menus = TempData["Menu"] as List<NavigationMenu>;
-                if (menus == null || menus.Count <= 0)
-                {
-                    menus = await UserService.GetMenuItemsAsync();
-                }
-                //ViewData["Menu"] = menus; 	 
+                List<NavigationMenu> menus = await UserService.GetMenuItemsAsync();
+                //if (menus == null || menus.Count <= 0)
+                //{
+                //    menus = await UserService.GetMenuItemsAsync();
+                //}
+             //   TempData["Menus"] = menus; 	 
                 return View(menus);
             }
             catch
