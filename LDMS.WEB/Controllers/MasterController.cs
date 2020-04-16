@@ -79,6 +79,38 @@ namespace LDMS.WEB.Controllers
         {
             return Response(await MasterService.GetAllRoles());
         }
-         
+
+        [HttpPost]
+        [Route("Master/GetCodeLookup")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult GetCodeLookups(string tableName, string fieldName)
+        {
+            return Json(MasterService.GetCodeLookups(tableName, fieldName));
+        }
+
+        [HttpPost]
+        [Route("Master/GetProvinces")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult GetProvinces()
+        {
+            return Json(MasterService.GetProvinces());
+        }
+
+        [HttpPost]
+        [Route("Master/GetAmphurs")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult GetAmphurs(string provinceID)
+        {
+            return Json(MasterService.GetAmphurs(provinceID));
+        }
+
+        [HttpPost]
+        [Route("Master/GetDistricts")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult GetDistricts(string provinceID, string amphurID)
+        {
+            return Json(MasterService.GetDistricts(provinceID, amphurID));
+        }
+
     }
 }

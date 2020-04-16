@@ -270,5 +270,14 @@ namespace LDMS.WEB.Controllers
         {
             return Response(new ServiceResult((await UserService.GetAllEmployeeBySectionId(sectionId))));
         }
+
+
+        [HttpGet]
+        [Route("Account/SearchEmployeeName")]
+        public async Task<ActionResult> SearchEmployeeName(string EmployeeName)
+        {
+            var users = await UserService.GetAll(null, EmployeeName, null);
+            return Json(users);
+        }
     }
 }
