@@ -287,18 +287,5 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
-/.vs/LDMS/v16/.suo
-<<<<<<< HEAD
-/LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.csprojAssemblyReference.cache
-/LDMS.Services/obj/Debug/netcoreapp3.1/LDMS.Services.csprojAssemblyReference.cache
-/LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.csprojAssemblyReference.cache
-/.vs/LDMS/v16/.suo
-/LDMS.Core/obj/project.assets.json
-/LDMS.Daos/obj/project.assets.json
-/LDMS.Domain/obj/Debug/netcoreapp3.1/LDMS.Domain.csprojAssemblyReference.cache
-/LDMS.Services/obj/Debug/netcoreapp3.1/LDMS.Services.csprojAssemblyReference.cache
-/LDMS.Services/obj/LDMS.Services.csproj.nuget.dgspec.json
-/LDMS.WEB/obj/LDMS.WEB.csproj.nuget.dgspec.json
-/.vs/LDMS/v16/.suo
-=======
->>>>>>> develop
+/.vs/LDMS/v16/.suo 
+/.vs/LDMS/DesignTimeBuild/.dtbcache.v2
