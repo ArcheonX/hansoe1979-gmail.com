@@ -1,5 +1,4 @@
-﻿$(document).ready(function () {
-    debugger;
+﻿$(document).ready(function () { 
     if (localStorage.RememberMe && localStorage.RememberMe != '' && localStorage.RememberMe == "true") {
         $('#chkRememberMe').prop('checked', true);
         $('#txtUserName').val(localStorage.usrname);
