@@ -187,28 +187,100 @@
                 $('select[name="selectFilterDepartment"]').val(null).trigger('change');
             },
             failure: function (response) {
-                alert(response.responseText);
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             },
             error: function (response) {
-                alert(response.responseText);
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
+            }
+        }); 
+
+        $.ajax({
+            type: "GET",
+            url: '/Master/GetAllPlatforms',
+            success: function (response) {
+                var options = $('#selectPlatform');
+                options.empty();
+                options.append($("<option />").val(null).text("---All---"));
+                $.each(response.Data, function () {
+                    options.append($("<option />").val(this.ID).text('(' + this.PlatformID + ') ' + this.PlatformName_EN));
+                });
+                $('select[name="selectPlatform"]').val(null).trigger('change');
+            },
+            failure: function (response) {
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
+            },
+            error: function (response) {
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: '/Master/GetAllCourses',
+            success: function (response) {
+                var options = $('#selectCourse');
+                options.empty();
+                options.append($("<option />").val(null).text("---All---"));
+                $.each(response.Data, function () {
+                    options.append($("<option />").val(this.ID).text('(' + this.CourseID + ') ' + this.CourseName));
+                });
+                $('select[name="selectCourse"]').val(null).trigger('change');
+            },
+            failure: function (response) {
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
+            },
+            error: function (response) {
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             }
         });
         $.ajax({
             type: "GET",
-            url: "/Master/GetAllJobGrades", 
-            success: function (response) { 
-                var options = $('#selectMasterReportJobGrade'); 
-                options.append($("<option />").val(null).text("---All---")); 
+            url: "/Master/GetAllJobGrades",
+            success: function (response) {
+                var options = $('#selectMasterReportJobGrade');
+                options.append($("<option />").val(null).text("---All---"));
                 $.each(response.Data, function () {
                     options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
                 });
                 $('select[name="selectMasterReportJobGrade"]').val(null).trigger('change');
             },
             failure: function (response) {
-                alert(response.responseText);
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             },
             error: function (response) {
-                alert(response.responseText);
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             }
         }); 
     })
@@ -664,3 +736,23 @@ function CreateDataTablePaging() {
         $('.dataTables_length').addClass('bs-select');
     }
 }
+function OnSelectRadio(ele) {
+    $("#txtInstructorId").attr("disabled", "disabled");
+    $("#selectPlatform").attr("disabled", "disabled");
+    $("#selectCourse").attr("disabled", "disabled");
+
+    //$("btnExportInstructor").attr("style", "width:98%;display:none");
+    //$("btnExportPlatform").attr("style", "width:98%;display:none");
+    //$("btnExportCourse").attr("style", "width:98%;display:none");
+
+    if (ele.id == "Instructor") {
+        $("#txtInstructorId").removeAttr("disabled");
+       // $("btnExportInstructor").attr("style", "width:98%;display:block");
+    } else if (ele.id == "Platform") {
+        $("#selectPlatform").removeAttr("disabled");
+       // $("btnExportPlatform").attr("style", "width:98%;display:block");
+    } else if (ele.id == "Course") {
+        $("#selectCourse").removeAttr("disabled");
+        //$("btnExportCourse").attr("style", "width:98%;display:block");
+    }
+} 

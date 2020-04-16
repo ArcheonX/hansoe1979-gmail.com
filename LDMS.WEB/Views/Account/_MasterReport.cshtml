@@ -3,13 +3,13 @@
         <div class="form-horizontal" style="margin-top:25px">
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2 offset-2"> 
-                    <input type='checkbox' name='Instructor' value='Instructor' id="Instructor" /><label for="Instructor">Instructor</label> 
+                    <input type='radio' value='Instructor' name='selectMasterType' checked onchange="OnSelectRadio(this)" id="Instructor" /><label for="Instructor">Instructor</label> 
                 </div>
                 <div class="col-sm-2 col-md-2">
-                    <input type='checkbox' name='Platform' value='Platform' id="Platform" /><label for="Platform">Platform</label> 
+                    <input type='radio' value='Platform' name='selectMasterType' onchange="OnSelectRadio(this)" id="Platform" /><label for="Platform">Platform</label> 
                 </div>
                 <div class="col-sm-2 col-md-2">
-                    <input type='checkbox' name='Course' value='Course' id="Course" /><label for="Course">Course</label> 
+                    <input type='radio' value='Course' name='selectMasterType' onchange="OnSelectRadio(this)" id="Course" /><label for="Course">Course</label> 
                 </div>
             </div>
             <div class="row form-group">
@@ -19,7 +19,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <input type="text" style="width: 100%" class="form-control input-sm" />
+                    <input type="text" style="width: 100%" id="txtInstructorId" class="form-control input-sm" />
                 </div>
             </div>
             <div class="row form-group">
@@ -29,7 +29,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select id="selectPlatform" name="selectPlatform" title="Please Enter Section" class="form-control" style="width: 100%">
+                    <select id="selectPlatform" name="selectPlatform" disabled  title="Please Enter Section" class="form-control input-sm" style="width: 100%">
                     </select>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select id="selectCourse" name="selectCourse" title="Please Enter Course" class="form-control" style="width: 100%">
+                    <select id="selectCourse" name="selectCourse" disabled title="Please Enter Course" class="form-control input-sm" style="width: 100%">
                     </select>
                 </div>
             </div>
@@ -51,11 +51,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select required id="selectMasterReportDepartment" name="selectMasterReportDepartment" title="Please Enter Department" class="form-control" style="width: 100%">
-                        @*@foreach (var std in ViewData["Department"] as IList<LDMS.ViewModels.LDMS_M_Department>)
-                        {
-                            <option value="@std.ID">@std.DepartmentID - @std.DepartmentName_EN</option>
-                        }*@
+                    <select required id="selectMasterReportDepartment" name="selectMasterReportDepartment" title="Please Enter Department" class="form-control input-sm" style="width: 100%"> 
                     </select>
                 </div>
             </div>
@@ -66,11 +62,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select id="selectMasterReportJobGrade" name="selectMasterReportJobGrade" class="form-control" style="width: 100%">
-                        @*@foreach (var std in ViewData["JobsGrade"] as IList<LDMS.ViewModels.LDMS_M_JobGrade>)
-                        {
-                            <option value="@std.ID">@std.JobGradeID - @std.JobGradeName_EN</option>
-                        }*@
+                    <select id="selectMasterReportJobGrade" name="selectMasterReportJobGrade" class="form-control input-sm" style="width: 100%"> 
                     </select>
                 </div>
             </div>
@@ -80,8 +72,9 @@
                         <label class="LabelCaption">Status</label>
                     </span>
                 </div>
-                <div class="col-sm-4 col-md-4">
-                    <select id="selectMasterReportStatus" name="selectMasterReportStatus" class="form-control" style="width: 100%">
+                <div class="col-sm-2 col-md-2">
+                    <select id="selectMasterReportStatus" name="selectMasterReportStatus" class="form-control input-sm" style="width: 100%">
+                        <option >---All---</option>
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
                     </select>
@@ -90,14 +83,14 @@
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2">
                     <span class="pull-right">
-                        <label class="LabelCaption">Training Date</label>
+                        <label class="LabelCaption">Training Date<font color="#f60b0b">*</font></label>
                     </span>
                 </div>
                 <div class="col-sm-2 col-md-2">
-                    <input id="dteTrainingDateFrm" type="datetime" class="form-control"  style="width: 100%" />
+                    <input id="dteTrainingDateFrm"  title="Please Enter Training Date " required type="datetime" class="form-control input-sm required"  style="width: 100%" />
                 </div>
                 <div class="col-sm-2 col-md-2">
-                    <input id="dteTrainingDateTo" class="form-control"  type="datetime" style="width: 100%" />
+                    <input id="dteTrainingDateTo" title="Please Enter Training Date " required class="form-control input-sm required"  type="datetime" style="width: 100%" />
                 </div>
             </div>
             <div class="row form-group">
@@ -106,16 +99,25 @@
                         <label class="LabelCaption">Training Status</label>
                     </span>
                 </div>
-                <div class="col-sm-4 col-md-4">
-                    <select id="selectMasterReportStatus" name="selectMasterReportStatus" class="form-control" style="width: 100%">
+                <div class="col-sm-2 col-md-2">
+                    <select id="selectMasterReportStatus" name="selectMasterReportStatus" class="form-control input-sm" style="width: 100%">
+                        <option>---All---</option>
                         <option value="1">Qualified</option>
                         <option value="0">UnQualified</option>
                     </select>
                 </div>
             </div>
             <div class="row form-group">
-                <div class="col-sm-1 col-md-1 offset-10">
-                    <button id="btnSaveEmployee" class="btn btn-success waves-effect waves-light" style="width:100%"> Export - I </button>
+                <div class="col-sm-2 col-md-2 offset-10">
+                    <button id="btnExportMasterReport" class="btn btn-outline-success waves-effect waves-light" style="width:98%;display:block">
+                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" /> Export
+                    </button>
+                    @*<button id="btnExportPlatform" class="btn btn-outline-success waves-effect waves-light" style="width:98%;display:none">
+                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" /> Export - Platform
+                    </button>
+                    <button id="btnExportCourse" class="btn btn-outline-success waves-effect waves-light" style="width:98%;display:none">
+                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" /> Export - Course
+                    </button>*@
                 </div> 
             </div>
         </div>

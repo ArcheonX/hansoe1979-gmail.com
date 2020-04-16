@@ -80,6 +80,23 @@ namespace LDMS.WEB.Controllers
             return Response(await MasterService.GetAllRoles());
         }
 
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [HttpGet]
+        [Route("Master/GetAllPlatforms")]
+        public async Task<IActionResult> GetAllPlatforms()
+        {
+            return Response(await MasterService.GetAllPlatforms());
+        }
+
+
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [HttpGet]
+        [Route("Master/GetAllCourses")]
+        public async Task<IActionResult> GetAllCourses()
+        {
+            return Response(await MasterService.GetAllCourses());
+        }
+
         [HttpPost]
         [Route("Master/GetCodeLookup")]
         [AutoValidateAntiforgeryToken]

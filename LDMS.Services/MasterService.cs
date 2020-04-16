@@ -103,6 +103,32 @@ namespace LDMS.Services
             }
         }
 
+        public async Task<ServiceResult> GetAllCourses()
+        {
+            try
+            {
+                return new ServiceResult(await All<ViewModels.LDMS_M_Course>("Course"));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+        public async Task<ServiceResult> GetAllPlatforms()
+        {
+            try
+            {
+                return new ServiceResult(await All<ViewModels.LDMS_M_Platform>("Platform"));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+
+
         public async Task<ServiceResult> GetAllSections(int departmentId)
         {
             try

@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace LDMS.WEB.Controllers
 {
     public class ReportController : BaseController
-    { 
+    {
+        [Route("ManageReport/Index")]
+        [Route("ManageReport/Report")]
+        [Route("ManageReport")]
         public IActionResult Index()
         {
             return View();

@@ -2,7 +2,7 @@
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_M_Course
+    public class LDMS_M_Course : BaseViewModel
     {
         public int ID { get; set; }
         public string CourseID { get; set; }
