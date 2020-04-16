@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +28,8 @@ namespace LDMS.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
-            services.AddSession(options => {
+            services.AddSession(options =>
+            {
                 options.IdleTimeout = TimeSpan.FromMinutes(120);
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
@@ -44,10 +46,9 @@ namespace LDMS.WEB
             services.AddSingleton(appSettings);
             services.AddSingleton(ldapSettings);
             services.AddSingleton(jwtSettings);
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IAuthorizationHandler, Filters.MinimumExpHandler>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
             services.AddMemoryCache();
-            services.AddControllers(); 
+            services.AddControllers();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -66,7 +67,14 @@ namespace LDMS.WEB
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            }); 
+            });
+            services
+          .AddAuthentication()
+          .AddCookie(options =>
+          {
+              options.LoginPath = "/Account/Index";
+              options.LogoutPath = "/Account/logout";
+          });
             //services.AddAntiforgery(options =>
             //{
             //    options.HeaderName = "X-XSRF-TOKEN";
@@ -76,7 +84,16 @@ namespace LDMS.WEB
             //{
             //    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             //});
-            services.AddControllersWithViews(); 
+            services.AddControllersWithViews();
+            //services.AddMvcCore(options =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //    options.Filters.Add(new AuthorizeFilter(policy));
+            //})
+            //    .AddRazorViewEngine()
+            //    .AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,6 +131,13 @@ namespace LDMS.WEB
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(name: "Instructor", pattern: "{controller=Instructor}/{action=Add}/{id?}");
                 endpoints.MapControllerRoute(name: "Account", pattern: "{controller=Account}/{action=Index}");
+            });
+
+            app.UseStatusCodePages(async context =>
+            { 
+                if (context.HttpContext.Response.StatusCode == (int)System.Net.HttpStatusCode.Unauthorized ||
+                    context.HttpContext.Response.StatusCode == (int)System.Net.HttpStatusCode.Forbidden)
+                    context.HttpContext.Response.Redirect("/Account/Index");
             });
         }
     }

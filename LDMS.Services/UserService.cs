@@ -15,29 +15,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LDMS.Services
-{
-    //public interface IUserService
-    //{
-    //    UserApplicationUser Authenticate(string username, string password);
-    //    IEnumerable<UserApplicationUser> GetAll();
-    //}
+{ 
     public class UserService : ILDMSService
-    {
-        private readonly JwtSettings _jwtSettings;
+    { 
         private readonly ILogger<UserService> _logger;
-        protected IHttpContextAccessor HttpContextAccessor { get; private set; }
-        protected HttpContext HttpContext { get; private set; }
+        protected IHttpContextAccessor HttpContextAccessor { get; private set; } 
         private readonly LDAPAuthenticationService _ldAPAuthenticationService;
         private readonly LocalAuthenticationService _localAuthenticationService;
-        public UserService(
-            JwtSettings jwtSettings, ILogger<UserService> logger,
+        public UserService(ILogger<UserService> logger,
             LDAPAuthenticationService ldAPAuthenticationService,
             LocalAuthenticationService localAuthenticationService,
-            ILDMSConnection iLDMSConnection, IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection)
+            ILDMSConnection iLDMSConnection, 
+            IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection, httpContextAccessor)
         {
             HttpContextAccessor = httpContextAccessor;
-            HttpContext = httpContextAccessor.HttpContext;
-            _jwtSettings = jwtSettings;
+            
             _logger = logger;
             _ldAPAuthenticationService = ldAPAuthenticationService;
             _localAuthenticationService = localAuthenticationService;
@@ -45,74 +37,171 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> GetAll()
         {
-            return new ServiceResult(await GetAll(null, null, null));
+            try
+            {
+                return new ServiceResult(await GetAll(null, null, null));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
         }
         public async Task<ServiceResult> GetAll(string employeeId = null, string employeeName = null, List<int> departments = null)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                //int rowIndex = 1;
-                var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments",
-                  map: (user, userRole, role, depart, plant) =>
-                  {
-                      if (userRole != null)
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
+                    (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments",
+                      map: (user, userRole, role, depart, plant) =>
                       {
-                          userRole.LDMS_M_Role = role;
-                          userRole.Password = null;
-                      }
-                      user.LDMS_M_UserRole = userRole;
-                      if (depart != null)
-                      {
-                          user.LDMS_M_Department = depart;
-                          user.ID_Department = depart.ID_Department;
-                      }
-                      if (plant != null)
-                      {
-                          user.LDMS_M_Plant = plant;
-                      }
-                      //user.RowIndex = rowIndex;
-                      //rowIndex++;
-                      return user;
-                  },
-                  splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
-                  param: new { @paramEmployeeId = employeeId, @paramEmployeeName = employeeName, @paramdepartments = departments != null ? string.Join(",", departments) : null });
-                var user = items.ToList();
-                return new ServiceResult(user);
+                          if (userRole != null)
+                          {
+                              userRole.LDMS_M_Role = role;
+                              userRole.Password = null;
+                          }
+                          user.LDMS_M_UserRole = userRole;
+                          if (depart != null)
+                          {
+                              user.LDMS_M_Department = depart;
+                              user.ID_Department = depart.ID_Department;
+                          }
+                          if (plant != null)
+                          {
+                              user.LDMS_M_Plant = plant;
+                          }
+                          return user;
+                      },
+                      splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                      param: new { @paramEmployeeId = employeeId, @paramEmployeeName = employeeName, @paramdepartments = departments != null ? string.Join(",", departments) : null });
+                    var user = items.ToList();
+                    return new ServiceResult(user);
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
-        public ServiceResult GetUserByEmployeeId(string employeeId)
+        public async Task<ServiceResult> GetUserByEmployeeId(string employeeId)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                   (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
-                     map: (user, userRole, role, depart, plant) =>
-                     {
-                         if (userRole != null)
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
+                       (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
+                         map: (user, userRole, role, depart, plant) =>
                          {
-                             userRole.LDMS_M_Role = role;
-                         }
-                         user.LDMS_M_UserRole = userRole;
-                         if (plant != null)
-                         {
-                             user.LDMS_M_Plant = plant;
-                         }
-                         if (depart != null)
-                         {
-                             user.LDMS_M_Department = depart;
-                             user.ID_Department = depart.ID_Department;
-                         }
-                         return user;
-                     },
-                     splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
-                       param: new { @param_EmployeeId = employeeId });
+                             if (userRole != null)
+                             {
+                                 userRole.LDMS_M_Role = role;
+                             }
+                             user.LDMS_M_UserRole = userRole;
+                             if (plant != null)
+                             {
+                                 user.LDMS_M_Plant = plant;
+                             }
+                             if (depart != null)
+                             {
+                                 user.LDMS_M_Department = depart;
+                                 user.ID_Department = depart.ID_Department;
+                             }
+                             return user;
+                         },
+                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                           param: new { @param_EmployeeId = employeeId });
 
-                var user = items.FirstOrDefault();
-                return new ServiceResult(user);
+                    var user = items.FirstOrDefault();
+                    return new ServiceResult(user);
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
-        public ServiceResult Authenticattion(string username, string password)
+        public async Task<ServiceResult> GetAllEmployeeByDepartmentId(int departmentId)
+        {
+            try
+            {
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
+                       (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
+                         map: (user, userRole, role, depart, plant) =>
+                         {
+                             if (userRole != null)
+                             {
+                                 userRole.LDMS_M_Role = role;
+                             }
+                             user.LDMS_M_UserRole = userRole;
+                             if (plant != null)
+                             {
+                                 user.LDMS_M_Plant = plant;
+                             }
+                             if (depart != null)
+                             {
+                                 user.LDMS_M_Department = depart;
+                                 user.ID_Department = depart.ID_Department;
+                             }
+                             return user;
+                         },
+                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                           param: new { @param_DepartmentId = departmentId });
+                    var user = items.ToList();
+                    return new ServiceResult(user);
+                }
+            }catch(Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+        public async Task<ServiceResult> GetAllEmployeeBySectionId(int sectionId)
+        {
+            try
+            {
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
+                       (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
+                         map: (user, userRole, role, depart, plant) =>
+                         {
+                             if (userRole != null)
+                             {
+                                 userRole.LDMS_M_Role = role;
+                             }
+                             user.LDMS_M_UserRole = userRole;
+                             if (plant != null)
+                             {
+                                 user.LDMS_M_Plant = plant;
+                             }
+                             if (depart != null)
+                             {
+                                 user.LDMS_M_Department = depart;
+                                 user.ID_Department = depart.ID_Department;
+                             }
+                             return user;
+                         },
+                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                           param: new { @param_SectionId = sectionId });
+                    var user = items.ToList();
+                    return new ServiceResult(user);
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+
+        public async Task<ServiceResult> Authenticattion(string username, string password)
         {
             try
             {
@@ -171,8 +260,14 @@ namespace LDMS.Services
                     HttpContext.Response.Set("LASTNAME", user.Surname, 120);
                     HttpContext.Response.Set("FULLNAME", string.Format("{0} {1}", user.Name, user.Surname), 120);
                     HttpContext.Response.Set("EMPLOYEEID", user.EmployeeID, 120);
-                    HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.Value) : "", 120);
-                    HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0} {1}", user.LDMS_M_Department.DepartmentID, "" /*user.LDMS_M_Department.DepartmentName_EN*/) : "", 120);
+                    HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.GetValueOrDefault()) : "", 120);
+                    HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.DepartmentID) : "", 120);
+                    HttpContext.Response.Set("PLANTID", user.ID_Plant.ToString(), 120);
+
+                    HttpContext.Response.Set("DIVISIONID", string.Format("{0}", user.ID_Division), 120);
+
+                    HttpContext.Response.Set("DEPARTMENTID", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.ID_Department) : "", 120);
+                    HttpContext.Response.Set("SECTIONTID", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault().ToString() : "0", 120);
                     HttpContext.Response.Set("FACEIMAGE", "~/assets/images/users/1.jpg", 120);
                     HttpContext.Response.Set("JWToken", user.Token, 120);
                     HttpContext.Session.SetString("JWToken", user.Token);
@@ -182,23 +277,32 @@ namespace LDMS.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return new ServiceResult(new Exception("Unauthorized"));
             }
         }
 
         public async Task<List<NavigationMenu>> GetMenuItemsAsync()
         {
-            var token = JwtManager.Instance.GetToken(HttpContext.Request);
-            if (!JwtManager.Instance.IsTokenValid(token))
+            try
             {
+                var token = JwtManager.Instance.GetToken(HttpContext.Request);
+                if (!JwtManager.Instance.IsTokenValid(token))
+                {
+                    throw new Exception("Unauthorized");
+                }
+                var cliams = JwtManager.Instance.GetClaims(token).ToList();
+                Claim claim = cliams.FirstOrDefault(o => o.Type.ToUpper() == ClaimTypes.Role.ToUpper());
+                if (claim == null) throw new Exception("Unauthorized");
+                int rolId = 0;
+                int.TryParse(claim.Value, out rolId);
+                return BuildUserMenu(rolId).AsList();
+            }
+            catch(Exception x)
+            {
+                _logger.LogError(x.Message);
                 throw new Exception("Unauthorized");
             }
-            var cliams = JwtManager.Instance.GetClaims(token).ToList();
-            Claim claim = cliams.FirstOrDefault(o => o.Type.ToUpper() == ClaimTypes.Role.ToUpper());
-            if (claim == null) throw new Exception("Unauthorized");
-            int rolId = 0;
-            int.TryParse(claim.Value, out rolId);
-            return BuildUserMenu(rolId).AsList();
         }
 
         private IEnumerable<NavigationMenu> BuildUserMenu(int roleId)
@@ -252,6 +356,7 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> DeleteUser(string employeeId)
         {
+            try { 
             using (System.Data.IDbConnection conn = Connection)
             {
                 var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
@@ -265,11 +370,18 @@ namespace LDMS.Services
                     return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                 }
                 return new ServiceResult();
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
         public async Task<ServiceResult> ResetPassword(string employeeId)
         {
+            try { 
             var passsalt = PasswordHelper.CreateSalt();
             var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
             using (System.Data.IDbConnection conn = Connection)
@@ -277,7 +389,7 @@ namespace LDMS.Services
                 var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword] @EmployeeId,@Password,@PasswordSalt,@UpdateBy",
                     new
                     {
-                        @EmployeeId = employeeId, 
+                        @EmployeeId = employeeId,
                         @Password = newHaspass,
                         @PasswordSalt = passsalt,
                         @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
@@ -287,9 +399,14 @@ namespace LDMS.Services
                     return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                 }
                 return new ServiceResult();
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
-
 
         public async Task<ServiceResult> CreateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
         {
@@ -326,12 +443,13 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
-                    return GetUserByEmployeeId(user.EmployeeID);
+                    return await GetUserByEmployeeId(user.EmployeeID);
                 }
             }
-            catch (Exception ex)
+            catch (Exception x)
             {
-                return new ServiceResult(ex);
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
@@ -340,7 +458,7 @@ namespace LDMS.Services
             try
             {
                 using (System.Data.IDbConnection conn = Connection)
-                { 
+                {
                     var items = Connection.Query<SQLError>(_schema + ".[usp_User_Update] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Remark,@PhoneNumber, @Email ,@UpdateBy",
                         new
                         {
@@ -357,7 +475,7 @@ namespace LDMS.Services
                             @IsInstructer = userRole.IsInstructor,
                             @IsSectionHead = userRole.IsSectionHead,
                             @Nationality = user.Nationality,
-                            @Gender = user.Gender, 
+                            @Gender = user.Gender,
                             @Remark = userRole.Remark,
                             @PhoneNumber = user.PhoneNumber,
                             @Email = user.Email,
@@ -367,20 +485,21 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
-                    return GetUserByEmployeeId(user.EmployeeID);
+                    return await GetUserByEmployeeId(user.EmployeeID);
                 }
             }
-            catch (Exception ex)
+            catch (Exception x)
             {
-                return new ServiceResult(ex);
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
-        public async Task<ServiceResult> ChangePassword(string employeeId, string oldPassword,string newPassword)
+        public async Task<ServiceResult> ChangePassword(string employeeId, string oldPassword, string newPassword)
         {
             try
             {
-                var emp = GetUserByEmployeeId(employeeId);
+                var emp = await GetUserByEmployeeId(employeeId);
 
                 using (System.Data.IDbConnection conn = Connection)
                 {
@@ -404,9 +523,10 @@ namespace LDMS.Services
                     return emp;
                 }
             }
-            catch (Exception ex)
+            catch (Exception x)
             {
-                return new ServiceResult(ex);
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
     }

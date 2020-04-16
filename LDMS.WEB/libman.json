@@ -23,10 +23,6 @@
       "destination": "wwwroot/lib/bootstrap-checkbox/"
     },
     {
-      "library": "jquery@3.4.1",
-      "destination": "wwwroot/lib/jquery/"
-    },
-    {
       "library": "jqueryui@1.12.1",
       "destination": "wwwroot/lib/jqueryui/"
     },
@@ -72,16 +68,17 @@
     },
     {
       "library": "jquery@3.4.1",
+      "destination": "wwwroot/lib/jquery/dist/",
       "files": [
         "jquery.min.js",
         "jquery.js",
         "jquery.min.map"
-      ],
-      "destination": "wwwroot/lib/jquery/dist/"
+      ]
     },
     {
       "provider": "unpkg",
       "library": "bootstrap@4.4.1",
+      "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "LICENSE",
         "dist/css/bootstrap-grid.css",
@@ -104,9 +101,11 @@
         "dist/js/bootstrap.js.map",
         "dist/js/bootstrap.min.js",
         "dist/js/bootstrap.min.js.map"
-
-      ],
-      "destination": "wwwroot/lib/bootstrap/"
+      ]
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "wwwroot/lib/toastr.js/"
     }
   ]
 }

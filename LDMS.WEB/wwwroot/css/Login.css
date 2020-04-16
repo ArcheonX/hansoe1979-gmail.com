@@ -1,24 +1,4 @@
-﻿.preloader {
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    position: fixed;
-    z-index: 99999;
-    background: #fff
-}
-.preloader
-.cssload-speeding-wheel {
-        position: absolute;
-        top: calc(50% - 3.5px);
-        left: calc(50% - 3.5px)
-    } 
-* {
-    outline: none
-}
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
-
-@font-face {
+﻿@font-face {
     font-family: Montserrat-Regular;
     src: url('../fonts/montserrat/Montserrat-Regular.ttf');
 }
@@ -35,14 +15,7 @@
 
 
 /*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
-
-* {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-}
-
+[ RESTYLE TAG ]*/ 
 body, html {
     height: 100%;
     font-family: Montserrat-Regular, sans-serif;
@@ -60,21 +33,17 @@ a {
     -o-transition: all 0.4s;
     -moz-transition: all 0.4s;
 }
-
     a:focus {
         outline: none !important;
     }
-
     a:hover {
         text-decoration: none;
         color: #fff;
     }
-
 /*---------------------------------------------*/
 h1, h2, h3, h4, h5, h6 {
     margin: 0px;
 }
-
 p {
     font-family: Montserrat-Regular;
     font-size: 14px;
@@ -82,26 +51,15 @@ p {
     color: #666666;
     margin: 0px;
 }
-
 ul, li {
     margin: 0px;
     list-style-type: none;
 }
-
-
 /*---------------------------------------------*/
 input {
     outline: none;
     border: none;
-}
-
-textarea {
-    outline: none;
-    border: none;
-}
-textarea:focus, input:focus {
-        border-color: transparent !important;
- }
+}  
 input:focus::-webkit-input-placeholder {
             color: transparent;
         }
@@ -113,19 +71,7 @@ input:focus::-moz-placeholder {
         }
 input:focus:-ms-input-placeholder {
             color: transparent;
-        }
-textarea:focus::-webkit-input-placeholder {
-            color: transparent;
-        }
-textarea:focus:-moz-placeholder {
-            color: transparent;
-        }
-textarea:focus::-moz-placeholder {
-            color: transparent;
-        }
-textarea:focus:-ms-input-placeholder {
-            color: transparent;
-        }
+        } 
 input::-webkit-input-placeholder {
     color: #999999;
 }
@@ -137,20 +83,7 @@ input::-moz-placeholder {
 }
 input:-ms-input-placeholder {
     color: #999999;
-}
-textarea::-webkit-input-placeholder {
-    color: #999999;
-}
-textarea:-moz-placeholder {
-    color: #999999;
-}
-textarea::-moz-placeholder {
-    color: #999999;
-}
-
-textarea:-ms-input-placeholder {
-    color: #999999;
-}
+} 
 /*---------------------------------------------*/
 button {
     outline: none !important;
@@ -174,25 +107,15 @@ iframe {
     font-size: 20px;
     color: #005bea;
     line-height: 1.4;
-}
-
+} 
 .bo1 {
     border-bottom: 1px solid #999999;
-}
-
+} 
 .hov1:hover {
     border-color: #d33f8d;
-}
-
-
+}  
 /*//////////////////////////////////////////////////////////////////
-[ login ]*/
-
-.limiter {
-    width: 100%;
-    margin: 0 auto;
-}
-
+[ login ]*/   
 .container-login100 {
     width: 100%;
     /* min-height: 100vh;*/
@@ -213,8 +136,7 @@ iframe {
     background-color: #999999;
     overflow: hidden
 }
-
-    .container-login100::before {
+.container-login100::before {
         content: "";
         display: block;
         position: absolute;
@@ -230,16 +152,10 @@ iframe {
         background: linear-gradient(bottom, #fff, #00c6fb);
         opacity: 0.9;
     }
-
 .wrap-login100 {
     width: 390px;
     background: transparent;
 }
-
-
-
-/*------------------------------------------------------------------
-[  ]*/
 .login100-form {
     width: 100%;
     display: -webkit-box;
@@ -250,7 +166,6 @@ iframe {
     justify-content: space-between;
     flex-wrap: wrap;
 }
-
 .login100-form-title {
     font-family: Montserrat-ExtraBold;
     font-size: 24px;
@@ -260,8 +175,6 @@ iframe {
     width: 100%;
     display: block;
 }
-
-/*---------------------------------------------*/
 .login100-form-avatar {
     width: 120px;
     height: 120px;
@@ -269,13 +182,9 @@ iframe {
     overflow: hidden;
     margin: 0 auto;
 }
-
-    .login100-form-avatar img {
+.login100-form-avatar img {
         width: 100%;
     }
-
-
-/*---------------------------------------------*/
 .wrap-input100 {
     position: relative;
     width: 100%;
@@ -283,7 +192,6 @@ iframe {
     border:thin;
     border-width:1px;
 }
-
 .input100 {
     font-family: Montserrat-Bold;
     font-size: 15px;
@@ -296,10 +204,6 @@ iframe {
     border-radius: 25px;
     padding: 0 30px 0 53px;
 }
-
-
-/*------------------------------------------------------------------
-[ Focus ]*/
 .focus-input100 {
     display: block;
     position: absolute;
@@ -312,7 +216,6 @@ iframe {
     box-shadow: 0px 0px 0px 0px;
     color: rgba(0,91,234, 0.6);
 }
-
 .input100:focus + .focus-input100 {
     -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
     animation: anim-shadow 0.5s ease-in-out forwards;
@@ -354,13 +257,10 @@ iframe {
     -moz-transition: all 0.4s;
     transition: all 0.4s;
 }
-
 .input100:focus + .focus-input100 + .symbol-input100 {
     color: #00c6fb;
     padding-left: 23px;
 }
-
-
 /*------------------------------------------------------------------
 [ Button ]*/
 .container-login100-form-btn {
@@ -373,7 +273,6 @@ iframe {
     flex-wrap: wrap;
     justify-content: center;
 }
-
 .login100-form-btn {
     font-family: Montserrat-Bold;
     font-size: 25px;
@@ -398,8 +297,7 @@ iframe {
     position: relative;
     z-index: 1;
 }
-
-    .login100-form-btn::before {
+.login100-form-btn::before {
         content: "";
         display: block;
         position: absolute;
@@ -419,8 +317,7 @@ iframe {
         -moz-transition: all 0.4s;
         transition: all 0.4s;
         opacity: 0;
-    }
-
+    } 
     .login100-form-btn:hover {
         background-color: #333333;
         color: #fff;
@@ -517,8 +414,7 @@ iframe {
     -o-transition: opacity 0.4s;
     -moz-transition: opacity 0.4s;
     transition: opacity 0.4s;
-}
-
+} 
 .alert-validate::after {
     content: "\f06a";
     font-family: FontAwesome;
@@ -533,30 +429,11 @@ iframe {
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
     right: 13px;
-}
-
+} 
 .alert-validate:hover:before {
     visibility: visible;
     opacity: 1;
-}
-
-@media (max-width: 992px) {
-    .alert-validate::before {
-        visibility: visible;
-        opacity: 1;
-    }
-}
-
-/*//////////////////////////////////////////////////////////////////
-[ responsive ]*/
-
-@media (max-width: 576px) {
-    .wrap-login100 {
-        padding-top: 80px;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-}
+} 
 .footer {
     bottom: 0;
     color: #67757c;
@@ -565,6 +442,19 @@ iframe {
     position: absolute;
     right: 0;
     border-top: 1px solid rgba(120,130,140,0.13);
-    background: #fff;
+    background: #d7dfe3;
     padding-left: calc(25%);
-} 
+}
+.head-title h1 {
+    font-size: 28px !important;
+    color: white;
+    margin: 0 auto;
+    font-weight: 400;
+}
+.page-wrapper {
+    width: 100%;
+    background: #d7dfe3;
+    height: calc(100%)-150px; 
+    position: relative; 
+    margin-top: 150px;
+}

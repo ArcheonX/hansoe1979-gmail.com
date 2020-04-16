@@ -18,6 +18,7 @@ namespace LDMS.ViewModels
         public string UpdateBy { get; set; }
         public DateTime UpdateDate { get; set; }
         public byte IsActive { get; set; }
+        public byte IsForceChangePass { get; set; }
         public LDMS_M_Role LDMS_M_Role { get; set; }
         public LDMS_M_UserRole()
         {

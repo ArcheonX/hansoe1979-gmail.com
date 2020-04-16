@@ -14,6 +14,10 @@
         "outputPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.MockUp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+<<<<<<< HEAD
+=======
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+>>>>>>> d15e73123a63d1f4272571264472f3653c3a69be
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [

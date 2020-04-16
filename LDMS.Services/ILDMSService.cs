@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using LDMS.Core;
+using LDMS.Identity;
 using LDMS.ViewModels;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +11,12 @@ namespace LDMS.Services
 {
     public abstract class ILDMSService
     {
+        protected HttpContext HttpContext { get; private set; }
         private ILDMSConnection _LDMSConnection;
         protected const string _schema = "[dbo]";
-        public ILDMSService(ILDMSConnection connection)
+        public ILDMSService(ILDMSConnection connection, IHttpContextAccessor httpContextAccessor)
         {
+            HttpContext = httpContextAccessor.HttpContext;
             _LDMSConnection = connection;
         }
         protected System.Data.IDbConnection Connection
@@ -32,6 +36,11 @@ namespace LDMS.Services
                 var results = Connection.Query<T>(_schema + ".[usp_"+ table + "_READ_ALL]"); 
                 return results.ToList();
             }
+        }
+
+        protected string CurrentUserId()
+        {
+            return JwtManager.Instance.GetUserId(HttpContext.Request);
         }
     }
     public class SQLError

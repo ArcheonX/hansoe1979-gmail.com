@@ -1,8 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Login";
     Layout = null;
-}
-@model LoginViewModel
+} 
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,41 +18,38 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
-
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/tether.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="~/js/jquery.slimscroll.js"></script>
-        <script src="~/js/waves.js"></script>
-        <script src="~/js/sidebarmenu.js"></script>
-        <script src="~/js/custom.js"></script>
-        <script src="~/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
-        <script src="~/lib/sparkline/jquery.sparkline.min.js"></script>
-        <script src="~/lib/styleswitcher/jQuery.style.switcher.js"></script>
-
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/bootstrap/dist/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
         <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
         <link rel="stylesheet" type="text/css" href="css/vendor/animate/animate.css">
         <link rel="stylesheet" type="text/css" href="css/vendor/css-hamburgers/hamburgers.min.css">
+        <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
         <link href="~/css/Login.css" rel="stylesheet">
-        <link href="~/css/LDMS.css" rel="stylesheet"> 
-        <link href="~/css/util.css" rel="stylesheet">
         <link href="~/css/colors/blue.css" id="theme" rel="stylesheet">
         <script src="~/assets/app/loginController.js"></script>
+        <script src="~/assets/app/MessageController.js"></script>
         <!--[if lt IE 9]>
         <script src="~/assets/lib/html5shiv/html5shiv.js"></script>
         <script src="~/assets/lib/respond.js/respond.min.js"></script>
     <![endif]-->
     </head>
-    <body class="fix-header card-no-border" style="background:linear-gradient(bottom, #fff, #00c6fb);">
-        <div class="preloader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-            </svg>
-        </div>
+    <body style="background:linear-gradient(bottom, #fff, #00c6fb);">
         <div id="main-wrapper">
             <header class="topbar">
                 <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
@@ -71,33 +67,21 @@
             </header>
             <div class="page-wrapper">
                 <div class="container-login100">
-                    <div class="wrap-login100 p-t-190 p-b-30" style="overflow:hidden;min-height:850px;">
-                        <form class="login100-form validate-form" id="Login-form" asp-action="Login">
-                            <div asp-validation-summary="ModelOnly" class="text-danger">@ViewBag.error</div>
-                            <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
-                                <input class="input100" type="text" name="Username" required title="Please Enter User Name (Employee ID)" placeholder="Username" asp-for="Username">
-                                @*<span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="fa fa-user"></i>
-                                </span>*@
-                            </div>
-                            <div class="wrap-input100 validate-input m-b-10" data-validate="Password is required">
-                                <input class="input100" type="password" name="Password" required title="Please Enter Password (Default : Employee ID)" placeholder="Password" asp-for="Password">
-                                @*<span class="focus-input100"></span>
-                                <span class="symbol-input100">
-                                    <i class="fa fa-lock"></i>
-                                </span>*@
-                            </div>
-                            @*<div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
-                </label>
-            </div>*@
-                        </form>
-                        <div class="container-login100-form-btn p-t-10">
-                            <button id="btn-frm-login" class="login100-form-btn">Login </button>
+                    <div class="wrap-login100 p-t-190 p-b-30">
+                        <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
+                            <input class="input100" id="txtUserName" type="text" name="Username" required title="Please Enter User Name (Employee ID)" placeholder="Username">
                         </div>
-                        <div class="text-center w-full p-t-25 p-b-230">
+                        <div class="wrap-input100 validate-input m-b-10" style="margin-top:20px;" data-validate="Password is required">
+                            <input class="input100" id="txtPassword" type="password" name="Password" required title="Please Enter Password (Default : Employee ID)" placeholder="Password">
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-10" style="margin-top:20px;" data-validate="Password is required">
+                            <input type="checkbox" id="chkRememberMe" /><label for="chkRememberMe">&nbsp;&nbsp;Remember Me</label>
+                        </div>
+                        <div class="container-login100-form-btn p-t-10" style="margin-top:20px;">
+                            <button id="btn-frm-login" onclick="OnAuthentication()" class="login100-form-btn">Login </button>
+                        </div>
+                        
+                        <div class="text-center w-full p-t-25 p-b-230" style="margin-top:20px;">
                             <a href="#" class="txt1">Forgot Password? </a>
                         </div>
                     </div>
