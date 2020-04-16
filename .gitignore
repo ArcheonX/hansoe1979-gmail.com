@@ -288,3 +288,4 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 /.vs/LDMS/v16/.suo
+/.vs/LDMS/DesignTimeBuild/.dtbcache.v2
