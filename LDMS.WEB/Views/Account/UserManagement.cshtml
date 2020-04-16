@@ -8,33 +8,34 @@
         <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage LDMS</a></li>
     </ol>
 }
-<script src="~/assets/app/ImanageLDMS.js"></script>
+<script src="~/assets/app/UserController.js"></script>
 <div class="panel panel-primary" style="width:100%">
     <div class="panel-body panel-body-begin">
         <div class="form-horizontal">
-            <div class="row form-group">
+            <div class="row form-group" style="padding-top:5px;">
                 <div class="col-sm-2 col-md-2">
-                    <button id="btnUser" class="btn btn-info waves-effect waves-light" style="width:100%"> User </button>
+                    <button id="btnUser" class="btn btn-info waves-effect waves-light" style="width:100%"> User</button>
                 </div>
                 <div class="col-sm-2 col-md-2" style="margin-left:-25px">
-                    <button id="btnMasterReport" class="btn btn-info btn-inactive waves-effect waves-light" style="width:100%">Master Report </button>
+                    <button id="btnMasterReport" class="btn btn-inactive waves-effect waves-light" style="width:100%;">Master Report </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+<div style="margin-top:-15px;width:100%;">
     <div id="viewAllUser" style="display:block;width:100%">
-        @Html.Partial("_SearchEmployeeCritiria")
-        <div id="UserListcontent">
-            @Html.Partial("_ViewAllUser")
+        <div class="panel panel-default" style="width: 100%;">
+            @await Html.PartialAsync("_SearchEmployeeCritiria")
+            <div id="UserListcontent">
+                @await Html.PartialAsync("_ViewAllUser")
+            </div>
         </div>
     </div>
-    <div id="UserEditor" style="display:none;width:100%;">
-        @Html.Partial("_UserEditor")
+    <div id="UserEditor" style="display:none;width:100%">
+        @await Html.PartialAsync("_UserEditor")
     </div>
-    <div id="MasterReport" style="display:none;width:100%;">
-        @Html.Partial("_MasterReport")
+    <div id="MasterReport" style="display:none;width:100%">
+        @await Html.PartialAsync("_MasterReport")
     </div>
-</div>
-@*border-width:thin;border-style:solid;*@
+</div> 

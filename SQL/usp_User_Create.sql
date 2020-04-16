@@ -112,26 +112,28 @@ INSERT INTO [dbo].[LDMS_M_UserRole]
            ([EmployeeID]
            ,[ID_Role]
            ,[Password]
-           ,[IsInstructor]
-           ,[IsSectionHead]
+           --,[IsInstructor]
+           --,[IsSectionHead]
            ,[ID_Section]
            ,[Remark]
            ,[CreateBy]
            ,[CreateDate] 
            ,[IsActive]
-           ,[PasswordSalt])
+           ,[PasswordSalt]
+		   ,[IsForceChangePass])
      VALUES
            (@EmployeeId
            ,@RoleId
            ,@Password
-           ,@IsInstructer
-           ,@IsSectionHead
+           --,@IsInstructer
+           --,@IsSectionHead
            ,@SectionId
            ,@Remark
            ,@CreateBy
            ,GETDATE() 
            ,1
-           ,@PasswordSalt);
+           ,@PasswordSalt,
+		   0);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH

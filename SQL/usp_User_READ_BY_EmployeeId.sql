@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_User_READ_BY_EmployeeId] 'STT00001'
+-- EXEC [dbo].[usp_User_READ_BY_EmployeeId] 'STD001'
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_User_READ_BY_EmployeeId]
 	-- Add the parameters for the stored procedure here
@@ -31,8 +31,8 @@ BEGIN
 
 
 
-	usrRole.ID as UserRoleId,usrRole.ID_Role,usrRole.IsInstructor,usrRole.Password,usrRole.Remark,usrRole.ID_Section,usrRole.passwordSalt,
-	rol.ID as RoleId,rol.RoleDescription,rol.RoleName_EN,rol.RoleName_TH,
+	usrRole.ID as UserRoleId,usrRole.ID_Role,usrRole.IsInstructor,usrRole.Password,usrRole.Remark,usrRole.ID_Section,usrRole.passwordSalt,usrRole.IsSectionHead,
+	rol.ID as RoleId,rol.RoleDescription,rol.RoleName_EN,rol.RoleName_TH,IsForceChangePass,
 	dep.ID as ID_Department,dep.DepartmentID,dep.DepartmentName_EN,dep.DepartmentName_TH,dep.Description,
 	muser.ID_Plant,plant.PlantDescription,plant.PlantID,plant.PlantName_EN,plant.PlantName_TH
 	FROM   LDMS_M_User  muser WITH (NOLOCK) 

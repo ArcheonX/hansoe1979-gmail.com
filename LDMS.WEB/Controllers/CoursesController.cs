@@ -8,6 +8,9 @@ namespace LDMS.WEB.Controllers
 {
     public class CoursesController : BaseController
     {
+        [HttpGet]
+        [Route("Courses")]
+        [Route("Courses/Index")]
         public IActionResult Index()
         {
             return View();

@@ -1,0 +1,236 @@
+/*SLIDE LEFT*/
+
+#sidebar {
+
+    width: 260px;
+    left: 0;
+    transition: all 300ms linear;
+
+}
+
+.sidebar-active #sidebar {
+    left: -250px;
+    transition: all 300ms linear;
+}
+
+/*สำหรับต้องการขยายส่วน content ให้เปิด class นี้*/
+
+/*.sidebar-active .main-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 0 1fr;
+    transition: all 300ms linear ;
+    padding-top: 114px;
+
+}
+
+.sidebar-active .content {
+    transition: all 300ms linear;   
+
+}
+*/
+
+
+#sidebar .toggle-btn {
+
+    position: absolute;
+    z-index: 99;
+    left: 260px;
+    top: 480px;
+    cursor: pointer;
+    -webkit-transform: translateY(-40%);
+    -moz-transform: translateY(-40%);
+    -ms-transform: translateY(-40%);
+    -o-transform: translateY(-40%);
+    transform: translateY(-40%);
+}
+
+#sidebar .toggle-btn .box-icon {
+    display: block;
+    width: 12px;
+    padding: 25px 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    position: relative;
+
+
+}
+
+
+#sidebar .toggle-btn-hide {
+
+    position: absolute;
+    z-index: 77;
+    left: 260px;
+    top: 480px;
+    cursor: pointer;
+    -webkit-transform: translateY(-40%);
+    -moz-transform: translateY(-40%);
+    -ms-transform: translateY(-40%);
+    -o-transform: translateY(-40%);
+    transform: translateY(-40%);
+}
+
+#sidebar .toggle-btn-hide .box-icon-hide {
+    display: block;
+    width: 12px;
+    padding: 25px 0;
+    background-color: #2d2f39;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    position: relative;
+
+
+}
+
+
+#sidebar .toggle-btn .box-icon div {
+    margin-left: -7px;
+}
+
+/*END SLIDE LEFT*/
+
+/*SLIDE MENU*/
+#menuToggle {
+    display: block;
+    position: absolute;
+    top: 17px;
+    right: 10px;
+    z-index: 999;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#menuToggle input {
+    display: block;
+    width: 40px;
+    height: 32px;
+    position: absolute;
+    top: -7px;
+    left: -5px;
+    cursor: pointer;
+    opacity: 0;
+    /* hide this */
+    z-index: 2;
+    /* and place it over the hamburger */
+    -webkit-touch-callout: none;
+}
+
+/*
+ * Just a quick hamburger
+ */
+#menuToggle span {
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    background: #2b2d2d;
+    border-radius: 3px;
+    z-index: 1;
+    transform-origin: 4px 0px;
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+    transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2) {
+    transform-origin: 0% 100%;
+}
+
+/* 
+ * Transform all the slices of hamburger
+ * into a crossmark.
+ */
+#menuToggle input:checked~span {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: #2b2d2d;
+}
+
+/*
+ * But let's hide the middle one.
+ */
+#menuToggle input:checked~span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+#menuToggle input:checked~span:nth-last-child(2) {
+    opacity: 1;
+    transform: rotate(-45deg) translate(0, -1px);
+}
+
+/*
+ * Make this absolute positioned
+ * at the top left of the screen
+ */
+#menu {
+    position: absolute;
+    width: 315px;
+    margin: -115px 0 0 0;
+    padding: 50px;
+    padding-top: 125px;
+    right: -60px;
+
+
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+
+    transform-origin: 0% 0%;
+    transform: translate(100%, 0);
+
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+}
+
+
+/*
+ * And let's fade it in from the left
+ */
+#menuToggle input:checked~ul {
+    transform: scale(1.0, 1.0);
+    opacity: 1;
+}
+
+
+
+
+
+
+/*check */ 
+@media (max-width: 1600px) {
+    #menuToggle {
+    display: block;
+    position: absolute;
+    top: 13px;
+    right: 10px;
+    z-index: 999;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#sidebar .toggle-btn-hide .box-icon-hide {
+    display: block;
+    width: 12px;
+    padding: 25px 0;
+    background-color: #2d2f39;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    position: relative;
+    background-image: url(../img/bg/bg.png);
+    background-repeat:no-repeat;
+    background-position:bottom center;
+
+
+}
+
+
+}
