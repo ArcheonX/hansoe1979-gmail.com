@@ -2,13 +2,12 @@
 @{
     ViewData["Title"] = "Instuctor Profile";
 }
+@using LDMS.ViewModels;
+@model LDMS_M_Instructor
 
 @section Header{
 
-    <script src="~/assets/plugins/highchart/highcharts.js"></script>
-    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
-    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
-    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+
 }
 
 @section NavHeader{
@@ -18,218 +17,198 @@
         <li class="breadcrumb-item active">I-Manage Instructor Profile</li>
     </ol>
 }
-
-<div class="card">
-    <div class="form-group m-2 row">
-        <div class="col-4">
-            <label class="breadcrumb-item active" style="font-size:larger">General Information</label>
-        </div>
-        <div class="col-8" style="text-align:right">
-            <button id="btnSave" class="btn btn-success waves-effect waves-light">Edit</button>
-            <button id="btnBack" class="btn btn-danger waves-effect waves-light">Back</button>
+<div style="width:100%">
+    <div class="card">
+        <div class="form-group m-2 row">
+            <div class="col-7">
+                <h4 class="card-title">General Information</h4>
+            </div>
+            <div class="col-5" style="text-align:right">
+                <button id="btnEdit" class="btn btn-success waves-effect waves-light btn-command" onclick="window.location.href = '@Url.Action("Detail", "Instructor")/@Model.ID'; return false;">Edit</button>
+                <button id="btnBack" class="btn btn-danger waves-effect waves-light  btn-command" onclick="window.location.href = '@Url.Action("Index", "Instructor")'; return false;">Back</button>
+            </div>
         </div>
     </div>
-</div>
-<div class="card">
-    <form class="form">
-        <div class="card-block collapse show b-t">
-            <div class="m-t-30 text-center">
-                <img src="../assets/images/users/5.jpg" class="img-circle" width="150">
-                <h4 class="card-title m-t-10">Pisit Imlerthiran</h4>
-                <h6 class="card-subtitle">EXT-001</h6>
+    <div class="card">
+        <form class="form">
+            <div class="card-block collapse show b-t">
+                <div class="m-t-30 text-center">
+                    @if (Model.Path_Image != null & Model.Path_Image != "")
+                    {
+                        <img src="@Model.Path_Image" class="img-circle" width="120">
+                    }
+                    <h4 class="card-title m-t-10">@Model.Instructor_Name</h4>
+                    <h6 class="card-subtitle">@Model.Instructor_ID</h6>
+                </div>
             </div>
-        </div>
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
-            <div class="col-4">
-                <label for="example-text-input" class="col-4 col-form-label" style="text-align:left">EXT-001</label>
+            <div class="form-group m-2 row">
+                <label  class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.Instructor_ID</label>
+                </div>
+                <label  class="col-2 col-form-label" style="text-align:right">Organization</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.Organization</label>
+                </div>
             </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Organization</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">Vera Plus Soft adsasdasdadsadasdasdas</label>
+            <div class="form-group m-2 row">
+                <label  class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.Instructor_Name</label>
+                </div>
+                <label  class="col-2 col-form-label" style="text-align:right">Address</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.Address</label>
+                </div>
             </div>
-        </div>
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">Pisit Imlerthiran</label>
+            <div class="form-group m-2 row">
+                <label  class="col-2 col-form-label" style="text-align:right">Type</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.TypeName</label>
+                </div>
+                <label  class="col-2 col-form-label" style="text-align:right">District</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.DISTRICT_NAME</label>
+                </div>
             </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Address</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">10,M9 Bangkadi Industrial</label>
-            </div>
-        </div>
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Type</label>
-            <div class="col-4">
-                <label class="col-4 col-form-label" style="text-align:left">External</label>
-            </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">District</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">Pathumtani</label>
-            </div>
-        </div>
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Status</label>
-            <div class="col-4">
-                <label for="example-text-input" class="col-4 col-form-label" style="text-align:left">Active</label>
-            </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Sub Province</label>
-            <div class="col-4">
-                <label for="example-text-input" class="col-form-label" style="text-align:left">Bangkadi</label>
-            </div>
+            <div class="form-group m-2 row">
+                <label  class="col-2 col-form-label" style="text-align:right">Status</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@(Model.IsActive? LDMS.WEB.Resources.Enum.e_Status_Active: LDMS.WEB.Resources.Enum.e_Status_Inactive)</label>
+                </div>
+                <label  class="col-2 col-form-label" style="text-align:right">Sub Province</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.AMPHUR_NAME</label>
+                </div>
 
-        </div>
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Department</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">N/A</label>
             </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Province</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">Mueng</label>
-            </div>
+            <div class="form-group m-2 row">
+                <label  class="col-2 col-form-label" style="text-align:right">Department</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.DepartmentName_EN</label>
+                </div>
+                <label  class="col-2 col-form-label" style="text-align:right">Province</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.PROVINCE_NAME</label>
+                </div>
 
-        </div>
-
-        <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Phone</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">06502411444</label>
-            </div>
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Post Code</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">10345</label>
             </div>
 
-        </div>
+            <div class="form-group m-2 row">
+                <label  class="col-2 col-form-label" style="text-align:right">Phone</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.Phone</label>
+                </div>
+                <label  class="col-2 col-form-label" style="text-align:right">Post Code</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.Post_Code</label>
+                </div>
+
+            </div>
+            <div class="form-group m-2 row">
+                <label  class="col-2 col-form-label" style="text-align:right">Email</label>
+                <div class="col-4">
+                    <label class="col-form-label text-primary" style="text-align:left">@Model.Email</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card">
         <div class="form-group m-2 row">
-            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Email</label>
-            <div class="col-4">
-                <label class="col-form-label" style="text-align:left">pisit10@gmail.com</label>
+            <div class="col-6">
+                <h4 class="card-title">Experience Information</h4>
             </div>
         </div>
-    </form>
-</div>
-<div class="card">
-    <div class="form-group m-2 row">
-        <div class="col-4">
-            <label class="breadcrumb-item active" style="font-size:larger">Expperience Information</label>
+        <div class="form-group m-2 row">
+            <label  class="col-3 col-form-label" style="text-align:right">Attach File</label>
+            @if (Model.Path_Certificate != null && Model.Path_Certificate != "")
+            {
+                <label  class="col-2 col-form-label text-primary" style="text-align:left"><a href="@Model.Path_Certificate" target="_blank">Cerfiticate</a></label>
+            }
+        </div>
+        <div class="form-group m-2 row">
+            <label  class="col-3 col-form-label" style="text-align:right">Education Level</label>
+            <div class="col-8">
+                <label class="col-form-label text-primary" style="text-align:left">@Model.Education_Level</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label  class="col-3 col-form-label" style="text-align:right">Major</label>
+            <div class="col-8">
+                <label class="col-form-label text-primary" style="text-align:left">@Model.Major</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-3 col-form-label" style="text-align:right">Course Expperience</label>
+            <div class="col-8">
+                <label class="col-form-label text-primary" style="text-align:left">@Model.Course_Experience</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label  class="col-3 col-form-label" style="text-align:right">Skill & Profressional</label>
+            <div class="col-8">
+                <label class="col-form-label text-primary" style="text-align:left">@Model.Skill_Professional</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label  class="col-3 col-form-label" style="text-align:right">Customer Reference</label>
+            <div class="col-8">
+                <label class="col-form-label text-primary" style="text-align:left">@Model.Customer_Reference</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label  class="col-3 col-form-label" style="text-align:right">Manufacturing Area</label>
+            <div class="col-8">
+                <label class="col-form-label text-primary" style="text-align:left">@Model.Manufacturing_Area</label>
+            </div>
         </div>
     </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Attach File</label>
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:left"><a href="#">Cerfiticate.pdf</a></label>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Education Level</label>
-        <div class="col-8">
-            <input class="form-control" type="text" value="Master Degress" id="example-text-input" disabled="disabled" />
-        </div>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Major</label>
-        <div class="col-8">
-            <input class="form-control" type="text" value="Human Resource and Organization Development" id="example-text-input" disabled="disabled">
-        </div>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Expperience</label>
-        <div class="col-8">
-            <textarea class="form-control" rows="5" disabled="disabled">1.Leadership new style</textarea>
-        </div>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Skill & Profressional</label>
-        <div class="col-8">
-            <textarea class="form-control" rows="5" disabled="disabled">1.Leadership skill
-
-2.Technic communication</textarea>
-        </div>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Customer Reference</label>
-        <div class="col-8">
-            <textarea class="form-control" rows="5" disabled="disabled">1.Sony Technology (Thailand) co.ltd</textarea>
-        </div>
-    </div>
-    <div class="form-group m-2 row">
-        <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Manufacturing Area</label>
-        <div class="col-8">
-            <textarea class="form-control" rows="5" disabled="disabled">Manufactory Electronic</textarea>
-        </div>
-    </div>
-</div>
-<div class="card">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-block">
-                    <h4 class="card-title">Courses</h4>
-                    <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
-                    <div class="table-responsive m-t-40">
-                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Course ID</th>
-                                    <th>Course Name</th>
-                                    <th>Platform</th>
-                                    <th>AVG.Score</th>
-                                    <th>Lasted</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Course ID</th>
-                                    <th>Course Name</th>
-                                    <th>Platform</th>
-                                    <th>AVG.Score</th>
-                                    <th>Lasted</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td>HR-S001</td>
-                                    <td>Human Relationship Lv1</td>
-                                    <td>Human Resoure</td>
-                                    <td>8.7</td>
-                                    <td>06/01/2020</td>
-                                    <td>Active</td>
-                                    <td><i class="fa fa-search" /></td>
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                    <td>HR-S002</td>
-                                    <td>Human Relationship Lv1</td>
-                                    <td>Human Resoure</td>
-                                    <td>8.7</td>
-                                    <td>06/01/2020</td>
-                                    <td>Active</td>
-                                    <td><i class="fa fa-search" /></td>
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                    <td>HR-S003</td>
-                                    <td>Human Relationship Lv1</td>
-                                    <td>Human Resoure</td>
-                                    <td>8.7</td>
-                                    <td>06/01/2020</td>
-                                    <td>Active</td>
-                                    <td><i class="fa fa-search" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
+    <div class="card">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block">
+                        <h4 class="card-title">Courses</h4>
+                        <div class="table-responsive m-t-40">
+                            <table id="tdClass" class="display nowrap table table-hover table-striped table-bordered color-table info-table" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Course ID</th>
+                                        <th>Course Name</th>
+                                        <th>Platform</th>
+                                        <th>AVG.Score</th>
+                                        <th>Lasted</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*<tr>
+                                            <th>1</th>
+                                            <td>HR-S001</td>
+                                            <td>Human Relationship Lv1</td>
+                                            <td>Human Resoure</td>
+                                            <td>8.7</td>
+                                            <td>06/01/2020</td>
+                                            <td>Active</td>
+                                        </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@section Scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+        LoadClass();
+    });
 
+    function LoadClass() {
+
+    }
+</script>
+}

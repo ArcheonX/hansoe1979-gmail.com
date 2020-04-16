@@ -1,0 +1,112 @@
+﻿<div style="width: 100%; border-width: thin; border-style: solid;">
+    <div class="panel panel-default" style="width: 100%;">
+        <div class="panel-body">
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Division</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="text"
+                               style="width: 100%"
+                               id="txtDivision"
+                               disabled="disabled"
+                               value=""
+                               class="form-control" />
+                    </div>
+                </div> 
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right" style="vertical-align: middle">
+                            <label class="LabelCaption">Department</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="text"
+                               style="width: 100%"
+                               id="txtDepartment"
+                               disabled="disabled"
+                               value="Human Resource"
+                               class="form-control" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Section</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <select id="selectSection"
+                                name="selectSection"
+                                title="Please Enter Section"
+                                class="form-control required"
+                                style="width: 100%"> 
+                        </select>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Keyword</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="text"
+                               title="Please Enter Employee ID"
+                               id="txtKeyword"
+                               style="width: 100%"
+                               class="form-control required" />
+                    </div>
+                </div>
+                <div class="row form-group" style="padding-top:15px;">
+                    <div class="col-sm-1 col-md-1 offset-1">
+                        <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />Search
+                        </button>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <button id="btnEditSection" class="btn btn-outline-danger waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-edit-blue.svg" />&nbsp;&nbsp;Edit Section
+                        </button>
+                    </div>
+                    <div class="col-sm-1 col-md-1 offset-6">
+                        <button id="btnImportExcel" class="btn btn-outline-primary waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" />&nbsp;&nbsp;Import
+                        </button>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <button id="btnExportExcel" class="btn btn-outline-primary waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" />&nbsp;&nbsp;Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div id="viewListEmployee" style="display:block;width:100%;border-width: thin; border-style: solid;">
+    <div class="panel panel-default" style="margin-top:-15px;width:100%;">
+        <div class="panel-body" style="width:100%;margin-top:25px;">
+            <div class="form-horizontal"> 
+                    <div class="row form-group"> 
+                        <div class="col-sm-1 col-md-1 offset-10">
+                            <button id="btnEmpListSave" class="btn btn-outline-success waves-effect waves-light" style="width:100%">
+                                <img style="width:25px;height:25px" src="~/assets/images/svg/save.svg" />&nbsp;&nbsp;Save
+                            </button>
+                        </div>
+                        <div class="col-sm-1 col-md-1">
+                            <button id="btnEmpListCancel" class="btn btn-outline-danger waves-effect waves-light" style="width:100%;margin-left:-15px">
+                                <img style="width:25px;height:25px" src="~/assets/images/svg/icon-do-not-red.svg" />&nbsp;&nbsp;Cancel
+                            </button>
+                        </div>
+                    </div> 
+            </div>
+
+            <div class="table-responsive">
+                @await Html.PartialAsync("section/_employeeList")
+            </div>
+        </div>
+    </div>
+</div> 
