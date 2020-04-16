@@ -1,28 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {}
+    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {}
   },
   "projects": {
-    "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
         "projectName": "LDMS.Core",
-        "projectPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
-        "packagesPath": "C:\\Users\\hanso\\.nuget\\packages\\",
-        "outputPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\obj\\",
+        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-<<<<<<< HEAD
-=======
           "C:\\Microsoft\\Xamarin\\NuGet\\",
->>>>>>> d15e73123a63d1f4272571264472f3653c3a69be
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\hanso\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -77,29 +75,27 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {
+    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
+        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
         "projectName": "LDMS.Daos",
-        "projectPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
-        "packagesPath": "C:\\Users\\hanso\\.nuget\\packages\\",
-        "outputPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Daos\\obj\\",
+        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
+        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-<<<<<<< HEAD
-=======
           "C:\\Microsoft\\Xamarin\\NuGet\\",
->>>>>>> d15e73123a63d1f4272571264472f3653c3a69be
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\hanso\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -111,8 +107,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
-                "projectPath": "D:\\jerry\\Sony Job\\SourceCode\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
+              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
               }
             }
           }
@@ -140,7 +136,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
