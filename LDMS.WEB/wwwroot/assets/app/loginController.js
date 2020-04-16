@@ -37,8 +37,7 @@ function OnAuthentication() {
         url: "/Account/Login",
         data: loginModel,
         success: function (response) { 
-            if (response.Code == 200) {
-                debugger; 
+            if (response.Code == 200) { 
                 if ($("#chkRememberMe").prop('checked') == true) { 
                     localStorage.usrname = $('#txtUserName').val();
                     localStorage.pass = $('#txtPassword').val();
@@ -50,8 +49,7 @@ function OnAuthentication() {
                     localStorage.RememberMe = false;
                 }
                 window.location.href = response.Data;
-            } else {
-                debugger; 
+            } else { 
                 MessageController.Error("Pleas Enter 'Password'", 'Login Faild');
                 //MessageController.UnblockUI({
                 //    target: '#main-wrapper',
