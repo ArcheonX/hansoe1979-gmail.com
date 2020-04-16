@@ -1,10 +1,15 @@
-﻿
-/*main-wrapper*/
-@media screen and (max-width: 1920px) {
+﻿/*@media screen and (max-width: 1920px) {
     .main-wrapper {
         zoom: 100%;
+        min-height: calc(100%)-150px;
     }
 }
+@media screen and (max-width:1600px) {
+    .main-wrapper {
+        zoom: 90%;
+        min-height:calc(100%)-150px;
+    }
+}*/
 .head-title h1 {
         font-size: 28px !important;
         color: white;
@@ -17,11 +22,7 @@
         right: 10px;
         position: fixed;
         margin-top: -32px;
-} 
-.btn-inactive {
-    background: white;
-    color: #000000
-}
+}  
 body {
     font-size: 0.8em;
 }
@@ -48,19 +49,7 @@ button {
     margin-bottom: 3px;
     display: block;
     width: 100%;
-} 
-.common_box_body {
-    padding: 15px;
-    border: 12px solid #28BAA2;
-    border-color: #28BAA2;
-    border-radius: 15px;
-    margin-top: 10px;
-    background: #d4edda;
-    /* Specific checkbox widget styles */
-    .ui-checkbox {
-    font-size: 0.75em;
-    margin: 0.6em;
-}
+}  
     .panel-body-begin {
         margin-top: 20px;
         width: 100%;

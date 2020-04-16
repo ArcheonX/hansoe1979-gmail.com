@@ -1,0 +1,33 @@
+﻿@model List<LDMS.ViewModels.LDMS_M_Section> 
+    <table class="table table-striped table-hover table-fixed" id="dtSectionRows">
+        <thead style="background-color:#1e88e5;color:#ffffff">
+            <tr>
+                <th style="text-align:center;width:100px">#</th>
+                <th style="text-align:center;">Section abbreviation</th>
+                <th style="text-align:center">Section Name</th>
+                <th style="text-align:center;width:150px">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var std in Model) /*ViewData["Users"] as IList<LDMS.ViewModels.LDMS_M_User>)*/
+                {
+                    <tr>
+                        <th style="text-align:center;width:100px">@std.RowIndex</th>
+                        <th style="text-align:center;">@std.SectionID</th>
+                        <th style="text-align:center">@std.SectionName_EN</th>
+                        <th style="text-align:center;width:100px">
+                            <a onclick="EditSection('@std.ID','@std.SectionID','@std.SectionName_EN')" style="cursor:pointer;width:45%" id="btnRowEditSection">
+                                <img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class="light-logo svg-colorize-blue" alt="homepage" />
+                            </a>
+                            <a onclick="DeleteSection('@std.ID','@std.SectionID','@std.SectionName_EN')" style="cursor:pointer;width:45%" id="btnRowDeletedSection">
+                                <img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class="light-logo svg-colorize-blue" alt="homepage" />
+                            </a>
+
+                        </th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>

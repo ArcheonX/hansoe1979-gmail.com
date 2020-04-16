@@ -1,21 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {}
+    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {}
   },
   "projects": {
-    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
         "projectName": "LDMS.Core",
-        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
-        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.Core\\obj\\",
+        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -70,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

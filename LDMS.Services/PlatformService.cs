@@ -25,7 +25,7 @@ namespace LDMS.Services
         private readonly ILogger<PlatformService> _logger;
         public PlatformService(
              ILogger<PlatformService> logger,
-            ILDMSConnection iLDMSConnection) : base(iLDMSConnection)
+            ILDMSConnection iLDMSConnection, IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection, httpContextAccessor)
         {
             _logger = logger;
         }

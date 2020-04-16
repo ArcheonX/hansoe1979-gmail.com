@@ -1,0 +1,11 @@
+﻿@model List<LDMS.ViewModels.LDMS_M_JobTitle>
+    <select id="selectJobTitle"
+            name="selectJobTitle"
+            title="Please Enter Job Grade"
+            class="form-control required"
+            style="width: 100%">
+        @foreach (var item in Model)
+        {
+            <option value="@item.ID">@item.JobTitleName_EN</option>
+        }
+    </select> 

@@ -4,7 +4,7 @@ namespace LDMS.ViewModels
 {
     public class LDMS_M_Department : BaseViewModel
     {
-        public int ID { get; set; }
+        public int ID_Department { get; set; }
         public string DepartmentID { get; set; }
         public int? ID_Division { get; set; }
         public string DepartmentName_EN { get; set; }
