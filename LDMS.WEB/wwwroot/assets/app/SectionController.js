@@ -89,7 +89,32 @@
                 };
                 models.push(model);
             });
-            console.log(models);
+
+            $.ajax({
+                type: "POST",
+                url: "/Organization/SectionEmployeeSave",
+                data: {
+                    models: models
+                },
+                success: function (response) {
+                    MessageController.Success("Update Completed.", "Success");
+                    LoadEmployees();
+                },
+                failure: function (response) { 
+                    if (JSON.parse(response.responseText).Errors.length > 0) {
+                        MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                    } else {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                },
+                error: function (response) {
+                    if (JSON.parse(response.responseText).Errors.length > 0) {
+                        MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                    } else {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                }
+            });
         });  
     $.ajax({
         type: "GET",
@@ -102,10 +127,18 @@
             $("#txtEditDivision").val(response.Data.DivisionID + " " + response.Data.DivisionName_EN); 
         },
         failure: function (response) { 
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) { 
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 
@@ -120,10 +153,18 @@
             $("#txtEditDepartment").val(response.Data.DepartmentID + " " + response.Data.DepartmentName_EN); 
         },
         failure: function (response) { 
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) { 
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     }); 
         LoadEmployees(); 
@@ -168,10 +209,18 @@ function LoadSection() {
             }
         },
         failure: function (response) { 
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) { 
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 }
@@ -215,10 +264,18 @@ function LoadEmployees() {
             }
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 }
@@ -258,10 +315,18 @@ function LoadDepartmentSection() {
             }); 
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 }
@@ -281,10 +346,18 @@ function DeleteSection(id, code, name) {
                     LoadSection();
                 },
                 failure: function (response) {
-                    MessageController.Error(response.responseText, "Error");
+                    if (JSON.parse(response.responseText).Errors.length > 0) {
+                        MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                    } else {
+                        MessageController.Error(response.responseText, "Error");
+                    }
                 },
                 error: function (response) {
-                    MessageController.Error(response.responseText, "Error");
+                    if (JSON.parse(response.responseText).Errors.length > 0) {
+                        MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                    } else {
+                        MessageController.Error(response.responseText, "Error");
+                    }
                 }
             });
         }
@@ -302,10 +375,18 @@ function CreateSection(sectiomModel) {
             $("#sectionId").val(null); 
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 }
@@ -321,10 +402,18 @@ function UpdateSection(sectiomModel) {
             $("#sectionId").val(null); 
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 }

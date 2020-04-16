@@ -128,9 +128,48 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> UpdateUserSection(List<LDMS_M_UserRole> userRoles)
         {
-            var groupBySection = userRoles.GroupBy(e => e.ID_Section);            
-
-            throw new NotImplementedException();
+            try
+            {
+                var groupBySection = userRoles.GroupBy(e => e.ID_Section);
+                foreach (var section in groupBySection)
+                {
+                    var secHeads = section.Where(e => e.IsSectionHead == 1).ToList();
+                    if (secHeads.Count > 1)
+                    {
+                        return new ServiceResult(new Exception("One Section Allow One Header"));
+                    }
+                }
+                var updateBy = JwtManager.Instance.GetUserId(HttpContext.Request);
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    using (var transaction = conn.BeginTransaction())
+                    {
+                        foreach (var item in userRoles)
+                        {
+                            var items = Connection.Query<SQLError>(_schema + ".[usp_LDMS_M_UserRole_UpdateSection] @employeeId,@sectionId,@sectionHeader,@updateBy",
+                               new
+                               {
+                                   @employeeId = item.EmployeeID,
+                                   @sectionId = item.ID_Section,
+                                   @sectionHeader = item.IsSectionHead,
+                                   @updateBy = updateBy
+                               });
+                            if (items != null && items.Any())
+                            {
+                                transaction.Rollback();
+                                return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                            }
+                        }
+                        transaction.Commit();
+                        return new ServiceResult();
+                    }
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
         }
 
         public async Task<ServiceResult> GetAllEmployeeByDepartmentId(int departmentId)

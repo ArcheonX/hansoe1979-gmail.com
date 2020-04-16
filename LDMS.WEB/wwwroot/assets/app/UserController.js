@@ -77,10 +77,18 @@
                             SearchEmployee();
                         },
                         failure: function (response) {
-                            MessageController.Error(response.responseText, "Error");
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
                         },
                         error: function (response) {
-                            MessageController.Error(response.responseText, "Error");
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
                         }
                     });
                 }
@@ -233,10 +241,18 @@ function ReloadDivision($, centerId, callback) {
                 }
             },
             failure: function (response) {
-                MessageController.Error(response.responseText, "Error");
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             },
             error: function (response) {
-                MessageController.Error(response.responseText, "Error");
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             }
         });
     }
@@ -263,10 +279,18 @@ function ReloadDepartment($, divisionId, callback) {
                 }
             },
             failure: function (response) {
-                MessageController.Error(response.responseText, "Error");
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             },
             error: function (response) {
-                MessageController.Error(response.responseText, "Error");
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             }
         });
     }
@@ -292,10 +316,18 @@ function ReloadSection($, departmentId, callback) {
                 }
             },
             failure: function (response) {
-                MessageController.Error(response.responseText, "Error");
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             },
             error: function (response) {
-                MessageController.Error(response.responseText, "Error");
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             }
         });
     }
@@ -313,10 +345,18 @@ function UpdateEmployee(empModel) {
             SearchEmployee();
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 }
@@ -332,10 +372,18 @@ function CreateEmployee(empModel) {
             SearchEmployee();
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 }
@@ -350,10 +398,18 @@ function DeleteEmployee(employeeId) {
                     SearchEmployee();
                 },
                 failure: function (response) { 
-                    MessageController.Error(response.responseText, "Error");
+                    if (JSON.parse(response.responseText).Errors.length > 0) {
+                        MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                    } else {
+                        MessageController.Error(response.responseText, "Error");
+                    }
                 },
                 error: function (response) { 
-                    MessageController.Error(response.responseText, "Error");
+                    if (JSON.parse(response.responseText).Errors.length > 0) {
+                        MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                    } else {
+                        MessageController.Error(response.responseText, "Error");
+                    }
                 }
             });
         }
@@ -392,10 +448,18 @@ function CreateEditor($, employeeId) {
             $('select[name="selectJobGrade"]').val(null).trigger('change');
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     }); 
 
@@ -411,10 +475,18 @@ function CreateEditor($, employeeId) {
             $('select[name="selectJObTitle"]').val(null).trigger('change');
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });  
     $.ajax({
@@ -429,10 +501,18 @@ function CreateEditor($, employeeId) {
             $('select[name="selectCenter"]').val(null).trigger('change');
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });  
     $.ajax({
@@ -454,10 +534,18 @@ function CreateEditor($, employeeId) {
             }); 
         },
         failure: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
         error: function (response) {
-            MessageController.Error(response.responseText, "Error");
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
     if (employeeId != undefined && employeeId != "") {
@@ -511,10 +599,18 @@ function CreateEditor($, employeeId) {
                 }); 
             },
             failure: function (response) { 
-                MessageController.Error(response.responseText, "Error");
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             },
             error: function (response) { 
-                MessageController.Error(response.responseText, "Error");
+                if (JSON.parse(response.responseText).Errors.length > 0) {
+                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                } else {
+                    MessageController.Error(response.responseText, "Error");
+                }
             }
         });
     }
