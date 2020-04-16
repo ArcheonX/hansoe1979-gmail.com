@@ -6,8 +6,10 @@ namespace LDMS.ViewModels
 {
     public class Paging_Result
     {
-        public int TotalRecords { get; set; }
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
 
-        public dynamic Results { get; set; }
+        public dynamic data { get; set; }
     }
 }

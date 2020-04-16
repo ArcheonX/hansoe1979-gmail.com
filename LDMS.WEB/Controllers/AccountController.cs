@@ -216,5 +216,14 @@ namespace LDMS.WEB.Controllers
                 return PartialView("_UserEditor", new Models.Employee.EmployeeModel());
             } 
         }
+
+
+        [HttpGet]
+        [Route("Account/SearchEmployeeName")]
+        public async Task<ActionResult> SearchEmployeeName(string EmployeeName)
+        {
+            var users = await UserService.GetAll(null, EmployeeName, null);
+            return Json(users);
+        }
     }
 }

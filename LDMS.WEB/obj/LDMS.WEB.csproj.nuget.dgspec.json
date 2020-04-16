@@ -1,25 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj": {}
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj": {}
   },
   "projects": {
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
         "projectName": "LDMS.Core",
-        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
-        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -78,22 +77,21 @@
         }
       }
     },
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
         "projectName": "LDMS.Daos",
-        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
-        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Daos\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -105,8 +103,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
               }
             }
           }
@@ -138,22 +136,21 @@
         }
       }
     },
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj",
         "projectName": "LDMS.Domain",
-        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj",
-        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Domain\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -165,11 +162,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
               },
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj"
               }
             }
           }
@@ -214,22 +211,21 @@
         }
       }
     },
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj",
         "projectName": "LDMS.Identity",
-        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj",
-        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Identity\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\LDMS.Identity.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Identity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -241,11 +237,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
               },
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj"
               }
             }
           }
@@ -306,22 +302,21 @@
         }
       }
     },
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj",
         "projectName": "LDMS.Services",
-        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj",
-        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Services\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -333,11 +328,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj"
               },
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj"
               }
             }
           }
@@ -390,22 +385,21 @@
         }
       }
     },
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj",
         "projectName": "LDMS.ViewModels",
-        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj",
-        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -467,22 +461,21 @@
         }
       }
     },
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj": {
+    "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj",
+        "projectUniqueName": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj",
         "projectName": "LDMS.WEB",
-        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj",
-        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.WEB\\obj\\",
+        "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.WEB\\LDMS.WEB.csproj",
+        "packagesPath": "C:\\Users\\Nu\\.nuget\\packages\\",
+        "outputPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.WEB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Nu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -494,20 +487,20 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Core\\LDMS.Core.csproj"
               },
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Daos\\LDMS.Daos.csproj"
               },
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Domain\\LDMS.Domain.csproj"
               },
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.Services\\LDMS.Services.csproj"
               },
-              "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
-                "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj"
+              "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj": {
+                "projectPath": "D:\\Work\\VPS\\Sony\\Training\\Source\\ETraning\\sonyhrtraning\\LDMS.ViewModels\\LDMS.ViewModels.csproj"
               }
             }
           }
@@ -528,6 +521,10 @@
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[3.1.3, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.1, )"
             }
           },
           "imports": [

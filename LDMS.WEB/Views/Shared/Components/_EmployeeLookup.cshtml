@@ -1,0 +1,156 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+
+<div id="divEmpLookup" class="input-group">
+    <input id="txtEmp_Search" type="text" class="form-control" placeholder="Employee Name">
+    <span class="input-group-btn">
+        <button id="btnEmp_Search" class="btn btn-info" type="button"><i class="fa fa-search"></i></button>
+    </span>
+    <input type="hidden" id="hdEmp_Name" />
+    <input type="hidden" id="hdEmp_ID" />
+    <input type="hidden" id="hdEmp_DeptID" />
+</div>
+
+<div class="modal" id="modEmp_Ref" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header card-header col-12">
+                <h4 class="modal-title col-10" id="lblMATitle">Search Employee</h4>
+                <button class="close" aria-hidden="true" type="button" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body" style="min-height: 80px;">
+                <div class="row" style="margin-bottom:10px;">
+                    <label class="col-3 col-form-label" style="text-align:right">Employee Name</label>
+                    <div class="col-5">
+                        <input type="text" id="txtEmp_MName" name="refName" class="form-control" maxlength="100">
+                    </div>
+                    <div class="col-md-4">
+                        <button id="btnEmp_MSeacrh" class="btn btn-success waves-effect waves-light btn-command">Search</button>
+                    </div>
+                </div>
+                <div class="col-12" style="overflow-y:auto;height:400px;">
+                    <table id="tbEmp" class="table color-table info-table" style="font-size:10pt;">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Employee ID</th>
+                                <th>Employee Name</th>
+                                <th>Department</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $("#txtEmp_Search").keydown(function (e) {
+        if (e.keyCode == 13) {
+            Emp_CheckSearch();
+        }
+    })
+
+    $("#btnEmp_Search").click(function (e) {
+        e.preventDefault();
+        if (!($("#modEmp_Ref").data('bs.modal') || {})._isShown)
+            $('#modEmp_Ref').modal("show");
+    });
+
+    function Emp_CheckSearch() {
+        $("#txtEmp_MName").val() = $("#txtEmp_Search").val();
+        Emp_Search();
+    }
+
+    $("#btnEmp_MSeacrh").click(function (e) {
+        e.preventDefault();
+        Emp_Search();
+    });
+
+    function Emp_Search() {
+            $.ajax({
+            type: 'GET',
+                url: '@Url.Action("SearchEmployeeName", "Account")',
+                data: { "EmployeeName": $("#txtEmp_MName").val().trim() },
+                success: function (e) {
+                    $("#tbEmp tbody > tr").remove();
+                    if (e != null) {
+                        if (e.length == 1) {
+                            $("#txtEmp_Search").val(e[0].Name + " " + e[0].Surname);
+                            $("#hdEmp_Name").val(e[0].Name + " " + e[0].Surname);
+                            $("#hdEmp_ID").val(e[0].EmployeeID);
+                            $("#hdEmp_DeptID").val(e[0].ID_Department);
+                            Emp_AfterSelect();
+                        }
+                        else if (e.length > 0) {
+                            if (!($("#modEmp_Ref").data('bs.modal') || {})._isShown)
+                                $('#modEmp_Ref').modal("show");
+
+                            for (var i = 0; i < e.length; i++) {
+                                var row = $("<tr />");
+                                $("#tbEmp tbody").append(row);
+                                row.append($("<td>" + (i + 1) + "</td>"));
+                                row.append($("<td>" + e[i].EmployeeID + "</td>"));
+                                row.append($("<td>" + e[i].Name + " " + e[i].Surname + "</td>"));
+                                row.append($("<td>" + e[i].LDMS_M_Department.DepartmentName_EN + "</td>"));
+
+                                row.append($("<td> <a href=\"javascript:SelEmp('" + e[i].EmployeeID + "', '" + e[i].ID_Department + "', '" +
+                                    e[i].Name + " " + e[i].Surname +"');\" class='btn btn-info btn-sm'>Select</a></td>"));
+                            }
+                        }
+                    }
+                },
+        });
+    }
+
+    function SelEmp(empID, deptID, name) {
+        $('#modEmp_Ref').modal("hide");
+
+        $("#txtEmp_Search").val(name);
+        $("#hdEmp_Name").val(name);
+        $("#hdEmp_ID").val(empID);
+        $("#hdEmp_DeptID").val(deptID);
+        Emp_AfterSelect();
+    }
+
+    function Emp_GetEmployeeID() {
+        return $("#hdEmp_ID").val();
+    }
+
+    function Emp_SetEmployeeID(id) {
+        $("#hdEmp_ID").val(id);
+    }
+
+    function Emp_GetEmployeeName() {
+        return $("#hdEmp_Name").val();
+    }
+
+    function Emp_SetEmployeeName(name) {
+        $("#hdEmp_Name").val(name);
+        $("#txtEmp_Search").val(name);
+    }
+
+    function Emp_GetDepartmentID() {
+        return $("#hdEmp_DeptID").val();
+    }
+
+    function Emp_SetDepartmentID(id) {
+        $("#hdEmp_DeptID").val(id);
+    }
+
+    function Emp_Show() {
+        $('#divEmpLookup').show();
+    }
+
+    function Emp_Hide() {
+        $('#divEmpLookup').hide();
+    }
+
+    function Emp_AfterSelect() {
+    }
+
+</script>
