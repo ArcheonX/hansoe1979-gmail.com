@@ -39,6 +39,16 @@
             if (!$("#frmSectionEditor").valid()) {
                 return false;
             }
+
+            if ($("#txtSectionName").val() == undefined || $("#txtSectionName").val() == null || $("#txtSectionName").val() == "") {
+                MessageController.Error("Please Enter Section Name", "Validation Failed");
+                return false;
+            }
+
+            if ($("#txtSectionId").val() == undefined || $("#txtSectionId").val() == null || $("#txtSectionId").val() == "") {
+                MessageController.Error("Please Enter Section Abbreviation", "Validation Failed");
+                return false;
+            }
             MessageController.ConfirmCallback("Are you sure you want to do this?", "Confirm change", function (res) {
                 if (!res) {
                     return false;
@@ -65,6 +75,22 @@
         $("#btnSearchEmployee").click(function (event) {
             LoadEmployees();
         }); 
+        $("#btnEmpListSave").click(function (event) {
+            var models = [];
+            $('#dtListEmployee > tbody  > tr').each(function () { 
+                var self = $(this);
+                var employeeId = self.find("td").eq(1).text();
+                var sectionHead = self.find("td").eq(5).find("input[type='checkbox']").prop("checked");
+                var sectionId = self.find("td").eq(6).find("select option:selected").val();
+                var model = {
+                    EmployeeId: employeeId,
+                    IsSectionHead: sectionHead,
+                    SectionId: sectionId 
+                };
+                models.push(model);
+            });
+            console.log(models);
+        });  
     $.ajax({
         type: "GET",
         url: "/Master/Division",
@@ -213,8 +239,7 @@ function LoadDepartmentSection() {
             Array.prototype.slice.call(document.querySelectorAll('select[id*="selectSection"]'))
                 .forEach(function (element) {
                     var selectValue = element.value;
-                    var options = $("#" + element.id);
-                    debugger;
+                    var options = $("#" + element.id); 
                     options.empty();
                     if (element.id != 'selectSection') {
                         options.append($("<option />").val(null).text("---None---"));

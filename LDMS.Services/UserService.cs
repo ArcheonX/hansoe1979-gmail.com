@@ -125,6 +125,14 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
+
+        public async Task<ServiceResult> UpdateUserSection(List<LDMS_M_UserRole> userRoles)
+        {
+            var groupBySection = userRoles.GroupBy(e => e.ID_Section);            
+
+            throw new NotImplementedException();
+        }
+
         public async Task<ServiceResult> GetAllEmployeeByDepartmentId(int departmentId)
         {
             try

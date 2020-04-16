@@ -18,10 +18,10 @@ namespace LDMS.WEB.Controllers
             MasterService = masterService;
             UserService = userService;
         }
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)] 
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [Route("Organization/Section")]
         public async Task<IActionResult> Section()
-        {  
+        {
             return View();
         }
 
@@ -35,7 +35,7 @@ namespace LDMS.WEB.Controllers
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Organization/Employees")]
-        public async Task<IActionResult> Employees(int departmentId,int sectionId,string keyword)
+        public async Task<IActionResult> Employees(int departmentId, int sectionId, string keyword)
         {
             var grades = (await MasterService.GetAllJobGrades()).Data as List<ViewModels.LDMS_M_JobGrade>;
             var titles = (await MasterService.GetAllJobTitles()).Data as List<ViewModels.LDMS_M_JobTitle>;
@@ -53,11 +53,11 @@ namespace LDMS.WEB.Controllers
             }
             if (!string.IsNullOrEmpty(keyword))
             {
-                employees = employees.Where(e => 
-                (e.Name!= null && e.Name.ToLower().StartsWith(keyword.ToLower()))
-                || (e.Surname!=null && e.Surname.ToLower().StartsWith(keyword.ToLower()))
-                || (e.Email!=null &&  e.Email.ToLower().StartsWith(keyword.ToLower())) 
-                || (e.EmployeeID!=null && e.EmployeeID.ToLower().StartsWith(keyword.ToLower()))
+                employees = employees.Where(e =>
+                (e.Name != null && e.Name.ToLower().StartsWith(keyword.ToLower()))
+                || (e.Surname != null && e.Surname.ToLower().StartsWith(keyword.ToLower()))
+                || (e.Email != null && e.Email.ToLower().StartsWith(keyword.ToLower()))
+                || (e.EmployeeID != null && e.EmployeeID.ToLower().StartsWith(keyword.ToLower()))
                 ).ToList();
             }
             int index = 1;
@@ -99,10 +99,15 @@ namespace LDMS.WEB.Controllers
 
         [HttpPost]
         [Route("Organization/SectionEmployeeSave")]
-        public async Task<IActionResult> SectionEmployeeSave(List<SectionEmployeeSaveModel> model)
+        public async Task<IActionResult> SectionEmployeeSave(List<SectionEmployeeSaveModel> models)
         {
-            return Response(null);
+            List<ViewModels.LDMS_M_UserRole> userRoles = models.Select(e => new ViewModels.LDMS_M_UserRole()
+            {
+                EmployeeID = e.EmployeeId,
+                ID_Section = e.SectionId,
+                IsSectionHead = e.IsSectionHead ? 1 : 0
+            }).ToList();
+            return Response(await UserService.UpdateUserSection(userRoles));
         }
-        //SectionEmployeeSaveModel
     }
 }
