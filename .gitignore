@@ -102,3 +102,4 @@ debug/
 /LDMS.Services/obj/Debug/netcoreapp3.1/LDMS.Services.csprojAssemblyReference.cache
 /LDMS.Services/obj/LDMS.Services.csproj.nuget.dgspec.json
 /LDMS.WEB/obj/LDMS.WEB.csproj.nuget.dgspec.json
+/.vs/LDMS/v16/.suo
