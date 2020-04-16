@@ -1,12 +1,10 @@
 ﻿using Dapper;
-using LDMS.Core;
-using LDMS.Identity;
+using LDMS.Core; 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LDMS.Services
@@ -109,8 +107,12 @@ namespace LDMS.Services
         {
             try
             {
-                var items = (await GetAllSections()).Data as List<ViewModels.LDMS_M_Section>;
-                return new ServiceResult(items.Where(e => e.ID_Department == departmentId).ToList());
+                var items = ((await GetAllSections()).Data as List<ViewModels.LDMS_M_Section>).Where(e => e.ID_Department == departmentId).ToList();
+                foreach (var item in items)
+                {
+                    item.RowIndex = items.IndexOf(item) + 1;
+                }
+                return new ServiceResult(items);
             }
             catch (Exception x)
             {
@@ -246,5 +248,65 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
+
+
+
+        public List<ViewModels.LDMS_M_CodeLookUp> GetCodeLookups(string tableName, string fieldName)
+        {
+            List<ViewModels.LDMS_M_CodeLookUp> result = new List<ViewModels.LDMS_M_CodeLookUp>();
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@TableName", tableName);
+                p.Add("@FieldName", fieldName);
+
+                result = conn.Query<ViewModels.LDMS_M_CodeLookUp>("[dbo].[sp_M_CodeLookUp_Select]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
+        public List<ViewModels.LDMS_M_Provinces> GetProvinces()
+        {
+            List<ViewModels.LDMS_M_Provinces> result = new List<ViewModels.LDMS_M_Provinces>();
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+
+                result = conn.Query<ViewModels.LDMS_M_Provinces>("[dbo].[sp_M_Provinces_Select]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
+        public List<ViewModels.LDMS_M_Amphurs> GetAmphurs(string provinceID)
+        {
+            List<ViewModels.LDMS_M_Amphurs> result = new List<ViewModels.LDMS_M_Amphurs>();
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@PROVINCE_ID", provinceID);
+
+                result = conn.Query<ViewModels.LDMS_M_Amphurs>("[dbo].[sp_M_Amphur_Select]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
+        public List<ViewModels.LDMS_M_Districts> GetDistricts(string provinceID, string amphurID)
+        {
+            List<ViewModels.LDMS_M_Districts> result = new List<ViewModels.LDMS_M_Districts>();
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@PROVINCE_ID", provinceID);
+                p.Add("@AMPHUR_ID", amphurID);
+
+                result = conn.Query<ViewModels.LDMS_M_Districts>("[dbo].[sp_M_District_Select]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
     }
 }

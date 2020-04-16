@@ -126,8 +126,7 @@
                     var isSelected = self.find("td").eq(4).find("input[type='checkbox']").prop("checked");
                     if (isSelected) {
                         var value = self.find("td").eq(1).text(); //self.find("td").eq(1).find(":text").val();
-                        roleId = parseInt(value);
-                        return false;
+                        roleId = parseInt(value); 
                     }
                 });
                 var empModel = {
@@ -155,8 +154,7 @@
                     UpdateEmployee(empModel);
                 } else {
                     CreateEmployee(empModel);
-                } 
-                return false;
+                }  
            }); 
         }); 
         $('#btnSearchEmployee').click(function () { 
@@ -345,7 +343,7 @@ function DeleteEmployee(employeeId) {
     MessageController.WarningCallback("Are you sure you want to delete Employee '" + employeeId + "'?", "Confirm Delete!", function (res) {
         if (res) {
             $.ajax({
-                type: "Post",
+                type: "Delete",
                 url: '/Account/RemoveEmployee',
                 data: { 'employeeId': employeeId },
                 success: function (response) {
@@ -548,23 +546,25 @@ function SearchEmployee() {
 }
 
 function CreateDataTablePaging() {
-    $('#dtUserList').DataTable({
-        "paging": true,
-        "ordering": false,
-        "searching": false,
-        "lengthChange": false,
-        "bAutoWidth": false,
-        "Filter": true,
-        "info": false,
-        "bPaginate": false,
-        "bLengthChange": false,
-        "language": {
-            "lengthMenu": "Display _MENU_ records per page",
-            "zeroRecords": "    Nothing found - sorry",
-            "info": "    page _PAGE_ of _PAGES_",
-            "infoEmpty": "    No records available",
-            "infoFiltered": "(filtered from _MAX_ total records)"
-        }
-    });
-    $('.dataTables_length').addClass('bs-select');
+    if (!$.fn.dataTable.isDataTable('#dtUserList')) {
+        $('#dtUserList').DataTable({
+            "paging": true,
+            "ordering": false,
+            "searching": false,
+            "lengthChange": false,
+            "bAutoWidth": false,
+            "Filter": true,
+            "info": false,
+            "bPaginate": false,
+            "bLengthChange": false,
+            "language": {
+                "lengthMenu": "Display _MENU_ records per page",
+                "zeroRecords": "    Nothing found - sorry",
+                "info": "    page _PAGE_ of _PAGES_",
+                "infoEmpty": "    No records available",
+                "infoFiltered": "(filtered from _MAX_ total records)"
+            }
+        });
+        $('.dataTables_length').addClass('bs-select');
+    }
 }

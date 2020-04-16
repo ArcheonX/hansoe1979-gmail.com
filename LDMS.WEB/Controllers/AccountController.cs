@@ -227,7 +227,7 @@ namespace LDMS.WEB.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("Account/RemoveEmployee")]
         public async Task<IActionResult> RemoveEmployee(string employeeId)
         {
@@ -269,6 +269,15 @@ namespace LDMS.WEB.Controllers
         public async Task<IActionResult> ReadEmployeeBySection(int sectionId)
         {
             return Response(new ServiceResult((await UserService.GetAllEmployeeBySectionId(sectionId))));
+        }
+
+
+        [HttpGet]
+        [Route("Account/SearchEmployeeName")]
+        public async Task<ActionResult> SearchEmployeeName(string EmployeeName)
+        {
+            var users = await UserService.GetAll(null, EmployeeName, null);
+            return Json(users);
         }
     }
 }

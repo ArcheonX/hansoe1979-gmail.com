@@ -1,0 +1,412 @@
+﻿
+@{
+    ViewData["Title"] = "Instuctor Detail";
+}
+
+@section Header{
+
+}
+
+@section NavHeader{
+    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
+        <li class="breadcrumb-item active">I-Manage Instructor Add</li>
+    </ol>
+}
+
+<form id="frmMain" class="form" method="post" enctype="multipart/form-data" style="width:100%">
+    <div class="card">
+        <div class="form-group m-2 row container">
+            <div class="col-7">
+                <label class="breadcrumb-item active" style="font-size:larger">General Information</label>
+            </div>
+            <div class="col-5 pull-right">
+                <input type="submit" id="btnSave" class="btn btn-success btn-command" value="Save" />
+                <button id="btnBack" class="btn btn-danger waves-effect waves-light btn-command" onclick="window.location.href = '@Url.Action("Index", "Instructor")'; return false;">Back</button>
+            </div>
+        </div>
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="hdID" name="id" />
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Instructor ID <span class="text-danger">*</span></label>
+            <div class="col-4">
+                <input class="form-control" type="text" placeholder="Instructor ID" id="txtInsID" maxlength="10" name="insID" required>
+            </div>
+            <label class="col-2 col-form-label" style="text-align:right">Organization</label>
+            <div class="col-4">
+                <input class="form-control" type="text" placeholder="Organization" id="txtOrg" maxlength="250" name="org">
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Instructor Name <span class="text-danger">*</span></label>
+            <div class="col-4">
+                @await Component.InvokeAsync("EmployeeLookupComponent")
+                <input class="form-control" type="text" id="txtInsName" placeholder="Instructor Name" maxlength="100" name="insName" required>
+                <input type="hidden" id="hdEmpID" name="empID" />
+            </div>
+            <label class="col-2 col-form-label" style="text-align:right">Address</label>
+            <div class="col-4">
+                <input class="form-control" type="text" id="txtAddress" name="address" maxlength="100" placeholder="Address">
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Type</label>
+            <div class="col-4">
+                <select id="ddlType" name="type" class="form-control">
+                </select>
+            </div>
+            <label class="col-2 col-form-label" style="text-align:right">District</label>
+            <div class="col-4">
+                <select id="ddlDistrict" name="district" class="form-control">
+                </select>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Status</label>
+            <div class="col-4">
+                <select id="ddlStatus" name="status" class="form-control">
+                    <option value="1">@LDMS.WEB.Resources.Enum.e_Status_Active</option>
+                    <option value="0">@LDMS.WEB.Resources.Enum.e_Status_Inactive</option>
+                </select>
+            </div>
+            <label class="col-2 col-form-label" style="text-align:right">Sub Province</label>
+            <div class="col-4">
+                <select id="ddlAmphur" name="amphur" class="form-control">
+                </select>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Department</label>
+            <div class="col-4">
+                <select id="ddlDepartment" name="department" class="form-control">
+                </select>
+            </div>
+            <label class="col-2 col-form-label" style="text-align:right">Province</label>
+            <div class="col-4">
+                <select id="ddlProvince" name="province" class="form-control">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Phone <span class="text-danger">*</span></label>
+            <div class="col-4">
+                <input class="form-control" type="text" placeholder="Phone" id="txtPhone" name="phone" maxlength="20" required>
+            </div>
+            <label class="col-2 col-form-label" style="text-align:right">Post Code</label>
+            <div class="col-4">
+                <input class="form-control" type="text" placeholder="Post Code" id="txtPostCode" name="postCode" maxlength="5">
+            </div>
+
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Email</label>
+            <div class="col-4">
+                <input class="form-control" type="text" placeholder="Email" id="txtEmail" name="email" maxlength="250">
+            </div>
+            <label class="col-2 col-form-label" style="text-align:right">Picture Profile</label>
+            <div class="col-4">
+                <a id="aFile" target="_blank"></a>
+                <input type="hidden" id="hdfile" name="ofile" />
+                <input type="file" id="fiProfilePic" name="profile" accept="image/x-png,image/gif,image/jpeg" />
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="form-group m-2 row">
+            <div class="col-4">
+                <label class="breadcrumb-item active" style="font-size:larger">Experience Information</label>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Education Level</label>
+            <div class="col-8">
+                <input class="form-control" type="text"  id="txtEduLevel" name="eduLevel" placeholder="Education Level" maxlength="100" />
+            </div>
+
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Major</label>
+            <div class="col-8">
+                <input class="form-control" type="text" id="txtMajor" placeholder="Major" name="major" maxlength="100">
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Course Experience</label>
+            <div class="col-8">
+                <textarea class="form-control" rows="5" id="txtCExperience" name="cExperience" maxlength="1000" placeholder="Course Experience"></textarea>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Skill & Profressional</label>
+            <div class="col-8">
+                <textarea class="form-control" rows="5" id="txtSkill" name="skill" maxlength="1000" placeholder="Skill & Profressional"></textarea>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Customer Reference</label>
+            <div class="col-8">
+                <textarea class="form-control" rows="5" id="txtReference" name="reference" maxlength="1000" placeholder="Customer Reference"></textarea>
+            </div>
+        </div>
+        <div class="form-group m-2 row">
+            <label class="col-2 col-form-label" style="text-align:right">Manufacturing Area</label>
+            <div class="col-8">
+                <textarea class="form-control" rows="5" id="txtManu" name="manu" maxlength="1000" placeholder="Manufacturing Area"></textarea>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadStatus();
+            LoadDepartment();
+            LoadProvince();
+            LoadDetail();
+            CheckType();
+            $('select').select2({
+                allowClear: true,
+                closeOnSelect: true,
+                theme: "bootstrap"
+            });
+        });
+
+        $("#ddlProvince").change(function () {
+            LoadAmphur();
+        });
+
+        $("#ddlAmphur").change(function () {
+            LoadDistrict();
+        });
+
+        $("#ddlType").change(function () {
+            CheckType();
+        });
+
+        function CheckType() {
+            var isInternal = $("#ddlType").val() == "INT";
+            if (isInternal) {
+                $("#txtInsName").hide();
+                $("#txtInsName").val('');
+                Emp_Show();
+            }
+            else {
+                Emp_Hide();
+                $("#txtInsName").show();
+            }
+            $("#ddlDepartment").prop("disabled", !isInternal); $("#ddlDepartment").val("");
+            $("#txtOrg").prop("disabled", isInternal); $("#txtOrg").val("");
+            $("#txtAddress").prop("disabled", isInternal); $("#txtAddress").val("");
+            $("#ddlDistrict").prop("disabled", isInternal); $("#ddlDistrict").empty();
+            $("#ddlAmphur").prop("disabled", isInternal); $("#ddlAmphur").empty();
+            $("#ddlProvince").prop("disabled", isInternal); $("#ddlProvince").val("");
+            $("#txtPostCode").prop("disabled", isInternal); $("#txtPostCode").val("");
+            $("#hdEmpID").val("");
+        }
+
+        function LoadStatus() {
+             $.ajax({
+                type: 'POST',
+                 url: '@Url.Action("GetCodeLookup", "Master")',
+                 data: { "tableName": "LDMS_M_Instructor", "fieldName": "Type", "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val() },
+                 success: function (e) {
+                     $("#ddlType").empty();
+                    // $("#ddlType").append("<option value=''>@LDMS.WEB.Resources.Enum.e_Select_All</option>");
+                     for (i = 0; i < e.length; i++) {
+                            $("#ddlType").append("<option value='" + e[i].Code + "'>" + e[i].StateName+"</option>");
+                     }
+                     $("#ddlType").val("INT");
+                     $("#ddlType").trigger('change');
+                 },
+                 error: function (xhr, status, error) {
+                     var err = eval("(" + xhr.responseText + ")");
+                     alert(err.Message);
+                 }
+            });
+        }
+
+        function LoadDepartment() {
+            $.ajax({
+                type: 'GET',
+                 url: '@Url.Action("GetAllDepartments", "Master")',
+                 success: function (e) {
+                     $("#ddlDepartment").empty();
+                     $("#ddlDepartment").append("<option value=''>@LDMS.WEB.Resources.Enum.e_Select_All</option>");
+                     for (i = 0; i < e.length; i++) {
+                         $("#ddlDepartment").append("<option value='" + e[i].ID + "'>" + e[i].DepartmentName_EN+"</option>");
+                     }
+
+                     if (Emp_GetDepartmentID() && Emp_GetDepartmentID() != "") {
+                         $("#ddlDepartment").val(Emp_GetDepartmentID());
+                         $("#ddlDepartment").trigger('change');
+                     }
+                 },
+                 error: function (xhr, status, error) {
+                     var err = eval("(" + xhr.responseText + ")");
+                     alert(err.Message);
+                 }
+            });
+        }       
+
+        function LoadProvince() {
+             $.ajax({
+                type: 'POST',
+                 url: '@Url.Action("GetProvinces", "Master")',
+                 data: { "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val() },
+                 success: function (e) {
+                     $("#ddlProvince").empty();
+                     $("#ddlProvince").append("<option value=''>@LDMS.WEB.Resources.Enum.e_Select_All</option>");
+                     for (i = 0; i < e.length; i++) {
+                         $("#ddlProvince").append("<option value='" + e[i].PROVINCE_ID + "'>" + e[i].PROVINCE_NAME+"</option>");
+                     }
+                 },
+                 error: function (xhr, status, error) {
+                     var err = eval("(" + xhr.responseText + ")");
+                     alert(err.Message);
+                 }
+            });
+        }
+
+        function LoadAmphur() {
+            if ($("#ddlProvince").prop('selectedIndex') > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetAmphurs", "Master")',
+                    data: { "provinceID": $("#ddlProvince").val(), "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val() },
+                    success: function (e) {
+                        $("#ddlAmphur").empty();
+                        $("#ddlAmphur").append("<option value=''>@LDMS.WEB.Resources.Enum.e_Select_All</option>");
+                        for (i = 0; i < e.length; i++) {
+                            $("#ddlAmphur").append("<option value='" + e[i].AMPHUR_ID + "'>" + e[i].AMPHUR_NAME + "</option>");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    }
+                });
+            }
+            else { $("#ddlAmphur").empty(); $("#ddlDistrict").empty(); }
+        }
+
+        function LoadDistrict() {
+             if ($("#ddlAmphur").prop('selectedIndex') > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDistricts", "Master")',
+                    data: { "provinceID": $("#ddlProvince").val(), "amphurID": $("#ddlDistrict").val(), "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val() },
+                    success: function (e) {
+                        $("#ddlDistrict").empty();
+                        $("#ddlDistrict").append("<option value=''>@LDMS.WEB.Resources.Enum.e_Select_All</option>");
+                        for (i = 0; i < e.length; i++) {
+                            $("#ddlDistrict").append("<option value='" + e[i].DISTRICT_ID + "'>" + e[i].DISTRICT_NAME + "</option>");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    }
+                });
+            }
+            else { $("#ddlDistrict").empty(); }
+        }
+
+        function Emp_AfterSelect() {
+            $("#ddlDepartment").val(Emp_GetDepartmentID());
+            $("#ddlDepartment").trigger('change');
+            $("#txtInsName").val(Emp_GetEmployeeName());
+            $("#hdEmpID").val(Emp_GetEmployeeID());
+        }
+
+        function LoadDetail() {
+            CheckType();
+            $('#aFile').hide();
+            if ('@ViewData["i"]' != '') {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Get", "Instructor")',
+                    data: { "id": '@ViewData["i"]', "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val() },
+                    success: function (e) {
+                        $('#hdID').val(e.ID);
+                        $('#txtInsID').val(e.Instructor_ID);
+                        $('#txtOrg').val(e.Organization);
+                        $('#txtInsName').val(e.Instructor_Name);
+                        Emp_SetEmployeeName(e.Instructor_Name);
+                        Emp_SetEmployeeID(e.ID_Employee);
+                        $("#hdEmpID").val(e.ID_Employee);
+
+                        $('#txtAddress').val(e.Address);
+                        $('#ddlType').val(e.Type);
+                        $("#ddlType").trigger('change');
+                        CheckType();
+                        if (e.Provice_Id && e.Provice_Id != "") {
+                            $('#ddlProvince').val(e.Provice_Id);
+                            $("#ddlProvince").trigger('change');
+                            LoadAmphur();
+                            if (e.Aumphur_Id && e.Aumphur_Id != "") {
+                                $('#ddlAmphur').val(e.Aumphur_Id);
+                                $("#ddlAmphur").trigger('change');
+                                LoadDistrict();
+                                if (e.District_Id && e.District_Id != "") {
+                                    $('#ddlDistrict').val(e.District_Id);
+                                    $("#ddlDistrict").trigger('change');
+                                }
+                            }
+                        }
+                        $('#ddlStatus').val((e.IsActive ? "1" : "0"));
+                        $("#ddlStatus").trigger('change');
+
+                        if (e.ID_Department && e.ID_Department != "") {
+                            Emp_SetDepartmentID(e.ID_Department);
+                            $('#ddlDepartment').val(e.ID_Department);
+                            $("#ddlDepartment").trigger('change');
+                        }
+
+                        $('#txtPhone').val(e.Phone);
+                        $('#txtPostCode').val(e.Post_Code);
+                        $('#txtEmail').val(e.Email);
+                        $('#txtEduLevel').val(e.Education_Level);
+
+                        $('#txtMajor').val(e.Major);
+                        $('#txtCExperience').val(e.Course_Experience);
+                        $('#txtSkill').val(e.Skill_Professional);
+                        $('#txtReference').val(e.Customer_Reference);
+                        $('#txtManu').val(e.Manufacturing_Area);
+
+                        if (e.Path_Image && e.Path_Image != "") {
+                            $('#aFile').show();
+                            $('#aFile').attr("href", e.Path_Image);
+                            $('#aFile').html('<img src="' + e.Path_Image + '" width="60" />');
+                            $('#hdfile').val(e.Path_Image);
+                        }
+                        CheckType();
+                    },
+                    error: function (xhr, status, error) {
+
+                    }
+                });
+            }
+          
+        }
+
+        $('#frmMain').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                dataType: "JSON",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                url: '@Url.Action("Save", "Instructor")',
+                success: function (e) {
+                    window.location.href = '@Url.Action("Index", "Instructor")';
+                },
+                complete: function () {
+
+                }
+            });
+        });
+    </script>
+}

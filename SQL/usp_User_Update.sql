@@ -74,12 +74,12 @@ BEGIN TRY
 	WHERE [EmployeeID]  = @EmployeeId; 
 	
 	UPDATE	[dbo].[LDMS_M_UserRole]
-		SET [ID_Role] = @RoleId
-           --,[IsInstructor] = @IsInstructer
-           --,[IsSectionHead] =@IsSectionHead
+		SET [ID_Role] = @RoleId 
            ,[ID_Section] = @SectionId
            ,[Remark] = @Remark 
            ,[IsActive] = 1
+		   ,[UpdateBy] = @UpdateBy
+		   ,[UpdateDate] =GETDATE()
 		   	WHERE [EmployeeID]  = @EmployeeId; 
 
 		COMMIT TRANSACTION;
