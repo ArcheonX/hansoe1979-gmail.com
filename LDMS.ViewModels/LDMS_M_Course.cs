@@ -2,8 +2,9 @@
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_M_Course
+    public class LDMS_M_Course : BaseViewModel
     {
+        public int rownumber { get; set; }
         public int ID { get; set; }
         public string CourseID { get; set; }
         public string CourseName { get; set; }
@@ -27,5 +28,11 @@ namespace LDMS.ViewModels
         public string UpdateBy { get; set; }
         public DateTime UpdateDate { get; set; }
         public byte IsActive { get; set; }
+
+
+        public string CourseStatus { get; set; }
+        // Course LearnMethod
+        public string Course_LearnMethodName_EN { get; set; }
+        public string Course_LearnMethodName_TH { get; set; }
     }
 }

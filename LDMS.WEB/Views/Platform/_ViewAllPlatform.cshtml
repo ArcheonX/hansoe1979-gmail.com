@@ -1,0 +1,51 @@
+﻿@model List<LDMS.ViewModels.LDMS_M_Platform>
+<div class="panel panel-default" style="margin-top:-15px;width:100%;">
+    <div class="panel-body" style="width:100%;margin-top:25px;">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-fixed" id="dtPlatformList">
+                <thead style="background-color:#1e88e5;color:#ffffff">
+                    <tr>
+                        <th style="text-align:center;width:100px">#</th>
+                        <th style="text-align:center">Platform ID</th>
+                        <th style="text-align:center">Platform Name</th>
+                        <th style="text-align:center">Platform Type</th>
+                        <th style="text-align:center;width:150px">Platform Status</th>
+                        <th style="text-align: center;width:150px">Edit</th>
+                        <th style="text-align:center;width:150px">Delete</th>
+                        <th style="text-align:center;width:150px">Export</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var p in Model) /*ViewData["Users"] as IList<LDMS.ViewModels.LDMS_M_User>)*/
+                        {
+                            <tr>
+                                <td style="text-align:center">@p.RowIndex</td>
+                                <td style="text-align:center">@p.PlatformID</td>
+                                <td style="text-align:center">@p.PlatformName_EN</td>
+                                <td style="text-align:center">@p.PlatformType</td>
+                                <td style="text-align:center">@p.PlatformStatus</td>
+                                <td style="text-align:center">
+                                    <a href="#" id="btnEditPlatform">
+                                        <img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' onclick="window.location.href ='@Url.Action("EditPlatform", "Platform")?ID=@p.ID';" class="light-logo svg-colorize-blue" alt="homepage" />
+                                    </a>
+                                </td>
+                                <td style="text-align:center">
+                                    <a href="#" id="btnDeletePlatform">
+                                        <img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class="light-logo svg-colorize-red" alt="homepage" />
+                                    </a>
+                                </td>
+                                <td style="text-align:center">
+                                    <a href="#" id="btnExport">
+                                        <img src='@Url.Content("~/assets/images/icons/icon-excel.png")' width="32" height="32" alt="homepage" />
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

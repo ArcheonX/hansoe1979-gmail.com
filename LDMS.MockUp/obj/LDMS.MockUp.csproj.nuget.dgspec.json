@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.MockUp\\LDMS.MockUp.csproj": {}
+    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.MockUp\\LDMS.MockUp.csproj": {}
   },
   "projects": {
-    "D:\\Work\\Sony\\sonyhrtraning\\LDMS.MockUp\\LDMS.MockUp.csproj": {
+    "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.MockUp\\LDMS.MockUp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.MockUp\\LDMS.MockUp.csproj",
+        "projectUniqueName": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.MockUp\\LDMS.MockUp.csproj",
         "projectName": "LDMS.MockUp",
-        "projectPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.MockUp\\LDMS.MockUp.csproj",
-        "packagesPath": "C:\\Users\\winai\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\Sony\\sonyhrtraning\\LDMS.MockUp\\obj\\",
+        "projectPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.MockUp\\LDMS.MockUp.csproj",
+        "packagesPath": "C:\\Users\\pisit\\.nuget\\packages\\",
+        "outputPath": "C:\\Project\\Sony\\HR\\TrainingSystem\\Source\\repos\\sonyhrtraning\\LDMS.MockUp\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\winai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\pisit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -59,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

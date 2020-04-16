@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Platform";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section NavHeader{
+    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
+        <li class="breadcrumb-item active">I-Manage Platform Management</li>
+    </ol>
+}
+
+<script src="~/assets/app/PlatformLDMS.js"></script>
+<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+    <div id="viewAllplatform" style="display:block;width:100%">
+        @Html.Partial("_SearchPlatformCriteria")
+        <div id="PlatformListcontent">
+            @Html.Partial("_ViewAllPlatform")
+        </div>
+    </div>
+    <div id="platformEditor" style="display:none;width:100%;">
+        @Html.Partial("_EditorPlatform")
+    </div>
+    <div id="subPlatformEditor" style="display:none;width:100%;">
+        @Html.Partial("_EditorSubPlatform")
+    </div>
+    <div id="MasterReport" style="display:none;width:100%;">
+
+    </div>
+</div>
+@*border-width:thin;border-style:solid;*@
