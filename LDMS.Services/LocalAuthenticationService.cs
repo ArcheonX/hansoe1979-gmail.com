@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using LDMS.Core;
 using LDMS.ViewModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace LDMS.Services
 {
     public class LocalAuthenticationService : ILDMSService
     {
-        public LocalAuthenticationService(ILDMSConnection connection) : base(connection)
+        public LocalAuthenticationService(ILDMSConnection connection, IHttpContextAccessor httpContextAccessor) : base(connection, httpContextAccessor)
         {
 
         }

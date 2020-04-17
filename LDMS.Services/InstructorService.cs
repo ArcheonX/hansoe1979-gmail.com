@@ -11,6 +11,7 @@ using Dapper;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 
 namespace LDMS.Services
 {
@@ -18,7 +19,7 @@ namespace LDMS.Services
     {
         private readonly AppSettings _appSettings;
         public InstructorService(IOptions<AppSettings> appSettings,
-            ILDMSConnection iLDMSConnection) : base(iLDMSConnection)
+            ILDMSConnection iLDMSConnection, IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection, httpContextAccessor)
         {
             _appSettings = appSettings.Value;
         }

@@ -17,8 +17,7 @@ namespace LDMS.ViewModels
         public int ID_Plant { get; set; }
         public int? ID_Center { get; set; }
         public int? ID_Division { get; set; }
-        public int? ID_Department { get; set; }
-       
+        public int? ID_Department { get; set; } 
         public DateTime? JoinDate { get; set; }
         public DateTime? OutDate { get; set; }
         public DateTime? DateOfBirth { get; set; }
@@ -30,12 +29,11 @@ namespace LDMS.ViewModels
         public DateTime? UpdateDate { get; set; }
         public byte IsActive { get; set; }
         public string Token { get; set; }
-       
         public string RefreshToken { get; set; }
 
-        public LDMS_M_UserRole LDMS_M_UserRole { get; set; }
-
+        public LDMS_M_UserRole LDMS_M_UserRole { get; set; } 
         public LDMS_M_Department LDMS_M_Department { get; set; }
+
         public LDMS_M_Plant LDMS_M_Plant { get; set; }
         public LDMS_M_User()
         {

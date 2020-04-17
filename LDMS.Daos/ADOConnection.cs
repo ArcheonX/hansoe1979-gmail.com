@@ -13,5 +13,5 @@ namespace LDMS.Daos
         {
             return new SqlConnection(_connectionstring);
         }
-    }
+    } 
 }

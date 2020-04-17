@@ -61,61 +61,81 @@ namespace LDMS.Identity
         }
 
         public bool IsTokenValid(string token)
-        {
-            if (string.IsNullOrEmpty(token)) throw new ArgumentException("Given token is null or empty");
-            TokenValidationParameters tokenValidationParameters = GetTokenValidationParameters();
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+        { 
             try
             {
+                if (string.IsNullOrEmpty(token)) throw new ArgumentException("Given token is null or empty");
+                TokenValidationParameters tokenValidationParameters = GetTokenValidationParameters();
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
                 return securityToken.ValidTo > DateTime.Now;
             }
             catch
             {
-                return false;
+               return false;
             }
 
         }
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
-            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
+            using System.Security.Cryptography.RandomNumberGenerator rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
         public string GetToken(HttpRequest request)
         {
-            string token = string.Empty;
-            string authenHeader = request.Headers["Authorization"];
-            if (authenHeader != null && authenHeader.StartsWith("BEARER", StringComparison.CurrentCultureIgnoreCase) && !authenHeader.Equals("BEARER", StringComparison.CurrentCultureIgnoreCase))
+            try
             {
-                token = authenHeader.Substring("BEARER ".Length).Trim();
+                string token = string.Empty;
+                string authenHeader = request.Headers["Authorization"];
+                if (authenHeader != null && authenHeader.StartsWith("BEARER", StringComparison.CurrentCultureIgnoreCase) && !authenHeader.Equals("BEARER", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    token = authenHeader.Substring("BEARER ".Length).Trim();
+                }
+                if (!IsTokenValid(token))
+                {
+                    //request.HttpContext.Response.Redirect("Account");
+                    return string.Empty;
+                }
+                else
+                {
+                    return token;
+                }
             }
-            if (!IsTokenValid(token))
+            catch
             {
-                throw new AccessViolationException("Invalid Token");
-            }
-            else
-            {
-                return token;
+                return string.Empty;
             }
         }
         public string GetUserId(HttpRequest request)
         {
-            var token = GetToken(request);
-            var claims = GetClaims(token);
-            return claims.ToList().FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            try
+            {
+                var token = GetToken(request);
+                var claims = GetClaims(token);
+                return claims.ToList().FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         public IEnumerable<Claim> GetClaims(string token)
         {
-            if (string.IsNullOrEmpty(token)) throw new ArgumentException("Given token is null or empty");
-            TokenValidationParameters tokenValidationParameters = GetTokenValidationParameters();
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
-            return claimsPrincipal.Claims;
+            try
+            {
+                if (string.IsNullOrEmpty(token)) throw new ArgumentException("Given token is null or empty");
+                TokenValidationParameters tokenValidationParameters = GetTokenValidationParameters();
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+                return claimsPrincipal.Claims;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public bool IsExpiredToken(string token)
@@ -137,8 +157,7 @@ namespace LDMS.Identity
             try
             {
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-                JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-                if (jwtToken == null)
+                if (tokenHandler.ReadToken(token) as JwtSecurityToken == null)
                 {
                     return null;
                 }
@@ -159,19 +178,15 @@ namespace LDMS.Identity
                 {
 
                     JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-                    JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-                    if (jwtToken == null)
+                    if (tokenHandler.ReadToken(token) as JwtSecurityToken == null)
                     {
                         return string.Empty;
                     }
-                    TokenValidationParameters validationParameters = GetTokenValidationParameters();
-                    ClaimsPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken securityToken);
-                    Claim claim = principal.Claims.FirstOrDefault(o => o.Type.ToUpper() == key.ToUpper());
-                    return claim != null ? claim.Value : string.Empty;
+                    ClaimsPrincipal principal = tokenHandler.ValidateToken(token, GetTokenValidationParameters(), out SecurityToken securityToken);
+                    return principal.Claims.FirstOrDefault(o => o.Type.ToUpper() == key.ToUpper()) != null ? principal.Claims.FirstOrDefault(o => o.Type.ToUpper() == key.ToUpper()).Value : string.Empty;
                 }
-                catch//(Exception ex)
+                catch
                 {
-                    //Can't read token we expect this token invalid
                     return string.Empty;
                 }
             }

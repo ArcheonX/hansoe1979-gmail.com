@@ -1,4 +1,4 @@
-﻿<div class="panel panel-default" style="margin-top:-15px;width:100%;">
+﻿<div class="panel panel-default" style="width: 100%; border-width: thin; border-style: solid;">
     <div class="panel-body" style="width:100%;">
         <div class="form-horizontal" style="margin-top:25px">
             <div class="row form-group">
@@ -18,7 +18,7 @@
                         <label class="LabelCaption">Instructor ID</label>
                     </span>
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <input type="text" style="width: 100%" class="form-control input-sm" />
                 </div>
             </div>
@@ -28,7 +28,7 @@
                         <label class="LabelCaption">Platform</label>
                     </span>
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <select id="selectPlatform" name="selectPlatform" title="Please Enter Section" class="form-control" style="width: 100%">
                     </select>
                 </div>
@@ -39,7 +39,7 @@
                         <label class="LabelCaption">Course</label>
                     </span>
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <select id="selectCourse" name="selectCourse" title="Please Enter Course" class="form-control" style="width: 100%">
                     </select>
                 </div>
@@ -50,7 +50,7 @@
                         <label class="LabelCaption">Department</label>
                     </span>
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <select required id="selectMasterReportDepartment" name="selectMasterReportDepartment" title="Please Enter Department" class="form-control" style="width: 100%">
                         @*@foreach (var std in ViewData["Department"] as IList<LDMS.ViewModels.LDMS_M_Department>)
                         {
@@ -65,7 +65,7 @@
                         <label class="LabelCaption">Job Grade</label>
                     </span>
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <select id="selectMasterReportJobGrade" name="selectMasterReportJobGrade" class="form-control" style="width: 100%">
                         @*@foreach (var std in ViewData["JobsGrade"] as IList<LDMS.ViewModels.LDMS_M_JobGrade>)
                         {
@@ -80,7 +80,7 @@
                         <label class="LabelCaption">Status</label>
                     </span>
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <select id="selectMasterReportStatus" name="selectMasterReportStatus" class="form-control" style="width: 100%">
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
@@ -93,10 +93,10 @@
                         <label class="LabelCaption">Training Date</label>
                     </span>
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-2 col-md-2">
                     <input id="dteTrainingDateFrm" type="datetime" class="form-control"  style="width: 100%" />
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-2 col-md-2">
                     <input id="dteTrainingDateTo" class="form-control"  type="datetime" style="width: 100%" />
                 </div>
             </div>
@@ -106,7 +106,7 @@
                         <label class="LabelCaption">Training Status</label>
                     </span>
                 </div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <select id="selectMasterReportStatus" name="selectMasterReportStatus" class="form-control" style="width: 100%">
                         <option value="1">Qualified</option>
                         <option value="0">UnQualified</option>
