@@ -1,5 +1,6 @@
 ﻿using Dapper;
-using LDMS.Core; 
+using LDMS.Core;
+using LDMS.ViewModels.ReportModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
@@ -43,6 +44,49 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
+
+        public async Task<ServiceResult> GetIMasterReport(MasterReportFilterModel model)
+        {
+            try
+            {
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    System.Data.DataSet dataSet = new System.Data.DataSet();
+                    using (var reader = Connection.ExecuteReader(_schema + ".[usp_Instructor_Master_Report] @paramTrainingDateFrm,@paramTrainingDateTo,@paramInstructorId,@paramDepartmentId,@paramJobGradeId,@paramStatus,@paramTrainingStatus",
+                          param: new
+                          {
+                              @paramTrainingDateFrm = model.TrainingDateFrm,
+                              @paramTrainingDateTo = model.TrainingDateTo,
+                              @paramInstructorId = model.InstructorId,
+                              @paramDepartmentId = model.DepartmentId,
+                              @paramJobGradeId = model.JobGradeId,
+                              @paramStatus = model.ActiveStatus,
+                              @paramTrainingStatus = model.TrainingStatus
+                          }
+                          , commandTimeout: 0
+                          , commandType: System.Data.CommandType.StoredProcedure))
+                    {
+                        var dataTable = new System.Data.DataTable();
+                        dataTable.Load(reader);
+                        dataSet.Tables.Add(dataTable);
+                    }
+                    var result = new System.Data.DataSet();
+                    var buffer = result.ToExcelDynamicReport("", "");
+                    string fileName = String.Format("MasterReport.xls");
+                    Microsoft.AspNetCore.Mvc.FileContentResult fileContentResult = new Microsoft.AspNetCore.Mvc.FileContentResult(buffer, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        FileDownloadName = fileName
+                    };
+                    return new ServiceResult(fileContentResult);
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+
         public async Task<ServiceResult> GetAllDivisions()
         {
             try
