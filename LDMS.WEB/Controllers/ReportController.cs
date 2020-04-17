@@ -13,6 +13,8 @@ namespace LDMS.WEB.Controllers
         [Route("ManageReport")]
         public IActionResult Index()
         {
+            ViewData["Title"] = "I-Manage Report";
+            ViewData["MainTitle"] = "I-Manage";
             return View();
         }
     }

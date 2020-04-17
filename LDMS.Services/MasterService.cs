@@ -18,11 +18,12 @@ namespace LDMS.Services
         {
             _logger = logger;
         }
-        public async Task<ServiceResult> GetAllJobGrades()
+         
+        public async Task<ServiceResult> GetAllPlants()
         {
             try
             {
-                return new ServiceResult(await All<ViewModels.LDMS_M_JobGrade>("JobGrade"));
+                return new ServiceResult(await All<ViewModels.LDMS_M_Plant>("Plant"));
             }
             catch (Exception x)
             {
@@ -42,18 +43,6 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-        public async Task<ServiceResult> GetAllDepartments()
-        {
-            try
-            {
-                return new ServiceResult(await All<ViewModels.LDMS_M_Department>("Department"));
-            }
-            catch (Exception x)
-            {
-                _logger.LogError(x.Message);
-                return new ServiceResult(x);
-            }
-        }
         public async Task<ServiceResult> GetAllDivisions()
         {
             try
@@ -66,11 +55,11 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-        public async Task<ServiceResult> GetAllJobTitles()
+        public async Task<ServiceResult> GetAllDepartments()
         {
             try
             {
-                return new ServiceResult(await All<ViewModels.LDMS_M_JobTitle>("JobTitle"));
+                return new ServiceResult(await All<ViewModels.LDMS_M_Department>("Department"));
             }
             catch (Exception x)
             {
@@ -90,11 +79,17 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-        public async Task<ServiceResult> GetAllRoles()
+        
+        public async Task<ServiceResult> GetAllCenters(int plantId)
         {
             try
             {
-                return new ServiceResult(await All<ViewModels.LDMS_M_Role>("Role"));
+                var items = ((await GetAllCenters()).Data as List<ViewModels.LDMS_M_Center>).Where(e => e.ID_Plant == plantId).ToList();
+                foreach (var item in items)
+                {
+                    item.RowIndex = items.IndexOf(item) + 1;
+                }
+                return new ServiceResult(items);
             }
             catch (Exception x)
             {
@@ -102,12 +97,16 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-
-        public async Task<ServiceResult> GetAllCourses()
+        public async Task<ServiceResult> GetAllDivisions(int centerId)
         {
             try
             {
-                return new ServiceResult(await All<ViewModels.LDMS_M_Course>("Course"));
+                var items = ((await GetAllDivisions()).Data as List<ViewModels.LDMS_M_Division>).Where(e => e.ID_Center == centerId).ToList();
+                foreach (var item in items)
+                {
+                    item.RowIndex = items.IndexOf(item) + 1;
+                }
+                return new ServiceResult(items);
             }
             catch (Exception x)
             {
@@ -115,11 +114,16 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-        public async Task<ServiceResult> GetAllPlatforms()
+        public async Task<ServiceResult> GetAllDepartments(int divisionId)
         {
             try
             {
-                return new ServiceResult(await All<ViewModels.LDMS_M_Platform>("Platform"));
+                var items = ((await GetAllDepartments()).Data as List<ViewModels.LDMS_M_Department>).Where(e => e.ID_Division == divisionId).ToList();
+                foreach (var item in items)
+                {
+                    item.RowIndex = items.IndexOf(item) + 1;
+                }
+                return new ServiceResult(items);
             }
             catch (Exception x)
             {
@@ -127,8 +131,6 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-
-
         public async Task<ServiceResult> GetAllSections(int departmentId)
         {
             try
@@ -160,7 +162,6 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-
         public async Task<ServiceResult> GetDivision(int divisionId)
         {
             try
@@ -174,7 +175,6 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-
         public async Task<ServiceResult> GetSection(int sectionId)
         {
             try
@@ -188,6 +188,71 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
+       
+        
+        public async Task<ServiceResult> GetAllJobTitles()
+        {
+            try
+            {
+                return new ServiceResult(await All<ViewModels.LDMS_M_JobTitle>("JobTitle"));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+        public async Task<ServiceResult> GetAllJobGrades()
+        {
+            try
+            {
+                return new ServiceResult(await All<ViewModels.LDMS_M_JobGrade>("JobGrade"));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+        public async Task<ServiceResult> GetAllRoles()
+        {
+            try
+            {
+                return new ServiceResult(await All<ViewModels.LDMS_M_Role>("Role"));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+        public async Task<ServiceResult> GetAllCourses()
+        {
+            try
+            {
+                return new ServiceResult(await All<ViewModels.LDMS_M_Course>("Course"));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+        public async Task<ServiceResult> GetAllPlatforms()
+        {
+            try
+            {
+                return new ServiceResult(await All<ViewModels.LDMS_M_Platform>("Platform"));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+        
+
+
         public async Task<ServiceResult> DeleteSection(int sectionId)
         {
             try
@@ -274,9 +339,7 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-
-
-
+         
         public List<ViewModels.LDMS_M_CodeLookUp> GetCodeLookups(string tableName, string fieldName)
         {
             List<ViewModels.LDMS_M_CodeLookUp> result = new List<ViewModels.LDMS_M_CodeLookUp>();

@@ -99,13 +99,13 @@
             $('#UserEditor').attr("style", "display:none;width:100%");
             $('#MasterReport').attr("style", "display:none;width:100%");
             $('#btnUser').attr("class", "btn btn-info waves-effect waves-light");
-            $('#btnMasterReport').attr("class", "btn btn-inactive waves-effect waves-light");
+            $('#btnMasterReport').attr("class", "btn btn btn-outline-info waves-effect waves-light");
         });
         $('#btnMasterReport').click(function () {
             $('#viewAllUser').attr("style", "display:none;width:100%");
             $('#UserEditor').attr("style", "display:none;width:100%");
             $('#MasterReport').attr("style", "display:block;width:100%");
-            $('#btnUser').attr("class", "btn btn-inactive waves-effect waves-light");
+            $('#btnUser').attr("class", "btn btn btn-outline-info waves-effect waves-light");
             $('#btnMasterReport').attr("class", "btn btn-info waves-effect waves-light");
         });
         $('#btnAddEmployee').click(function () {
