@@ -32,6 +32,20 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
+
+        public async Task<ServiceResult> GetAllPlant()
+        {
+            try
+            {
+                return new ServiceResult(await All<ViewModels.LDMS_M_Plant>("Plant"));
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+
         public async Task<ServiceResult> GetAllCenters()
         {
             try

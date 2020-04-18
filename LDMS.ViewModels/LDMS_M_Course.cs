@@ -9,11 +9,13 @@ namespace LDMS.ViewModels
         public string CourseID { get; set; }
         public string CourseName { get; set; }
         public int ID_LearnMethod { get; set; }
+        public int ID_CourseType { get; set; }
         public string Objective { get; set; }
         public string Description { get; set; }
         public string OutLine { get; set; }
         public int IsRefreshment { get; set; }
-        public int RefreshmentPeriod_Day { get; set; }
+        public int RefreshmentPeriod { get; set; }
+        public int RefreshmentUnit { get; set; }
         public string TargetEmployeeID { get; set; }
         public int ID_PlantTarget { get; set; }
         public int ID_CenterTarget { get; set; }
