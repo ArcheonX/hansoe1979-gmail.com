@@ -18,6 +18,13 @@ namespace LDMS.WEB.Controllers
         }
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
+        [Route("Master/GetAllPlant")]
+        public async Task<IActionResult> GetAllPlant()
+        {
+            return Response(await MasterService.GetAllPlant());
+        }
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [HttpGet]
         [Route("Master/GetAllCenters")]
         public async Task<IActionResult> GetAllCenters()
         {

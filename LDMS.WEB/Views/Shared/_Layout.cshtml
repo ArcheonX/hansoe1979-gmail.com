@@ -87,7 +87,7 @@
                 <div class="profile-text">
                     <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
                     <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
-                    <a href="#" style="pointer-events: none; display: inline-block;"  aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
                     <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
                 </div>
             </div>
@@ -109,9 +109,14 @@
                 </div>
             </div>
             @*<footer class="footer">
-                ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
-            </footer>*@
-        </div> 
-    </div>   
+                    ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
+                </footer>*@
+        </div>
+    </div>
 </body>
 </html>
+<style type="text/css">
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+</style>
