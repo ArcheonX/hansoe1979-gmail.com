@@ -91,7 +91,7 @@
                     <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
                 </div>
             </div>
-            <div class="scroll-sidebar">
+            <div class="scroll-sidebar" id="scroll-sidebar">
                 <nav class="sidebar-nav">
                     @await Component.InvokeAsync("NavigationMenu")
                 </nav>
@@ -104,7 +104,7 @@
                         <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
-                        </ol> 
+                        </ol>
                         @*@RenderSection("NavHeader", required: false)*@
                     </div>
                 </div>
@@ -112,15 +112,18 @@
                     @RenderBody()
                 </div>
             </div>
-            @*<footer class="footer">
-                    ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
-                </footer>*@
         </div>
+        <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
     </div>
 </body>
-</html>
-<style type="text/css">
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-</style>
+</html> 
+<script>
+    (function ($) {
+        "use strict";
+        $(document).ready(function () {
+            $("#scroll-sidebar").animate({
+                scrollTop: 0
+            }, 'fast');
+        })
+    })(jQuery);
+</script>
