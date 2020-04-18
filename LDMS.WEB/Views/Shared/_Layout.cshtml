@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <!--- JS Lib-->
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
@@ -101,7 +100,11 @@
             <div class="container-fluid">
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
-                        @RenderSection("NavHeader", required: false)
+                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
+                        </ol> 
+                        @*@RenderSection("NavHeader", required: false)*@
                     </div>
                 </div>
                 <div class="row page-body">

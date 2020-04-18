@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace LDMS.Core
+namespace LDMS.Daos
 {
     public abstract class ILDMSConnection
     {

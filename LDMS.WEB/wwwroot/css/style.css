@@ -993,12 +993,13 @@ form label{font-weight:400}
 {
     position:absolute
 }
-.boxed #main-wrapper
-.footer {
+    .boxed #main-wrapper
+    .footer {
         display: none;
         width: 100%;
         /*max-width: 1300px;*/
         margin: 0 auto;
+        background: #ffffff;
     }
 .page-wrapper {
     background: #d7dfe3;
