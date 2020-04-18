@@ -28,7 +28,7 @@ namespace LDMS.WEB.Controllers
 
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
-        [Route("Master/GetAllCentersByPlant")]
+        [Route("Report/GetIMasterReport")]
         public async Task<IActionResult> GetIMasterReport(MasterReportFilterModel model)
         {
             return Response(await MasterService.GetIMasterReport(model));

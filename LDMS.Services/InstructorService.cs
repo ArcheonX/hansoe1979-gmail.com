@@ -1,17 +1,11 @@
 ﻿using LDMS.Core;
 using LDMS.ViewModels;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Dapper;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Reflection;
 using Microsoft.AspNetCore.Http;
+using LDMS.Daos;
 
 namespace LDMS.Services
 {

@@ -6,6 +6,7 @@ namespace LDMS.ViewModels.ReportModel
 {
     public class MasterReportFilterModel
     {
+        public MasterReportType MasterReportType { get; set; }
         public string InstructorId { get; set; }
         public int? CourseId { get; set; }
         public int? PlatformId { get; set; }
@@ -15,5 +16,11 @@ namespace LDMS.ViewModels.ReportModel
         public int? DepartmentId { get; set; }
         public DateTime TrainingDateFrm { get; set; }
         public DateTime TrainingDateTo { get; set; }
+    }
+    public enum MasterReportType
+    {
+        Instructor = 0,
+        Platform = 1,
+        Course = 2
     }
 }

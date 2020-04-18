@@ -19,7 +19,7 @@ GO
 -- Description:	<Description,,>
 -- EXEC usp_Instructor_Master_Report @paramTrainingDateFrm ='2020/04/01',@paramTrainingDateTo='2020/04/30'
 -- =============================================
-CREATE OR ALTER PROCEDURE usp_Instructor_Master_Report
+CREATE OR ALTER PROCEDURE [dbo].[usp_Instructor_Master_Report]
 	@paramTrainingDateFrm DATETIME,
 	@paramTrainingDateTo DATETIME,
 	@paramInstructorId nvarchar(100) =null,
@@ -54,13 +54,16 @@ BEGIN
 	Instructor.Education_Level AS "Education",
 	Instructor.Customer_Reference AS "Customer Referrence", 
 	'' AS "Industrusty",
-	'' AS "courseID",
-	'' AS "Coursename",
+	Course.CourseID AS "courseID",
+	Course.CourseName AS "Coursename",
 	50 AS "Amount Learner",
 	20 AS "Amount Qualifield",
 	20 AS "Amount Unqualifield",
 	100 AS "Avg.Score"
-	FROM LDMS_M_Instructor Instructor
+	FROM  LDMS_M_Course  Course 
+	LEFT OUTER JOIN LDMS_T_Class class on Course.ID = class.ID_Course
+	LEFT OUTER JOIN LDMS_M_Instructor Instructor on class.ID_Instructor = Instructor.Id
+
 	WHERE 1 = (CASE WHEN @paramInstructorId <> '' and @paramInstructorId is not null THEN
 				CASE WHEN Instructor.Instructor_ID = @paramInstructorId THEN 1 ELSE 0 END
 				ELSE 1 END)

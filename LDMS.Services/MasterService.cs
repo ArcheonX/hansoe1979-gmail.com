@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using LDMS.Core;
+using LDMS.Daos;
 using LDMS.ViewModels.ReportModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -51,27 +51,43 @@ namespace LDMS.Services
             {
                 using (System.Data.IDbConnection conn = Connection)
                 {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@paramTrainingDateFrm", model.TrainingDateFrm,System.Data.DbType.DateTime);
+                    parameter.Add("@paramTrainingDateTo",model.TrainingDateTo, System.Data.DbType.DateTime);
+                    parameter.Add("@paramDepartmentId", model.DepartmentId, System.Data.DbType.Int32);
+                    parameter.Add("@paramJobGradeId", model.JobGradeId, System.Data.DbType.Int32);
+                    parameter.Add("@paramStatus",model.ActiveStatus, System.Data.DbType.Int32);
+                    parameter.Add("@paramTrainingStatus ", model.TrainingStatus, System.Data.DbType.Int32);
+                    string commad = "";
+
                     System.Data.DataSet dataSet = new System.Data.DataSet();
-                    using (var reader = Connection.ExecuteReader(_schema + ".[usp_Instructor_Master_Report] @paramTrainingDateFrm,@paramTrainingDateTo,@paramInstructorId,@paramDepartmentId,@paramJobGradeId,@paramStatus,@paramTrainingStatus",
-                          param: new
-                          {
-                              @paramTrainingDateFrm = model.TrainingDateFrm,
-                              @paramTrainingDateTo = model.TrainingDateTo,
-                              @paramInstructorId = model.InstructorId,
-                              @paramDepartmentId = model.DepartmentId,
-                              @paramJobGradeId = model.JobGradeId,
-                              @paramStatus = model.ActiveStatus,
-                              @paramTrainingStatus = model.TrainingStatus
-                          }
-                          , commandTimeout: 0
-                          , commandType: System.Data.CommandType.StoredProcedure))
+                    if (model.MasterReportType == MasterReportType.Instructor)
+                    {
+                        parameter.Add("@paramInstructorId ", model.InstructorId, System.Data.DbType.String);
+                        commad = _schema + ".[usp_Instructor_Master_Report]"; 
+                    }
+                    else if (model.MasterReportType == MasterReportType.Course)
+                    {
+                        parameter.Add("@paramCourseId ", model.CourseId, System.Data.DbType.Int32);
+                        commad = _schema + ".[usp_Course_Master_Report]"; 
+                    }
+                    else if (model.MasterReportType == MasterReportType.Platform)
+                    {
+                        parameter.Add("@paramPlaformId ", model.PlatformId, System.Data.DbType.Int32);
+                        commad = _schema + ".[usp_Plaform_Master_Report]"; 
+                    }
+
+                    using (var reader = Connection.ExecuteReader(
+                          sql: commad,
+                          param: parameter,
+                          commandTimeout: 0,
+                          commandType: System.Data.CommandType.StoredProcedure))
                     {
                         var dataTable = new System.Data.DataTable();
                         dataTable.Load(reader);
                         dataSet.Tables.Add(dataTable);
                     }
-                    var result = new System.Data.DataSet();
-                    var buffer = result.ToExcelDynamicReport("", "");
+                    var buffer = dataSet.ToExcelDynamicReport("", "");
                     string fileName = String.Format("MasterReport.xls");
                     Microsoft.AspNetCore.Mvc.FileContentResult fileContentResult = new Microsoft.AspNetCore.Mvc.FileContentResult(buffer, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                     {
