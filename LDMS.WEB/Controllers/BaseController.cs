@@ -9,7 +9,7 @@ namespace LDMS.WEB.Controllers
     public class BaseController : Controller
     {
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        {
+        { 
             // logic before action goes here
             Stopwatch stopwacth = new Stopwatch();
             stopwacth.Start(); 

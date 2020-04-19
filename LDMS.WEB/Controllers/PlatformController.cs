@@ -1,5 +1,7 @@
-﻿using LDMS.Services;
+﻿using LDMS.Core;
+using LDMS.Services;
 using LDMS.ViewModels;
+using LDMS.WEB.Filters;
 using LDMS.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,17 +23,18 @@ namespace LDMS.WEB.Controllers
             _PlatFormService = platformService;
         }
 
+        [AuthorizeRole(UserRole.All)]
         public IActionResult PlatformManagement()
         {
             return View();
         }
-
+        [AuthorizeRole(UserRole.All)]
         public IActionResult Index()
         {
             return View();
         }
 
-      
+        [AuthorizeRole(UserRole.All)]
         [Route("Platform/EditPlatform/{ID}")]
         public IActionResult EditPlatform(string ID)
         {
@@ -46,7 +49,7 @@ namespace LDMS.WEB.Controllers
             return View("/Views/Platform/_EditorPlatform.cshtml", p);
             //return PartialView("_EditorPlatform", p);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/AddPlatform")]
         public IActionResult AddPlatform()
@@ -54,7 +57,7 @@ namespace LDMS.WEB.Controllers
             return View("/Views/Platform/_EditorPlatform.cshtml", null);
         }
 
-        
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/SearchPlatform")]
         public async Task<ActionResult> SearchPlatform(SearchPlatformModel model)
@@ -63,7 +66,7 @@ namespace LDMS.WEB.Controllers
                                                          model.PlatformType, model.PlatformStatus);
             return PartialView("_ViewAllPlatform", platforms);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Platform/Search")]
         [AutoValidateAntiforgeryToken]
@@ -87,14 +90,14 @@ namespace LDMS.WEB.Controllers
             return Json(platform);
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/GetAllPlatformType")]
         public IActionResult GetAllPlatformType()
         {
             return Json(_PlatFormService.GetAllPlatformType().Result);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/InsertPlatform")]
         public IActionResult InsertPlatform( string ID_Platform, string PlatformID, string PlatformName_EN, string PlatformName_TH,
@@ -126,7 +129,7 @@ namespace LDMS.WEB.Controllers
             return Json(platform);
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/SearchCourse")]
         public async Task<ActionResult> SearchCourse(SearchCourseModel model)
@@ -138,14 +141,14 @@ namespace LDMS.WEB.Controllers
             //return PartialView("_ViewAllCourse", course); 
             return Json(course);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/GetAllCourseLearnMethod")]
         public IActionResult GetAllCourseLearnMethod()
         {
             return Json(_PlatFormService.GetAllCourseLearnMethod().Result);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/InsertSubPlatform")]
         public IActionResult InsertSubPlatform(string ID_Platform, string SubPlatformName_EN, string SubPlatformName_TH)
@@ -162,7 +165,7 @@ namespace LDMS.WEB.Controllers
 
             return Json(_id);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/EditSubPlatform/{ID_SubPlatform}")]
         [AutoValidateAntiforgeryToken]
@@ -174,7 +177,7 @@ namespace LDMS.WEB.Controllers
 
             return View("/Views/Platform/_EditorSubPlatform.cshtml", p);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/UpdateSubPlatform")]
         [AutoValidateAntiforgeryToken]
@@ -193,7 +196,7 @@ namespace LDMS.WEB.Controllers
 
             return Json(ID_Platform);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/DeleteSubPlatform")]
         [AutoValidateAntiforgeryToken]
@@ -205,7 +208,7 @@ namespace LDMS.WEB.Controllers
         }
 
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Platform/SelectSubPlatform")]
         [AutoValidateAntiforgeryToken]
@@ -234,7 +237,7 @@ namespace LDMS.WEB.Controllers
             //return Json(_PlatFormService.GetSubPlatformAll(ID_Platform));
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/InsertSubPlatformCourse")]
         [AutoValidateAntiforgeryToken]
@@ -245,21 +248,21 @@ namespace LDMS.WEB.Controllers
             return Json(ID_SubPlatform);
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/LoadSubPlatformByID")]
         public IActionResult LoadSubPlatformByID(string ID_SubPlatform)
         {
             return Json(ID_SubPlatform);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/BacktoPlatform")]
         public IActionResult BacktoPlatform(string ID)
         {
             return Json(ID);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/LoadSubPlatformCourseByID")]
         [AutoValidateAntiforgeryToken]
@@ -268,7 +271,7 @@ namespace LDMS.WEB.Controllers
             List<LDMS_M_Course> p = _PlatFormService.LoadSubPlatformCourseByID(ID_SubPlatform);
             return Json(p);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Platform/DeleteSubPlatformCourse")]
         public IActionResult DeleteSubPlatformCourse(string ID_SubPlatform, string ID_Course)
@@ -279,7 +282,7 @@ namespace LDMS.WEB.Controllers
             //return PartialView("_EditorPlatform", p);
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Platform/LoadSubPlatformCourse")]
         [AutoValidateAntiforgeryToken]
