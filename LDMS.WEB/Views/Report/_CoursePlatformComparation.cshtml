@@ -1,0 +1,57 @@
+﻿<div class="panel panel-default" style="width: 100%; border-width: thin; border-style: solid;">
+    <div class="panel-body" style="width:100%;">
+        <div class="form-horizontal" style="margin-top:25px">
+            <div class="row form-group"> 
+                <div class="col-sm-2 col-md-2 offset-2">
+                    <input type='radio' value='Platform' name='selectMasterType' checked onchange="OnSelectRadio(this)" id="Platform" /><label for="Platform">Platform</label>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <input type='radio' value='Course' name='selectMasterType' onchange="OnSelectRadio(this)" id="Course" /><label for="Course">Course</label>
+                </div>
+            </div> 
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Platform</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectPlatform" name="selectPlatform" title="Please Enter Section" class="form-control input-sm" style="width: 100%">
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Course</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectCourse" name="selectCourse" disabled title="Please Enter Course" class="form-control input-sm" style="width: 100%">
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Training Date<font color="#f60b0b">*</font></label>
+                    </span>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <input id="dteTrainingDateFrm" title="Please Enter Training Date " required type="datetime" class="form-control input-sm required" style="width: 100%" />
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <input id="dteTrainingDateTo" title="Please Enter Training Date " required class="form-control input-sm required" type="datetime" style="width: 100%" />
+                </div>
+            </div> 
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2 offset-10" style="margin-right:50px;">
+                    <button id="btnSearchCourseReport" class="btn btn-outline-success waves-effect waves-light" style="width:100%">
+                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" />&nbsp;&nbsp; Export 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

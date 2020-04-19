@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using LDMS.Core;
+using LDMS.Daos;
 using LDMS.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System;

@@ -1,20 +1,9 @@
 ﻿
 @{
     ViewData["Title"] = "Instuctor Detail";
+    ViewData["MainTitle"] = "I-Manage";
 }
-
-@section Header{
-
-}
-
-@section NavHeader{
-    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
-        <li class="breadcrumb-item active">I-Manage Instructor Add</li>
-    </ol>
-}
-
+ 
 <form id="frmMain" class="form" method="post" enctype="multipart/form-data" style="width:100%">
     <div class="card">
         <div class="form-group m-2 row container">
@@ -248,7 +237,7 @@
                      alert(err.Message);
                  }
             });
-        }       
+        }
 
         function LoadProvince() {
              $.ajax({
@@ -331,6 +320,7 @@
                     success: function (e) {
                         $('#hdID').val(e.ID);
                         $('#txtInsID').val(e.Instructor_ID);
+                        $('#txtInsID').prop("disabled", true);
                         $('#txtOrg').val(e.Organization);
                         $('#txtInsName').val(e.Instructor_Name);
                         Emp_SetEmployeeName(e.Instructor_Name);
@@ -388,25 +378,46 @@
                     }
                 });
             }
-          
+
         }
 
         $('#frmMain').on('submit', function (e) {
             e.preventDefault();
-            $.ajax({
-                type: 'post',
-                dataType: "JSON",
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                url: '@Url.Action("Save", "Instructor")',
-                success: function (e) {
-                    window.location.href = '@Url.Action("Index", "Instructor")';
-                },
-                complete: function () {
-
-                }
-            });
+            if ($("#hdID").val() == "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetInsID", "Instructor")',
+                    data: { "insID": $("#txtInsID").val(), "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val() },
+                    success: function (e) {
+                        if (e == "0")
+                            SaveI();
+                        else {
+                            alert('@LDMS.WEB.Resources.Message.e_Instructor_ExistsInsID'.replace('{0]}', $("#txtInsID").val()));
+                            $("#txtInsID").focus();
+                        }
+                    },
+                });
+            }
+            else {
+                SaveI();
+            }
         });
+
+        function SaveI() {
+            $.ajax({
+                    type: 'post',
+                    dataType: "JSON",
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    url: '@Url.Action("Save", "Instructor")',
+                    success: function (e) {
+                        window.location.href = '@Url.Action("Index", "Instructor")';
+                    },
+                    complete: function () {
+
+                    }
+                });
+        }
     </script>
 }

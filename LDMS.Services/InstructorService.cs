@@ -1,17 +1,11 @@
 ﻿using LDMS.Core;
 using LDMS.ViewModels;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Dapper;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Reflection;
 using Microsoft.AspNetCore.Http;
+using LDMS.Daos;
 
 namespace LDMS.Services
 {
@@ -70,6 +64,22 @@ namespace LDMS.Services
                 return ret;
             }
         }
+
+
+        public int GetInstructorByInstructorID(string instructorID)
+        {
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@Instructor_ID", instructorID);
+
+                int ret = conn.Query<int>("[dbo].[sp_M_Instructor_SelectByInstructorID]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
+
+                return ret;
+            }
+        }
+
+
 
         public int AddInstructors(LDMS_M_Instructor mod)
         {
@@ -143,6 +153,19 @@ namespace LDMS.Services
                 p.Add("@IsActive", (mod.IsActive ? 1 : 0));
 
                 conn.Execute("[dbo].[sp_M_Instructor_Update]", p, commandType: System.Data.CommandType.StoredProcedure);
+            }
+        }
+
+        public void UpdateInstructorStatus(string id, string updateBy)
+        {
+            List<LDMS_M_CodeLookUp> result = new List<LDMS_M_CodeLookUp>();
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@ID", id);
+                p.Add("@Update_By", updateBy);
+
+                conn.Execute("[dbo].[sp_M_Instructor_UpdateStatus]", p, commandType: System.Data.CommandType.StoredProcedure);
             }
         }
 

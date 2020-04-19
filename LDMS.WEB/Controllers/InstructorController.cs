@@ -51,7 +51,7 @@ namespace LDMS.WEB.Controllers
             criteria.CourseName = CourseName;
 
             var instructor = _instructorService.GetInstructors(criteria);
-            //ViewData["Instructor"] = instructor.Results;
+            
             return Json(instructor);
         }
 
@@ -76,6 +76,24 @@ namespace LDMS.WEB.Controllers
         public IActionResult Get(string id)
         {
             return Json(_instructorService.GetInstructor(id));
+        }
+
+        [HttpPost]
+        [Route("Instructor/GetInsID")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult GetInsID(string insID)
+        {
+            return Json(_instructorService.GetInstructorByInstructorID(insID));
+        }
+
+
+        [HttpPost]
+        [Route("Instructor/Del")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Delete(string id)
+        {
+            _instructorService.UpdateInstructorStatus(id, "");
+            return Json("1");
         }
 
         [HttpPost]

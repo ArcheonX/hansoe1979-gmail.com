@@ -79,6 +79,8 @@ namespace LDMS.WEB.Controllers
         [Route("Account/UserManagement")]
         public async Task<IActionResult> UserManagement()
         {
+            ViewData["Title"] = "I-Manage LDMS";
+            ViewData["MainTitle"] = "I-Manage";
             return View();
         }
 
