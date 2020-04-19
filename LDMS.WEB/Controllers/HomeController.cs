@@ -23,13 +23,7 @@ namespace LDMS.WEB.Controllers
         public IActionResult Index()
         {
             return View();
-        }
-        [AllowAnonymous] 
-        [Route("Home/Privacy")]
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        } 
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
