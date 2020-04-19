@@ -340,18 +340,19 @@ namespace LDMS.Services
         {
             if (user.LDMS_M_UserRole != null)
             {
-                if (user.LDMS_M_UserRole.IsForceChangePass == 1)
-                {
-                    HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
-                }
-                else if (user.LDMS_M_UserRole.Is_FirstLogin == 1 && user.IsAD == 0)
-                {
-                    HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
-                }
-                else
-                {
-                    HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
-                }
+                HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
+                //if (user.LDMS_M_UserRole.IsForceChangePass == 1)
+                //{
+                //    HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
+                //}
+                //else if (user.LDMS_M_UserRole.Is_FirstLogin == 1 && user.IsAD == 0)
+                //{
+                //    HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
+                //}
+                //else
+                //{
+                //    HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
+                //}
             }
             else
             {
