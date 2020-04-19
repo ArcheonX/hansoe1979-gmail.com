@@ -87,6 +87,34 @@ namespace LDMS.WEB.Controllers
                 return Response(new ServiceResult(new UnauthorizedAccessException("Invalid Account")));
             } 
         }
+
+        [AuthorizeRole(UserRole.All)]
+        [HttpPost]
+        [Route("Account/AllowGPP")]
+        public async Task<IActionResult> AllowGPP(string employeeId, bool IsAllow)
+        {
+            var user = (await UserService.AllowGPP(employeeId, IsAllow)).Data as LDMS_M_User;
+            if (user != null)
+            {
+                var page = HttpContext.Request.Get("REDIRECTPAGE");
+                if (string.IsNullOrEmpty(page))
+                {
+                    page = "/Home/Index";
+                }
+                if (!IsAllow)
+                {
+                    HttpContext.Request.ExpireAllCookies(HttpContext.Response);
+                    HttpContext.Session.Clear();
+                    page = "/Account/Index";
+                }
+                return Response(new ServiceResult(page));
+            }
+            else
+            {
+                return Response(new ServiceResult(new UnauthorizedAccessException("Invalid Account")));
+            }
+        }
+
         [AuthorizeRole(UserRole.All)]
         [Route("Account/Privacy")]        
         public IActionResult Privacy()

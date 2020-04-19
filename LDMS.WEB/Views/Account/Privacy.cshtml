@@ -42,7 +42,8 @@
         <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
         <link href="~/css/Privacy.css" rel="stylesheet">
         <link href="~/css/colors/blue.css" id="theme" rel="stylesheet">
-        <script src="~/assets/app/MessageController.js"></script>
+        <script type="text/javascript" src="~/assets/app/MessageController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
         <!--[if lt IE 9]>
         <script src="~/assets/lib/html5shiv/html5shiv.js"></script>
         <script src="~/assets/lib/respond.js/respond.min.js"></script>
@@ -90,7 +91,7 @@
                         </div>
                     </div>
                     <div class="container-login100-form-btn p-t-10" style="margin-top:20px;">
-                        <button id="btn-frm-login" onclick="OnAuthentication()" class="login100-form-btn">Login </button>
+                        <button id="btn-frm-login" class="login100-form-btn">Accept </button>
                     </div>
                 </div>
             </div>
@@ -100,3 +101,37 @@
         <span class="text-center">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
     </footer>
 </body>
+<script>
+    (function ($) {
+        "use strict";
+        $(document).ready(function () {
+            $("#btn-frm-login").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/AllowGPP",
+                    data: {
+                        "employeeId": CookiesController.getCookie("EMPLOYEEID"),
+                        "IsAllow": true
+                    },
+                    success: function (response) { 
+                        window.location.href = response.Data;
+                    },
+                    failure: function (response) {
+                        if (JSON.parse(response.responseText).Errors.length > 0) {
+                            MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                        } else {
+                            MessageController.Error(response.responseText, "Error");
+                        }
+                    },
+                    error: function (response) {
+                        if (JSON.parse(response.responseText).Errors.length > 0) {
+                            MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                        } else {
+                            MessageController.Error(response.responseText, "Error");
+                        }
+                    }
+                });
+            });
+        })
+    })(jQuery);
+</script>

@@ -16,19 +16,19 @@ using System.Threading.Tasks;
 namespace LDMS.Services
 {
     public class UserService : ILDMSService
-    { 
+    {
         private readonly ILogger<UserService> _logger;
-        protected IHttpContextAccessor HttpContextAccessor { get; private set; } 
+        protected IHttpContextAccessor HttpContextAccessor { get; private set; }
         private readonly LDAPAuthenticationService _ldAPAuthenticationService;
         private readonly LocalAuthenticationService _localAuthenticationService;
         public UserService(ILogger<UserService> logger,
             LDAPAuthenticationService ldAPAuthenticationService,
             LocalAuthenticationService localAuthenticationService,
-            ILDMSConnection iLDMSConnection, 
+            ILDMSConnection iLDMSConnection,
             IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection, httpContextAccessor)
         {
             HttpContextAccessor = httpContextAccessor;
-            
+
             _logger = logger;
             _ldAPAuthenticationService = ldAPAuthenticationService;
             _localAuthenticationService = localAuthenticationService;
@@ -85,6 +85,7 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
+
         public async Task<ServiceResult> GetUserByEmployeeId(string employeeId)
         {
             try
@@ -202,7 +203,8 @@ namespace LDMS.Services
                     var user = items.ToList();
                     return new ServiceResult(user);
                 }
-            }catch(Exception x)
+            }
+            catch (Exception x)
             {
                 _logger.LogError(x.Message);
                 return new ServiceResult(x);
@@ -295,7 +297,7 @@ namespace LDMS.Services
                             new Claim("DEPARTMENTID", user.ID_Department.GetValueOrDefault().ToString()),
                             new Claim("SECTIONTID",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
                             new Claim("FORCECHANGEPASS",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.IsForceChangePass.ToString():"1"),
-                            new Claim("ALLOWGPP",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.Is_AcceptGCP.ToString():"0"),
+                            new Claim("ALLOWGPP",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.Is_AcceptGPP.ToString():"0"),
                             new Claim("ISAD",user.IsAD.ToString()),
                             new Claim(ClaimTypes.Role,user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
                         };
@@ -344,7 +346,7 @@ namespace LDMS.Services
                 {
                     HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
                 }
-                else if (user.LDMS_M_UserRole.Is_AcceptGCP == 0 && user.IsAD == 0)
+                else if (user.LDMS_M_UserRole.Is_AcceptGPP == 0 && user.IsAD == 0)
                 {
                     HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
                 }
@@ -375,7 +377,7 @@ namespace LDMS.Services
                 int.TryParse(claim.Value, out rolId);
                 return BuildUserMenu(rolId).AsList();
             }
-            catch(Exception x)
+            catch (Exception x)
             {
                 _logger.LogError(x.Message);
                 throw new Exception("Unauthorized");
@@ -433,20 +435,21 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> DeleteUser(string employeeId)
         {
-            try { 
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
-                    new
-                    {
-                        @paramEmployeeId = employeeId,
-                        @paramUpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                    });
-                if (items != null && items.Any())
+                using (System.Data.IDbConnection conn = Connection)
                 {
-                    return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
-                }
-                return new ServiceResult();
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
+                        new
+                        {
+                            @paramEmployeeId = employeeId,
+                            @paramUpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    return new ServiceResult();
                 }
             }
             catch (Exception x)
@@ -458,24 +461,25 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> ResetPassword(string employeeId)
         {
-            try { 
-            var passsalt = PasswordHelper.CreateSalt();
-            var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword] @EmployeeId,@Password,@PasswordSalt,@UpdateBy",
-                    new
-                    {
-                        @EmployeeId = employeeId,
-                        @Password = newHaspass,
-                        @PasswordSalt = passsalt,
-                        @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                    });
-                if (items != null && items.Any())
+                var passsalt = PasswordHelper.CreateSalt();
+                var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
+                using (System.Data.IDbConnection conn = Connection)
                 {
-                    return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
-                }
-                return new ServiceResult();
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword] @EmployeeId,@Password,@PasswordSalt,@UpdateBy",
+                        new
+                        {
+                            @EmployeeId = employeeId,
+                            @Password = newHaspass,
+                            @PasswordSalt = passsalt,
+                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    return new ServiceResult();
                 }
             }
             catch (Exception x)
@@ -591,6 +595,37 @@ namespace LDMS.Services
                             @OldPassword = oldPasshash,
                             @Password = newHaspass,
                             @PasswordSalt = passsalt,
+                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    emp = await GetUserByEmployeeId(employeeId);
+                    CheckRedirectPage(emp.Data as LDMS_M_User);
+                    return emp;
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+
+        public async Task<ServiceResult> AllowGPP(string employeeId, bool isAllow)
+        {
+            try
+            {
+                var emp = await GetUserByEmployeeId(employeeId);
+
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_AllowGPP] @EmployeeId, @IsAllow,@UpdateBy",
+                        new
+                        {
+                            @EmployeeId = employeeId,
+                            @IsAllow = isAllow ? 1 : 0,
                             @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
                         });
                     if (items != null && items.Any())

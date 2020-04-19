@@ -20,7 +20,7 @@ namespace LDMS.ViewModels
         public byte IsActive { get; set; }
         public byte IsForceChangePass { get; set; }
         public byte Is_FirstLogin { get; set; }
-        public byte Is_AcceptGCP { get; set; }
+        public byte Is_AcceptGPP { get; set; }
         public LDMS_M_Role LDMS_M_Role { get; set; }
         public LDMS_M_UserRole()
         {
