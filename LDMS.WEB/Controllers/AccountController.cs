@@ -1,5 +1,7 @@
-﻿using LDMS.Services;
+﻿using LDMS.Core;
+using LDMS.Services;
 using LDMS.ViewModels;
+using LDMS.WEB.Filters;
 using LDMS.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,14 +38,8 @@ namespace LDMS.WEB.Controllers
             var user = (await UserService.Authenticattion(userModel.Username, userModel.Password)).Data as LDMS_M_User;
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
-                if (user.LDMS_M_UserRole.IsForceChangePass == 1)
-                {
-                    return Response(new ServiceResult("Account/ForceChangePassword"));
-                }
-                else
-                {
-                    return Response(new ServiceResult("Home/Index"));
-                }
+                return Response(new ServiceResult("Home/Index"));
+                //return Response(new ServiceResult(HttpContext.Request.Get("REDIRECTPAGE"))); 
             }
             else
             {
@@ -60,40 +56,53 @@ namespace LDMS.WEB.Controllers
             return View();
         }
 
-        [Route("Account/ForceChange")]
-        [AllowAnonymous]
+        [Route("Account/ForceChange")] 
+        [AuthorizeRole(UserRole.All)]
         public async Task<IActionResult> ForceChangePassword()
         {
             return View();
         }
 
+
+        [AuthorizeRole(UserRole.All)]
+        [Route("Account/Privacy")]        
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Logout")]
         [Route("Account/Logout")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Logout()
         {
             return RedirectToAction("Index");
         }
 
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR)]
         [HttpGet]
         [Route("Account/UserManagement")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UserManagement()
         {
             ViewData["Title"] = "I-Manage LDMS";
             ViewData["MainTitle"] = "I-Manage";
             return View();
         }
-
+        [AuthorizeRole(UserRole.All)]
         [Route("Account/MyProfile")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> MyProfile()
         {
             return View();
         }
 
-
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR)]
         [HttpGet]
         [Route("Account/SearchEmployee")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> SearchEmployee(SearchEmployeeModel model)
         {
             int[] departments = new int[0];
@@ -107,9 +116,10 @@ namespace LDMS.WEB.Controllers
             return PartialView("_ViewAllUser", users);
         }
 
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Account/ReadEmployee")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> ReadEmployee(string employeeId)
         {
             var user = (await UserService.GetUserByEmployeeId(employeeId)).Data as LDMS_M_User;
@@ -145,8 +155,10 @@ namespace LDMS.WEB.Controllers
             }
         }
 
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR)]
         [HttpPost]
         [Route("Account/CreateEmployee")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> SaveEmployee(Models.Employee.EmployeeModel model)
         {
             try
@@ -187,8 +199,10 @@ namespace LDMS.WEB.Controllers
             }
         }
 
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR)]
         [HttpPost]
         [Route("Account/UpdateEmployee")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UpdateEmployee(Models.Employee.EmployeeModel model)
         {
             try
@@ -229,8 +243,10 @@ namespace LDMS.WEB.Controllers
             }
         }
 
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR)]
         [HttpDelete]
         [Route("Account/RemoveEmployee")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> RemoveEmployee(string employeeId)
         {
             try
@@ -243,8 +259,10 @@ namespace LDMS.WEB.Controllers
             }
         }
 
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR)]
         [HttpPost]
         [Route("Account/ResetPassword")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> ResetPassword(string employeeId)
         {
             try
@@ -257,25 +275,28 @@ namespace LDMS.WEB.Controllers
             }
         }
 
-
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR, UserRole.AdminDepartment, UserRole.UserAdmin)]
         [HttpGet]
         [Route("Account/EmployeeByDepartment")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> ReadEmployeeByDepartment(int departmentId)
         {
             return Response(new ServiceResult((await UserService.GetAllEmployeeByDepartmentId(departmentId))));
         }
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR, UserRole.AdminDepartment, UserRole.UserAdmin)]
         [HttpGet]
         [Route("Account/EmployeeBySection")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> ReadEmployeeBySection(int sectionId)
         {
             return Response(new ServiceResult((await UserService.GetAllEmployeeBySectionId(sectionId))));
         }
 
-
+        [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR, UserRole.AdminDepartment, UserRole.UserAdmin)]
         [HttpGet]
         [Route("Account/SearchEmployeeName")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<ActionResult> SearchEmployeeName(string EmployeeName)
         {
             var users = await UserService.GetAll(null, EmployeeName, null);
