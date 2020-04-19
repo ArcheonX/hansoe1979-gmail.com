@@ -105,7 +105,7 @@ namespace LDMS.Services
             using (System.Data.IDbConnection conn = Connection)
             {
                 var p = new DynamicParameters();
-                p.Add("@paramCourseID ", CourseID);
+                //p.Add("@paramCourseID ", CourseID);
                 p.Add("@paramCourseName", CourseName);
                 p.Add("@paramID_LearnMethod", ID_LearnMethod);
                 p.Add("@paramID_CourseType", ID_CourseType);
