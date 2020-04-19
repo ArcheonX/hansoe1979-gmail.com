@@ -344,7 +344,7 @@ namespace LDMS.Services
                 {
                     HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
                 }
-                else if (user.LDMS_M_UserRole.Is_FirstLogin == 1 && user.IsAD == 0)
+                else if (user.LDMS_M_UserRole.Is_AcceptGCP == 0 && user.IsAD == 0)
                 {
                     HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
                 }
