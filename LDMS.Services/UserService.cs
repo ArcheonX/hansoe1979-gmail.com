@@ -572,7 +572,7 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> ChangePassword(string employeeId, string oldPassword, string newPassword)
+        public async Task<ServiceResult> ChangePassword(string employeeId, string currentPassword, string newpassword)
         {
             try
             {
@@ -581,8 +581,8 @@ namespace LDMS.Services
                 using (System.Data.IDbConnection conn = Connection)
                 {
                     var passsalt = PasswordHelper.CreateSalt();
-                    var newHaspass = PasswordHelper.GenerateSaltedHash(newPassword, passsalt);
-                    var oldPasshash = PasswordHelper.GenerateSaltedHash(oldPassword, (emp.Data as LDMS_M_User).LDMS_M_UserRole.passwordSalt);
+                    var newHaspass = PasswordHelper.GenerateSaltedHash(newpassword, passsalt);
+                    var oldPasshash = PasswordHelper.GenerateSaltedHash(currentPassword, (emp.Data as LDMS_M_User).LDMS_M_UserRole.passwordSalt);
 
                     var items = Connection.Query<SQLError>(_schema + ".[usp_User_ChangePassword] @EmployeeId, @OldPassword, @Password,@PasswordSalt,@UpdateBy",
                         new
@@ -597,6 +597,8 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    emp = await GetUserByEmployeeId(employeeId);
+                    CheckRedirectPage(emp.Data as LDMS_M_User);
                     return emp;
                 }
             }

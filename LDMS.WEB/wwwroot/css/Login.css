@@ -1,8 +1,13 @@
-﻿@font-face {
+﻿/*@font-face {
     font-family: Montserrat-Regular;
     src: url('../fonts/montserrat/Montserrat-Regular.ttf');
+}*/
+@font-face {
+    font-family: 'Montserrat-ExtraBold';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/montserrat/Montserrat-Regular.woff') format('woff'), url('../fonts/montserrat/Montserrat-Regular.eot') format('eot'), url('../fonts/montserrat/Montserrat-Regular.ttf') format('ttf');
 }
-
 @font-face {
     font-family: Montserrat-ExtraBold;
     src: url('../fonts/montserrat/Montserrat-ExtraBold.ttf');

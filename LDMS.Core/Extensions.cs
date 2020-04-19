@@ -8,6 +8,13 @@ namespace LDMS.Core
 {
     public static class ExtensionMethods
     {
+        public static void ExpireAllCookies(this HttpRequest Request, HttpResponse Response)
+        {
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            } 
+        }
         public static void Set(this HttpResponse Response, string key, string value, int? expireTime)
         {
             CookieOptions option = new CookieOptions();
