@@ -294,7 +294,7 @@ namespace LDMS.Services
                             new Claim("DIVISIONID", user.ID_Division.GetValueOrDefault().ToString()),                       
                             new Claim("DEPARTMENTID", user.ID_Department.GetValueOrDefault().ToString()),
                             new Claim("SECTIONTID",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
-                            new Claim(ClaimTypes.Role, user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
+                            new Claim(ClaimTypes.Role,user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
                         };
                     user.Token = JwtManager.Instance.GenerateJWT(claims);
                     user.RefreshToken = JwtManager.Instance.GenerateRefreshToken();

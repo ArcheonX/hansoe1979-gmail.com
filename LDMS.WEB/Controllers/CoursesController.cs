@@ -1,5 +1,7 @@
-﻿using LDMS.Services;
+﻿using LDMS.Core;
+using LDMS.Services;
 using LDMS.ViewModels;
+using LDMS.WEB.Filters;
 using LDMS.WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +23,7 @@ namespace LDMS.WEB.Controllers
             _CourseService = courseService;
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses")]
         [Route("Courses/Index")]
@@ -30,6 +32,7 @@ namespace LDMS.WEB.Controllers
             return View();
         }
 
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses/Add")]
         [AutoValidateAntiforgeryToken]
@@ -38,6 +41,7 @@ namespace LDMS.WEB.Controllers
             return View("/Views/Courses/Detail.cshtml");
         }
 
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses/ClassDetail")]
         [AutoValidateAntiforgeryToken]
@@ -46,7 +50,7 @@ namespace LDMS.WEB.Controllers
             return View("/Views/Courses/ClassDetail.cshtml");
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses/Detail/{ID}")]
         [AutoValidateAntiforgeryToken]
@@ -63,7 +67,7 @@ namespace LDMS.WEB.Controllers
             return View("/Views/Courses/Detail.cshtml", p);
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses/GetAllCourseType")]
         public IActionResult GetAllCourseType()
@@ -71,6 +75,7 @@ namespace LDMS.WEB.Controllers
             return Json(_CourseService.GetAllCourseType().Result);
         }
 
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses/GetAllCourseLearnMethod")]
         public IActionResult GetAllCourseLearnMethod()
@@ -78,6 +83,7 @@ namespace LDMS.WEB.Controllers
             return Json(_CourseService.GetAllCourseLearnMethod().Result);
         }
 
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Courses/Search")]
         [AutoValidateAntiforgeryToken]
@@ -101,6 +107,7 @@ namespace LDMS.WEB.Controllers
             return Json(courses);
         }
 
+        [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses/InsertCourse")]
         public IActionResult InsertCourse(string ID_Course, string CourseID, string CourseName, string ID_LearnMethod,
@@ -153,7 +160,7 @@ namespace LDMS.WEB.Controllers
             return Json(course);
         }
 
-
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Courses/EmployeeSearch")]
         [AutoValidateAntiforgeryToken]
@@ -179,7 +186,7 @@ namespace LDMS.WEB.Controllers
             //ViewData["Instructor"] = instructor.Results;
             return Json(employees);
         }
-
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Courses/InstructorSearch")]
         [AutoValidateAntiforgeryToken]

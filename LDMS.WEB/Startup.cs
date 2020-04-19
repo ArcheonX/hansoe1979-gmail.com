@@ -1,5 +1,6 @@
 using LDMS.Core;
 using LDMS.Identity;
+using LDMS.WEB.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Threading.Tasks;
 
 namespace LDMS.WEB
 {
@@ -32,7 +34,17 @@ namespace LDMS.WEB
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(120);
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy("defaultpolicy", b =>
+                //{
+                //    b.RequireAuthenticatedUser();
+                //});
+            });
+
+            services.AddMvc(config =>
+            { 
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             AppSettings appSettings = new AppSettings();
             Configuration.GetSection("AppSettings").Bind(appSettings);
@@ -46,7 +58,7 @@ namespace LDMS.WEB
             services.AddSingleton(appSettings);
             services.AddSingleton(ldapSettings);
             services.AddSingleton(jwtSettings);
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMemoryCache();
             services.AddControllers();
             services.Configure<CookiePolicyOptions>(options =>
@@ -74,26 +86,18 @@ namespace LDMS.WEB
           {
               options.LoginPath = "/Account/Index";
               options.LogoutPath = "/Account/logout";
+              options.SlidingExpiration = true;
           });
-            //services.AddAntiforgery(options =>
-            //{
-            //    options.HeaderName = "X-XSRF-TOKEN";
-            //    options.SuppressXFrameOptionsHeader = false;
-            //});
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            //});
             services.AddControllersWithViews();
-            //services.AddMvcCore(options =>
-            //{
-            //    var policy = new AuthorizationPolicyBuilder()
-            //        .RequireAuthenticatedUser()
-            //        .Build();
-            //    options.Filters.Add(new AuthorizeFilter(policy));
-            //})
-            //    .AddRazorViewEngine()
-            //    .AddAuthorization();
+
+            //services.ConfigureApplicationCookie(options =>
+            //{ 
+            //    options.Events.OnRedirectToLogin = context => {
+            //        context.Response.Headers["Location"] = context.RedirectUri;
+            //        context.Response.StatusCode = 401;
+            //        return Task.CompletedTask;
+            //    };
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
