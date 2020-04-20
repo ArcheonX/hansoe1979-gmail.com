@@ -95,6 +95,30 @@ namespace LDMS.Services
             }
         }
 
+        public async Task<List<ViewModels.LDMS_M_Course>> GetAll(string courseID, string courseName, string courseStatus,string LearnMethod)
+        {
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                try
+                {
+                    var items = Connection.Query<ViewModels.LDMS_M_Course>
+                    (_schema + ".[sp_M_Course_Select] @paramCourseId,@paramCourseName,@paramCourseStatus,@paramLearnMethod",
+                     new
+                     {
+                         @paramCourseId = courseID,
+                         @paramCourseName = courseName,
+                         @paramCourseStatus = courseStatus,
+                         @paramLearnMethod = LearnMethod
+                     }).ToList();
+                    return items;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+        }
+
         public ViewModels.LDMS_M_Course CreateCourse(  string CourseID, string CourseName, string ID_LearnMethod,
                                     string ID_CourseType, string Objective, string Description, string OutLine,
                                     string IsRefreshment, string RefreshmentPeriod, string RefreshmentUnit,

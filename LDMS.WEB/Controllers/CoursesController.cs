@@ -82,6 +82,15 @@ namespace LDMS.WEB.Controllers
         {
             return Json(_CourseService.GetAllCourseLearnMethod().Result);
         }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [AuthorizeRole(UserRole.All)]
+        [HttpGet]
+        [Route("Courses/Courses")]
+        public async Task<IActionResult> Courses(SearchCourseModel model)
+        {
+            var platforms = await _CourseService.GetAll(model.CourseID, model.CourseName,  model.CourseStatus, model.LearnMethod);
+            return Response(new ServiceResult(platforms));
+        }
 
         [AuthorizeRole(UserRole.All)]
         [HttpPost]

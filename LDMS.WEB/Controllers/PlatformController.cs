@@ -3,16 +3,14 @@ using LDMS.Services;
 using LDMS.ViewModels;
 using LDMS.WEB.Filters;
 using LDMS.WEB.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LDMS.WEB.Controllers
 {
-    public class PlatformController : Controller
+    public class PlatformController : BaseController
     {
         private readonly PlatformService _PlatFormService;
         private readonly ILogger<PlatformController> _logger;
@@ -66,8 +64,18 @@ namespace LDMS.WEB.Controllers
                                                          model.PlatformType, model.PlatformStatus);
             return PartialView("_ViewAllPlatform", platforms);
         }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         [AuthorizeRole(UserRole.All)]
-        [HttpPost]
+        [HttpGet]
+        [Route("Platform/Platforms")]
+        public async Task<IActionResult> Platforms(SearchPlatformModel model)
+        {
+            var platforms = await _PlatFormService.GetAll(model.PlatformId, model.PlatformName,
+                                                         model.PlatformType, model.PlatformStatus);
+            return Response(new ServiceResult(platforms));
+        }
+        [AuthorizeRole(UserRole.All)] 
+        [HttpGet]
         [Route("Platform/Search")]
         [AutoValidateAntiforgeryToken]
         public IActionResult Search(string PlatformID, string PlatformName, string PlatformType, string PlatformStatus)

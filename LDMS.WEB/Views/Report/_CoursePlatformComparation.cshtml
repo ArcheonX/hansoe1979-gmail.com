@@ -1,14 +1,14 @@
 ﻿<div class="panel panel-default" style="width: 100%; border-width: thin; border-style: solid;">
     <div class="panel-body" style="width:100%;">
         <div class="form-horizontal" style="margin-top:25px">
-            <div class="row form-group"> 
+            <div class="row form-group">
                 <div class="col-sm-2 col-md-2 offset-2">
-                    <input type='radio' value='Platform' name='selectReportType' checked  onchange="OnSelectReportType(this)" id="Platform" /><label for="Platform">Platform</label>
+                    <input type='radio' value='Platform' name='selectReportType' checked onchange="OnSelectReportType(this)" id="Platform" /><label for="Platform">Platform</label>
                 </div>
                 <div class="col-sm-2 col-md-2">
                     <input type='radio' value='Course' name='selectReportType' onchange="OnSelectReportType(this)" id="Course" /><label for="Course">Course</label>
                 </div>
-            </div> 
+            </div>
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2">
                     <span class="pull-right">
@@ -16,12 +16,15 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <input id="selectPlatform" type="text" class="form-control input-sm required" style="width: 100%" /> 
+                    <input id="selectPlatform" type="text" class="form-control input-sm required" style="width: 100%" />
                 </div>
                 <div class="col-sm-1 col-md-1" style="margin-left:-25px;">
-                    <button id="btnSearchPlatform" class="btn btn-outline-secondary waves-effect waves-light" style="width:50%">
+                    <a class="search-platform-modal" id="btnSearchPlatform"  href="#search-platform-modal">
                         <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />
-                    </button>
+                    </a>
+                    @*<button id="btnSearchPlatform" class="btn btn-outline-secondary waves-effect waves-light" style="width:50%">
+            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />
+        </button>*@
                 </div>
             </div>
             <div class="row form-group">
@@ -34,12 +37,12 @@
                     <input id="selectCourse" disabled type="text" class="form-control input-sm required" style="width: 100%" />
                 </div>
                 <div class="col-sm-1 col-md-1" style="margin-left:-25px;">
-                    <button id="btnSearchCourse" disabled class="btn btn-outline-secondary waves-effect waves-light" style="width:50%">
+                    <a id="btnSearchCourse" disabled  class="search-course-modal" href="#search-course-modal">
                         <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />
-                    </button> 
+                    </a>
                 </div>
             </div>
-            
+
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2">
                     <span class="pull-right">
@@ -52,14 +55,14 @@
                 <div class="col-sm-2 col-md-2">
                     <input id="dteTrainingDateTo" title="Please Enter Training Date " required class="form-control input-sm required" type="datetime" style="width: 100%" />
                 </div>
-            </div> 
+            </div>
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2 offset-10" style="margin-right:50px;">
                     <button id="btnSearchCourseReport" class="btn btn-outline-primary waves-effect waves-light" style="width:80%">
-                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />&nbsp;&nbsp; Search 
+                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />&nbsp;&nbsp; Search
                     </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div> 
