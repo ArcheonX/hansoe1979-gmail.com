@@ -1,7 +1,9 @@
 ﻿jQuery(document).ready(function () {
     CreatePlatformPopup();
     CreateCoursePopup();
-    $("input[type='datetime']").datepicker();
+    $("input[type='datetime']").datepicker({ 
+        format: 'DD/MM/YYYY'
+    });     
     $('select').select2({
         allowClear: true,
         closeOnSelect: true,
@@ -120,7 +122,7 @@ function CreatePlatformPopup() {
         $.magnificPopup.close();
     });
 }
-
+ 
 function SearchPlatform() {
     var table = $('#dtPlatform').DataTable();
     table.destroy();
@@ -130,6 +132,7 @@ function SearchPlatform() {
         PlatformType: $("#selectPlatformType").val(),
         PlatformStatus: $("#selectPlatformStatus").val()
     };
+    MessageController.BlockUI({ boxed: true, target: '#search-platform-modal' });
     $.ajax({
         type: "GET",
         url: "/Platform/Platforms",
@@ -141,8 +144,8 @@ function SearchPlatform() {
             $.each(response.Data, function() {
                 var row = '<tr>' +
                     '<td style="text-align:center;">' + this.ID + '</td>' +
-                    '<td style="text-align:left">' + this.PlatformName_EN + '</td>' +
-                    '<td style="text-align:left;"><input type="checkbox" name="selectUserRole" value="' + this.PlatformID + '"  id="selectRole_' + this.ID + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.ID + '"> </label> </td >' +
+                    '<td style="text-align:left;">' + this.PlatformName_EN + '</td>' +
+                    '<td style="text-align:right;"><input type="checkbox" name="selectPlatform_' + this.ID + '" value="' + this.PlatformID + '"  id="selectPlatform_' + this.ID + '"  /><label for="selectPlatform_' + this.ID + '"> </label> </td >' +
                     '</tr>';
                 table.append(row);
             });
@@ -168,6 +171,7 @@ function SearchPlatform() {
                 }
             });
             $('.dataTables_length').addClass('bs-select');
+            MessageController.UnblockUI('#search-platform-modal');
         }
     });
 }
@@ -191,6 +195,7 @@ function CreateCoursePopup() {
         $.magnificPopup.close();
     });
 }
+
 function SearchCourse() {
     var table = $('#dtCourse').DataTable();
     table.destroy();
@@ -200,6 +205,7 @@ function SearchCourse() {
         CourseStatus: $("#selectCourseStatus").val(),
         LearnMethod: $("#selectLearnMethod").val()
     };
+    MessageController.BlockUI({ boxed: true, target: '#search-course-modal' });
     $.ajax({
         type: "GET",
         url: "/Courses/Courses",
@@ -210,9 +216,9 @@ function SearchCourse() {
             table.empty();
             $.each(response.Data, function () {
                 var row = '<tr>' +
-                    '<td style="text-align:center">' + this.ID + '</td>' +
-                    '<td style="text-align:left">' + this.CourseName + '</td>' +
-                    '<td style="text-align:left;"><input type="checkbox" name="selectUserRole" value="' + this.CourseID + '"  id="selectRole_' + this.ID + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.ID + '"> </label> </td >' +
+                    '<td style="text-align:center;">' + this.ID + '</td>' +
+                    '<td style="text-align:left;">' + this.CourseName + '</td>' +
+                    '<td style="text-align:right;"><input type="checkbox" name="selectCourse' + this.ID + '" value="' + this.CourseID + '"  id="selectCourse_' + this.ID + '"  /><label for="selectselectCourse_' + this.ID + '"> </label></td >' +
                     '</tr>';
                 table.append(row);
             });
@@ -238,6 +244,7 @@ function SearchCourse() {
                 }
             });
             $('.dataTables_length').addClass('bs-select');
+            MessageController.UnblockUI('#search-course-modal');
         }
     });
 }
@@ -256,6 +263,7 @@ function OnSelectReportType(ele) {
         $("#btnSearchCourse").removeAttr("disabled");
     }
 }  
+
 function OnChangeReport(reportType) {
     $('#pnReportNormal').attr("style", "width: 100%;display: none;");
     $('#pnReportEmployeeComparation').attr("style", "width: 100%;display: none;");
@@ -394,3 +402,51 @@ function ReloadDepartment($, divisionId) {
         });
     }
 } 
+
+function OnSelectPlatform() {
+    debugger;
+    var platform = [];
+    var data = $('#dtPlatform').DataTable().rows().data();
+    data.each(function (row, index) {
+        var isSelected = row.find("td").eq(2).find("input[type='checkbox']").prop("checked");
+        if (isSelected) {
+            var value = row.find("td").eq(0).text();
+            platform.push(value);
+        }
+    });
+    //$('#dtPlatform> tbody  > tr').each(function () {
+    //    var self = $(this);
+    //    var isSelected = self.find("td").eq(2).find("input[type='checkbox']").prop("checked");
+    //    if (isSelected) {
+    //        var value = self.find("td").eq(0).text();
+    //        platform.push(value);
+    //    }
+    //});
+    //debugger;
+    //var platform = platform.join(",");
+    //$("#txtselectPlatform").val(platform);
+    //$("#search-platform-modal").magnificPopup('close');
+}
+function OnSelectCourse() {
+    debugger;
+    var courses = [];
+
+    $('#dtCourse> tbody  > tr').each(function () {
+        var self = $(this);
+        var isSelected = self.find("td").eq(2).find("input[type='checkbox']").prop("checked");
+        if (isSelected) {
+            var value = self.find("td").eq(0).text();
+            courses.push(value);
+        }
+    }); 
+
+    debugger;
+    var course = platform.join(",");
+    $("#txtselectCourse").val(course);
+    $("#search-course-modal").magnificPopup('close');
+}
+function SearchCoursePlatformComparation() { 
+
+    var trainingdatefrm = $("#dteTrainingDateFrm").val();
+    var trainingdateto = $("#dteTrainingDateTo").val();
+}

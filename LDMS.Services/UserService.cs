@@ -276,12 +276,17 @@ namespace LDMS.Services
                     {
                         throw new Exception("Unauthorized");
                     }
-                    bool isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
-                    if (!isAuthenPass)
+                    bool isAuthenPass = false;
+                    if (user.IsAD == 1)
+                    {
+                        isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password); 
+                    }
+                    else
                     {
                         var passwordHash = PasswordHelper.GenerateSaltedHash(password, user.LDMS_M_UserRole.passwordSalt);
                         isAuthenPass = _localAuthenticationService.Authenticate(username, passwordHash);
-                    }
+                    } 
+
                     if (!isAuthenPass) { throw new Exception("Unauthorized"); }
                     List<Claim> claims = new List<Claim>
                         {
@@ -296,9 +301,6 @@ namespace LDMS.Services
                             new Claim("DIVISIONID", user.ID_Division.GetValueOrDefault().ToString()),
                             new Claim("DEPARTMENTID", user.ID_Department.GetValueOrDefault().ToString()),
                             new Claim("SECTIONTID",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
-                            //new Claim("FORCECHANGEPASS",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.IsForceChangePass.ToString():"1"),
-                            //new Claim("ALLOWGPP",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.Is_AcceptGPP.ToString():"0"),
-                           // new Claim("ISAD",user.IsAD.ToString()),
                             new Claim(ClaimTypes.Role,user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
                         };
                     user.Token = JwtManager.Instance.GenerateJWT(claims);
@@ -323,7 +325,7 @@ namespace LDMS.Services
 
                     HttpContext.Response.Set("JOBGRADEID", user.ID_JobGrade.GetValueOrDefault().ToString(), 120);
                     HttpContext.Response.Set("JOBTITLEID", user.ID_JobTitle.GetValueOrDefault().ToString(), 120);
-
+                    HttpContext.Response.Set("FACEIMAGE", "~/assets/images/svg/user-icon.svg", 120);
                     HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
                     HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120);
                     HttpContext.Response.Set("ISAD", user.IsAD.ToString(), 120);
