@@ -26,6 +26,8 @@ namespace LDMS.WEB.Controllers
         {
             return View();
         }
+
+
         [AuthorizeRole(UserRole.All)]
         public IActionResult Index()
         {

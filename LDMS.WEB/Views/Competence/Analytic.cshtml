@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/assets/app/CompetenceAnalytic.js"></script>
+<div class="panel panel-primary" style="margin-top:-15px;width:100%">
+    <div class="panel-body panel-body-begin">
+        <div id="pnAnalytic" style="width: 100%;display:block">
+            <div class="form-horizontal">
+                <div class="row form-group" style="padding-top:5px;">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Competence Platform</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <select id="selectCompetence"
+                                name="selectCompetence"
+                                title="Please Enter Competence"
+                                class="form-control required"
+                                style="width: 100%">
+                        </select>
+                    </div>
+                    <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                        <button id="btnAddCompetence" class="btn btn-outline-success waves-effect waves-light" style="width:90%">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/add-button-circle.svg" /> Add Competence
+                        </button>
+                    </div>
+                    <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                        <button id="btnEditCompetence" class="btn btn-outline-primary waves-effect waves-light" style="width:90%">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-edit-blue.svg" /> Edit Competence
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="UserListcontent" style="width: 100%;display:none">
+                @await Html.PartialAsync("_Analytic")
+            </div>
+        </div>
+        <div id="pnAddnalytic" style="width: 100%;display:none">
+            @await Html.PartialAsync("_addCompetenceAnalytic")
+        </div>
+    </div>
+</div>
+@*<div style="width: 100%;">
+    <div id="viewAllUser" style="display:block;width:100%">
+        <div class="panel panel-default" style="width: 100%;">
+            @await Html.PartialAsync("_SearchEmployeeCritiria")
+            <div id="UserListcontent">
+                @await Html.PartialAsync("_ViewAllUser")
+            </div>
+        </div>
+    </div>
+    <div id="UserEditor" style="display:none;width:100%">
+        @await Html.PartialAsync("_UserEditor")
+    </div>
+    <div id="MasterReport" style="display:none;width:100%">
+        @await Html.PartialAsync("_MasterReport")
+    </div>
+</div>*@ 
