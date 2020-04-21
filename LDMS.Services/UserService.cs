@@ -274,20 +274,25 @@ namespace LDMS.Services
                     var user = items.FirstOrDefault();
                     if (user == null)
                     {
+                        CreateDataLog(DataLogType.LoginFaild, username, "EmployeeID not found");
                         throw new Exception("Unauthorized");
                     }
                     bool isAuthenPass = false;
                     if (user.IsAD == 1)
                     {
-                        isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password); 
+                        isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
+                        if(!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with AD.");
                     }
                     else
                     {
                         var passwordHash = PasswordHelper.GenerateSaltedHash(password, user.LDMS_M_UserRole.passwordSalt);
                         isAuthenPass = _localAuthenticationService.Authenticate(username, passwordHash);
-                    } 
-
-                    if (!isAuthenPass) { throw new Exception("Unauthorized"); }
+                        if (!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with Local.");
+                    }
+                    if (!isAuthenPass)
+                    { 
+                        throw new Exception("Unauthorized");
+                    }
                     List<Claim> claims = new List<Claim>
                         {
                             new Claim(JwtRegisteredClaimNames.Sub, user.EmployeeID),
@@ -335,9 +340,9 @@ namespace LDMS.Services
                     CheckRedirectPage(user);
 
                     HttpContext.Session.SetString("JWToken", user.Token);
+                    CreateDataLog(DataLogType.LoginSuccess, username, "user signin.");
                     return new ServiceResult(user);
                 }
-
             }
             catch (Exception ex)
             {
@@ -457,6 +462,7 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    CreateDataLog(DataLogType.DeleteAccount, employeeId, string.Format("Delete {0}", employeeId));
                     return new ServiceResult();
                 }
             }
@@ -487,6 +493,7 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    CreateDataLog(DataLogType.ResetPassword, employeeId, "Reset password.");
                     return new ServiceResult();
                 }
             }
@@ -574,6 +581,7 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    CreateDataLog(DataLogType.UpdateAccount, user.EmployeeID, string.Format("Update {0}", user.EmployeeID));
                     return await GetUserByEmployeeId(user.EmployeeID);
                 }
             }
@@ -616,6 +624,7 @@ namespace LDMS.Services
                     HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
                     HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120); 
                     CheckRedirectPage(emp.Data as LDMS_M_User);
+                    CreateDataLog(DataLogType.ChangePassword, employeeId, "Change Password.");
                     return emp;
                 }
             }
@@ -651,6 +660,7 @@ namespace LDMS.Services
                     HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120); 
                     emp = await GetUserByEmployeeId(employeeId);
                     CheckRedirectPage(emp.Data as LDMS_M_User);
+                    CreateDataLog(DataLogType.AcceptGPP, employeeId, string.Format("Allow {0}", isAllow));
                     return emp;
                 }
             }

@@ -337,7 +337,7 @@ namespace LDMS.Services
                         new
                         {
                             @param_sectionId = sectionId,
-                            @paramUpdateBy = CurrentUserId()
+                            @paramUpdateBy = CurrentUserId
                         });
                     if (items != null && items.Any())
                     {
@@ -368,7 +368,7 @@ namespace LDMS.Services
                             @param_sectionNameEN = section.SectionName_EN,
                             @param_sectionNameTH = section.SectionName_TH,
                             @param_sectionDesc = section.Description,
-                            @paramUpdateBy = CurrentUserId()
+                            @paramUpdateBy = CurrentUserId
                         });
                     if (items != null && items.Any())
                     {
@@ -398,7 +398,7 @@ namespace LDMS.Services
                             @param_sectionNameEN = section.SectionName_EN,
                             @param_sectionNameTH = section.SectionName_TH,
                             @param_sectionDesc = section.Description,
-                            @paramCreateBy = CurrentUserId()
+                            @paramCreateBy = CurrentUserId
                         });
                     if (items != null && items.Any())
                     {
