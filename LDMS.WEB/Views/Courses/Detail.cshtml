@@ -14,10 +14,10 @@
                         <h4><span class="pull-right">Course Infomation</span></h4>
                     </div>
                     <div class="col-sm-1 col-md-1 offset-7">
-                        <a id="btnSavePlatform" class="btn btn-success waves-effect waves-light" style="width:90%; color:white">Save</a>
+                        <a id="btnSaveCourse" onclick="SaveCourse();" class="btn btn-success waves-effect waves-light" style="width:90%; color:white">Save</a>
                     </div>
                     <div class="col-sm-1 col-md-1" style="margin-left:-25px">
-                        <a id="btnBack" onclick="window.location.href = '@Url.Action("Index", "Platform")';" class="btn btn-danger inactive waves-effect waves-light" style="width:90%; color:white">Back</a>
+                        <a id="btnBack" onclick="window.location.href = '@Url.Action("Index", "Courses")';" class="btn btn-danger inactive waves-effect waves-light" style="width:90%; color:white">Back</a>
                     </div>
                 </div>
             </div>
@@ -32,10 +32,22 @@
                         <label class="LabelCaption">Course ID</label>
                     </span>
                 </div>
-                @Html.AntiForgeryToken()
                 @if (Model != null)
                 {
                     <input type="hidden" id="hID" name="hID" value=@Model.ID />
+                    <input type="hidden" id="hCourseID" name="hCourseID" value=@Model.CourseID />
+                    <input type="hidden" id="hID_LearnMethod" name="hID_LearnMethod" value=@Model.ID_LearnMethod />
+                    <input type="hidden" id="hID_CourseType" name="hID_CourseType" value=@Model.ID_CourseType />
+                    <input type="hidden" id="hIsRefreshment" name="hIsRefreshment" value=@Model.IsRefreshment />
+                    <input type="hidden" id="hRefreshmentPeriod" name="hRefreshmentPeriod" value=@Model.RefreshmentPeriod />
+                    <input type="hidden" id="hRefreshmentUnit" name="hRefreshmentUnit" value=@Model.RefreshmentUnit />
+                    <input type="hidden" id="hID_PlantTarget" name="hID_PlantTarget" value=@Model.ID_PlantTarget />
+                    <input type="hidden" id="hID_CenterTarget" name="hID_CenterTarget" value=@Model.ID_CenterTarget />
+                    <input type="hidden" id="hID_DivisionTarget" name="hID_DivisionTarget" value=@Model.ID_DivisionTarget />
+                    <input type="hidden" id="hID_DepartmentTarget" name="hID_DepartmentTarget" value=@Model.ID_DepartmentTarget />
+                    <input type="hidden" id="hID_SectionTarget" name="hID_SectionTarget" value=@Model.ID_SectionTarget />
+                    <input type="hidden" id="hIsActive" name="hIsActive" value=@Model.IsActive />
+
                 }
                 else
                 {
@@ -46,7 +58,6 @@
                     <input type="text"
                            title="Auto Gen"
                            id="txtCourseID"
-                           asp-for="CourseID"
                            value="Auto Genarate"
                            disabled="disabled"
                            style="width: 100%"
@@ -75,7 +86,7 @@
                 <div class="col-sm-4 col-md-4">
                     <select id="selectCourseType"
                             name="selectCourseType"
-                            asp-for="ID_CourseType"
+                            
                             title="Please Select Course Type"
                             class="form-control"
                             style="width: 100%">
@@ -89,7 +100,7 @@
                 <div class="col-sm-2 col-md-4">
                     <select id="selectLearnMethod"
                             name="selectLearnMethod"
-                            asp-for="ID_LearnMethod"
+                            
                             title="Please Select Learn Method"
                             class="form-control"
                             style="width: 100%">
@@ -105,7 +116,7 @@
                 <div class="col-sm-4 col-md-4">
                     <select id="selectCourseStatus"
                             name="selectCourseStatus"
-                            asp-for="IsActive"
+                            
                             title="Please Select Course Status"
                             class="form-control"
                             style="width: 100%">
@@ -163,8 +174,7 @@
                 <div class="col-sm-1 col-md-1">
                     <input type='checkbox'
                            name='selRefresh'
-                           value='selRefresh'
-                           onclick="checkedRefresh(this)"
+                           value='0'
                            id="selRefresh" /><label for="selRefresh" style="top:4px"></label>
                 </div>
                 <div class="col-sm-1 col-md-1">
@@ -173,7 +183,7 @@
                     </span>
                 </div>
                 <div class="col-sm-2 col-md-1">
-                    <input type="text"
+                    <input type="number"
                            title="Please Enter Period"
                            id="txtRefreshmentPeriod"
                            asp-for="RefreshmentPeriod"
@@ -202,7 +212,27 @@
                 <div class="col-sm-1 col-md-3">
                     <h4><span class="pull-right">Target Audience</span></h4>
                 </div>
-                <div class="col-sm-1 col-md-1 offset-7">
+                <div class="col-sm-1 col-md-1">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Total</label>
+                    </span>
+                </div>
+                <div class="col-sm-1 col-md-1">
+                    <span class="pull-right">
+                        <input type="text" id="txtTotal" class="form-control" disabled="disabled" />
+                    </span>
+                </div>
+                <div class="col-sm-1 col-md-1">
+                    <span class="pull-right">
+                        <label class="LabelCaption"> Remain </label>
+                    </span>
+                </div>
+                <div class="col-sm-1 col-md-1">
+                    <span class="pull-right">
+                        <input type="text" id="txtRemain" class="form-control" disabled="disabled" />
+                    </span>
+                </div>
+                <div class="col-sm-1 col-md-1 offset-3">
                 </div>
                 <div class="col-sm-1 col-md-1" style="margin-left:-25px">
                     <a href="#divTargetAudience" id="btnTargetAudience" onclick="VisiblePanel()" data-toggle="collapse" style="padding-left:40px;" class="fa fa-plus-square"></a>
@@ -211,36 +241,8 @@
         </div>
         <div style="border-width:thin; border-style:solid; margin-left:20px; display:block; margin-top: 5px; margin-bottom:5px; width:95%;display:block">
         </div>
-        <div id="divTargetAudience" class="collapse">
+        <div id="divTargetAudience" class="collapse show">
             <div id="divEmployee" style="border-width:thin; border-style:solid; margin-left:20px; display:block; margin-top: 0px; margin-bottom:20px; width:95%;display:block">
-                <div class="row form-group" style="margin-top:20px">
-                    <div class="col-sm-2 col-md-2">
-                        <span class="pull-right">
-                            <label class="LabelCaption">Target Audience</label>
-                        </span>
-                    </div>
-                    <div class="col-sm-1 col-md-1">
-                        <span class="pull-right">
-                            <label class="LabelCaption">Total</label>
-                        </span>
-                    </div>
-                    <div class="col-sm-1 col-md-1">
-                        <span class="pull-right">
-                            <input type="text" id="txtTotal" class="form-control" disabled="disabled" />
-                        </span>
-                    </div>
-                    <div class="col-sm-1 col-md-1">
-                        <span class="pull-right">
-                            <label class="LabelCaption"> Remain </label>
-                        </span>
-                    </div>
-                    <div class="col-sm-1 col-md-1">
-                        <span class="pull-right">
-                            <input type="text" id="txtRemain" class="form-control" disabled="disabled" />
-                        </span>
-                    </div>
-                </div>
-
                 <div class="row form-group" style="margin-top:10px">
                     <div class="col-sm-2 col-md-2">
                         <span class="pull-right">
@@ -270,7 +272,7 @@
                                 name="selectPlant"
                                 title="Please Enter Plant"
                                 class="form-control required"
-                                onchange="changePlant(this)"
+                                
                                 style="width: 100%">
                         </select>
                     </div>
@@ -284,7 +286,7 @@
                                 name="selectCenter"
                                 title="Please Enter Center"
                                 class="form-control required"
-                                onchange="changeCenter(this)"
+                               
                                 style="width: 100%">
                         </select>
                     </div>
@@ -301,7 +303,7 @@
                                 name="selectDivision"
                                 title="Please Enter Division"
                                 class="form-control required"
-                                onchange="changeDivision(this)"
+                                
                                 style="width: 100%">
                         </select>
                     </div>
@@ -315,7 +317,7 @@
                                 name="selectDepartment"
                                 title="Please Enter Department"
                                 class="form-control required"
-                                onchange="changeDepartment(this)"
+                               
                                 style="width: 100%">
                         </select>
                     </div>
@@ -345,7 +347,8 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <input type="text" id="txtJobgrade" class="form-control" />
+                        <input type="text" id="txtJobgrade" name="txtJobgrade"
+                                  asp-for="JobGradeTargetID" class="form-control" />
                     </div>
                     <div class="col-sm-1 col-md-1">
                         <a id="findJobGrade" class="btn" onclick="openModalJobGrade()"><i class="fa fa-search"></i> </a>
@@ -360,7 +363,8 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <input type="text" id="txtJobTitle" class="form-control" />
+                        <input type="text" id="txtJobTitle"  name="txtJobTitle"
+                                  asp-for="JobTitleTargetID" class="form-control" />
                     </div>
                     <div class="col-sm-1 col-md-1">
                         <a id="findJobTitle" class="btn" onclick="openModalJobTitle()"><i class="fa fa-search"></i> </a>
@@ -374,7 +378,7 @@
             <div class="panel-body" style="width:100%;">
                 <div class="row form-group" style="margin-top:20px;">
                     <div class="col-sm-1 col-md-2 offset-10">
-                        <a id="btnAddClass" class="btn btn-primary waves-effect waves-light" onclick="window.location.href = '@Url.Action("ClassDetail", "Courses")';" style="width:80%; color:white">Add Class</a>
+                        <a id="btnAddClass" class="btn btn-primary waves-effect waves-light" onclick="AddClass();" style="width:80%; color:white">Add Class</a>
                     </div>
                 </div>
                 <div class="table-responsive m-t-40">
@@ -390,7 +394,7 @@
                                 <th style="text-align:center;width:150px">Capacity</th>
                                 <th style="text-align:center;width:150px">Venue</th>
                                 <th style="text-align:center;width:150px">Status</th>
-                                <th style="text-align: center;width:50px">Action</th>
+                                <th style="text-align: center;width:50px">Register</th>
                                 <th style="text-align: center;width:50px">Edit</th>
                                 <th style="text-align:center;width:50px">Delete</th>
 
@@ -622,15 +626,61 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $("input[type='datetime']").datepicker();
-        $('select').select2({
-            allowClear: true,
-            closeOnSelect: true,
-            theme: "bootstrap"
+        
+        $(document).ready(function () {
+           
+            $("input[type='datetime']").datepicker();
+            $('select').select2({
+                allowClear: true,
+                closeOnSelect: true,
+                theme: "bootstrap"
+            });
+
+            LoadData($('#hID').val());
+
+            validation();
+
+             $("#selectPlant").change(function() {
+                //$("#additionalOptions").show();
+                changePlant(this);
+             });
+
+            $("#selectCenter").change(function() {
+                //$("#additionalOptions").show();
+                changeCenter(this);
+            });
+
+            $("#selectDivision").change(function() {
+                //$("#additionalOptions").show();
+                changeDivision(this);
+            });
+
+            $("#selectDepartment").change(function() {
+                //$("#additionalOptions").show();
+                changeDepartment(this);
+            });
         });
 
-        LoadDropdown($('#hID').val());
+        function AddClass() {
+            $.ajax({
+                    url: "/Courses/NewClass",
+                    type: "GET",
+                    data: {
+                    ID_Course : $('#hID').val()
+                },
+                success: function (e) {
+                    alert('AddClass Success : ' + e);
+                    window.location.href = '@Url.Content("~/Courses/AddClass/")' + e;
+                },
+            }
+          )
+        }
 
+        function LoadClassEdit(ID) {
+             //alert('LoadClassEdit : ' + ID )
+             window.location.href = '@Url.Content("~/Courses/ClassDetail/")' + ID;
+        }
+       
         function checkJobTitleAll(e) {
              if (e.checked) {
                 $(".chkSingleTitle").each(function () {
@@ -682,6 +732,56 @@
           }*/
         };
 
+        
+
+        function changePlant(sel) {
+            //alert('changePlant');
+            $('#selectDivision').empty();
+            $('#selectDepartment').empty();
+            $('#selectSection').empty();
+
+            var plantid = sel.value;
+            ReloadCenter($, plantid, null);
+        }
+
+        function changeCenter(sel) {
+            //alert('changeCenter');
+            $('#selectDepartment').empty();
+            $('#selectSection').empty();
+
+            var centerId = sel.value;
+            ReloadDivision($, centerId, null);
+        }
+
+        function changeDivision(sel) {
+           // alert('changeDivision');
+            $('#selectSection').empty();
+            var divisionId = sel.value;
+            ReloadDepartment($, divisionId, null);
+        }
+
+        function changeDepartment(sel) {
+            //alert('changeDepartment');
+            
+            var departmentId = sel.value;
+            ReloadSection($, departmentId, null);
+        }
+
+
+        function validation() {
+            $("#selRefresh").change( function(){
+           if( $(this).is(':checked') ) {
+              
+                document.getElementById("txtRefreshmentPeriod").disabled = false;
+                document.getElementById("selectRefreshmentUnit").disabled = false;
+            }else{
+               
+               document.getElementById("txtRefreshmentPeriod").disabled = true;
+               document.getElementById("selectRefreshmentUnit").disabled = true;
+           }
+          });
+        }
+
         function openModalJobTitle() {
             LoadJobTitleList();
             $('#modJobTitle').modal('toggle');
@@ -715,64 +815,37 @@
             $("#selectEmp_all").checked = false;
         }
 
-        function changePlant(sel) {
-            $('#selectDivision').empty();
-            $('#selectDepartment').empty();
-            $('#selectSection').empty();
-
-            var plantid = sel.value;
-            ReloadCenter($, plantid, null);
-        }
-
-        function changeCenter(sel) {
-            $('#selectDepartment').empty();
-            $('#selectSection').empty();
-
-            var centerId = sel.value;
-            ReloadDivision($, centerId, null);
-        }
-
-        function changeDivision(sel) {
-            $('#selectSection').empty();
-            var divisionId = sel.value;
-            ReloadDepartment($, divisionId, null);
-        }
-
-        function changeDepartment(sel) {
-            //alert(sel.value);
-            var departmentId = sel.value;
-            ReloadSection($, departmentId, null);
-        }
-
-
         function changeEmpDepartment(sel) {
             //alert(sel.value);
             var departmentId = sel.value;
             ReloadModSection($, departmentId, null);
         }
 
-        function LoadDropdown(ID) {
-            alert("LoadDropdown " + ID);
-
+        function LoadData(ID) {
             if (ID !== "null") {
-                
+
+                loadPlant();
+                LoadCourseLearnMethod();
+                LoadCourseType();
+
                 loadCenter();
                 loadDivision();
                 loadDepartment();
                 loadSection();
+                LoadCourse(ID);
             }
             else {
              
-                
+                loadPlant();
+                LoadCourseLearnMethod();
+                LoadCourseType();
             }
-           
-            loadPlant();
-            LoadCourseLearnMethod();
-            LoadCourseType();
-           
         }
 
         function loadPlant() {
+
+            //alert(' loadPlant');
+
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllPlant",
@@ -782,7 +855,12 @@
                     $.each(response.Data, function () {
                         options.append($("<option />").val(this.ID).text(this.PlantName_EN));
                     });
-                    $('select[name="selectPlant"]').val(null).trigger('change');
+                    $('select[name="selectPlant"]').val($('#hID_PlantTarget').val()).trigger('change');
+
+
+                    //var plantid = $('#hID_PlantTarget').val();
+                    //alert(' loadPlant : ' + plantid);
+                   
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -794,6 +872,7 @@
         }
 
         function loadCenter() {
+            //alert('loadCenter');
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllCenters",
@@ -803,7 +882,7 @@
                     $.each(response.Data, function () {
                         options.append($("<option />").val(this.ID).text(this.CenterName_EN));
                     });
-                    $('select[name="selectCenter"]').val(null).trigger('change');
+                    $('select[name="selectCenter"]').val($('#hID_CenterTarget').val()).trigger('change');
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -815,15 +894,20 @@
         }
 
         function loadDivision() {
+
+            //alert('loadDivision');
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllDivisions",
                 success: function (response) {
-                    var options = $('#selectDivisions');
+                    var options = $('#selectDivision');
                     options.append($("<option />").val(null).text("Please select"));
                     $.each(response.Data, function () {
                         options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
                     });
+
+                    $('select[name="selectDivision"]').val($('#hID_DivisionTarget').val()).trigger('change');
+                   
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -835,6 +919,7 @@
         }
 
         function loadDepartment() {
+             //alert('loadDepartment');
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllDepartments",
@@ -848,7 +933,7 @@
                         options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
                         optionsMod.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
                     });
-                    $('select[name="selectDepartment"]').val(null).trigger('change');
+                    $('select[name="selectDepartment"]').val($('#hID_DepartmentTarget').val()).trigger('change');
                     $('select[name="selectEmpDepartment"]').val(null).trigger('change');
                 },
                 failure: function (response) {
@@ -861,6 +946,7 @@
         }
 
         function loadSection() {
+           // alert('loadSection');
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllSections",
@@ -876,6 +962,8 @@
                         optionsMod.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
 
                     });
+                    $('select[name="selectSection"]').val($('#hID_SectionTarget').val()).trigger('change');
+                 
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -900,7 +988,8 @@
                                 options.append($("<option />").val(this.ID).text(this.CenterName_EN));
                             }
                         });
-                        //options.val($("#userDivisionId").val()).trigger('change');
+                       //  $('select[name="selectCenter"]').val($('#hID_CenterTarget').val()).trigger('change');
+                       // ReloadDivision($, $('#hID_CenterTarget').val(), null);
                         if (callback) {
                             //callback($("#userDivisionId").val());
                         }
@@ -931,7 +1020,9 @@
                                 options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
                             }
                         });
-                        //options.val($("#userDivisionId").val()).trigger('change');
+                        //$('select[name="selectDivision"]').val($('#hID_DivisionTarget').val()).trigger('change');
+                        //ReloadDepartment($, $('#hID_DivisionTarget').val(), null);
+                       
                         if (callback) {
                             //callback($("#userDivisionId").val());
                         }
@@ -945,6 +1036,7 @@
                 });
             }
         }
+
 
         function ReloadDepartment($, divisionId, callback) {
             var options = $('#selectDepartment');
@@ -961,7 +1053,10 @@
                                 options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
                             }
                         });
-                        //options.val($("#userDepartmentId").val()).trigger('change');
+
+                         //$('select[name="selectDepartment"]').val($('#hID_DepartmentTarget').val()).trigger('change');
+                         //ReloadSection($, $('#hID_DepartmentTarget').val(), null);
+                       
                         if (callback) {
                             //callback($("#userDepartmentId").val());
                         }
@@ -990,7 +1085,9 @@
                                 options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
                             }
                         });
-                        //options.val($("#userSectionId").val()).trigger('change');
+
+                        $('select[name="selectSection"]').val($('#hID_SectionTarget').val()).trigger('change');
+                        
                         if (callback) {
                             //callback($("#userSectionId").val());
                         }
@@ -1045,7 +1142,7 @@
                         $.each(items, function () {
                             options.append($("<option />").val(this.ID).text(this.Course_LearnMethodName_EN));
                         });
-                        $('select[name="selectLearnMethod"]').val(null);
+                        $('select[name="selectLearnMethod"]').val($('#hID_LearnMethod').val());
                     });
         }
 
@@ -1060,7 +1157,7 @@
                 $.each(items, function () {
                     options.append($("<option />").val(this.ID).text(this.CourseTypeName_EN));
                 });
-                $('select[name="selectCourseType"]').val(null);
+                $('select[name="selectCourseType"]').val($('#hID_CourseType').val());
             });
         }
 
@@ -1178,7 +1275,7 @@
                 i++;
             }
 
-            alert(employeelist);
+            //alert(employeelist);
             //employeelist = employeelist.remove(employeelist.length);
 
             $('#txtEmployeeID').val( $('#txtEmployeeID').val() + employeelist);
@@ -1187,12 +1284,12 @@
         }
 
         function LoadJobGradeList() {
-            alert('LoadJobGradeList');
+            //alert('LoadJobGradeList');
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllJobGrades",
                 success: function (response) {
-                    alert(JSON.stringify(response));
+                    //alert(JSON.stringify(response));
                     RenderJobGrade(response);
                 },
                 failure: function (response) {
@@ -1230,7 +1327,7 @@
                 i++;
             }
 
-            alert(jobGradelist);
+            //alert(jobGradelist);
             //employeelist = employeelist.remove(employeelist.length);
 
             $('#txtJobgrade').val( $('#txtJobgrade').val() + jobGradelist);
@@ -1239,12 +1336,12 @@
         }
 
         function LoadJobTitleList() {
-             alert('LoadJobTitleList');
+             //alert('LoadJobTitleList');
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllJobTitles",
                 success: function (response) {
-                    alert(JSON.stringify(response));
+                    //alert(JSON.stringify(response));
                     RenderJobTitle(response);
                 },
                 failure: function (response) {
@@ -1272,7 +1369,7 @@
 
         function SelectJobTitle() {
 
-            alert('SelectJobTitle');
+            //alert('SelectJobTitle');
             var jobTitlelist = '';
             var i = 0;
        
@@ -1284,7 +1381,7 @@
                 i++;
             }
 
-            alert(jobTitlelist);
+            //lert(jobTitlelist);
             //employeelist = employeelist.remove(employeelist.length);
 
             $('#txtJobTitle').val( $('#txtJobTitle').val() + jobTitlelist);
@@ -1292,10 +1389,16 @@
             CloseModalJobTitle();
         }
 
+        /*$('#btnSaveCourse').click(function () {
+            alert('Save Click');
+            //SaveCourse();
+        })*/
+
         function SaveCourse() {
+            //alert('Save Click Outline : ' + $('#txtOutLine').val());
             $.ajax({
-                    url: "/Course/InsertCourse",
-                    type: "GET",
+                    url: "/Courses/InsertCourse",
+                    type: "POST",
                     data: {
                         ID_Course :  $('#hID').val(),
                         CourseID : $('#txtCourseID').val(),
@@ -1316,17 +1419,71 @@
                         ID_SectionTarget : $('#selectSection').val(),
                         JobGradeTargetID : $('#txtJobgrade').val(),
                         JobTitleTargetID : $('#txtJobTitle').val(),
-                        IsActive : $('#selectCourseStatus').val()      
+                        IsActive : $('#selectCourseStatus').val()   
                 },
                 success: function (e) {
                     //debugger;
                         alert('Save Complete');
                         $('#hID').val(e.ID);
+                        $('#txtCourseID').val(e.CourseID);
                         $('#divClass').attr("style", "display:block");
                 },
                 }
             )
         }
+
+        function LoadCourse(ID) {
+
+            $('#txtCourseID').val($('#hCourseID').val());
+            $('#selRefresh').val($('#hIsRefreshment').val());
+            $('#txtRefreshmentPeriod').val($('#RefreshmentPeriod').val());
+            $('select[name="selectRefreshmentUnit"]').val($('#hRefreshmentUnit').val());
+            $('#selectCourseStatus').val($('#hIsActive').val());
+
+            $('#divClass').attr("style", "display:block");
+
+            loadClass(ID)
+        }
+
+        function loadClass(ID) {
+
+            //alert('Load Class : ' + ID)
+            $.ajax({
+                url: "/Courses/LoadClass",
+                type: "POST",
+                data: {
+                    'ID': ID
+                },
+                success: function (e) {
+                    //alert(JSON.stringify(e));
+                    RenderClass(e);
+                }
+            })
+        }
+
+        function RenderClass(e) {
+             $("#dtClassList tbody > tr").remove();
+            for (i = 0; i < e.length; i++) {
+                var row = $("<tr />");
+                $("#dtClassList tbody").append(row);
+                
+                row.append('<td style="text-align:center">' + (i + 1) + '</td>');
+                row.append('<td style="text-align:center">' + e[i].ClassID + '</td>');
+                row.append('<td style="text-align:center">' + e[i].Instructor_Name + '</td>');
+                row.append('<td style="text-align:center">' + e[i].LearnDateStart + '</td>');
+                row.append('<td style="text-align:center">' + e[i].RegisterDate + '</td>');
+                row.append('<td style="text-align:center">' + e[i].ClassFee + '</td>');
+                row.append('<td style="text-align:center">' + e[i].Capacity + '</td>');
+                row.append('<td style="text-align:center">' + e[i].RoomName_EN + '</td>');
+                row.append('<td style="text-align:center">' + e[i].ClassStatus + '</td>');
+                row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-check-cycle.svg") width="28" height="28"></img></a></td>');
+                row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-edit-blue.svg") width="28" height="28" onclick="LoadClassEdit('+ e[i].ID +')" ></a></td>');
+                row.append('<td class="text-center"><img src=@Url.Content("~/assets/images/svg/icon-delete-red.svg") class="btn"></img></td>');
+                row.append('<input type="hidden" id="hdSelect_ID_' + i + '" name="hdSelect_ID_' + i + '" value="' + e[i].ID + '" />');
+            }
+        }
+
+
 
     </script>
 }

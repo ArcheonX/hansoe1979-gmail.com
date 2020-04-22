@@ -7,13 +7,15 @@ namespace LDMS.ViewModels
         public int ID { get; set; }
         public string ClassID { get; set; }
         public int ID_Course { get; set; }
+        public string CourseName { get; set; }
         public int ID_Instructor { get; set; }
+        public string InstructorName { get; set; }
         public int ClassCapacity { get; set; }
         public decimal ClassFee { get; set; }
         public DateTime LearnDateStart { get; set; }
-        public TimeSpan LearnTimeStart { get; set; }
+        public string LearnTimeStart { get; set; }
         public DateTime LearnDateEnd { get; set; }
-        public TimeSpan LearnTimeEnd { get; set; }
+        public string LearnTimeEnd { get; set; }
         public DateTime RegisterDateStart { get; set; }
         public DateTime RegisterDateEnd { get; set; }
         public int ID_PlantVenue { get; set; }
@@ -38,5 +40,11 @@ namespace LDMS.ViewModels
         public string UpdateBy { get; set; }
         public DateTime UpdateDate { get; set; }
         public byte IsActive { get; set; }
+
+        public string LearnDateStart_Show { get; set; }
+        public string LearnDateEnd_Show { get; set; }
+
+        public string RegisterDateStart_Show { get; set; }
+        public string RegisterDateEnd_Show { get; set; }
     }
 }
