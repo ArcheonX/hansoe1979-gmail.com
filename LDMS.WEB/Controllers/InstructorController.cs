@@ -1,5 +1,7 @@
-﻿using LDMS.Services;
+﻿using LDMS.Core;
+using LDMS.Services;
 using LDMS.ViewModels;
+using LDMS.WEB.Filters;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +22,14 @@ namespace LDMS.WEB.Controllers
             _hostingEnvironment = environment;
         }
 
+        [AuthorizeRole(UserRole.All)]
         [Route("Instructor/Index")]
         public IActionResult Index()
         {
             return View("~/Views/Instructor/Index.cshtml");
         }
 
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Instructor/Search")]
         [AutoValidateAntiforgeryToken]
@@ -51,10 +55,11 @@ namespace LDMS.WEB.Controllers
             criteria.CourseName = CourseName;
 
             var instructor = _instructorService.GetInstructors(criteria);
-            //ViewData["Instructor"] = instructor.Results;
+            
             return Json(instructor);
         }
 
+        [AuthorizeRole(UserRole.All)]
         [Route("Instructor/Detail/{i?}")]
         public IActionResult Detail(string i)
         {
@@ -63,6 +68,7 @@ namespace LDMS.WEB.Controllers
             return View("~/Views/Instructor/Detail.cshtml");
         }
 
+        [AuthorizeRole(UserRole.All)]
         [Route("Instructor/ViewProfile/{i}")]
         public IActionResult ViewProfile(string i)
         {
@@ -70,6 +76,7 @@ namespace LDMS.WEB.Controllers
             return View("~/Views/Instructor/ViewProfile.cshtml", mod);
         }
 
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Instructor/Get")]
         [AutoValidateAntiforgeryToken]
@@ -78,6 +85,26 @@ namespace LDMS.WEB.Controllers
             return Json(_instructorService.GetInstructor(id));
         }
 
+        [AuthorizeRole(UserRole.All)]
+        [HttpPost]
+        [Route("Instructor/GetInsID")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult GetInsID(string insID)
+        {
+            return Json(_instructorService.GetInstructorByInstructorID(insID));
+        }
+
+        [AuthorizeRole(UserRole.All)]
+        [HttpPost]
+        [Route("Instructor/Del")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Delete(string id)
+        {
+            _instructorService.UpdateInstructorStatus(id, "");
+            return Json("1");
+        }
+
+        [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Instructor/Save")]
         [AutoValidateAntiforgeryToken]

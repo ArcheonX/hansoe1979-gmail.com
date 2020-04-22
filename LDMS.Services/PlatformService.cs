@@ -1,22 +1,12 @@
 ﻿using Dapper;
-using Dapper.Mapper;
-using LDMS.Core;
-using LDMS.Identity;
 using LDMS.ViewModels;
-using LDMS.ViewModels.Menu;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using System.Text.Json;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using LDMS.Daos;
 
 namespace LDMS.Services
 {

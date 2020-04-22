@@ -1,9 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Course Training";
+    ViewData["MainTitle"] = "I-Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model LDMS.ViewModels.LDMS_M_Course_Search
+<<<<<<< HEAD
+@section Header{
+
+    <script src="~/assets/plugins/highchart/highcharts.js"></script>
+    <script src="~/assets/plugins/highchart/modules/exporting.js"></script>
+    <script src="~/assets/plugins/highchart/modules/export-data.js"></script>
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+}
 
 @section NavHeader{
     <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
@@ -12,72 +20,46 @@
         <li class="breadcrumb-item active">I-Manage Course Information</li>
     </ol>
 }
-<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
-    <div class="panel panel-default" style="width:100%;border-width:thin;border-style:solid;">
-        <div class="panel-body" style="width:100%;">
-            <form method="post">
-                @Html.AntiForgeryToken()
-                <div class="form-horizontal" style="margin-top:25px">
-                    <div class="row form-group">
-                        <div class="col-sm-2 col-md-2">
-                            <span class="pull-right">
-                                <label class="LabelCaption">Course ID</label>
-                            </span>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <input type="text" id="txtFilterCourseID" class="form-control input-sm" />
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-2 col-md-2">
-                            <span class="pull-right">
-                                <label class="LabelCaption">Course Name</label>
-                            </span>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <input type="text" id="txtFilterCoursemName" class="form-control input-sm" />
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-2 col-md-2">
-                            <span class="pull-right">
-                                <label class="LabelCaption">Course Status</label>
-                            </span>
-                        </div>
-                        <div class="col-4">
-                            <div class="btn-group">
-                                <select id="selectCourseStatus" name="selectCourseStatus" class="form-control" style="width: 100%">
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-2 col-md-2">
-                            <span class="pull-right">
-                                <label class="LabelCaption">Learn Method</label>
-                            </span>
-                        </div>
-                        <div class="col-4">
-                            <div class="btn-group">
-                                <select id="selectLearnMethod" name="selectLearnMethod" class="form-control" style="width: 100%">
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row form-group">
-                        <div class="col-sm-1 col-md-1 offset-9">
-                            <a id="btnSeacrh" class="btn btn-info waves-effect waves-light" style="width:100%; color:white;" onclick="Search()"> Search </a>
-                        </div>
-                        <div class="col-sm-1 col-md-1" style="margin-left:-25px">
-                            <a id="btnAdd" onclick="window.location.href = '@Url.Action("Add", "Courses")';" class="btn btn-success waves-effect waves-light" style="width:100%; color:white">Add</a>
-                        </div>
-                    </div>
-                </div>
-            </form>
+<div class="panel-body" style="width:100%;">
+    <form method="post">
+        <div class="form-group m-2 row">
+            <label class="col-sm-2 col-form-label" style="text-align:right">Course ID</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="HR-S001-01" id="CourseID">
+            </div>
+        </div><div class="form-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Name</label>
+            <div class="col-4">
+                <input class="form-control" type="text" value="Engineering PT-WI 1" id="CourseName">
+            </div>
         </div>
+        <div class="input-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Course Status</label>
+            <div class="col-4">
+                <select id="ddlStatus" class="form-control">
+                    <option value="">@LDMS.WEB.Resources.Enum.e_Select_All</option>
+                    <option value="1">@LDMS.WEB.Resources.Enum.e_Status_Active</option>
+                    <option value="0">@LDMS.WEB.Resources.Enum.e_Status_Inactive</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="input-group m-2 row">
+            <label for="example-text-input" class="col-2 col-form-label" style="text-align:right">Learn Method</label>
+
+                <div class="col-4">
+                    <select id="ddlLearnMethod" class="form-control">
+                        <option value="">@LDMS.WEB.Resources.Enum.e_Select_All</option>
+                        <option value="1">@LDMS.WEB.Resources.Enum.e_Status_Active</option>
+                        <option value="0">@LDMS.WEB.Resources.Enum.e_Status_Inactive</option>
+                    </select>
+                </div>
+
+
+        </div>
+
+    </form>
     </div>
 
     <div class="table-responsive m-t-40">
@@ -182,4 +164,3 @@
 
     </script>
 }
-

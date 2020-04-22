@@ -1,30 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Instructor Inventory";
+    ViewData["MainTitle"] = "I-Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @model LDMS.ViewModels.LDMS_M_Instructor_Search
-
-@section Header{
-    
-}
-
-@section NavHeader{
-    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
-        <li class="breadcrumb-item active">I-Manage Instructor Inventory</li>
-    </ol>
-}
+ 
 <div class="panel-body" style="width:100%;">
     <form method="post">
         @Html.AntiForgeryToken()
         <div class="form-group m-2 row">
-            <label  class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
+            <label class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
             <div class="col-4">
                 <input class="form-control" type="text" id="txtInsID" placeholder="Instructor ID" maxlength="10">
             </div>
-            <label  class="col-2 col-form-label" style="text-align:right">Status</label>
+            <label class="col-2 col-form-label" style="text-align:right">Status</label>
             <div class="col-4">
                 <select id="ddlStatus" class="form-control">
                     <option value="">@LDMS.WEB.Resources.Enum.e_Select_All</option>
@@ -34,28 +24,28 @@
             </div>
         </div>
         <div class="form-group m-2 row">
-            <label  class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
+            <label class="col-2 col-form-label" style="text-align:right">Instructor Name</label>
             <div class="col-4">
                 <input class="form-control" type="text" id="txtInsName" maxlength="100" placeholder="Instructor Name">
             </div>
-            <label  class="col-2 col-form-label" style="text-align:right">Organization</label>
+            <label class="col-2 col-form-label" style="text-align:right">Organization</label>
             <div class="col-4">
                 <input class="form-control" type="text" id="txtOrg" maxlength="250" placeholder="Organization">
             </div>
         </div>
         <div class="form-group m-2 row">
-            <label  class="col-2 col-form-label" style="text-align:right">Type</label>
+            <label class="col-2 col-form-label" style="text-align:right">Type</label>
             <div class="col-4">
                 <select id="ddlType" name="type" class="form-control">
                 </select>
             </div>
-            <label  class="col-2 col-form-label" style="text-align:right">Experience</label>
+            <label class="col-2 col-form-label" style="text-align:right">Experience</label>
             <div class="col-4">
                 <input class="form-control" type="text" id="txtExp" placeholder="Experience" maxlength="500">
             </div>
         </div>
         <div class="form-group m-2 row">
-            <label  class="col-2 col-form-label" style="text-align:right">Course</label>
+            <label class="col-2 col-form-label" style="text-align:right">Course</label>
             <div class="col-4">
                 <input class="form-control" type="text" id="txtCouse" maxlength="50" placeholder="Course">
             </div>
@@ -81,15 +71,16 @@
                     <th>Organization / Department</th>
                     <th>Status</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
 
         </table>
-     
+
     </div>
 </div>
 
-        
+
 @section Scripts {
     <script type="text/javascript">
         var dtData;
@@ -152,13 +143,40 @@
                             return "<a href='"+url+"'><img src='"+icon+"' class='light-logo svg-colorize-blue' alt='homepage' /></a>";
                         }
                     }
+                    ,
+                    {
+                        "mData": "ID",
+                        "mRender": function (data, type, row) {
+                             var icon = '@Url.Content("~/assets/images/svg/icon-delete-red.svg")';
+
+                            return "<a href=\"javascript:deli('"+data+"');\"><img src='" + icon+"' class='light-logo svg-colorize-blue' alt='homepage' /></a>";
+                        }
+                    }
                  ],
                  "columnDefs": [
-                     { "orderable": false, "targets": 0 },
-                     { "orderable": false, "targets": 6 }
+                     { "targets": 0, "className": "text-center", "orderable": false},
+                     { "targets": 1, "className": "text-center" },
+                     { "targets": 3, "className": "text-center" },
+                     { "targets": 5, "className": "text-center" },
+                     { "targets": 6, "orderable": false, "className": "text-center" }
+                     { "targets": 7, "orderable": false, "className": "text-center" }
                  ]
             });
         }
+
+        function deli(data) {
+            if (confirm('@LDMS.WEB.Resources.Message.c_ConfirmDelete')) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Del", "Instructor")',
+                    data: { "id": data, "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val() },
+                    success: function (e) {
+                        Search();
+                    },
+                });
+            }
+        }
+
 
         function LoadStatus() {
              $.ajax({

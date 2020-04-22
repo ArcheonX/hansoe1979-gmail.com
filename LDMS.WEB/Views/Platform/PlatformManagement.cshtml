@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Platform";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+<script src="~/assets/app/PlatformLDMS.js"></script>
+<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+    <div id="viewAllplatform" style="display:block;width:100%">
+        @await Html.PartialAsync("_SearchPlatformCriteria")
+        <div id="PlatformListcontent">
+            @await Html.PartialAsync("_ViewAllPlatform")
+        </div>
+    </div>
+    <div id="platformEditor" style="display:none;width:100%;">
+        @await Html.PartialAsync("_EditorPlatform")
+    </div>
+    <div id="subPlatformEditor" style="display:none;width:100%;">
+        @await Html.PartialAsync("_EditorSubPlatform")
+    </div> 
+</div>
+@*border-width:thin;border-style:solid;*@

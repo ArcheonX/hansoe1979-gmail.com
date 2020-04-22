@@ -1,4 +1,7 @@
-﻿using LDMS.WEB.Models;
+﻿using LDMS.Core;
+using LDMS.WEB.Filters;
+using LDMS.WEB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -14,17 +17,14 @@ namespace LDMS.WEB.Controllers
             _logger = logger;
         }
 
+        [AuthorizeRole(UserRole.All)]
         [Route("Home")]
         [Route("Home/Index")]
         public IActionResult Index()
         {
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        } 
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,21 +1,20 @@
 ﻿using Dapper;
 using LDMS.Core;
+using LDMS.Daos;
 using LDMS.Identity;
 using LDMS.ViewModels;
 using LDMS.ViewModels.Menu;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LDMS.Services
-{ 
+{
     public class UserService : ILDMSService
     { 
         private readonly ILogger<UserService> _logger;
@@ -290,11 +289,15 @@ namespace LDMS.Services
                             new Claim(ClaimTypes.Email, string.IsNullOrEmpty(user.Email)?"":user.Email),
                             new Claim(ClaimTypes.NameIdentifier, user.EmployeeID),
                             new Claim(ClaimTypes.Name, user.EmployeeID),
-                            new Claim("ID_Division", user.ID_Division.GetValueOrDefault().ToString()),
-                            new Claim("ID_Center", user.ID_Center.GetValueOrDefault().ToString()),
-                            new Claim("ID_Department", user.ID_Department.GetValueOrDefault().ToString()),
-                            new Claim("ID_Section",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
-                            new Claim(ClaimTypes.Role, user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
+                            new Claim("PLANTID", user.ID_Plant.ToString()),
+                            new Claim("CENTERID", user.ID_Center.GetValueOrDefault().ToString()),
+                            new Claim("DIVISIONID", user.ID_Division.GetValueOrDefault().ToString()),
+                            new Claim("DEPARTMENTID", user.ID_Department.GetValueOrDefault().ToString()),
+                            new Claim("SECTIONTID",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
+                            new Claim("FORCECHANGEPASS",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.IsForceChangePass.ToString():"1"),
+                            new Claim("ALLOWGPP",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.Is_AcceptGCP.ToString():"0"),
+                            new Claim("ISAD",user.IsAD.ToString()),
+                            new Claim(ClaimTypes.Role,user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
                         };
                     user.Token = JwtManager.Instance.GenerateJWT(claims);
                     user.RefreshToken = JwtManager.Instance.GenerateRefreshToken();
@@ -309,14 +312,18 @@ namespace LDMS.Services
                     HttpContext.Response.Set("EMPLOYEEID", user.EmployeeID, 120);
                     HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.GetValueOrDefault()) : "", 120);
                     HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.DepartmentID) : "", 120);
+
                     HttpContext.Response.Set("PLANTID", user.ID_Plant.ToString(), 120);
-
+                    HttpContext.Response.Set("CENTERID", user.ID_Center.ToString(), 120);
                     HttpContext.Response.Set("DIVISIONID", string.Format("{0}", user.ID_Division), 120);
-
                     HttpContext.Response.Set("DEPARTMENTID", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.ID_Department) : "", 120);
                     HttpContext.Response.Set("SECTIONTID", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault().ToString() : "0", 120);
+
                     HttpContext.Response.Set("FACEIMAGE", "~/assets/images/users/1.jpg", 120);
                     HttpContext.Response.Set("JWToken", user.Token, 120);
+
+                    CheckRedirectPage(user);
+
                     HttpContext.Session.SetString("JWToken", user.Token);
                     return new ServiceResult(user);
                 }
@@ -326,6 +333,30 @@ namespace LDMS.Services
             {
                 _logger.LogError(ex.Message);
                 return new ServiceResult(new Exception("Unauthorized"));
+            }
+        }
+
+        private void CheckRedirectPage(LDMS_M_User user)
+        {
+            if (user.LDMS_M_UserRole != null)
+            {
+                HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
+                //if (user.LDMS_M_UserRole.IsForceChangePass == 1)
+                //{
+                //    HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
+                //}
+                //else if (user.LDMS_M_UserRole.Is_FirstLogin == 1 && user.IsAD == 0)
+                //{
+                //    HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
+                //}
+                //else
+                //{
+                //    HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
+                //}
+            }
+            else
+            {
+                HttpContext.Response.Set("REDIRECTPAGE", "/Account/Index", 120);
             }
         }
 

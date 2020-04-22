@@ -1,0 +1,45 @@
+﻿@{    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+<script src="~/assets/app/ReportController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+<div class="panel panel-primary" style="width:100%;">
+    <div class="panel-body panel-body-begin">
+        <div class="form-horizontal">
+            <div class="row form-group" style="margin-top:-25px;">
+                <div class="col-sm-2 col-md-2">
+                    <button id="btnNormalReport" class="btn btn-info waves-effect waves-light" onclick="OnChangeReport('NORMAL')" style="width:100%"> Normal</button>
+                </div>
+                <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                    <button id="btnEmployeeReport" class="btn btn-outline-info waves-effect waves-light" onclick="OnChangeReport('EMPLOYEE')"  style="width:100%"> Employee Comparation</button>
+                </div>
+                <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                    <button id="btnCourseReport" class="btn btn-outline-info waves-effect waves-light" onclick="OnChangeReport('COURSEPLATFORM')"  style="width:100%"> Course/Platform Comparation</button>
+                </div>
+                <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                    <button id="btnLegalReport" class="btn btn-outline-info waves-effect waves-light" onclick="OnChangeReport('LEGALCOMPLIANCE')"  style="width:100%"> Legal and Compliance</button>
+                </div>
+                <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                    <button id="btnBasicReport" class="btn btn-outline-info waves-effect waves-light" onclick="OnChangeReport('BASICFIRE')"  style="width:100%"> Basic Fire Fighting</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div style="width: 100%;">
+    <div id="pnReportNormal" style="display:block;width:100%">
+        @await Html.PartialAsync("_Normal")
+    </div>
+    <div id="pnReportEmployeeComparation" style="display:none;width:100%">
+        @await Html.PartialAsync("_EmployeeComparation")
+    </div>
+    <div id="pnReportCoursePlatformComparation" style="display:none;width:100%">
+        @await Html.PartialAsync("_CoursePlatformComparation")
+    </div>
+    <div id="pnReportLegalCompliance" style="display:none;width:100%">
+        @await Html.PartialAsync("_LegalCompliance")
+    </div>
+    <div id="pnReportBasicFireFighting" style="display:none;width:100%">
+        @await Html.PartialAsync("_BasicFireFighting")
+    </div>
+</div> 

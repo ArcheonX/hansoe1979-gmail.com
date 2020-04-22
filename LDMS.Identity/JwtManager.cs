@@ -195,5 +195,68 @@ namespace LDMS.Identity
                 return string.Empty;
             }
         }
+
+        public IEnumerable<Claim> GetClaims(HttpRequest request)
+        {
+            try
+            {
+                string token = GetToken(request);
+                if (string.IsNullOrEmpty(token)) throw new ArgumentException("Given token is null or empty");
+                TokenValidationParameters tokenValidationParameters = GetTokenValidationParameters();
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+                return claimsPrincipal.Claims;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public ClaimsPrincipal GetPrincipal(HttpRequest request)
+        {
+            try
+            {
+                string token = GetToken(request);
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                if (tokenHandler.ReadToken(token) as JwtSecurityToken == null)
+                {
+                    return null;
+                }
+                TokenValidationParameters validationParameters = GetTokenValidationParameters();
+                ClaimsPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken securityToken);
+                return principal;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public string GetFromToken(HttpRequest request, string key)
+        {
+            string token = GetToken(request);
+            if (!string.IsNullOrEmpty(token) && token != "undefined")
+            {
+                try
+                {
+
+                    JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                    if (tokenHandler.ReadToken(token) as JwtSecurityToken == null)
+                    {
+                        return string.Empty;
+                    }
+                    ClaimsPrincipal principal = tokenHandler.ValidateToken(token, GetTokenValidationParameters(), out SecurityToken securityToken);
+                    return principal.Claims.FirstOrDefault(o => o.Type.ToUpper() == key.ToUpper()) != null ? principal.Claims.FirstOrDefault(o => o.Type.ToUpper() == key.ToUpper()).Value : string.Empty;
+                }
+                catch
+                {
+                    return string.Empty;
+                }
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
     } 
 }
