@@ -19,14 +19,19 @@ namespace LDMS.WEB.Models.Employee
         public string Nationality { get; set; }
         public int DivisionId { get; set; }
         public string Email { get; set; }
-        public int DepartmentId { get; set; } 
+        public int DepartmentId { get; set; }
         public int SectionId { get; set; }
-        public string Password { get; set; } 
-        public string Remark { get; set; } 
+        public string Password { get; set; }
+        public string Remark { get; set; }
         public int RoleId { get; set; }
         public bool IsInstructer { get; set; }
         public bool IsSectionHead { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsAD { get; set; }
+
+        public string DepartmentName { get; set; }
+        public string SectionName { get; set; }
+        public string JobGrade { get; set; }
+        public string JobTitle { get; set; }
     }
 }

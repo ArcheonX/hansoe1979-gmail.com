@@ -381,32 +381,35 @@
             <div class="col-sm-6 col-md-6">
                 <div class="form-horizontal">
                     <div class="row form-group">
-                        <div class="col-sm-10 col-md-10">
+                        @*<div class="col-sm-10 col-md-10">
+                            <span class="pull-left" style="vertical-align:middle">
+                                <label class="LabelCaption">Target Employee</label>
+                            </span>
+                        </div>*@
+                    </div>
+                    <br />
+                    <div class="row form-group">
+                        <div class="col-sm-3 col-md-3">
                             <span class="pull-left" style="vertical-align:middle">
                                 <label class="LabelCaption">Target Employee</label>
                             </span>
                         </div>
-                    </div>
-                    <br />
-                    <div class="row form-group">
-                        <div class="col-sm-2 col-md-2">
-                            <span class="pull-left" style="vertical-align:middle">
-                                <label class="LabelCaption">Level</label>
-                            </span>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
+                        @*<div class="col-sm-6 col-md-6">
                             <select id="selectLevel"
                                     name="selectLevel"
                                     title="Please Enter Level"
                                     class="form-control required"
                                     style="width: 100%">
                             </select>
-                        </div>
-                        <div class="col-sm-2 col-md-2">
-                            <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
-                                <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" />
-                            </button>
-                        </div>
+                        </div>*@
+                    <div class="col-sm-2 col-md-2 offset-8">
+                        <a class="search-target-employee-modal" id="btnSearchEmployee" href="#search-target-employee-modal">
+                            <img style="width:35px;height:30px" src="~/assets/images/svg/icon-seach.svg" />
+                        </a>
+                        @*<button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
+            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" />
+        </button>*@
+                    </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-1 col-md-1 offset-1">
