@@ -21,10 +21,10 @@
                         <h4><span class="pull-right">Class Infomation</span></h4>
                     </div>
                     <div class="col-sm-1 col-md-1 offset-7">
-                        <a id="btnSavePlatform" class="btn btn-success waves-effect waves-light" style="width:90%; color:white">Save</a>
+                        <a id="btnSaveClass" onclick="SaveClass();" class="btn btn-success waves-effect waves-light" style="width:90%; color:white">Save</a>
                     </div>
                     <div class="col-sm-1 col-md-1" style="margin-left:-25px">
-                        <a id="btnBack" onclick="window.location.href = '@Url.Action("Detail", "Courses")';" class="btn btn-danger inactive waves-effect waves-light" style="width:90%; color:white">Back</a>
+                        <a id="btnBack" onclick="BacktoCourse(@Model.ID_Course)" class="btn btn-danger inactive waves-effect waves-light" style="width:90%; color:white">Back</a>
                     </div>
                 </div>
             </div>
@@ -35,10 +35,30 @@
                 @if (Model != null)
                 {
                     <input type="hidden" id="hID" name="hID" value=@Model.ID />
+                    <input type="hidden" id="hID_Class" name="hID_Class" value=@Model.ClassID />
+                    <input type="hidden" id="hID_Course" name="hID_Course" value=@Model.ID_Course />
+                    <input type="hidden" id="hID_CourseName" name="hID_CourseName" value=@Model.CourseName />
+                    <input type="hidden" id="hID_LearnTimeStart" name="hID_LearnTimeStart" value=@Model.LearnTimeStart />
+                    <input type="hidden" id="hID_LearnTimeEnd" name="hID_LearnTimeEnd" value=@Model.LearnTimeEnd />
+                    <input type="hidden" id="hID_PlantVenue" name="hID_PlantVenue" value=@Model.ID_PlantVenue />
+                    <input type="hidden" id="hID_VenueRoom" name="hID_VenueRoom" value=@Model.ID_VenueRoom />
+                    <input type="hidden" id="hID_PlaceLocation" name="hID_PlaceLocation" value=@Model.PlaceAndLocation />
+                    <input type="hidden" id="hID_ClassStatus" name="hID_ClassStatus" value=@Model.ClassStatus />
+                    <input type="hidden" id="hID_IsAttend" name="hID_IsAttend" value=@Model.IsAttend />
+                    <input type="hidden" id="hID_AttendNum" name="hID_AttendNum" value=@Model.AttendNum />
+                    <input type="hidden" id="hID_IsTest" name="hID_IsTest" value=@Model.IsTest />
+                    <input type="hidden" id="hID_TestFullScore" name="hID_TestFullScore" value=@Model.TestFullScore />
+                    <input type="hidden" id="hID_TestPercentage" name="hID_TestPercentage" value=@Model.TestPercentage />
+                    <input type="hidden" id="hID_IsSkill" name="hID_IsSkill " value=@Model.IsSkill />
+                    <input type="hidden" id="hID_IsCoaching" name="hID_IsCoaching" value=@Model.IsCoaching />
+                    <input type="hidden" id="hID_IsCertificate" name="hID_IsCertificate" value=@Model.IsCertificate />
+                    <input type="hidden" id="hID_IsAttachCert" name="hID_IsAttachCert" value=@Model.IsAttachCert />
+                    <input type="hidden" id="hInstructorID" name="hInstructorID" value=@Model.ID_Instructor />
                 }
                 else
                 {
                     <input type="hidden" id="hID" name="hID" value=null />
+                    <input type="hidden" id="hInstructorID" name="hInstructorID" value=null />
                 }
                 <div class="row form-group">
                     <div class="col-sm-2 col-md-2">
@@ -49,7 +69,8 @@
                     <div class="col-sm-4 col-md-4">
                         <input type="text"
                                title="Auto Gen"
-                               id="txtCourseID"
+                               id="txtClassID"
+                               value="Auto Genarate"
                                asp-for="ClassID"
                                disabled="disabled"
                                style="width: 100%"
@@ -65,6 +86,7 @@
                     <div class="col-sm-4 col-md-4">
                         <input type="text"
                                id="txtCourseName"
+                               asp-for="CourseName"
                                disabled="disabled"
                                style="width: 100%"
                                class="form-control input-sm" />
@@ -77,9 +99,11 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <input type="hidden" id="hInstructorID" name="hInstructorID" value=null />
+
                         <input type="text"
                                id="txtInstructor"
+                               asp-for="InstructorName"
+                               disabled="disabled"
                                style="width: 100%"
                                class="form-control input-sm" />
                     </div>
@@ -94,8 +118,9 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <input type="text"
+                        <input type="number"
                                id="txtCapacity"
+                               asp-for="ClassCapacity"
                                style="width: 100%"
                                class="form-control input-sm" />
                     </div>
@@ -108,8 +133,9 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <input type="text"
+                        <input type="number"
                                id="txtClassFee"
+                               asp-for="ClassFee"
                                style="width: 100%"
                                class="form-control input-sm" />
                     </div>
@@ -118,13 +144,15 @@
                 <div class="row form-group">
                     <div class="col-sm-2 col-md-2">
                         <span class="pull-right">
-                            <label class="LabelCaption">Free Per Person</label>
+                            <label class="LabelCaption">Fee Per Person</label>
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <input type="text"
-                               id="txtFreePerson"
+                        <input type="number"
+                               id="txtFeePerson"
                                style="width: 100%"
+                               value="0"
+                               disabled="disabled"
                                class="form-control input-sm" />
                     </div>
 
@@ -136,10 +164,16 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input id="dteLearningDateFrm" type="datetime" class="form-control" style="width: 100%" />
+                        <input id="dteLearningDateFrm" asp-for="LearnDateStart_Show" type="datetime" class="form-control" style="width: 100%" />
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input id="timeFrom" type="time" class="form-control" style="width: 100%" />
+                        <select id="selectTimeFrom"
+                                name="selectTimeFrom"
+                                title="Please Select Time"
+                                class="form-control"
+                                style="width: 100%">
+                        </select>
+
                     </div>
                     <div class="col-sm-1 col-md-1">
                         <span class="pull-right">
@@ -147,10 +181,15 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input id="dteLearningDateTo" type="datetime" class="form-control" style="width: 100%" />
+                        <input id="dteLearningDateTo" asp-for="LearnDateEnd_Show" type="datetime" class="form-control" style="width: 100%" />
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input id="timeTo" type="time" class="form-control" style="width: 100%" />
+                        <select id="selectTimeTo"
+                                name="selectTimeTo"
+                                title="Please Select Time"
+                                class="form-control"
+                                style="width: 100%">
+                        </select>
                     </div>
 
                 </div>
@@ -161,11 +200,11 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input id="dteRegisterDateFrm" type="datetime" class="form-control" style="width: 100%" />
+                        <input id="dteRegisterDateFrm" asp-for="RegisterDateStart_Show" type="datetime" class="form-control" style="width: 100%" />
                     </div>
 
                     <div class="col-sm-2 col-md-2">
-                        <input id="dteRegisterDateTo" type="datetime" class="form-control" style="width: 100%" />
+                        <input id="dteRegisterDateTo" asp-for="RegisterDateEnd_Show" type="datetime" class="form-control" style="width: 100%" />
                     </div>
 
                 </div>
@@ -190,6 +229,7 @@
                                 name="selectPlant"
                                 title="Please Enter Plant"
                                 class="form-control required"
+                                onchange="changePlant(this)"
                                 style="width: 100%">
                         </select>
                     </div>
@@ -248,9 +288,9 @@
                     <div class="col-sm-1 col-md-1">
                         <input type='checkbox'
                                name='chkAttend'
-                               value='chkAttend'
+                               value='@Model.IsAttend'
                                id="chkAttend"
-                               onclick="" /><label for="chkAttend" style="top:4px"> </label>
+                               /><label for="chkAttend" style="top:4px"> </label>
                     </div>
                     <div class="col-sm-1 col-md-1">
                         <span class="pull-right">
@@ -260,7 +300,7 @@
                     <div class="col-sm-1 col-md-1">
                         <input type='checkbox'
                                name='chkTest'
-                               value='chkTest'
+                               value='@Model.IsTest'
                                id="chkTest"
                                onclick="" /><label for="chkTest" style="top:4px"> </label>
                     </div>
@@ -272,7 +312,7 @@
                     <div class="col-sm-1 col-md-1">
                         <input type='checkbox'
                                name='chkSkill'
-                               value='chkSkill'
+                               value='@Model.IsSkill'
                                id="chkSkill"
                                onclick="" /><label for="chkSkill" style="top:4px"> </label>
                     </div>
@@ -284,7 +324,7 @@
                     <div class="col-sm-1 col-md-1">
                         <input type='checkbox'
                                name='chkCoaching'
-                               value='chkCoaching'
+                               value='@Model.IsCoaching'
                                id="chkCoaching"
                                onclick="" /><label for="chkCoaching" style="top:4px"> </label>
                     </div>
@@ -296,7 +336,7 @@
                     <div class="col-sm-1 col-md-1">
                         <input type='checkbox'
                                name='chkCert'
-                               value='chkCert'
+                               value='@Model.IsCertificate'
                                id="chkCert"
                                onclick="" /><label for="chkCert" style="top:4px"> </label>
                     </div>
@@ -308,8 +348,9 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input type="text"
-                               id="txtScan"
+                        <input type="number"
+                               id="txtAttendNum"
+                               disabled="disabled"
                                style="width: 100%"
                                class="form-control input-sm" />
                     </div>
@@ -321,9 +362,11 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input type="text"
+                        <input type="number"
                                id="txtTestFullScore"
+                               asp-for="TestFullScore"
                                style="width: 100%"
+                               disabled="disabled"
                                class="form-control input-sm" />
                     </div>
                     <div class="col-sm-1 col-md-2">
@@ -332,9 +375,11 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input type="text"
+                        <input type="number"
                                id="txtPercentTestPass"
+                               asp-for="TestPercentage"
                                style="width: 100%"
+                               disabled="disabled"
                                class="form-control input-sm" />
                     </div>
                 </div>
@@ -345,9 +390,11 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input type="text"
+                        <input type="number"
                                id="txtSkillFullScore"
+                               asp-for="SkillFullScore"
                                style="width: 100%"
+                               disabled="disabled"
                                class="form-control input-sm" />
                     </div>
                     <div class="col-sm-1 col-md-2">
@@ -356,9 +403,11 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input type="text"
+                        <input type="number"
                                id="txtPercentSkillPass"
                                style="width: 100%"
+                               asp-for="SkillPercentage"
+                               disabled="disabled"
                                class="form-control input-sm" />
                     </div>
                 </div>
@@ -372,7 +421,9 @@
                     <div class="col-sm-2 col-md-2">
                         <input type="text"
                                id="txtCertification"
+                               asp-for="CertificationRemark"
                                style="width: 100%"
+                               disabled="disabled"
                                class="form-control input-sm" />
                     </div>
                     <div class="col-sm-2 col-md-2">
@@ -383,9 +434,10 @@
                     <div class="col-sm-1 col-md-1">
                         <input type='checkbox'
                                name='chkCertification'
-                               value='chkCertificationd'
-                               id="chkCertificationd"
-                               onclick="" /><label for="chkCertificationd" style="top:4px"> </label>
+                               value='@Model.IsAttachCert'
+                               id="chkCertification"
+                               disabled="disabled"
+                               /><label for="chkCertification" style="top:4px"> </label>
                     </div>
 
                 </div>
@@ -396,9 +448,11 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input type="text"
+                        <input type="number"
                                id="txtReDuratioin"
+                               asp-for="ReminderDurationDay"
                                style="width: 100%"
+                               disabled="disabled"
                                class="form-control input-sm" />
                     </div>
 
@@ -522,31 +576,166 @@
 <script type="text/javascript">
     //alert('document');
     $(document).ready(function () {
-
-        $("input[type='datetime']").datepicker();
-        $('select').select2({
+        LoadTime();
+        loadPlant();
+        //LoadVenuRoom();
+        LoadClass();
+        validation();
+        /*$('select').select2({
             allowClear: true,
             closeOnSelect: true,
             theme: "bootstrap"
+        });*/
+
+        $('#txtCapacity').keyup(function() {
+            $('#txtFeePerson').val($('#txtClassFee').val() / $('#txtCapacity').val());
+
+            if ($('#txtFeePerson').val() == 'Infinity' || $('#txtFeePerson').val() == 'NaN') {
+                $('#txtFeePerson').val(0);
+            }
+        });
+
+        $('#txtClassFee').keyup(function() {
+            $('#txtFeePerson').val($('#txtClassFee').val() / $('#txtCapacity').val());
+
+             if ($('#txtFeePerson').val() == 'Infinity' || $('#txtFeePerson').val() == 'NaN') {
+                $('#txtFeePerson').val(0);
+            }
         });
     });
 
 
-    /*function checkInstructorAll(e) {
-            if (e.checked) {
-                $(".chkSingle").each(function () {
-                    if (!this.checked) { this.checked = true; }
-                });
+    function validation() {
+       $("#chkAttend").change( function(){
+           if( $(this).is(':checked') ) {
+               $("#txtAttendNum").val("1");
+               $("#chkAttend").val("1");
+               document.getElementById("txtAttendNum").disabled = false;
+            }else{
+               
+               $("#txtAttendNum").val("");
+               $("#chkAttend").val("0");
+               document.getElementById("txtAttendNum").disabled = true;
+           }
+       });
+
+
+         $("#chkTest").change( function(){
+             if ($(this).is(':checked')) {
+               $("#chkTest").val("1");
+               document.getElementById("txtTestFullScore").disabled = false;
+               document.getElementById("txtPercentTestPass").disabled = false;
+            }else{
+               $("#chkTest").val("0");
+               document.getElementById("txtTestFullScore").disabled = true;
+               document.getElementById("txtPercentTestPass").disabled = true;
+               
+           }
+         });
+
+         $("#chkSkill").change( function(){
+             if ($(this).is(':checked')) {
+                 $("#chkSkill").val("1");
+               document.getElementById("txtSkillFullScore").disabled = false;
+               document.getElementById("txtPercentSkillPass").disabled = false;
+            }else{
+               $("#chkSkill").val("0");
+               document.getElementById("txtSkillFullScore").disabled = true;
+               document.getElementById("txtPercentSkillPass").disabled = true;
+           }
+         });
+
+        $("#chkCert").change( function(){
+            if ($(this).is(':checked')) {
+                $("#chkCert").val("1");
+               document.getElementById("txtCertification").disabled = false;
+               document.getElementById("txtReDuratioin").disabled = false;
+               document.getElementById("chkCertification").disabled = false;
+            } else {
+                $("#chkCert").val("0");
+               document.getElementById("txtCertification").disabled = true;
+               document.getElementById("txtReDuratioin").disabled = true;
+               document.getElementById("chkCertification").disabled = true;
+           }
+        });
+
+        $("#chkCertification").change( function(){
+            if ($(this).is(':checked')) {
+                $("#chkCertification").val("1");
+              
+            } else {
+                $("#chkCertification").val("0");
+               
+           }
+        });
+
+
+         $("#chkCoaching").change( function(){
+            if ($(this).is(':checked')) {
+                $("#chkCoaching").val("1");
+              
+            } else {
+                $("#chkCoaching").val("0");
+               
+           }
+        });
+    }
+
+    function LoadClass() {
+        if ($('#hID').val() != '0') {
+            $('#txtCourseName').val($('#hID_CourseName').val());
+            $('#txtFeePerson').val($('#txtClassFee').val() / $('#txtCapacity').val());
+
+            if ($('#txtFeePerson').val() == 'Infinity' || $('#txtFeePerson').val() == 'NaN') {
+                $('#txtFeePerson').val(0);
             }
-            else {
-                $(".chkSingle").each(function () {
-                    if (this.checked) { this.checked = false; }
-                });
-            } 
-     }*/
+        }
 
+        if ($('#hID_IsAttend').val() == "1") {
+            $('#chkAttend').prop('checked', true);
+             document.getElementById("txtAttendNum").disabled = false;
+        }
 
+        if ($('#hID_IsTest').val() == "1") {
+            $('#chkTest').prop('checked', true);
+            document.getElementById("txtTestFullScore").disabled = false;
+            document.getElementById("txtPercentTestPass").disabled = false;
+        }
 
+        if ($('#hID_IsSkill').val() == "1") {
+            $('#chkSkill').prop('checked', true);
+            document.getElementById("txtSkillFullScore").disabled = false;
+            document.getElementById("txtPercentSkillPass").disabled = false;
+        }
+
+        if ($('#hID_IsCoaching').val() == "1") {
+            $('#chkCoaching').prop('checked', true);
+        }
+
+        if ($('#hID_IsCertificate').val() == "1") {
+            $('#chkCert').prop('checked', true);
+        }
+
+        if ($('#hID_IsAttachCert').val() == "1") {
+            $('#chkCertification').prop('checked', true);
+             document.getElementById("txtCertification").disabled = false;
+             document.getElementById("txtReDuratioin").disabled = false;
+             document.getElementById("chkCertification").disabled = false;
+        }
+
+        $('#txtPlace').val($('#hID_PlaceLocation').val());
+        $('#txtAttendNum').val($('#hID_AttendNum').val());
+        $('#txtCourseName').val($('#hID_CourseName').val());
+        $('#txtClassID').val($('#hID_Class').val());
+    }
+
+    function changePlant(sel) {
+        //$('#selectRoom').empty();
+        var plantId = sel.value;
+        //alert(' changePlant plantId ' + plantId);
+        ReloadVenuRoom($, plantId, null);
+    }
+   
     function OpenModalInstructor() {
          $('#modSearhInstructor').modal('toggle');
     }
@@ -556,8 +745,109 @@
          $('#modSearhInstructor').modal('hide');
     }
 
+    function LoadTime() {
+
+        $('#selectTimeFrom').empty();
+        $('#selectTimeTo').empty();
+        $.ajax({
+        url: "/Courses/GetTime",
+        type: "GET",
+            }).done(function (items) {
+                 var options = $('#selectTimeFrom');
+                 var options1 = $('#selectTimeTo');
+
+                 options.append($("<option />").val(null).text("Please Select"));
+                 options1.append($("<option />").val(null).text("Please Select"));
+                $.each(items, function () {
+                    options.append($("<option />").val(this.Key).text(this.value));
+                    options1.append($("<option />").val(this.key).text(this.value));
+                });
+
+                $('#selectTimeFrom').find('option:selected').text($('#hID_LearnTimeStart').val());
+                $('select[name="selectTimeTo"]').val($('#hID_LearnTimeEnd').val());
+
+       });
+    }
+
+    function loadPlant() {
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetAllPlant",
+            success: function (response) {
+                var options = $('#selectPlant');
+                options.append($("<option />").val(null).text("Please select"));
+                $.each(response.Data, function () {
+                    options.append($("<option />").val(this.ID).text(this.PlantName_EN));
+                });
+                $('select[name="selectPlant"]').val($('#hID_PlantVenue').val()).trigger('change');
+                //ReloadVenuRoom($, $('#hID_PlantVenue').val(), null);
+            },
+            failure: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            },
+            error: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            }
+        });
+    }
+
+    function LoadVenuRoom() {
+
+        //alert('LoadVenuRoom');
+        $.ajax({
+            type: "GET",
+            url: "/Courses/GetVenuRoom",
+            success: function (response) {
+                var options = $('#selectRoom');
+                options.append($("<option />").val(null).text("Please select"));
+                $.each(response, function () {
+                    options.append($("<option />").val(this.ID).text(this.RoomName_EN));
+                });
+                //alert('hID_VenueRoom : ' + $('#hID_VenueRoom').val());
+                $('select[name="selectRoom"]').val($('#hID_VenueRoom').val()).trigger('change');
+            },
+            failure: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            },
+            error: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            }
+        });
+    }
+
+    function ReloadVenuRoom($, plantId, callback) {
+
+        //alert('ReloadVenuRoom plantId : ' + plantId);
+        var options = $('#selectRoom');
+            options.empty();
+            if (plantId && plantId != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "/Courses/GetVenuRoom",
+                    success: function (response) {
+                        options.append($("<option />").val(null).text("Please select"));
+                        $.each(response, function () {
+                            if (this.ID_Plant == plantId) {
+                                options.append($("<option />").val(this.ID).text(this.RoomName_EN));
+                            }
+                        });
+                        $('select[name="selectRoom"]').val($('#hID_VenueRoom').val()).trigger('change');
+                        if (callback) {
+                            //callback($("#userDivisionId").val());
+                        }
+                    },
+                    failure: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    },
+                    error: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                });
+            }
+    }
+
     function SearchInstructor() {
-        alert('SearchInstructor');
+        //alert('SearchInstructor');
         $.ajax({
             url: "/Courses/InstructorSearch",
             type: "Post",
@@ -623,7 +913,72 @@
                 }
 
            
-        }
+    }
+
+
+    function SaveClass() {
+         $.ajax({
+                    url: "/Courses/InsertClass",
+                    type: "POST",
+                    data: {
+                        ID :  $('#hID').val(),
+                        ID_Course  : $('#hID_Course').val(),
+                        ID_Instructor : $('#hInstructorID').val(),
+                        ClassCapacity: $('#txtCapacity').val(),
+                        ClassFee: $('#txtClassFee').val(),
+                        LearnDateStart  : $('#dteLearningDateFrm').val(),
+                        LearnTimeStart: $('#selectTimeFrom').find('option:selected').text(), //$('#selectTimeFrom').val(),
+                        LearnDateEnd  : $('#dteLearningDateTo').val(),
+                        LearnTimeEnd: $('#selectTimeTo').find('option:selected').text(), //$('#selectTimeTo').val(),
+                        RegisterDateStart : $('#dteRegisterDateFrm').val(),
+                        RegisterDateEnd: $('#dteRegisterDateTo').val(),
+                        ID_PlantVenue: $('#selectPlant').val(),
+                        ID_VenueRoom: $('#selectRoom').val(),
+                        PlaceAndLocation: $('#txtPlace').val(),
+                        ClassStatus : '0',
+                        IsAttend : $('#chkAttend').val(),
+                        AttendNum :  $('#txtAttendNum').val(),
+                        IsTest: $('#chkTest').val(),
+                        TestFullScore: $('#txtTestFullScore').val(),
+                        TestPercentage: $('#txtPercentTestPass').val(),
+                        IsSkill: $('#chkSkill').val(),
+                        SkillFullScore: $('#txtSkillFullScore').val(),
+                        SkillPercentage: $('#txtPercentSkillPass').val(),
+                        IsCoaching: $('#chkCoaching').val(),
+                        IsCertificate: $('#chkCert').val(),
+                        IsAttachCert: $('#chkCertification').val(),
+                        CertificationRemark: $('#txtCertification').val(),
+                        ReminderDurationDay: $('#txtReDuratioin').val(),
+                        IsActive : '1'  
+                },
+                success: function (e) {
+                    //debugger;
+                        alert('Save Complete : ID_Course ' + e.ID_Course);
+                        $('#hID').val(e.ID);
+                        window.location.href = '@Url.Content("~/Courses/Detail/")' + e.ID_Course;
+
+                        //$('#txtCourseID').val(e.CourseID);
+                        //$('#divClass').attr("style", "display:block");
+                },
+                }
+            )
+    }
+
+     function BacktoCourse(ID) {
+        alert('BacktoCourse ' + ID);
+        $.ajax({
+            url: "/Courses/BacktoCourse",
+            type: "GET",
+            data: {
+                'ID': ID
+            },
+            success: function(e) {
+                //alert(JSON.stringify(e));
+                window.location.href = '@Url.Content("~/Courses/Detail/")' + e;
+                
+            }
+        });
+    }
 
 
 </script>

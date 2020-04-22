@@ -36,14 +36,15 @@ namespace LDMS.WEB.Controllers
             var user = (await UserService.Authenticattion(userModel.Username, userModel.Password)).Data as LDMS_M_User;
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
-                if (user.LDMS_M_UserRole.IsForceChangePass == 1)
+                return Response(new ServiceResult("Home/Index"));
+                /*if (user.LDMS_M_UserRole.IsForceChangePass == 1)
                 {
                     return Response(new ServiceResult("Account/ForceChangePassword"));
                 }
                 else
                 {
                     return Response(new ServiceResult("Home/Index"));
-                }
+                }*/
             }
             else
             {
