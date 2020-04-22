@@ -27,7 +27,8 @@ BEGIN
 	SectionID,
 	SectionName_EN,
 	SectionName_TH,
-	[Description] AS SectionDescription
+	[Description] AS SectionDescription,
+	ID_Department
 	FROM LDMS_M_Section WITH (NOLOCK) WHERE IsActive=1;
 END
 GO

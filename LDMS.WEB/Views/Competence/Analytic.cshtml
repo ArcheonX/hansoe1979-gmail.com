@@ -41,29 +41,29 @@
         </div>
     </div>
 </div>
-<div id="search-target-employee-modal" class="white-popup-block mfp-hide" style="width:1000px;height:600px;background-color:#ffffff;margin-left:25%;border:thin;">
+<div id="search-target-employee-modal" class="white-popup-block mfp-hide" style="width:1200px;height:600px;background-color:#ffffff;margin-left:25%;border:thin;">
     <div class="panel panel-primary" style="width:100%;">
         <div class="panel-body panel-body-begin">
             <div class="form-horizontal" style="padding-top:25px;">
                 <div class="row form-group" style="margin-right:15px;margin-left:-15px;">
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-2 col-md-2">
                         <span class="pull-right" style="vertical-align:middle">
                             <label class="LabelCaption">Employee ID</label>
                         </span>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-4 col-md-4">
                         <input type="text"
                                title="Please Enter Employee ID"
                                id="txtEmployeeID"
                                style="width: 100%"
                                class="form-control" />
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-2 col-md-2">
                         <span class="pull-right" style="vertical-align:middle">
                             <label class="LabelCaption">Employee Name</label>
                         </span>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-4 col-md-4">
                         <input type="text"
                                title="Please Enter Employee Name"
                                id="txtEmployeeName"
@@ -72,56 +72,56 @@
                     </div>
                 </div>
                 <div class="row form-group" style="margin-right:15px;margin-left:-15px;">
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-2 col-md-2">
                         <span class="pull-right" style="vertical-align:middle">
                             <label class="LabelCaption">Department</label>
                         </span>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-4 col-md-4">
                         <select id="selectDepartment" name="selectDepartment" class="form-control" style="width: 100%">
                         </select>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-2 col-md-2">
                         <span class="pull-right" style="vertical-align:middle">
                             <label class="LabelCaption">Section</label>
                         </span>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-4 col-md-4">
                         <select id="selectSection" name="selectSection" class="form-control" style="width: 100%">
                         </select>
                     </div>
                 </div>
                 <div class="row form-group" style="margin-right:15px;margin-left:-15px;">
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-2 col-md-2">
                         <span class="pull-right" style="vertical-align:middle">
                             <label class="LabelCaption">Job Grade</label>
                         </span>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-4 col-md-4">
                         <select id="selectJobGrade" name="selectJobGrade" class="form-control" style="width: 100%">
                         </select>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-2 col-md-2">
                         <span class="pull-right" style="vertical-align:middle">
                             <label class="LabelCaption">Job Title</label>
                         </span>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-4 col-md-4">
                         <select id="selectJobTitle" name="selectJobTitle" class="form-control" style="width: 100%">
                         </select>
                     </div>
                 </div>
                 <div class="row form-group" style="margin-right:15px;margin-left:-15px;">
-                    <div class="col-sm-3 col-md-3">
+                    @*<div class="col-sm-2 col-md-2">
                         <span class="pull-right" style="vertical-align:middle">
                             <label class="LabelCaption">Level</label>
                         </span>
                     </div>
-                    <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-4 col-md-4">
                         <select id="selectLevel" name="selectLevel" class="form-control" style="width: 100%">
                         </select>
-                    </div> 
-                    <div class="col-sm-2 col-md-2 offset-4">
+                    </div>*@ 
+                    <div class="col-sm-2 col-md-2 offset-10">
                         <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
                             <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" />
                         </button>
@@ -143,7 +143,18 @@
                                         <th style="text-align:left;width:75px">Select</th>
                                     </tr>
                                 </thead>
-                                <tbody />
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align:left;width:75px">#</td>
+                                        <td style="text-align:center;width:150px">Employee Id</td>
+                                        <td style="text-align:center;width:150px">Employee Name</td>
+                                        <td style="text-align:center;width:150px">Department</td>
+                                        <td style="text-align:center;width:150px">Section</td>
+                                        <td style="text-align:center;width:150px">Job Grade</td>
+                                        <td style="text-align:center;width:150px">Job Title</td>
+                                        <td style="text-align:left;width:75px">Select</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

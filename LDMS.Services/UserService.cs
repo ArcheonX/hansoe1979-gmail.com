@@ -707,7 +707,7 @@ namespace LDMS.Services
         {
             try
             {
-                var emp = await GetUserByEmployeeId(employeeId);
+              //  var emp = await GetUserByEmployeeId(employeeId);
 
                 using (System.Data.IDbConnection conn = Connection)
                 {
@@ -722,11 +722,11 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    var emp = await GetUserByEmployeeId(employeeId);
                     var user = emp.Data as LDMS_M_User;
-
                     HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
                     HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120); 
-                    emp = await GetUserByEmployeeId(employeeId);
+                
                     CheckRedirectPage(emp.Data as LDMS_M_User);
                     CreateDataLog(DataLogType.AcceptGPP, employeeId, string.Format("Allow {0}", isAllow));
                     return emp;

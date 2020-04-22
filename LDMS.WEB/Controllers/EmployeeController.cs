@@ -20,13 +20,13 @@ namespace LDMS.WEB.Controllers
         {
             UserService = userService;
         }
-         
+
         private EmployeeModel CovertToView(LDMS_M_User user)
         {
-            return new Models.Employee.EmployeeModel()
+            return new EmployeeModel()
             {
+                RowIndex = user.RowIndex,
                 CenterId = user.ID_Center.GetValueOrDefault(),
-                DepartmentId = user.LDMS_M_Department != null ? user.LDMS_M_Department.ID_Department : 0,
                 DivisionId = user.ID_Division.GetValueOrDefault(),
                 Email = user.Email,
                 EmployeeId = user.EmployeeID,
@@ -44,8 +44,11 @@ namespace LDMS.WEB.Controllers
                 IsInstructer = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsInstructor == 1 : false,
                 IsSectionHead = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsSectionHead == 1 : false,
                 IsAD = user.IsAD == 1,
-                 DepartmentName = user.LDMS_M_Department!=null?user.LDMS_M_Department.DepartmentName_EN:"",
-                  SectionName = user.LDMS_M_Section!=null?user.LDMS_M_Section.SectionName_EN:"", 
+                DepartmentId = user.LDMS_M_Department != null ? user.LDMS_M_Department.ID_Department : 0,
+                DepartmentName = user.LDMS_M_Department != null ? user.LDMS_M_Department.DepartmentID : "",
+                SectionName = user.LDMS_M_Section != null ? user.LDMS_M_Section.SectionID : "",
+                JobGrade = user.LDMS_M_JobGrade != null ? user.LDMS_M_JobGrade.JobGradeID : "",
+                JobTitle = user.LDMS_M_JobTitle != null ? user.LDMS_M_JobTitle.JobTitleID : ""
             };
         }
 

@@ -26,7 +26,8 @@ BEGIN
 	DivisionID,
 	DivisionName_EN,
 	DivisionName_TH,
-	[Description] AS DivisionDescription	
+	[Description] AS DivisionDescription,
+	ID_Center
 	FROM LDMS_M_Division WITH (NOLOCK) WHERE IsActive=1;
 END
 GO

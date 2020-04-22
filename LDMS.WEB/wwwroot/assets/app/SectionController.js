@@ -291,7 +291,7 @@ function LoadDepartmentSection() {
             options.empty();
             options.append($("<option />").val(null).text("---All---")); 
             $.each(response.Data, function () {
-                options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN)); 
+                options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN)); 
             });
             Array.prototype.slice.call(document.querySelectorAll('select[id*="selectSection"]'))
                 .forEach(function (element) {

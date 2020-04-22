@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_User_READ_ALL] @paramEmployeeId=null,@paramEmployeeName=null,@paramdepartments='2'
+-- EXEC [dbo].[usp_User_READ_ALL] @paramEmployeeId='STT00001',@paramEmployeeName=null,@paramdepartments=''
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_User_READ_ALL]
 	 @paramEmployeeId nvarchar(50) = null,
@@ -26,12 +26,16 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-
-	IF @paramdepartments IS NULL
-		SET @paramdepartments=''; 
+	 
     Declare @departments table (ID INT);
+	Declare @sections table (ID INT);
+	Declare @jobgrades table (ID INT);
+	Declare @jobtitles table (ID INT);
 
-	INSERT INTO @departments SELECT  Item FROM dbo.SplitInts(@paramdepartments, ','); 
+	INSERT INTO @departments SELECT  Item FROM dbo.SplitInts(isnuLL(@paramdepartments,''), ','); 
+	INSERT INTO @sections SELECT  Item FROM dbo.SplitInts(isnull(@paramsections,''), ','); 
+	INSERT INTO @jobgrades SELECT  Item FROM dbo.SplitInts(isnull(@paramjobgrades,''), ','); 
+	INSERT INTO @jobtitles SELECT  Item FROM dbo.SplitInts(isnull(@paramjobtitles,''), ','); 
 
     -- Insert statements for procedure here
 	SELECT  
@@ -42,7 +46,7 @@ BEGIN
 	muser.ID_JobGrade,
 	muser.ID_JobTitle,  
 
-	usrRole.ID as UserRoleId,usrRole.ID_Role,usrRole.IsInstructor,usrRole.Password,usrRole.Remark,usrRole.passwordSalt,usrRole.IsSectionHead,
+	usrRole.ID as UserRoleId,usrRole.ID_Role,usrRole.IsInstructor,usrRole.Password,usrRole.Remark,usrRole.passwordSalt,usrRole.IsSectionHead,usrRole.IsAllowGPP as Is_AcceptGPP,
 	
 	rol.ID as RoleId,rol.RoleDescription,rol.RoleName_EN,rol.RoleName_TH,
 	
@@ -81,6 +85,16 @@ BEGIN
 	AND (1 =  CASE WHEN exists (select * from @departments dp)THEN
 				CASE WHEN exists (select * from @departments dp where dp.ID= muser.ID_Department)  THEN 1 ELSE 0 END
 			  ELSE 1 END)
+	AND (1 =  CASE WHEN exists (select * from @sections sc)THEN
+				CASE WHEN exists (select * from @sections sc where sc.ID= usrRole.ID_Section)  THEN 1 ELSE 0 END
+			  ELSE 1 END)
+	AND (1 =  CASE WHEN exists (select * from @jobgrades jg)THEN
+				CASE WHEN exists (select * from @jobgrades jg where jg.ID= muser.ID_JobGrade)  THEN 1 ELSE 0 END
+			  ELSE 1 END)
+	AND (1 =  CASE WHEN exists (select * from @jobtitles jt)THEN
+				CASE WHEN exists (select * from @jobtitles jt where jt.ID= muser.ID_JobTitle)  THEN 1 ELSE 0 END
+			  ELSE 1 END)
+
 END
 GO
 

@@ -26,7 +26,8 @@ BEGIN
 	CenterID,
 	CenterName_EN,
 	CenterName_TH,
-	[Description] AS CenterDescription	
+	[Description] AS CenterDescription,
+	ID_Plant
 	FROM LDMS_M_Center WITH (NOLOCK) WHERE IsActive=1;
 END
 GO
