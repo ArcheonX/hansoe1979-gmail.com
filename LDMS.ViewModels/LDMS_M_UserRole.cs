@@ -10,8 +10,10 @@ namespace LDMS.ViewModels
         public string Password { get; set; }
         public string passwordSalt { get; set; }
         public int IsInstructor { get; set; }
-        public int IsSectionHead { get; set; }
+        public int IsSectionHead { get; set; } 
+
         public int? ID_Section { get; set; }
+
         public string Remark { get; set; }
         public string CreateBy { get; set; }
         public DateTime CreateDate { get; set; }

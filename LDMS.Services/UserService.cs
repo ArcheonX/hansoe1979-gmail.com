@@ -59,27 +59,33 @@ namespace LDMS.Services
                     (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments,@paramsections,@paramjobgrades,@paramjobtitles",
                       map: (user, userRole, role, plant,center,division, depart) =>
                       {
-                          if (userRole != null)
+                          if (plant != null)
                           {
-                              userRole.LDMS_M_Role = role;
-                              userRole.Password = null;
+                              user.LDMS_M_Plant = plant;
                           }
-                          user.LDMS_M_UserRole = userRole;
+                          if (center != null)
+                          {
+                              user.LDMS_M_Center = center;
+                              user.ID_Center = center.ID_Center;
+                          }
+                          if (division != null)
+                          {
+                              user.LDMS_M_Division = division;
+                              user.ID_Division = division.ID_Division;
+                          }
                           if (depart != null)
                           {
                               user.LDMS_M_Department = depart;
                               user.ID_Department = depart.ID_Department;
                           }
-                          if (plant != null)
+                          user.LDMS_M_UserRole = userRole;
+                          if (userRole != null)
                           {
-                              user.LDMS_M_Plant = plant;
+                              userRole.LDMS_M_Role = role;
                           }
-                          user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == userRole.ID_Section);
-                          user.LDMS_M_JobGrade  = jobGrades.FirstOrDefault(e => e.ID_JobGrade ==user.ID_Division);
-                          user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
-                          return user;
+                          return user; 
                       },
-                      splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section,ID_JobGrade,ID_JobTitle",
+                      splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department",
                       param: new
                       {
                           @paramEmployeeId = employeeId,
@@ -89,8 +95,14 @@ namespace LDMS.Services
                           @paramjobgrades = "",
                           @paramjobtitles = ""
                       });
-                    var user = items.ToList();
-                    return new ServiceResult(user);
+                    var users = items.ToList();
+                    users.ForEach(user =>
+                    {
+                        user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == user.ID_Section);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    });
+                    return new ServiceResult(users);
                 }
             }
             catch (Exception x)
@@ -104,40 +116,51 @@ namespace LDMS.Services
         {
             try
             {
-                var sections = await All<LDMS_M_Section>("Section");
-                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
-                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
                 using (System.Data.IDbConnection conn = Connection)
                 {
                     var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_User>
                    (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
                          map: (user, userRole, role, plant, center, division, depart) =>
                          {
-                             if (userRole != null)
-                             {
-                                 userRole.LDMS_M_Role = role;
-                             }
-                             user.LDMS_M_UserRole = userRole;
                              if (plant != null)
                              {
                                  user.LDMS_M_Plant = plant;
+                             }
+                             if (center != null)
+                             {
+                                 user.LDMS_M_Center = center;
+                                 user.ID_Center = center.ID_Center;
+                             }
+                             if (division != null)
+                             {
+                                 user.LDMS_M_Division = division;
+                                 user.ID_Division = division.ID_Division;
                              }
                              if (depart != null)
                              {
                                  user.LDMS_M_Department = depart;
                                  user.ID_Department = depart.ID_Department;
                              }
-
-                             user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == userRole.ID_Section);
-                             user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
-                             user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
-
+                             user.LDMS_M_UserRole = userRole;
+                             if (userRole != null)
+                             {
+                                 userRole.LDMS_M_Role = role;
+                             }
                              return user;
                          },
-                       splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section,ID_JobGrade,ID_JobTitle",
+                       splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department",
                            param: new { @param_EmployeeId = employeeId });
 
                     var user = items.FirstOrDefault();
+                    if (user != null)
+                    {
+                        var sections = await All<LDMS_M_Section>("Section");
+                        var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                        var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
+                        user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == user.ID_Section);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    }
                     return new ServiceResult(user);
                 }
             }
@@ -207,30 +230,42 @@ namespace LDMS.Services
                       (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
                         map: (user, userRole, role, plant, center, division, depart) =>
                         {
-                             if (userRole != null)
-                             {
-                                 userRole.LDMS_M_Role = role;
-                             }
-                             user.LDMS_M_UserRole = userRole;
-                             if (plant != null)
-                             {
-                                 user.LDMS_M_Plant = plant;
-                             }
-                             if (depart != null)
-                             {
-                                 user.LDMS_M_Department = depart;
-                                 user.ID_Department = depart.ID_Department;
-                             }
-                            user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == userRole.ID_Section);
-                            user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
-                            user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
-
-                            return user;
+                            if (plant != null)
+                            {
+                                user.LDMS_M_Plant = plant;
+                            }
+                            if (center != null)
+                            {
+                                user.LDMS_M_Center = center;
+                                user.ID_Center = center.ID_Center;
+                            }
+                            if (division != null)
+                            {
+                                user.LDMS_M_Division = division;
+                                user.ID_Division = division.ID_Division;
+                            }
+                            if (depart != null)
+                            {
+                                user.LDMS_M_Department = depart;
+                                user.ID_Department = depart.ID_Department;
+                            }
+                            user.LDMS_M_UserRole = userRole;
+                            if (userRole != null)
+                            {
+                                userRole.LDMS_M_Role = role;
+                            }
+                            return user;  
                          },
-                           splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section,ID_JobGrade,ID_JobTitle",
+                           splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department",
                            param: new { @param_DepartmentId = departmentId });
-                    var user = items.ToList();
-                    return new ServiceResult(user);
+                    var users = items.ToList();
+                    users.ForEach(user =>
+                    {
+                        user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == user.LDMS_M_UserRole.ID_Section);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    });
+                    return new ServiceResult(users);
                 }
             }
             catch (Exception x)
@@ -253,29 +288,42 @@ namespace LDMS.Services
                    (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
                           map: (user, userRole, role, plant, center, division, depart) =>
                           {
-                             if (userRole != null)
-                             {
-                                 userRole.LDMS_M_Role = role;
-                             }
-                             user.LDMS_M_UserRole = userRole;
-                             if (plant != null)
-                             {
-                                 user.LDMS_M_Plant = plant;
-                             }
-                             if (depart != null)
-                             {
-                                 user.LDMS_M_Department = depart;
-                                 user.ID_Department = depart.ID_Department;
-                             }
-                              user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == userRole.ID_Section);
-                              user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
-                              user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                              if (plant != null)
+                              {
+                                  user.LDMS_M_Plant = plant;
+                              }
+                              if (center != null)
+                              {
+                                  user.LDMS_M_Center = center;
+                                  user.ID_Center = center.ID_Center;
+                              }
+                              if (division != null)
+                              {
+                                  user.LDMS_M_Division = division;
+                                  user.ID_Division = division.ID_Division;
+                              }
+                              if (depart != null)
+                              {
+                                  user.LDMS_M_Department = depart;
+                                  user.ID_Department = depart.ID_Department;
+                              }
+                              user.LDMS_M_UserRole = userRole;
+                              if (userRole != null)
+                              {
+                                  userRole.LDMS_M_Role = role;
+                              }
                               return user;
-                         },
-                          splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section,ID_JobGrade,ID_JobTitle",
+                          },
+                          splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department",
                            param: new { @param_SectionId = sectionId });
-                    var user = items.ToList();
-                    return new ServiceResult(user);
+                    var users = items.ToList();
+                    users.ForEach(user =>
+                    {
+                        user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == user.LDMS_M_UserRole.ID_Section);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    });
+                    return new ServiceResult(users);
                 }
             }
             catch (Exception x)

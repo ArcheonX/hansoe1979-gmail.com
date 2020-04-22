@@ -17,7 +17,8 @@ namespace LDMS.ViewModels
         public int ID_Plant { get; set; }
         public int? ID_Center { get; set; }
         public int? ID_Division { get; set; }
-        public int? ID_Department { get; set; } 
+        public int? ID_Department { get; set; }
+        public int? ID_Section { get; set; }
         public DateTime? JoinDate { get; set; }
         public DateTime? OutDate { get; set; }
         public DateTime? DateOfBirth { get; set; }
