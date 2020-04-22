@@ -31,16 +31,24 @@ namespace LDMS.ViewModels
         public string Token { get; set; }
         public string RefreshToken { get; set; }
 
-        public LDMS_M_UserRole LDMS_M_UserRole { get; set; } 
-        public LDMS_M_Department LDMS_M_Department { get; set; }
-
         public LDMS_M_Plant LDMS_M_Plant { get; set; }
+        public LDMS_M_Center LDMS_M_Center { get; set; } 
+        public LDMS_M_Division LDMS_M_Division { get; set; }
+        public LDMS_M_Department LDMS_M_Department { get; set; }
+        public LDMS_M_Section LDMS_M_Section { get; set; }
+
+        public LDMS_M_JobGrade LDMS_M_JobGrade { get; set; }
+        public LDMS_M_JobTitle LDMS_M_JobTitle { get; set; } 
+        public LDMS_M_UserRole LDMS_M_UserRole { get; set; }  
+        
         public LDMS_M_User()
         {
             LDMS_M_UserRole = new LDMS_M_UserRole();
             LDMS_M_Department = new LDMS_M_Department();
             LDMS_M_Plant = new LDMS_M_Plant();
-
+            LDMS_M_Section = new LDMS_M_Section();
+            LDMS_M_JobGrade = new LDMS_M_JobGrade();
+            LDMS_M_JobTitle = new LDMS_M_JobTitle();
         }
     }
 }

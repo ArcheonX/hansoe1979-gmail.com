@@ -21,7 +21,13 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,* FROM LDMS_M_JobGrade WITH (NOLOCK)  WHERE IsActive=1;
+	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,
+	JobGradeID,
+	ID as ID_JobGrade,
+	JobGradeName_EN,
+	JobGradeName_TH,
+	[Description]  AS JobGradeDescription
+	FROM LDMS_M_JobGrade WITH (NOLOCK)  WHERE IsActive=1;
 END
 GO
 

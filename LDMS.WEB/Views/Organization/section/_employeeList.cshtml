@@ -43,13 +43,13 @@
                             <option value="null">--None---</option>
                             @foreach (var std2 in @std.LDMS_M_Sections)
                             {
-                                @if (@std2.ID == @std.LDMS_M_UserRole.ID_Section)
+                                @if (@std2.ID_Section == @std.LDMS_M_UserRole.ID_Section)
                                 {
-                                    <option value="@std2.ID" selected="selected">@std2.SectionID - @std2.SectionName_EN</option>
+                                    <option value="@std2.ID_Section" selected="selected">@std2.SectionID - @std2.SectionName_EN</option>
                                 }
                                 else
                                 {
-                                    <option value="@std2.ID">@std2.SectionID - @std2.SectionName_EN</option>
+                                    <option value="@std2.ID_Section">@std2.SectionID - @std2.SectionName_EN</option>
                                 }
                             }
                         </select>

@@ -21,7 +21,13 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,* FROM LDMS_M_Center WITH (NOLOCK) WHERE IsActive=1;
+	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,
+	ID as ID_Center,
+	CenterID,
+	CenterName_EN,
+	CenterName_TH,
+	[Description] AS CenterDescription	
+	FROM LDMS_M_Center WITH (NOLOCK) WHERE IsActive=1;
 END
 GO
 

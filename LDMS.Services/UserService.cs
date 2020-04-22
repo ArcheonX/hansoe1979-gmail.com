@@ -50,11 +50,14 @@ namespace LDMS.Services
         {
             try
             {
+                var sections = await All<LDMS_M_Section>("Section");
+                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
                 using (System.Data.IDbConnection conn = Connection)
-                {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                    (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments",
-                      map: (user, userRole, role, depart, plant) =>
+                { 
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_User>
+                    (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments,@paramsections,@paramjobgrades,@paramjobtitles",
+                      map: (user, userRole, role, plant,center,division, depart) =>
                       {
                           if (userRole != null)
                           {
@@ -71,10 +74,21 @@ namespace LDMS.Services
                           {
                               user.LDMS_M_Plant = plant;
                           }
+                          user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == userRole.ID_Section);
+                          user.LDMS_M_JobGrade  = jobGrades.FirstOrDefault(e => e.ID_JobGrade ==user.ID_Division);
+                          user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
                           return user;
                       },
-                      splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
-                      param: new { @paramEmployeeId = employeeId, @paramEmployeeName = employeeName, @paramdepartments = departments != null ? string.Join(",", departments) : null });
+                      splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section,ID_JobGrade,ID_JobTitle",
+                      param: new
+                      {
+                          @paramEmployeeId = employeeId,
+                          @paramEmployeeName = employeeName,
+                          @paramdepartments = departments != null ? string.Join(",", departments) : "",
+                          @paramsections = "",
+                          @paramjobgrades = "",
+                          @paramjobtitles = ""
+                      });
                     var user = items.ToList();
                     return new ServiceResult(user);
                 }
@@ -90,11 +104,14 @@ namespace LDMS.Services
         {
             try
             {
+                var sections = await All<LDMS_M_Section>("Section");
+                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                       (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
-                         map: (user, userRole, role, depart, plant) =>
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_User>
+                   (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
+                         map: (user, userRole, role, plant, center, division, depart) =>
                          {
                              if (userRole != null)
                              {
@@ -110,9 +127,14 @@ namespace LDMS.Services
                                  user.LDMS_M_Department = depart;
                                  user.ID_Department = depart.ID_Department;
                              }
+
+                             user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == userRole.ID_Section);
+                             user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
+                             user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+
                              return user;
                          },
-                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                       splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section,ID_JobGrade,ID_JobTitle",
                            param: new { @param_EmployeeId = employeeId });
 
                     var user = items.FirstOrDefault();
@@ -176,12 +198,15 @@ namespace LDMS.Services
         {
             try
             {
+                var sections = await All<LDMS_M_Section>("Section");
+                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                       (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
-                         map: (user, userRole, role, depart, plant) =>
-                         {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_User>
+                      (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
+                        map: (user, userRole, role, plant, center, division, depart) =>
+                        {
                              if (userRole != null)
                              {
                                  userRole.LDMS_M_Role = role;
@@ -196,9 +221,13 @@ namespace LDMS.Services
                                  user.LDMS_M_Department = depart;
                                  user.ID_Department = depart.ID_Department;
                              }
-                             return user;
+                            user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == userRole.ID_Section);
+                            user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
+                            user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+
+                            return user;
                          },
-                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                           splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section,ID_JobGrade,ID_JobTitle",
                            param: new { @param_DepartmentId = departmentId });
                     var user = items.ToList();
                     return new ServiceResult(user);
@@ -214,12 +243,16 @@ namespace LDMS.Services
         {
             try
             {
+                var sections = await All<LDMS_M_Section>("Section");
+                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
+
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                       (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
-                         map: (user, userRole, role, depart, plant) =>
-                         {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_User>
+                   (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
+                          map: (user, userRole, role, plant, center, division, depart) =>
+                          {
                              if (userRole != null)
                              {
                                  userRole.LDMS_M_Role = role;
@@ -234,9 +267,12 @@ namespace LDMS.Services
                                  user.LDMS_M_Department = depart;
                                  user.ID_Department = depart.ID_Department;
                              }
-                             return user;
+                              user.LDMS_M_Section = sections.FirstOrDefault(e => e.ID_Section == userRole.ID_Section);
+                              user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_Division);
+                              user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                              return user;
                          },
-                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                          splitOn: "UserRoleId,RoleId,ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section,ID_JobGrade,ID_JobTitle",
                            param: new { @param_SectionId = sectionId });
                     var user = items.ToList();
                     return new ServiceResult(user);
@@ -254,24 +290,8 @@ namespace LDMS.Services
             try
             {
                 using (System.Data.IDbConnection conn = Connection)
-                {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                       (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
-                         map: (user, userRole, role, depart, plant) =>
-                         {
-                             if (userRole != null)
-                             {
-                                 userRole.LDMS_M_Role = role;
-                             }
-                             user.LDMS_M_UserRole = userRole;
-                             user.LDMS_M_Department = depart;
-                             user.LDMS_M_Plant = plant;
-                             return user;
-                         },
-                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
-                           param: new { @param_EmployeeId = username });
-
-                    var user = items.FirstOrDefault();
+                { 
+                    var user = (await GetUserByEmployeeId(username)).Data as LDMS_M_User;
                     if (user == null)
                     {
                         CreateDataLog(DataLogType.LoginFaild, username, "EmployeeID not found");

@@ -53,8 +53,8 @@ namespace LDMS.WEB.Controllers
             var users = (await UserService.GetAllEmployeeByDepartmentId(departmentId)).Data as List<ViewModels.LDMS_M_User>;
             var employees = users.Select(emp => new Models.Employee.EmployeeSectionView(emp)
             {
-                JobGrade = grades.FirstOrDefault(e => e.ID == emp.ID_JobGrade.GetValueOrDefault())?.JobGradeName_EN,
-                JobTitle = titles.FirstOrDefault(e => e.ID == emp.ID_JobTitle.GetValueOrDefault())?.JobTitleName_EN,
+                JobGrade = grades.FirstOrDefault(e => e.ID_JobGrade == emp.ID_JobGrade.GetValueOrDefault())?.JobGradeName_EN,
+                JobTitle = titles.FirstOrDefault(e => e.ID_JobTitle == emp.ID_JobTitle.GetValueOrDefault())?.JobTitleName_EN,
                 LDMS_M_Sections = sections
             }).ToList();
             if (sectionId > 0)

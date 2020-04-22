@@ -48,7 +48,7 @@ function SearchEmployee() {
     MessageController.BlockUI({ boxed: true, target: '#search-target-employee-modal' });
     $.ajax({
         type: "GET",
-        url: "/Account/Employees",
+        url: "/Employee/SearchEmployee",
         data: searmodel,
         success: function (response) {
             var tbody = $('#dtCourse').children('tbody');

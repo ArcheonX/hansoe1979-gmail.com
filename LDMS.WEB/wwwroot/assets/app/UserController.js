@@ -188,7 +188,7 @@
                 if (res) {
                     $.ajax({
                         type: "POST",
-                        url: '/Account/ResetPassword',
+                        url: '/Employee/ResetPassword',
                         data: { 'employeeId': $("#txtEmployeeId").val() },
                         success: function (response) { 
                             MessageController.Success("Reset password success.", "Success");
@@ -361,7 +361,7 @@ function ReloadDivision($, centerId, callback) {
                 options.append($("<option />").val(null).text("Please select"));
                 $.each(response.Data, function () {
                     if (this.ID_Center == centerId) {
-                        options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
+                        options.append($("<option />").val(this.ID_Division).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
                     }
                 });
                 options.val($("#userDivisionId").val()).trigger('change');
@@ -436,7 +436,7 @@ function ReloadSection($, departmentId, callback) {
                 options.append($("<option />").val(null).text("Please select"));
                 $.each(response.Data, function () { 
                     if (this.ID_Department == departmentId) {
-                        options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
+                        options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN));
                     }
                 });
                 options.val($("#userSectionId").val()).trigger('change');
@@ -465,7 +465,7 @@ function ReloadSection($, departmentId, callback) {
 function UpdateEmployee(empModel) {
     $.ajax({
         type: "POST",
-        url: '/Account/UpdateEmployee',
+        url: '/Employee/UpdateEmployee',
         data: empModel,
         success: function (response) {
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
@@ -493,7 +493,7 @@ function UpdateEmployee(empModel) {
 function CreateEmployee(empModel) {
     $.ajax({
         type: "POST",
-        url: '/Account/CreateEmployee',
+        url: '/Employee/CreateEmployee',
         data: empModel,
         success: function (response) {
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
@@ -523,7 +523,7 @@ function DeleteEmployee(employeeId) {
         if (res) {
             $.ajax({
                 type: "Delete",
-                url: '/Account/RemoveEmployee',
+                url: '/Employee/RemoveEmployee',
                 data: { 'employeeId': employeeId },
                 success: function (response) {
                     SearchEmployee();
@@ -683,7 +683,7 @@ function CreateEditor($, employeeId) {
     if (employeeId != undefined && employeeId != "") {
         $.ajax({
             type: "GET",
-            url: "/Account/ReadEmployee",
+            url: "/Employee/ReadEmployee",
             data: { 'employeeId': employeeId },
             success: function (response) {
                 $("#userEditMode").val("true");

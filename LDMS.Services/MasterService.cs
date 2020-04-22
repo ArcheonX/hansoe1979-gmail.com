@@ -241,7 +241,7 @@ namespace LDMS.Services
             try
             {
                 var items = (await GetAllDivisions()).Data as List<ViewModels.LDMS_M_Division>;
-                return new ServiceResult(items.Where(e => e.ID == divisionId).FirstOrDefault());
+                return new ServiceResult(items.Where(e => e.ID_Division == divisionId).FirstOrDefault());
             }
             catch (Exception x)
             {
@@ -254,7 +254,7 @@ namespace LDMS.Services
             try
             {
                 var items = (await GetAllSections()).Data as List<ViewModels.LDMS_M_Section>;
-                return new ServiceResult(items.Where(e => e.ID == sectionId).FirstOrDefault());
+                return new ServiceResult(items.Where(e => e.ID_Section == sectionId).FirstOrDefault());
             }
             catch (Exception x)
             {
@@ -362,19 +362,19 @@ namespace LDMS.Services
                     var items = Connection.Query<SQLError>(_schema + ".[usp_Section_Update] @param_sectionId,@param_derpartmentId,@para_sectionCode,@param_sectionNameEN,@param_sectionNameTH,@param_sectionDesc,@paramUpdateBy",
                         new
                         {
-                            @param_sectionId = section.ID,
+                            @param_sectionId = section.ID_Section,
                             @param_derpartmentId = section.ID_Department,
                             @para_sectionCode = section.SectionID,
                             @param_sectionNameEN = section.SectionName_EN,
                             @param_sectionNameTH = section.SectionName_TH,
-                            @param_sectionDesc = section.Description,
+                            @param_sectionDesc = section.SectionDescription,
                             @paramUpdateBy = CurrentUserId
                         });
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
-                    return await GetSection(section.ID);
+                    return await GetSection(section.ID_Section);
                 }
             }
             catch (Exception x)
@@ -397,7 +397,7 @@ namespace LDMS.Services
                             @para_sectionCode = section.SectionID,
                             @param_sectionNameEN = section.SectionName_EN,
                             @param_sectionNameTH = section.SectionName_TH,
-                            @param_sectionDesc = section.Description,
+                            @param_sectionDesc = section.SectionDescription,
                             @paramCreateBy = CurrentUserId
                         });
                     if (items != null && items.Any())

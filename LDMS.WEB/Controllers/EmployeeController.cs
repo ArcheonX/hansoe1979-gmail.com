@@ -43,7 +43,9 @@ namespace LDMS.WEB.Controllers
                 SectionId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault() : 0,
                 IsInstructer = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsInstructor == 1 : false,
                 IsSectionHead = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsSectionHead == 1 : false,
-                IsAD = user.IsAD == 1
+                IsAD = user.IsAD == 1,
+                 DepartmentName = user.LDMS_M_Department!=null?user.LDMS_M_Department.DepartmentName_EN:"",
+                  SectionName = user.LDMS_M_Section!=null?user.LDMS_M_Section.SectionName_EN:"", 
             };
         }
 
