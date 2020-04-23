@@ -3,7 +3,7 @@
     ViewData["Title"] = "Course Information";
     ViewData["MainTitle"] = "I-Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
-} 
+}
 @model LDMS.ViewModels.LDMS_M_Course;
 <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
     <form id="frmCourseDetailEditor">
@@ -32,6 +32,7 @@
                         <label class="LabelCaption">Course ID</label>
                     </span>
                 </div>
+                @Html.AntiForgeryToken()
                 @if (Model != null)
                 {
                     <input type="hidden" id="hID" name="hID" value=@Model.ID />
@@ -86,7 +87,6 @@
                 <div class="col-sm-4 col-md-4">
                     <select id="selectCourseType"
                             name="selectCourseType"
-                            
                             title="Please Select Course Type"
                             class="form-control"
                             style="width: 100%">
@@ -100,7 +100,6 @@
                 <div class="col-sm-2 col-md-4">
                     <select id="selectLearnMethod"
                             name="selectLearnMethod"
-                            
                             title="Please Select Learn Method"
                             class="form-control"
                             style="width: 100%">
@@ -116,7 +115,6 @@
                 <div class="col-sm-4 col-md-4">
                     <select id="selectCourseStatus"
                             name="selectCourseStatus"
-                            
                             title="Please Select Course Status"
                             class="form-control"
                             style="width: 100%">
@@ -272,7 +270,6 @@
                                 name="selectPlant"
                                 title="Please Enter Plant"
                                 class="form-control required"
-                                
                                 style="width: 100%">
                         </select>
                     </div>
@@ -286,7 +283,6 @@
                                 name="selectCenter"
                                 title="Please Enter Center"
                                 class="form-control required"
-                               
                                 style="width: 100%">
                         </select>
                     </div>
@@ -303,7 +299,6 @@
                                 name="selectDivision"
                                 title="Please Enter Division"
                                 class="form-control required"
-                                
                                 style="width: 100%">
                         </select>
                     </div>
@@ -317,7 +312,6 @@
                                 name="selectDepartment"
                                 title="Please Enter Department"
                                 class="form-control required"
-                               
                                 style="width: 100%">
                         </select>
                     </div>
@@ -348,7 +342,7 @@
                     </div>
                     <div class="col-sm-4 col-md-4">
                         <input type="text" id="txtJobgrade" name="txtJobgrade"
-                                  asp-for="JobGradeTargetID" class="form-control" />
+                               asp-for="JobGradeTargetID" class="form-control" />
                     </div>
                     <div class="col-sm-1 col-md-1">
                         <a id="findJobGrade" class="btn" onclick="openModalJobGrade()"><i class="fa fa-search"></i> </a>
@@ -363,8 +357,8 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <input type="text" id="txtJobTitle"  name="txtJobTitle"
-                                  asp-for="JobTitleTargetID" class="form-control" />
+                        <input type="text" id="txtJobTitle" name="txtJobTitle"
+                               asp-for="JobTitleTargetID" class="form-control" />
                     </div>
                     <div class="col-sm-1 col-md-1">
                         <a id="findJobTitle" class="btn" onclick="openModalJobTitle()"><i class="fa fa-search"></i> </a>
@@ -625,10 +619,17 @@
 </div>
 
 @section Scripts{
+
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+
     <script type="text/javascript">
-        
+
         $(document).ready(function () {
-           
+
             $("input[type='datetime']").datepicker();
             $('select').select2({
                 allowClear: true,
@@ -680,7 +681,7 @@
              //alert('LoadClassEdit : ' + ID )
              window.location.href = '@Url.Content("~/Courses/ClassDetail/")' + ID;
         }
-       
+
         function checkJobTitleAll(e) {
              if (e.checked) {
                 $(".chkSingleTitle").each(function () {
@@ -691,7 +692,7 @@
                 $(".chkSingleTitle").each(function () {
                     if (this.checked) { this.checked = false; }
                 });
-            } 
+            }
         }
 
         function checkJobGradeAll(e) {
@@ -704,7 +705,7 @@
                 $(".chkSingleJob").each(function () {
                     if (this.checked) { this.checked = false; }
                 });
-            } 
+            }
         }
 
         function checkEmployeeAll(e) {
@@ -717,7 +718,7 @@
                 $(".chkSingle").each(function () {
                     if (this.checked) { this.checked = false; }
                 });
-            } 
+            }
         }
 
         function checkedRefresh(e) {
@@ -726,13 +727,13 @@
              $('select').attr('disabled', 'disabled');
           } else {
               //alert('The disabled attribute does not exist')
-             
+
              document.getElementById("txtRefreshmentPeriod").disabled = false;
              document.getElementById("selectRefreshmentUnit").disabled = false;
           }*/
         };
 
-        
+
 
         function changePlant(sel) {
             //alert('changePlant');
@@ -762,7 +763,7 @@
 
         function changeDepartment(sel) {
             //alert('changeDepartment');
-            
+
             var departmentId = sel.value;
             ReloadSection($, departmentId, null);
         }
@@ -771,11 +772,11 @@
         function validation() {
             $("#selRefresh").change( function(){
            if( $(this).is(':checked') ) {
-              
+
                 document.getElementById("txtRefreshmentPeriod").disabled = false;
                 document.getElementById("selectRefreshmentUnit").disabled = false;
             }else{
-               
+
                document.getElementById("txtRefreshmentPeriod").disabled = true;
                document.getElementById("selectRefreshmentUnit").disabled = true;
            }
@@ -828,14 +829,20 @@
                 LoadCourseLearnMethod();
                 LoadCourseType();
 
-                loadCenter();
-                loadDivision();
-                loadDepartment();
-                loadSection();
+                //loadCenter();
+                //loadDivision();
+                //loadDepartment();
+                //loadSection();
+
+                ReloadCenter($, $('#hID_PlantTarget').val(), null);
+                ReloadDivision($, $('#hID_DivisionTarget').val(), null);
+                ReloadDepartment($, $('#hID_DepartmentTarget').val(), null);
+                ReloadDepartment($, $('#hID_SectionTarget').val(), null);
+
                 LoadCourse(ID);
             }
             else {
-             
+
                 loadPlant();
                 LoadCourseLearnMethod();
                 LoadCourseType();
@@ -843,12 +850,10 @@
         }
 
         function loadPlant() {
-
             //alert(' loadPlant');
-
             $.ajax({
                 type: "GET",
-                url: "/Master/GetAllPlant",
+                url: "/Master/GetAllPlants",
                 success: function (response) {
                     var options = $('#selectPlant');
                     options.append($("<option />").val(null).text("Please select"));
@@ -856,11 +861,6 @@
                         options.append($("<option />").val(this.ID).text(this.PlantName_EN));
                     });
                     $('select[name="selectPlant"]').val($('#hID_PlantTarget').val()).trigger('change');
-
-
-                    //var plantid = $('#hID_PlantTarget').val();
-                    //alert(' loadPlant : ' + plantid);
-                   
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -907,7 +907,7 @@
                     });
 
                     $('select[name="selectDivision"]').val($('#hID_DivisionTarget').val()).trigger('change');
-                   
+
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -946,12 +946,12 @@
         }
 
         function loadSection() {
-           // alert('loadSection');
+           //alert('loadSection');
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllSections",
                 success: function (response) {
-                    
+
                     var options = $('#selectSection');
                     var optionsMod = $('#selectEmpSection');
 
@@ -963,7 +963,7 @@
 
                     });
                     $('select[name="selectSection"]').val($('#hID_SectionTarget').val()).trigger('change');
-                 
+
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -980,16 +980,19 @@
             if (plantId && plantId != "") {
                 $.ajax({
                     type: "GET",
-                    url: "/Master/GetAllCenters",
+                    url: "/Master/GetAllCentersByPlant",
+                    data: {
+                           plantId : plantId
+                           },
                     success: function (response) {
                         options.append($("<option />").val(null).text("Please select"));
                         $.each(response.Data, function () {
-                            if (this.ID_Plant == plantId) {
-                                options.append($("<option />").val(this.ID).text(this.CenterName_EN));
-                            }
+                            //if (this.ID_Plant == plantId) {
+                               options.append($("<option />").val(this.ID).text(this.CenterName_EN));
+                            //}
                         });
-                       //  $('select[name="selectCenter"]').val($('#hID_CenterTarget').val()).trigger('change');
-                       // ReloadDivision($, $('#hID_CenterTarget').val(), null);
+                         $('select[name="selectCenter"]').val($('#hID_CenterTarget').val()).trigger('change');
+                         // ReloadDivision($, $('#hID_CenterTarget').val(), null);
                         if (callback) {
                             //callback($("#userDivisionId").val());
                         }
@@ -1012,17 +1015,20 @@
             if (centerId && centerId != "") {
                 $.ajax({
                     type: "GET",
-                    url: "/Master/GetAllDivisions",
+                    url: "/Master/GetAllDivisionsByCenter",
+                    data: {
+                        centerId : centerId
+                    },
                     success: function (response) {
                         options.append($("<option />").val(null).text("Please select"));
                         $.each(response.Data, function () {
-                            if (this.ID_Center == centerId) {
+                            //if (this.ID_Center == centerId) {
                                 options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
-                            }
+                            //}
                         });
-                        //$('select[name="selectDivision"]').val($('#hID_DivisionTarget').val()).trigger('change');
+                        $('select[name="selectDivision"]').val($('#hID_DivisionTarget').val()).trigger('change');
                         //ReloadDepartment($, $('#hID_DivisionTarget').val(), null);
-                       
+
                         if (callback) {
                             //callback($("#userDivisionId").val());
                         }
@@ -1037,26 +1043,28 @@
             }
         }
 
-
         function ReloadDepartment($, divisionId, callback) {
             var options = $('#selectDepartment');
             options.empty();
             if (divisionId && divisionId != "") {
                 $.ajax({
                     type: "GET",
-                    url: "/Master/GetAllDepartments",
+                    url: "/Master/GetAllDepartmentsByDivision",
+                    data: {
+                        divisionId : divisionId
+                    },
                     success: function (response) {
 
                         options.append($("<option />").val(null).text("Please select"));
                         $.each(response.Data, function () {
-                            if (this.ID_Division == divisionId) {
+                            //if (this.ID_Division == divisionId) {
                                 options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
-                            }
+                            //}
                         });
 
-                         //$('select[name="selectDepartment"]').val($('#hID_DepartmentTarget').val()).trigger('change');
+                         $('select[name="selectDepartment"]').val($('#hID_DepartmentTarget').val()).trigger('change');
                          //ReloadSection($, $('#hID_DepartmentTarget').val(), null);
-                       
+
                         if (callback) {
                             //callback($("#userDepartmentId").val());
                         }
@@ -1077,17 +1085,20 @@
             if (departmentId && departmentId != "") {
                 $.ajax({
                     type: "GET",
-                    url: "/Master/GetAllSections",
+                    url: "/Master/GetAllSectionsByDepartment",
+                    data: {
+                        departmentId : departmentId
+                    },
                     success: function (response) {
                         options.append($("<option />").val(null).text("Please select"));
                         $.each(response.Data, function () {
-                            if (this.ID_Department == departmentId) {
+                            //if (this.ID_Department == departmentId) {
                                 options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
-                            }
+                            //}
                         });
 
                         $('select[name="selectSection"]').val($('#hID_SectionTarget').val()).trigger('change');
-                        
+
                         if (callback) {
                             //callback($("#userSectionId").val());
                         }
@@ -1266,7 +1277,7 @@
             //alert('SelectEmployee');
             var employeelist = '';
             var i = 0;
-       
+
             while ($("#selectEmployee_" + i).val() === ("selectEmployee_" + i)) {
                 if ($("#selectEmployee_" + i).prop("checked")) {
 
@@ -1310,15 +1321,15 @@
                     row.append('<td style="text-align:center">' + this.JobGradeID + '</td>');
                     row.append('<td style="text-align:center">' + this.JobGradeName_EN + '</td>');
                     row.append('<input type="hidden" id="hdSelect_JobgradeID_' + i + '" name="hdSelect_JobgradeID_' + i + '" value="' + this.JobGradeID + '" />');
-                    row.append('<td style="text-align:center"><input type="checkbox" class="chkSingleJob" style="text-align:center; name="selectJobGrade_' + i + '" value="selectJobGrade_' + i + '" id="selectJobGrade_' + i + '"/><label for="selectJobGrade_'+ i +'"> </label> </td>');  
+                    row.append('<td style="text-align:center"><input type="checkbox" class="chkSingleJob" style="text-align:center; name="selectJobGrade_' + i + '" value="selectJobGrade_' + i + '" id="selectJobGrade_' + i + '"/><label for="selectJobGrade_'+ i +'"> </label> </td>');
                 i++;
-            });    
+            });
         }
 
         function SelectJobGrade() {
             var jobGradelist = '';
             var i = 0;
-       
+
             while ($("#selectJobGrade_" + i).val() === ("selectJobGrade_" + i)) {
                 if ($("#selectJobGrade_" + i).prop("checked")) {
 
@@ -1362,9 +1373,9 @@
                     row.append('<td style="text-align:center">' + this.JobTitleID + '</td>');
                     row.append('<td style="text-align:center">' + this.JobTitleName_EN + '</td>');
                     row.append('<input type="hidden" id="hdSelect_JobtitleID_' + i + '" name="hdSelect_JobtitleID_' + i + '" value="' + this.JobTitleID + '" />');
-                    row.append('<td style="text-align:center"><input type="checkbox" class="chkSingleTitle" style="text-align:center; name="selectJobTitle_' + i + '" value="selectJobTitle_' + i + '" id="selectJobTitle_' + i + '"/><label for="selectJobTitle_'+ i +'"> </label> </td>');  
+                    row.append('<td style="text-align:center"><input type="checkbox" class="chkSingleTitle" style="text-align:center; name="selectJobTitle_' + i + '" value="selectJobTitle_' + i + '" id="selectJobTitle_' + i + '"/><label for="selectJobTitle_'+ i +'"> </label> </td>');
                 i++;
-            });    
+            });
         }
 
         function SelectJobTitle() {
@@ -1372,7 +1383,7 @@
             //alert('SelectJobTitle');
             var jobTitlelist = '';
             var i = 0;
-       
+
             while ($("#selectJobTitle_" + i).val() === ("selectJobTitle_" + i)) {
                 if ($("#selectJobTitle_" + i).prop("checked")) {
 
@@ -1419,7 +1430,7 @@
                         ID_SectionTarget : $('#selectSection').val(),
                         JobGradeTargetID : $('#txtJobgrade').val(),
                         JobTitleTargetID : $('#txtJobTitle').val(),
-                        IsActive : $('#selectCourseStatus').val()   
+                        IsActive : $('#selectCourseStatus').val()
                 },
                 success: function (e) {
                     //debugger;
@@ -1466,7 +1477,7 @@
             for (i = 0; i < e.length; i++) {
                 var row = $("<tr />");
                 $("#dtClassList tbody").append(row);
-                
+
                 row.append('<td style="text-align:center">' + (i + 1) + '</td>');
                 row.append('<td style="text-align:center">' + e[i].ClassID + '</td>');
                 row.append('<td style="text-align:center">' + e[i].Instructor_Name + '</td>');
