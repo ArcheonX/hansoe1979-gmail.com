@@ -568,9 +568,17 @@
 
 
 @section Scripts{
+
+<style type="text/css">
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+</style>
+
 <script type="text/javascript">
     //alert('document');
     $(document).ready(function () {
+        $("input[type='datetime']").datepicker();
         LoadTime();
         loadPlant();
         //LoadVenuRoom();
@@ -767,7 +775,7 @@
     function loadPlant() {
         $.ajax({
             type: "GET",
-            url: "/Master/GetAllPlant",
+            url: "/Master/GetAllPlants",
             success: function (response) {
                 var options = $('#selectPlant');
                 options.append($("<option />").val(null).text("Please select"));
@@ -912,6 +920,7 @@
 
 
     function SaveClass() {
+        //alert('SaveClass');
          $.ajax({
                     url: "/Courses/InsertClass",
                     type: "POST",
@@ -960,7 +969,7 @@
     }
 
      function BacktoCourse(ID) {
-        alert('BacktoCourse ' + ID);
+        //alert('BacktoCourse ' + ID);
         $.ajax({
             url: "/Courses/BacktoCourse",
             type: "GET",
