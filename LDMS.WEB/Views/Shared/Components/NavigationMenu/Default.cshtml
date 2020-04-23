@@ -2,7 +2,7 @@
 @foreach (var item in Model)
 {
     <ul id="sidebarnav">
-        <li class="nav-small-cap"><h1> @item.MenuName</h1></li> 
+        <li class="nav-small-cap"><h4> @item.MenuName</h4></li> 
         @foreach (var itm in item.SubMenus)
         {
             <li style="padding-left:25px">
