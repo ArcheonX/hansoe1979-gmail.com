@@ -1,55 +1,96 @@
 ﻿@{
     ViewData["Title"] = "Login";
     Layout = null;
-} 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <!-- Favicon icon -->
-        <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
-        <title>LDMS- @ViewData["Title"]</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
-        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/bootstrap/dist/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-        <link rel="stylesheet" type="text/css" href="css/vendor/animate/animate.css">
-        <link rel="stylesheet" type="text/css" href="css/vendor/css-hamburgers/hamburgers.min.css">
-        <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
-        <link href="~/css/Login.css" rel="stylesheet">
-        <link href="~/css/colors/blue.css" id="theme" rel="stylesheet">
-        <script src="~/assets/app/loginController.js"></script>
-        <script src="~/assets/app/MessageController.js"></script>
-        <!--[if lt IE 9]>
+}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>LDMS- @ViewData["Title"]</title>   
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/tether/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
+    <script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/font-awesome.min.css" />  
+    <link rel="stylesheet" type="text/css" href="css/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/css-hamburgers/hamburgers.min.css">
+    <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
+    <link href="~/css/Login.css" rel="stylesheet">
+    <link href="~/css/colors/blue.css" id="theme" rel="stylesheet">
+    <script src="~/assets/app/loginController.js"></script>
+    <script src="~/assets/app/MessageController.js"></script>
+    <!--[if lt IE 9]>
         <script src="~/assets/lib/html5shiv/html5shiv.js"></script>
         <script src="~/assets/lib/respond.js/respond.min.js"></script>
     <![endif]-->
-    </head>
-    <body style="background:linear-gradient(bottom, #fff, #00c6fb);">
+</head>
+<html>
+<body style="height:100%; width:100%;background:linear-gradient(bottom, #fff, #00c6fb);">
+    <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:no-content;">
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">
+                        <b>
+                            <img src="~/assets/images/logo-light-icon.png" class="light-logo" alt="homepage" />
+                            <img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                        </b>
+                    </a>
+                </div>
+                <div class="head-title"><h1>Learning and Development Management System</h1></div>
+                <div class="logo-img"><span class="pull-right"><img class="ldms-logo" src="~/assets/images/svg/STT.svg" alt="homepage" /></span></div>
+            </nav>
+        </header>
+    </div>
+    <div id="content" style="position:absolute; top:15%; bottom:15%; left:0px; right:0px; overflow:no-content;">
+        <div class="page-wrapper">
+            <div class="container-login100">
+                <div class="wrap-login100 p-t-190 p-b-30">
+                    <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
+                        <input class="input100" id="txtUserName" type="text" name="Username" required title="Please Enter User Name (Employee ID)" placeholder="Username">
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-10" style="margin-top:20px;" data-validate="Password is required">
+                        <input class="input100" id="txtPassword" type="password" name="Password" required title="Please Enter Password (Default : Employee ID)" placeholder="Password">
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-10" style="margin-top:20px;" data-validate="Password is required">
+                        <input type="checkbox" id="chkRememberMe" /><label for="chkRememberMe">&nbsp;&nbsp;Remember Me</label>
+                    </div>
+                    <div class="container-login100-form-btn p-t-10" style="margin-top:20px;">
+                        <button id="btn-frm-login" onclick="OnAuthentication()" class="login100-form-btn">Login </button>
+                    </div>
+
+                    <div class="text-center w-full p-t-25 p-b-230" style="margin-top:20px;">
+                        <a href="#" class="txt1">Forgot Password? </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" style="position:absolute; bottom:0px; height:50px; left:0px; right:0px; overflow:no-content;">
+        <span class="text-center" style="width:100%;margin-left:25%;">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
+    </div>
+</body>
+</html>
+@*<body style="background:linear-gradient(bottom, #fff, #00c6fb);">
         <div id="main-wrapper">
             <header class="topbar">
                 <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
@@ -80,7 +121,7 @@
                         <div class="container-login100-form-btn p-t-10" style="margin-top:20px;">
                             <button id="btn-frm-login" onclick="OnAuthentication()" class="login100-form-btn">Login </button>
                         </div>
-                        
+
                         <div class="text-center w-full p-t-25 p-b-230" style="margin-top:20px;">
                             <a href="#" class="txt1">Forgot Password? </a>
                         </div>
@@ -91,4 +132,4 @@
         <footer class="footer">
             <span class="text-center">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
         </footer>
-    </body>
+    </body>*@
