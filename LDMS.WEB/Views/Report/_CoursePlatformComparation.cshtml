@@ -1,14 +1,14 @@
 ﻿<div class="panel panel-default" style="width: 100%; border-width: thin; border-style: solid;">
     <div class="panel-body" style="width:100%;">
         <div class="form-horizontal" style="margin-top:25px">
-            <div class="row form-group"> 
+            <div class="row form-group">
                 <div class="col-sm-2 col-md-2 offset-2">
-                    <input type='radio' value='Platform' name='selectMasterType' checked onchange="OnSelectRadio(this)" id="Platform" /><label for="Platform">Platform</label>
+                    <input type='radio' value='Platform' name='selectReportType' checked onchange="OnSelectReportType(this)" id="Platform" /><label for="Platform">Platform</label>
                 </div>
                 <div class="col-sm-2 col-md-2">
-                    <input type='radio' value='Course' name='selectMasterType' onchange="OnSelectRadio(this)" id="Course" /><label for="Course">Course</label>
+                    <input type='radio' value='Course' name='selectReportType' onchange="OnSelectReportType(this)" id="Course" /><label for="Course">Course</label>
                 </div>
-            </div> 
+            </div>
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2">
                     <span class="pull-right">
@@ -16,8 +16,15 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select id="selectPlatform" name="selectPlatform" title="Please Enter Section" class="form-control input-sm" style="width: 100%">
-                    </select>
+                    <input id="txtselectPlatform" type="text" class="form-control input-sm required" style="width: 100%" />
+                </div>
+                <div class="col-sm-1 col-md-1" style="margin-left:-25px;">
+                    <a class="search-platform-modal" id="btnSearchPlatform"  href="#search-platform-modal">
+                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />
+                    </a>
+                    @*<button id="btnSearchPlatform" class="btn btn-outline-secondary waves-effect waves-light" style="width:50%">
+            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />
+        </button>*@
                 </div>
             </div>
             <div class="row form-group">
@@ -27,11 +34,15 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select id="selectCourse" name="selectCourse" disabled title="Please Enter Course" class="form-control input-sm" style="width: 100%">
-                    </select>
+                    <input id="txtselectCourse" disabled type="text" class="form-control input-sm required" style="width: 100%" />
+                </div>
+                <div class="col-sm-1 col-md-1" style="margin-left:-25px;">
+                    <a id="btnSearchCourse" disabled  class="search-course-modal" href="#search-course-modal">
+                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />
+                    </a>
                 </div>
             </div>
-            
+
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2">
                     <span class="pull-right">
@@ -44,14 +55,14 @@
                 <div class="col-sm-2 col-md-2">
                     <input id="dteTrainingDateTo" title="Please Enter Training Date " required class="form-control input-sm required" type="datetime" style="width: 100%" />
                 </div>
-            </div> 
+            </div>
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2 offset-10" style="margin-right:50px;">
-                    <button id="btnSearchCourseReport" class="btn btn-outline-success waves-effect waves-light" style="width:100%">
-                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-excel-green.svg" />&nbsp;&nbsp; Export 
+                    <button id="btnSearchCourseReport" onclick="SearchCoursePlatformComparation()" class="btn btn-outline-primary waves-effect waves-light" style="width:80%">
+                        <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />&nbsp;&nbsp; Search
                     </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div> 

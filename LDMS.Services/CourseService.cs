@@ -44,7 +44,7 @@ namespace LDMS.Services
 
         public async Task<List<ViewModels.LDMS_M_CourseLearnMethod>> GetAllCourseLearnMethod()
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 try
                 {
@@ -62,7 +62,7 @@ namespace LDMS.Services
 
         public ViewModels.Paging_Result GetCourse(ViewModels.LDMS_M_Course_Search criteria)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 ViewModels.Paging_Result ret = new ViewModels.Paging_Result();
                 List<ViewModels.LDMS_M_Course> CourseList = new List<ViewModels.LDMS_M_Course>();
@@ -81,7 +81,7 @@ namespace LDMS.Services
                     p.Add("@SortOrder", criteria.SortOrder);
 
 
-                    var grid = conn.QueryMultiple("[dbo].[sp_M_Course_SelectPaging]", p, commandType: System.Data.CommandType.StoredProcedure);
+                    var grid = conn.QueryMultiple("[dbo].[sp_M_Course_SelectPaging]", p, commandType: CommandType.StoredProcedure);
 
                     CourseList = grid.Read<ViewModels.LDMS_M_Course>().ToList();
                     var totalRec = grid.Read().ToList();
@@ -100,16 +100,16 @@ namespace LDMS.Services
             }
         }
 
-        public LDMS_M_Course GetCourseByID(string ID)
+        public ViewModels.LDMS_M_Course GetCourseByID(string ID)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 try
                 {
                     var p = new DynamicParameters();
                     p.Add("@paramIDCourse", ID);
 
-                    LDMS_M_Course item = conn.Query<LDMS_M_Course>("[dbo].[sp_M_Course_Select_ByID]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
+                    ViewModels.LDMS_M_Course item = conn.Query<ViewModels.LDMS_M_Course>("[dbo].[sp_M_Course_Select_ByID]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                     return item;
                 }
@@ -135,8 +135,32 @@ namespace LDMS.Services
 
             return dt;
         }
+         
+        public async Task<List<ViewModels.LDMS_M_Course>> GetAll(string courseID, string courseName, string courseStatus,string LearnMethod)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                try
+                {
+                    var items = Connection.Query<ViewModels.LDMS_M_Course>
+                    (_schema + ".[sp_M_Course_Select] @paramCourseId,@paramCourseName,@paramCourseStatus,@paramLearnMethod",
+                     new
+                     {
+                         @paramCourseId = courseID,
+                         @paramCourseName = courseName,
+                         @paramCourseStatus = courseStatus,
+                         @paramLearnMethod = LearnMethod
+                     }).ToList();
+                    return items;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+        }
 
-        public LDMS_M_Course CreateCourse(  string CourseID, string CourseName, string ID_LearnMethod,
+        public ViewModels.LDMS_M_Course CreateCourse(  string CourseID, string CourseName, string ID_LearnMethod,
                                     string ID_CourseType, string Objective, string Description, string OutLine,
                                     string IsRefreshment, string RefreshmentPeriod, string RefreshmentUnit,
                                     string TargetEmployeeID, string ID_PlantTarget, string ID_CenterTarget,
@@ -144,7 +168,7 @@ namespace LDMS.Services
                                     string JobGradeTargetID, string JobTitleTargetID, string IsActive )
         {
 
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 var p = new DynamicParameters();
                 //p.Add("@paramCourseID ", CourseID);
@@ -166,10 +190,10 @@ namespace LDMS.Services
                 p.Add("@paramJobGradeTargetID", CreateData(JobGradeTargetID, "ID_JobGrade"), DbType.Object);
                 p.Add("@paramJobTitleTargetID", CreateData(JobTitleTargetID, "ID_JobTitle"), DbType.Object);
                 p.Add("@paramID_DepartmentCreate", 1); // JwtManager.Instance.GetDepartmentId(HttpContext.Request) //Example
-                p.Add("@paramCreateBy", JwtManager.Instance.GetUserId(HttpContext.Request)); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@paramCreateBy", CurrentUserId); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
                 p.Add("@@paramIsActive", IsActive);
 
-                ViewModels.LDMS_M_Course ret = conn.Query<ViewModels.LDMS_M_Course>(_schema + ".[sp_M_Course_Insert]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
+                ViewModels.LDMS_M_Course ret = conn.Query<ViewModels.LDMS_M_Course>(_schema + ".[sp_M_Course_Insert]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                 return ret;
             }
@@ -182,7 +206,7 @@ namespace LDMS.Services
                                             string ID_DivisionTarget, string ID_DepartmentTarget, string ID_SectionTarget,
                                             string JobGradeTargetID, string JobTitleTargetID, string isActive)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 var p = new DynamicParameters();
                 p.Add("@ID_Course ", ID_Course);
@@ -205,10 +229,10 @@ namespace LDMS.Services
                 p.Add("@paramJobGradeTargetID", CreateData(JobGradeTargetID, "ID_JobGrade"), DbType.Object);
                 p.Add("@paramJobTitleTargetID", CreateData(JobTitleTargetID, "ID_JobTitle"), DbType.Object);
                 p.Add("@paramID_DepartmentCreate", 1 ); // JwtManager.Instance.GetDepartmentId(HttpContext.Request) //Example
-                p.Add("@paramUpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request)); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@paramUpdateBy", CurrentUserId); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
                 p.Add("@paramIsActive", isActive);
 
-                int ret = conn.Query<int>(_schema + ".[sp_M_Course_Update]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
+                int ret = conn.Query<int>(_schema + ".[sp_M_Course_Update]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                 return true;
             }
@@ -217,7 +241,7 @@ namespace LDMS.Services
 
         public List<ViewModels.LDMS_M_Employee> GetEmployee(ViewModels.LDMS_M_Employee_Search criteria)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 ViewModels.Paging_Result ret = new ViewModels.Paging_Result();
                 List<ViewModels.LDMS_M_Employee> EmployeeList = new List<ViewModels.LDMS_M_Employee>();
@@ -238,7 +262,7 @@ namespace LDMS.Services
                     //p.Add("@SortOrder", criteria.SortOrder);
 
 
-                    var grid = conn.QueryMultiple("[dbo].[sp_M_Employee_SelectPaging]", p, commandType: System.Data.CommandType.StoredProcedure);
+                    var grid = conn.QueryMultiple("[dbo].[sp_M_Employee_SelectPaging]", p, commandType: CommandType.StoredProcedure);
 
                     EmployeeList = grid.Read<ViewModels.LDMS_M_Employee>().ToList();
                     //var totalRec = grid.Read().ToList();
@@ -259,7 +283,7 @@ namespace LDMS.Services
 
         public List<ViewModels.LDMS_M_Instructor> GetInstructor(ViewModels.LDMS_M_Instructor_Search criteria)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 ViewModels.Paging_Result ret = new ViewModels.Paging_Result();
                 List<ViewModels.LDMS_M_Instructor> InstructorList = new List<ViewModels.LDMS_M_Instructor>();
@@ -275,7 +299,7 @@ namespace LDMS.Services
 
                     p.Add("@IsActive", 1);
 
-                    var grid = conn.QueryMultiple("[dbo].[sp_M_Instructor_SelectPaging]", p, commandType: System.Data.CommandType.StoredProcedure);
+                    var grid = conn.QueryMultiple("[dbo].[sp_M_Instructor_SelectPaging]", p, commandType: CommandType.StoredProcedure);
                     InstructorList = grid.Read<ViewModels.LDMS_M_Instructor>().ToList();
 
                     return InstructorList;
@@ -290,14 +314,14 @@ namespace LDMS.Services
        
         public async Task<List<ViewModels.LDMS_M_VenueRoom>> GetVenuRoom()
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 try
                 {
-                    var items = Connection.Query<LDMS_M_VenueRoom>
+                    var items = Connection.Query<ViewModels.LDMS_M_VenueRoom>
                     (_schema + ".[sp_M_VanueRoom_SelectAll]");
 
-                    return (List<LDMS_M_VenueRoom>)items;
+                    return (List<ViewModels.LDMS_M_VenueRoom>)items;
                 }
                 catch (Exception e)
                 {
@@ -306,7 +330,7 @@ namespace LDMS.Services
             }
         }
 
-        public LDMS_T_Class CreateClass(string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
+        public ViewModels.LDMS_T_Class CreateClass(string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
                                             string LearnDateStart, string LearnTimeStart, string LearnDateEnd, string LearnTimeEnd,
                                             string RegisterDateStart, string RegisterDateEnd, string ID_PlantVenue,
                                             string ID_VenueRoom, string PlaceAndLocation, string ClassStatus,
@@ -316,7 +340,7 @@ namespace LDMS.Services
                                             string CertificationRemark, string ReminderDurationDay, string IsActive )
         {
 
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 var p = new DynamicParameters();
                 //p.Add("@paramCourseID ", CourseID);
@@ -347,16 +371,16 @@ namespace LDMS.Services
                 p.Add("@paramIsAttachCert", IsAttachCert);
                 p.Add("@paramCertificationRemark", CertificationRemark);
                 p.Add("@paramReminderDurationDay", ReminderDurationDay);
-                p.Add("@paramCreateBy", JwtManager.Instance.GetUserId(HttpContext.Request)); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@paramCreateBy", CurrentUserId); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
                 p.Add("@@paramIsActive", IsActive);
 
-                LDMS_T_Class ret = conn.Query<LDMS_T_Class>(_schema + ".[sp_T_Class_Insert]", p, commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                ViewModels.LDMS_T_Class ret = conn.Query<ViewModels.LDMS_T_Class>(_schema + ".[sp_T_Class_Insert]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                 return ret;
             }
         }
 
-        public LDMS_T_Class UpdateClass( string ID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
+        public ViewModels.LDMS_T_Class UpdateClass( string ID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
                                             string LearnDateStart, string LearnTimeStart, string LearnDateEnd, string LearnTimeEnd,
                                             string RegisterDateStart, string RegisterDateEnd, string ID_PlantVenue,
                                             string ID_VenueRoom, string PlaceAndLocation, string ClassStatus,
@@ -366,7 +390,7 @@ namespace LDMS.Services
                                             string CertificationRemark, string ReminderDurationDay, string IsActive)
         {
 
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 var p = new DynamicParameters();
                 p.Add("@paramIDCLass", ID);
@@ -398,40 +422,40 @@ namespace LDMS.Services
                 p.Add("@paramIsAttachCert", IsAttachCert);
                 p.Add("@paramCertificationRemark", CertificationRemark);
                 p.Add("@paramReminderDurationDay", ReminderDurationDay);
-                p.Add("@paramUpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request)); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@paramUpdateBy",CurrentUserId); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
                 p.Add("@paramIsActive", IsActive);
 
-                LDMS_T_Class ret = conn.Query<LDMS_T_Class>(_schema + ".[sp_T_Class_Update]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
+                ViewModels.LDMS_T_Class ret = conn.Query<ViewModels.LDMS_T_Class>(_schema + ".[sp_T_Class_Update]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                 return ret;
             }
         }
 
-        public List<LDMS_T_ClassReg> GetClass(string ID)
+        public List<ViewModels.LDMS_T_ClassReg> GetClass(string ID)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 var p = new DynamicParameters();
                 p.Add("@paramCourseId ", ID);
 
 
-                List<LDMS_T_ClassReg> ret = conn.Query<LDMS_T_ClassReg>(_schema + ".[sp_T_Class_Select]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
+                List<ViewModels.LDMS_T_ClassReg> ret = conn.Query<ViewModels.LDMS_T_ClassReg>(_schema + ".[sp_T_Class_Select]", p, commandType: CommandType.StoredProcedure).ToList();
 
                 return ret;
             }
 
         }
 
-        public LDMS_T_Class GetClassByID(string ID)
+        public ViewModels.LDMS_T_Class GetClassByID(string ID)
         {
-            using (System.Data.IDbConnection conn = Connection)
+            using (IDbConnection conn = Connection)
             {
                 try
                 {
                     var p = new DynamicParameters();
                     p.Add("@paramIDClass", ID);
 
-                    LDMS_T_Class item = conn.Query<LDMS_T_Class>("[dbo].[sp_T_Class_Select_ByID]", p, commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                    ViewModels.LDMS_T_Class item = conn.Query<ViewModels.LDMS_T_Class>("[dbo].[sp_T_Class_Select_ByID]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                     return item;
                 }

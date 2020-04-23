@@ -774,27 +774,27 @@ function SearchEmployee() {
 }
 
 function CreateDataTablePaging() {
-    if (!$.fn.dataTable.isDataTable('#dtUserList')) {
-        $('#dtUserList').DataTable({
-            "paging": true,
-            "ordering": false,
-            "searching": false,
-            "lengthChange": false,
-            "bAutoWidth": false,
-            "Filter": true,
-            "info": false,
-            "bPaginate": false,
-            "bLengthChange": false,
-            "language": {
-                "lengthMenu": "Display _MENU_ records per page",
-                "zeroRecords": "    Nothing found - sorry",
-                "info": "    page _PAGE_ of _PAGES_",
-                "infoEmpty": "    No records available",
-                "infoFiltered": "(filtered from _MAX_ total records)"
-            }
-        });
-        $('.dataTables_length').addClass('bs-select');
-    }
+    var table = $('#dtUserList').DataTable();
+    table.destroy();
+    $('#dtUserList').DataTable({
+        "paging": true,
+        "ordering": false,
+        "searching": false,
+        "lengthChange": false,
+        "bAutoWidth": false,
+        "Filter": true,
+        "info": false,
+        "bPaginate": false,
+        "bLengthChange": false,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "    Nothing found - sorry",
+            "info": "    page _PAGE_ of _PAGES_",
+            "infoEmpty": "    No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+    $('.dataTables_length').addClass('bs-select');
 }
 
 function OnSelectRadio(ele) {

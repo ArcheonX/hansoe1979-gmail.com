@@ -71,7 +71,7 @@ namespace LDMS.Services
                     parameter.Add("@paramDepartmentId", model.DepartmentId, System.Data.DbType.Int32);
                     parameter.Add("@paramJobGradeId", model.JobGradeId, System.Data.DbType.Int32);
                     parameter.Add("@paramStatus",model.ActiveStatus, System.Data.DbType.Int32);
-                    parameter.Add("@paramTrainingStatus ", model.TrainingStatus, System.Data.DbType.Int32);
+                    parameter.Add("@paramTrainingStatus ", model.TrainingStatus, System.Data.DbType.Int32); 
                     string commad = "";
 
                     System.Data.DataSet dataSet = new System.Data.DataSet();
@@ -337,7 +337,7 @@ namespace LDMS.Services
                         new
                         {
                             @param_sectionId = sectionId,
-                            @paramUpdateBy = CurrentUserId()
+                            @paramUpdateBy = CurrentUserId
                         });
                     if (items != null && items.Any())
                     {
@@ -368,7 +368,7 @@ namespace LDMS.Services
                             @param_sectionNameEN = section.SectionName_EN,
                             @param_sectionNameTH = section.SectionName_TH,
                             @param_sectionDesc = section.Description,
-                            @paramUpdateBy = CurrentUserId()
+                            @paramUpdateBy = CurrentUserId
                         });
                     if (items != null && items.Any())
                     {
@@ -398,7 +398,7 @@ namespace LDMS.Services
                             @param_sectionNameEN = section.SectionName_EN,
                             @param_sectionNameTH = section.SectionName_TH,
                             @param_sectionDesc = section.Description,
-                            @paramCreateBy = CurrentUserId()
+                            @paramCreateBy = CurrentUserId
                         });
                     if (items != null && items.Any())
                     {

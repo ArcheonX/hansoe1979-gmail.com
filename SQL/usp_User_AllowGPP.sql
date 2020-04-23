@@ -18,12 +18,10 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE OR ALTER   PROCEDURE [dbo].[usp_User_ChangePassword]
+CREATE OR ALTER   PROCEDURE [dbo].[usp_User_AllowGPP]
 -- Add the parameters for the stored procedure here
 		@EmployeeId nvarchar(50),
-		@OldPassword  nvarchar(1024),
-		@Password  nvarchar(1024),
-		@PasswordSalt  nvarchar(1024),
+		@IsAllow tinyint,
 		@UpdateBy nvarchar(50)
 AS
 BEGIN
@@ -31,20 +29,16 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-	IF EXISTS (SELECT * FROM [dbo].[LDMS_M_UserRole] WHERE [EmployeeID]  = @EmployeeId AND [Password] = @OldPassword)
+	IF EXISTS (SELECT * FROM [dbo].[LDMS_M_UserRole] WHERE [EmployeeID]  = @EmployeeId)
 		BEGIN
-
 		-- Insert statements for procedure here
 		UPDATE	[dbo].[LDMS_M_UserRole]
-			SET 
-				[Password] = @Password   
-			   ,[IsActive] = 1
-			   ,[PasswordSalt] = @PasswordSalt
-			   ,[IsForceChangePass] = 0
-			   ,[Is_FirstLogin] = 0
+			SET  
+				[IsActive] = 1 
+			   ,IsAllowGPP = @IsAllow
 			   ,[UpdateBy] = @UpdateBy
 			   ,[UpdateDate] = GETDATE()
-		   		WHERE [EmployeeID]  = @EmployeeId AND [Password] = @OldPassword;
+		   		WHERE [EmployeeID]  = @EmployeeId
 		END
 		ELSE
 		BEGIN
@@ -52,7 +46,7 @@ BEGIN
 			100 AS ErrorNumber
 		   ,100 AS ErrorSeverity
 		   ,100 AS ErrorState
-		   ,'usp_User_ChangePassword' AS ErrorProcedure
+		   ,'usp_User_AllowGPP' AS ErrorProcedure
 		   ,0 AS ErrorLine
 		   ,'Cannot Update user does'' exists' AS ErrorMessage;
 	   END

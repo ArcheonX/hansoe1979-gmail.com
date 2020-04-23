@@ -16,19 +16,19 @@ using System.Threading.Tasks;
 namespace LDMS.Services
 {
     public class UserService : ILDMSService
-    { 
+    {
         private readonly ILogger<UserService> _logger;
-        protected IHttpContextAccessor HttpContextAccessor { get; private set; } 
+        protected IHttpContextAccessor HttpContextAccessor { get; private set; }
         private readonly LDAPAuthenticationService _ldAPAuthenticationService;
         private readonly LocalAuthenticationService _localAuthenticationService;
         public UserService(ILogger<UserService> logger,
             LDAPAuthenticationService ldAPAuthenticationService,
             LocalAuthenticationService localAuthenticationService,
-            ILDMSConnection iLDMSConnection, 
+            ILDMSConnection iLDMSConnection,
             IHttpContextAccessor httpContextAccessor) : base(iLDMSConnection, httpContextAccessor)
         {
             HttpContextAccessor = httpContextAccessor;
-            
+
             _logger = logger;
             _ldAPAuthenticationService = ldAPAuthenticationService;
             _localAuthenticationService = localAuthenticationService;
@@ -85,6 +85,7 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
+
         public async Task<ServiceResult> GetUserByEmployeeId(string employeeId)
         {
             try
@@ -202,7 +203,8 @@ namespace LDMS.Services
                     var user = items.ToList();
                     return new ServiceResult(user);
                 }
-            }catch(Exception x)
+            }
+            catch (Exception x)
             {
                 _logger.LogError(x.Message);
                 return new ServiceResult(x);
@@ -272,15 +274,25 @@ namespace LDMS.Services
                     var user = items.FirstOrDefault();
                     if (user == null)
                     {
+                        CreateDataLog(DataLogType.LoginFaild, username, "EmployeeID not found");
                         throw new Exception("Unauthorized");
                     }
-                    bool isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
-                    if (!isAuthenPass)
+                    bool isAuthenPass = false;
+                    if (user.IsAD == 1)
+                    {
+                        isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
+                        if(!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with AD.");
+                    }
+                    else
                     {
                         var passwordHash = PasswordHelper.GenerateSaltedHash(password, user.LDMS_M_UserRole.passwordSalt);
                         isAuthenPass = _localAuthenticationService.Authenticate(username, passwordHash);
+                        if (!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with Local.");
                     }
-                    if (!isAuthenPass) { throw new Exception("Unauthorized"); }
+                    if (!isAuthenPass)
+                    { 
+                        throw new Exception("Unauthorized");
+                    }
                     List<Claim> claims = new List<Claim>
                         {
                             new Claim(JwtRegisteredClaimNames.Sub, user.EmployeeID),
@@ -294,9 +306,6 @@ namespace LDMS.Services
                             new Claim("DIVISIONID", user.ID_Division.GetValueOrDefault().ToString()),
                             new Claim("DEPARTMENTID", user.ID_Department.GetValueOrDefault().ToString()),
                             new Claim("SECTIONTID",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
-                            new Claim("FORCECHANGEPASS",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.IsForceChangePass.ToString():"1"),
-                            new Claim("ALLOWGPP",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.Is_AcceptGCP.ToString():"0"),
-                            new Claim("ISAD",user.IsAD.ToString()),
                             new Claim(ClaimTypes.Role,user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
                         };
                     user.Token = JwtManager.Instance.GenerateJWT(claims);
@@ -319,15 +328,21 @@ namespace LDMS.Services
                     HttpContext.Response.Set("DEPARTMENTID", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.ID_Department) : "", 120);
                     HttpContext.Response.Set("SECTIONTID", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault().ToString() : "0", 120);
 
-                    HttpContext.Response.Set("FACEIMAGE", "~/assets/images/users/1.jpg", 120);
+                    HttpContext.Response.Set("JOBGRADEID", user.ID_JobGrade.GetValueOrDefault().ToString(), 120);
+                    HttpContext.Response.Set("JOBTITLEID", user.ID_JobTitle.GetValueOrDefault().ToString(), 120);
+                    HttpContext.Response.Set("FACEIMAGE", "~/assets/images/svg/user-icon.svg", 120);
+                    HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
+                    HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120);
+                    HttpContext.Response.Set("ISAD", user.IsAD.ToString(), 120);
+
                     HttpContext.Response.Set("JWToken", user.Token, 120);
 
                     CheckRedirectPage(user);
 
                     HttpContext.Session.SetString("JWToken", user.Token);
+                    CreateDataLog(DataLogType.LoginSuccess, username, "user signin.");
                     return new ServiceResult(user);
                 }
-
             }
             catch (Exception ex)
             {
@@ -340,19 +355,18 @@ namespace LDMS.Services
         {
             if (user.LDMS_M_UserRole != null)
             {
-                HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
-                //if (user.LDMS_M_UserRole.IsForceChangePass == 1)
-                //{
-                //    HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
-                //}
-                //else if (user.LDMS_M_UserRole.Is_FirstLogin == 1 && user.IsAD == 0)
-                //{
-                //    HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
-                //}
-                //else
-                //{
-                //    HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
-                //}
+                if (user.LDMS_M_UserRole.IsForceChangePass == 1)
+                {
+                    HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
+                }
+                else if (user.LDMS_M_UserRole.Is_AcceptGPP == 0 && user.IsAD == 0)
+                {
+                    HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
+                }
+                else
+                {
+                    HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
+                }
             }
             else
             {
@@ -376,7 +390,7 @@ namespace LDMS.Services
                 int.TryParse(claim.Value, out rolId);
                 return BuildUserMenu(rolId).AsList();
             }
-            catch(Exception x)
+            catch (Exception x)
             {
                 _logger.LogError(x.Message);
                 throw new Exception("Unauthorized");
@@ -434,20 +448,22 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> DeleteUser(string employeeId)
         {
-            try { 
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
-                    new
-                    {
-                        @paramEmployeeId = employeeId,
-                        @paramUpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                    });
-                if (items != null && items.Any())
+                using (System.Data.IDbConnection conn = Connection)
                 {
-                    return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
-                }
-                return new ServiceResult();
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
+                        new
+                        {
+                            @paramEmployeeId = employeeId,
+                            @paramUpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    CreateDataLog(DataLogType.DeleteAccount, employeeId, string.Format("Delete {0}", employeeId));
+                    return new ServiceResult();
                 }
             }
             catch (Exception x)
@@ -459,24 +475,26 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> ResetPassword(string employeeId)
         {
-            try { 
-            var passsalt = PasswordHelper.CreateSalt();
-            var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
-            using (System.Data.IDbConnection conn = Connection)
+            try
             {
-                var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword] @EmployeeId,@Password,@PasswordSalt,@UpdateBy",
-                    new
-                    {
-                        @EmployeeId = employeeId,
-                        @Password = newHaspass,
-                        @PasswordSalt = passsalt,
-                        @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                    });
-                if (items != null && items.Any())
+                var passsalt = PasswordHelper.CreateSalt();
+                var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
+                using (System.Data.IDbConnection conn = Connection)
                 {
-                    return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
-                }
-                return new ServiceResult();
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword] @EmployeeId,@Password,@PasswordSalt,@UpdateBy",
+                        new
+                        {
+                            @EmployeeId = employeeId,
+                            @Password = newHaspass,
+                            @PasswordSalt = passsalt,
+                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    CreateDataLog(DataLogType.ResetPassword, employeeId, "Reset password.");
+                    return new ServiceResult();
                 }
             }
             catch (Exception x)
@@ -563,6 +581,7 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    CreateDataLog(DataLogType.UpdateAccount, user.EmployeeID, string.Format("Update {0}", user.EmployeeID));
                     return await GetUserByEmployeeId(user.EmployeeID);
                 }
             }
@@ -573,7 +592,7 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> ChangePassword(string employeeId, string oldPassword, string newPassword)
+        public async Task<ServiceResult> ChangePassword(string employeeId, string currentPassword, string newpassword)
         {
             try
             {
@@ -582,8 +601,8 @@ namespace LDMS.Services
                 using (System.Data.IDbConnection conn = Connection)
                 {
                     var passsalt = PasswordHelper.CreateSalt();
-                    var newHaspass = PasswordHelper.GenerateSaltedHash(newPassword, passsalt);
-                    var oldPasshash = PasswordHelper.GenerateSaltedHash(oldPassword, (emp.Data as LDMS_M_User).LDMS_M_UserRole.passwordSalt);
+                    var newHaspass = PasswordHelper.GenerateSaltedHash(newpassword, passsalt);
+                    var oldPasshash = PasswordHelper.GenerateSaltedHash(currentPassword, (emp.Data as LDMS_M_User).LDMS_M_UserRole.passwordSalt);
 
                     var items = Connection.Query<SQLError>(_schema + ".[usp_User_ChangePassword] @EmployeeId, @OldPassword, @Password,@PasswordSalt,@UpdateBy",
                         new
@@ -598,6 +617,50 @@ namespace LDMS.Services
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    emp = await GetUserByEmployeeId(employeeId);
+
+                    var user = emp.Data as LDMS_M_User;
+
+                    HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
+                    HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120); 
+                    CheckRedirectPage(emp.Data as LDMS_M_User);
+                    CreateDataLog(DataLogType.ChangePassword, employeeId, "Change Password.");
+                    return emp;
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+
+        public async Task<ServiceResult> AllowGPP(string employeeId, bool isAllow)
+        {
+            try
+            {
+                var emp = await GetUserByEmployeeId(employeeId);
+
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_AllowGPP] @EmployeeId, @IsAllow,@UpdateBy",
+                        new
+                        {
+                            @EmployeeId = employeeId,
+                            @IsAllow = isAllow ? 1 : 0,
+                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+                        });
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    var user = emp.Data as LDMS_M_User;
+
+                    HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
+                    HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120); 
+                    emp = await GetUserByEmployeeId(employeeId);
+                    CheckRedirectPage(emp.Data as LDMS_M_User);
+                    CreateDataLog(DataLogType.AcceptGPP, employeeId, string.Format("Allow {0}", isAllow));
                     return emp;
                 }
             }
