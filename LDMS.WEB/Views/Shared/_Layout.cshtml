@@ -51,10 +51,7 @@
     <script type="text/javascript" src="~/lib/datatables/js/jquery.dataTables.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/datatables/js/dataTables.bootstrap.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/datatables/js/dataTables.jqueryui.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <link href="~/lib/datatables/css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
-    @*<link href="~/lib/datatables/css/dataTables.jqueryui.css" type="text/css" rel="stylesheet">*@
-    @*<link href="~/lib/datatables/css/jquery.dataTables.css" type="text/css" rel="stylesheet">*@
-    @*<link href="~/lib/datatables/css/jquery.dataTables_themeroller.css" type="text/css" rel="stylesheet">*@
+    <link href="~/lib/datatables/css/dataTables.jqueryui.css" type="text/css" rel="stylesheet"> 
 
     <script type="text/javascript" src="~/lib/highchart/js/highcharts.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/highchart/js/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
@@ -121,19 +118,35 @@
                 </nav>
             </div>
         </aside>
-        <div class="page-wrapper">
-            <div class="page-titles">
-                <div class="col-md-5 col-8 align-self-center">
-                    <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
-                    </ol>
+        <aside class="right-sidebar">
+            <div class="page-wrapper">
+                <div class="page-titles">
+                    <div class="col-md-5 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
+                        </ol>
+                    </div>
                 </div>
+                <div class="page-body">
+                    @RenderBody()
+                </div>
+                <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
             </div>
-            <div class="page-body">
-                @RenderBody()
-            </div>
-        </div>
+        </aside>
+            @*<div class="page-wrapper">
+                <div class="page-titles">
+                    <div class="col-md-5 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="page-body">
+                    @RenderBody()
+                </div>
+            </div>*@
     </div>
     @*<div id="footer" style="position:relative; bottom:0px; height:50px; left:0px; right:0px; overflow:no-content;">
         <span class="text-center" style="width:100%;margin-left:25%;">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
