@@ -139,7 +139,7 @@ namespace LDMS.WEB.Controllers
         [HttpPost]
         [Route("Courses/Search")]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Search(string CourseID, string CourseName, string CourseStatus, string LearnMetod)
+        public IActionResult Search(string CourseID, string CourseName, string CourseStatus, string LearnMethod)
         {
 
             string sortOrder = Request.Form["order[0][dir]"];
@@ -153,14 +153,14 @@ namespace LDMS.WEB.Controllers
             criteria.CourseID = CourseID;
             criteria.CourseName = CourseName;
             criteria.CourseStatus = CourseStatus;
-            criteria.LearnMetod = LearnMetod;
+            criteria.LearnMethod = LearnMethod;
             var courses = _CourseService.GetCourse(criteria);
             //ViewData["Instructor"] = instructor.Results;
             return Json(courses);
         }
 
         [AuthorizeRole(UserRole.All)]
-        [HttpGet]
+        [HttpPost]
         [Route("Courses/InsertCourse")]
         //[AutoValidateAntiforgeryToken]
         public IActionResult InsertCourse(string ID_Course, string CourseID, string CourseName, string ID_LearnMethod,

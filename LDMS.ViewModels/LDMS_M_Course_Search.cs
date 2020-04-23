@@ -9,6 +9,6 @@ namespace LDMS.ViewModels
         public string CourseID { get; set; }
         public string CourseName { get; set; }
         public string CourseStatus { get; set; }
-        public string LearnMetod { get; set; }
+        public string LearnMethod { get; set; }
     }
 }
