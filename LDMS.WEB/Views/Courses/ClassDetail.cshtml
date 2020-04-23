@@ -735,6 +735,7 @@
     function changePlant(sel) {
         //$('#selectRoom').empty();
         var plantId = sel.value;
+        debugger;
         //alert(' changePlant plantId ' + plantId);
         ReloadVenuRoom($, plantId, null);
     }
@@ -748,8 +749,7 @@
          $('#modSearhInstructor').modal('hide');
     }
 
-    function LoadTime() {
-
+    function LoadTime() { 
         $('#selectTimeFrom').empty();
         $('#selectTimeTo').empty();
         $.ajax({
@@ -921,6 +921,7 @@
 
     function SaveClass() {
         //alert('SaveClass');
+        debugger;
          $.ajax({
                     url: "/Courses/InsertClass",
                     type: "POST",
