@@ -4,14 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section NavHeader{
-    <h3 class="text-themecolor m-b-0 m-t-0">I-Manage</h3>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="javascript:void(0)">I-Manage</a></li>
-        <li class="breadcrumb-item active">I-Manage Platform Management</li>
-    </ol>
-}
-
 @model LDMS.ViewModels.LDMS_M_Platform;
 <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
     <form id="frmPlatformEditor">
@@ -110,7 +102,7 @@
                         <a id="btnSavePlatform" class="btn btn-success waves-effect waves-light" style="width:90%; color:white">Save</a>
                     </div>
                     <div class="col-sm-1 col-md-1" style="margin-left:-25px">
-                        <a id="btnBack" onclick="window.location.href = '@Url.Action("Index", "Platform")';" class="btn btn-danger inactive waves-effect waves-light" style="width:90%; color:white" >Back</a>
+                        <a id="btnBack" onclick="window.location.href = '@Url.Action("Index", "Platform")';" class="btn btn-danger inactive waves-effect waves-light" style="width:90%; color:white">Back</a>
                     </div>
                 </div>
             </div>
@@ -171,14 +163,19 @@
 </div>
 
 @section Scripts{
-<script type="text/javascript">
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+    <script type="text/javascript">
 //var initialLoad = true;
  $(document).ready(function () {
 
-         //alert('document');
-              
+         alert('document ID ' + $('#hID').val());
+
          if ($('#hID').val() != 'null') {
-             // LoadSubPlatform($('#hID').val());
+             //LoadSubPlatform($('#hID').val());
               $('#divSubPlatformHeader').attr("style", "margin-right: 25px; margin-left: -25px; margin-top: 25px; display:block");
              LoadSubPlatformList($('#hID').val());
          }
@@ -189,8 +186,8 @@
          else {
              LoadPlatformType();
          }
-         
-        
+
+
         $('#btnSavePlatform').click(function () {
             $.ajax({
                     url: "/Platform/InsertPlatform",
@@ -233,7 +230,7 @@
                     else {
                         alert('Duplicate SubPlatformName : ' + $("#txtSubPlatform").val());
                     }
-                    
+
                     //debugger;
                     //RendorSubPlatform(e);
                      LoadSubPlatformList($('#hID').val());
@@ -242,7 +239,7 @@
                 }
           )});
 })
- 
+
 
     function LoadPlatformType(value) {
 
@@ -356,7 +353,7 @@
             },
             success: function (e) {
                alert(JSON.stringify(e));
-               window.location.href = '@Url.Action("EditSubPlatform", "Platform")?ID_SubPlatform='+e; 
+               window.location.href = '@Url.Action("EditSubPlatform", "Platform")?ID_SubPlatform='+e;
             },
 
             }
@@ -373,7 +370,7 @@
             ID_SubPlatform : ID
 
         },
-        success: function (e) {        
+        success: function (e) {
             LoadSubPlatformList($('#hID').val());
             $('#divSubPlatformHeader').attr("style", "margin-right: 25px; margin-left: -25px; margin-top: 25px; display:block");
         },

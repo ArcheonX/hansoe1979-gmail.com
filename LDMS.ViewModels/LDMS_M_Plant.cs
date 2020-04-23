@@ -2,7 +2,7 @@
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_M_Plant
+    public class LDMS_M_Plant : BaseViewModel
     {
         public int ID { get; set; }
         public string PlantID { get; set; }

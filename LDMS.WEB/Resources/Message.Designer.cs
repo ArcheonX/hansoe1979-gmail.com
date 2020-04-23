@@ -61,11 +61,29 @@ namespace LDMS.WEB.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure delete this record?.
+        /// </summary>
+        public static string c_ConfirmDelete {
+            get {
+                return ResourceManager.GetString("c_ConfirmDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please fill at least 4 character..
         /// </summary>
         public static string e_Input4 {
             get {
                 return ResourceManager.GetString("e_Input4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instructor ID {0} is aleady exist..
+        /// </summary>
+        public static string e_Instructor_ExistsInsID {
+            get {
+                return ResourceManager.GetString("e_Instructor_ExistsInsID", resourceCulture);
             }
         }
     }

@@ -1,21 +1,20 @@
 ﻿using Dapper;
 using LDMS.Core;
+using LDMS.Daos;
 using LDMS.Identity;
 using LDMS.ViewModels;
 using LDMS.ViewModels.Menu;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LDMS.Services
-{ 
+{
     public class UserService : ILDMSService
     { 
         private readonly ILogger<UserService> _logger;
@@ -128,9 +127,48 @@ namespace LDMS.Services
 
         public async Task<ServiceResult> UpdateUserSection(List<LDMS_M_UserRole> userRoles)
         {
-            var groupBySection = userRoles.GroupBy(e => e.ID_Section);            
-
-            throw new NotImplementedException();
+            try
+            {
+                var groupBySection = userRoles.GroupBy(e => e.ID_Section);
+                foreach (var section in groupBySection)
+                {
+                    var secHeads = section.Where(e => e.IsSectionHead == 1).ToList();
+                    if (secHeads.Count > 1)
+                    {
+                        return new ServiceResult(new Exception("One Section Allow One Header"));
+                    }
+                }
+                var updateBy = JwtManager.Instance.GetUserId(HttpContext.Request);
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    using (var transaction = conn.BeginTransaction())
+                    {
+                        foreach (var item in userRoles)
+                        {
+                            var items = Connection.Query<SQLError>(_schema + ".[usp_LDMS_M_UserRole_UpdateSection] @employeeId,@sectionId,@sectionHeader,@updateBy",
+                               new
+                               {
+                                   @employeeId = item.EmployeeID,
+                                   @sectionId = item.ID_Section,
+                                   @sectionHeader = item.IsSectionHead,
+                                   @updateBy = updateBy
+                               });
+                            if (items != null && items.Any())
+                            {
+                                transaction.Rollback();
+                                return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                            }
+                        }
+                        transaction.Commit();
+                        return new ServiceResult();
+                    }
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
         }
 
         public async Task<ServiceResult> GetAllEmployeeByDepartmentId(int departmentId)
@@ -251,10 +289,11 @@ namespace LDMS.Services
                             new Claim(ClaimTypes.Email, string.IsNullOrEmpty(user.Email)?"":user.Email),
                             new Claim(ClaimTypes.NameIdentifier, user.EmployeeID),
                             new Claim(ClaimTypes.Name, user.EmployeeID),
-                            new Claim("ID_Division", user.ID_Division.GetValueOrDefault().ToString()),
-                            new Claim("ID_Center", user.ID_Center.GetValueOrDefault().ToString()),
-                            new Claim("ID_Department", user.ID_Department.GetValueOrDefault().ToString()),
-                            new Claim("ID_Section",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
+                            new Claim("PLANTID", user.ID_Plant.ToString()),
+                            new Claim("CENTERID", user.ID_Center.GetValueOrDefault().ToString()),
+                            new Claim("DIVISIONID", user.ID_Division.GetValueOrDefault().ToString()),                       
+                            new Claim("DEPARTMENTID", user.ID_Department.GetValueOrDefault().ToString()),
+                            new Claim("SECTIONTID",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
                             new Claim(ClaimTypes.Role, user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
                         };
                     user.Token = JwtManager.Instance.GenerateJWT(claims);
@@ -270,12 +309,13 @@ namespace LDMS.Services
                     HttpContext.Response.Set("EMPLOYEEID", user.EmployeeID, 120);
                     HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.GetValueOrDefault()) : "", 120);
                     HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.DepartmentID) : "", 120);
+                    
                     HttpContext.Response.Set("PLANTID", user.ID_Plant.ToString(), 120);
-
+                    HttpContext.Response.Set("CENTERID", user.ID_Center.ToString(), 120);
                     HttpContext.Response.Set("DIVISIONID", string.Format("{0}", user.ID_Division), 120);
-
                     HttpContext.Response.Set("DEPARTMENTID", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.ID_Department) : "", 120);
                     HttpContext.Response.Set("SECTIONTID", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault().ToString() : "0", 120);
+                    
                     HttpContext.Response.Set("FACEIMAGE", "~/assets/images/users/1.jpg", 120);
                     HttpContext.Response.Set("JWToken", user.Token, 120);
                     HttpContext.Session.SetString("JWToken", user.Token);
