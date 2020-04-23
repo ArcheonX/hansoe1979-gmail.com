@@ -73,7 +73,7 @@ namespace LDMS.Services
                     if (criteria.CourseID != null) p.Add("@Course_ID", criteria.CourseID);
                     if (criteria.CourseName != null) p.Add("@Course_Name", criteria.CourseName);
                     if (criteria.CourseStatus != null) p.Add("@IsActive", criteria.CourseStatus);
-                    if (criteria.LearnMetod != null) p.Add("@Learn_Method", criteria.LearnMetod);
+                    if (criteria.LearnMethod != null) p.Add("@Learn_Method", criteria.LearnMethod);
 
                     p.Add("@PageNum", criteria.PageNum);
                     p.Add("@PageSize", criteria.PageSize);
