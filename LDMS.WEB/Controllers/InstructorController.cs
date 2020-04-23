@@ -1,12 +1,8 @@
 ﻿using LDMS.Services;
-//using LDMS.WEB.Models;
 using LDMS.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NPOI.SS.Formula.Functions;
-using Org.BouncyCastle.Bcpg.OpenPgp;
 using System;
 using System.IO;
 using System.Net.Http.Headers;
@@ -94,7 +90,7 @@ namespace LDMS.WEB.Controllers
         [HttpPost]
         [Route("Instructor/Del")]
         [AutoValidateAntiforgeryToken]
-        public IActionResult del(string id)
+        public IActionResult Delete(string id)
         {
             _instructorService.UpdateInstructorStatus(id, "");
             return Json("1");
