@@ -10,6 +10,9 @@
         min-height:calc(100%)-150px;
     }
 }*/
+.form-group {
+    margin-bottom: 1.5rem;
+}
 .head-title h1 {
         font-size: 28px !important;
         color: white;

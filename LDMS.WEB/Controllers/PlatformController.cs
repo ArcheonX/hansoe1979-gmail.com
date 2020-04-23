@@ -75,7 +75,7 @@ namespace LDMS.WEB.Controllers
             return Response(new ServiceResult(platforms));
         }
         [AuthorizeRole(UserRole.All)] 
-        [HttpGet]
+        [HttpPost]
         [Route("Platform/Search")]
         [AutoValidateAntiforgeryToken]
         public IActionResult Search(string PlatformID, string PlatformName, string PlatformType, string PlatformStatus)

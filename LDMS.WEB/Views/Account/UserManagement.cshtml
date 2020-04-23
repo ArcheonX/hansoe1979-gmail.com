@@ -1,4 +1,5 @@
 ﻿@{
+    ViewData["Title"] = "User Management";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="~/assets/app/UserController.js"></script>  
@@ -10,13 +11,13 @@
                     <button id="btnUser" class="btn btn-info waves-effect waves-light" style="width:100%"> User</button>
                 </div>
                 <div class="col-sm-2 col-md-2" style="margin-left:-25px">
-                    <button id="btnMasterReport" class="btn btn-outline-info waves-effect waves-light" style="width:100%;">Master Report </button>
+                    <button id="btnMasterReport" class="btn btn-inactive waves-effect waves-light" style="width:100%;">Master Report </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div style="width: 100%;">
+<div style="margin-top:-15px;width:100%;">
     <div id="viewAllUser" style="display:block;width:100%">
         <div class="panel panel-default" style="width: 100%;">
             @await Html.PartialAsync("_SearchEmployeeCritiria")

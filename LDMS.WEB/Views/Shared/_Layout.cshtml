@@ -20,15 +20,21 @@
     <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/lib/magnific-popup/dist/jquery.magnific-popup.min.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
+    <script type="text/javascript" src="~/lib/magnific-popup/dist/jquery.magnific-popup.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
 
     <!--[if lt IE 9]>
         <script src="~/lib/html5shiv/html5shiv.js"></script>
         <script src="~/lib/respond.js/respond.min.js"></script>
     <![endif]-->
     <!--- JS plugins-->
-    <script type="text/javascript" src="~/lib/datatable/datatables.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/lib/datatables/jquery.dataTables.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/datatables/js/dataTables.bootstrap.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/datatables/js/dataTables.jqueryui.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/datatables/js/jquery.dataTables.js?v=bd93153bf9375d66780f086cda347bfb"></script>  
+    <link href="~/lib/datatables/css/dataTables.bootstrap.css"  type="text/css" rel="stylesheet">
+    <link href="~/lib/datatables/css/dataTables.jqueryui.css" type="text/css" rel="stylesheet">
+    <link href="~/lib/datatables/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
+    <link href="~/lib/datatables/css/jquery.dataTables_themeroller.css" type="text/css" rel="stylesheet">
+
     <script type="text/javascript" src="~/lib/highchart/highcharts.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/highchart/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/highchart/modules/export-data.js?v=bd93153bf9375d66780f086cda347bfb"></script>
@@ -52,7 +58,8 @@
     <link href="~/lib/selecttwo/css/select2.css" type="text/css" rel="stylesheet" />
     <link href="~/lib/selecttwo/css/select2-bootstrap.min.css" type="text/css" rel="stylesheet" />
     <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
-    <link href="~/lib/datatable/datatables.css" type="text/css" rel="stylesheet">
+
+
     <link href="~/lib/magnific-popup/dist/magnific-popup.css?v=bd93153bf9375d66780f086cda347bfb" type="text/css" rel="stylesheet">
     @RenderSection("Scripts", required: false)
     @RenderSection("Header", required: false)
@@ -112,7 +119,7 @@
         </div> 
 </body>
 </html> 
-<script>
+@*<script>
     (function ($) {
         "use strict";
         $(document).ready(function () {
@@ -121,4 +128,4 @@
             }, 'fast');
         })
     })(jQuery);
-</script>
+</script>*@

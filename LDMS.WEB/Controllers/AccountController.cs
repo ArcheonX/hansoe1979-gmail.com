@@ -140,8 +140,6 @@ namespace LDMS.WEB.Controllers
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UserManagement()
         {
-            ViewData["Title"] = "I-Manage LDMS";
-            ViewData["MainTitle"] = "I-Manage";
             return View();
         }
         [AuthorizeRole(UserRole.All)]
