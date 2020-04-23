@@ -283,7 +283,7 @@ namespace LDMS.WEB.Controllers
 
         [HttpPost]
         [Route("Courses/InsertClass")]
-        //[AutoValidateAntiforgeryToken]
+        [AutoValidateAntiforgeryToken]
         public IActionResult InsertClass( string ID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
                                             string LearnDateStart, string LearnTimeStart, string LearnDateEnd, string LearnTimeEnd,
                                             string RegisterDateStart, string RegisterDateEnd, string ID_PlantVenue,

@@ -5,9 +5,8 @@
 }
 
 @model LDMS.ViewModels.LDMS_M_Platform_Search
- 
-<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
-    <div class="panel panel-default" style="width:100%;border-width:thin;border-style:solid;">
+
+    <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
         <div class="panel-body" style="width:100%;">
             <form method="post">
                 @Html.AntiForgeryToken()
@@ -68,30 +67,29 @@
                 </div>
             </form>
         </div>
+        <div class="panel-body" style="width:100%;">
+            <div class="table-responsive m-t-40">
+                <table class="display dataTable" width="100%" id="dtPlatformList">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;width:100px">#</th>
+                            <th style="text-align:center;width:150px">Platform ID</th>
+                            <th style="text-align:center;width:150px">Platform Name</th>
+                            <th style="text-align:center;width:150px">Platform Type</th>
+                            <th style="text-align:center;width:150px">Platform Status</th>
+                            <th style="text-align: center;width:50px">Edit</th>
+                            <!--<th style="text-align:center;width:50px">Delete</th>-->
+                            <th style="text-align:center;width:50px">Export</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <div class="table-responsive m-t-40">
-        <table class="display dataTable" width="100%" id="dtPlatformList">
-            <thead>
-                <tr>
-                    <th style="text-align:center;width:100px">#</th>
-                    <th style="text-align:center;width:150px">Platform ID</th>
-                    <th style="text-align:center;width:150px">Platform Name</th>
-                    <th style="text-align:center;width:150px">Platform Type</th>
-                    <th style="text-align:center;width:150px">Platform Status</th>
-                    <th style="text-align: center;width:50px">Edit</th>
-                    <!--<th style="text-align:center;width:50px">Delete</th>-->
-                    <th style="text-align:center;width:50px">Export</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-           
-</div>
-@section Scripts{ 
-    <script type="text/javascript">
+        @section Scripts{ 
+            <script type="text/javascript">
         var dtData;
         $("#btnSeacrh").click(function (e) {
             //alert('search');
@@ -103,9 +101,8 @@
             Search();
         });
 
-        function Search() {
-            //alert('search function');
-             dtData = $('#dtPlatformList').DataTable({
+        function Search() { 
+              $('#dtPlatformList').DataTable({
                 'processing': true,
                 'serverSide': true,
                 'paging': true,
@@ -162,5 +159,5 @@
         }
 
 
-    </script>
-}
+            </script>
+        }
