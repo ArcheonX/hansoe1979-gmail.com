@@ -25,14 +25,14 @@
     <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
-    <script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    @*<script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
+    <script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
 
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/font-awesome.min.css" />  
-    <link rel="stylesheet" type="text/css" href="css/vendor/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="css/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/css-hamburgers/hamburgers.min.css">
     <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
     <link href="~/css/Login.css" rel="stylesheet">
     <link href="~/css/colors/blue.css" id="theme" rel="stylesheet">
@@ -63,7 +63,7 @@
     </div>
     <div id="content" style="position:absolute; top:15%; bottom:15%; left:0px; right:0px; overflow:no-content;">
         <div class="page-wrapper">
-            <div class="container-login100">
+            <div class="container-login100" id="pn-login">
                 <div class="wrap-login100 p-t-190 p-b-30">
                     <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
                         <input class="input100" id="txtUserName" type="text" name="Username" required title="Please Enter User Name (Employee ID)" placeholder="Username">

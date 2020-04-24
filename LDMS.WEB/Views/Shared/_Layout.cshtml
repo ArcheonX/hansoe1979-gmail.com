@@ -31,18 +31,6 @@
     <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-
-    @*<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/tether/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-        <script type="text/javascript" src="~/lib/magnific-popup/dist/jquery.magnific-popup.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     <!--[if lt IE 9]>
         <script src="~/lib/html5shiv/html5shiv.js"></script>
         <script src="~/lib/respond.js/respond.min.js"></script>
@@ -51,7 +39,7 @@
     <script type="text/javascript" src="~/lib/datatables/js/jquery.dataTables.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/datatables/js/dataTables.bootstrap.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/datatables/js/dataTables.jqueryui.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <link href="~/lib/datatables/css/dataTables.jqueryui.css" type="text/css" rel="stylesheet"> 
+    <link href="~/lib/datatables/css/dataTables.jqueryui.css" type="text/css" rel="stylesheet">
 
     <script type="text/javascript" src="~/lib/highchart/js/highcharts.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/highchart/js/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
@@ -63,10 +51,13 @@
     <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/assets/app/LDMSUtility.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    @*<script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     @*<script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     @*<script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     <!--- CSS-->
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/css-hamburgers/hamburgers.min.css">
     <link href="~/css/style.css" type="text/css" rel="stylesheet">
     <link href="~/css/LDMS.css" type="text/css" rel="stylesheet">
     <link href="~/css/colors/blue.css" id="theme" type="text/css" rel="stylesheet">
@@ -121,15 +112,17 @@
         <aside class="right-sidebar">
             <div class="page-wrapper">
                 <div class="page-titles">
-                    <div class="col-md-5 col-8 align-self-center">
+                    <div class="col-md-5 col-8 align-self-center" style="margin-top:75px;">
                         <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
-                        <ol class="breadcrumb">
+                        <ol class="breadcrumb" style="margin-top:10px;">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
                         </ol>
                     </div>
                 </div>
                 <div class="page-body">
-                    @RenderBody()
+                    <div style="margin-top:15px;">
+                        @RenderBody()
+                    </div>
                 </div>
                 <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
             </div>

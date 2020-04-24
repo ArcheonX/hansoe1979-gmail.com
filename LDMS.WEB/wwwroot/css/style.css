@@ -1103,19 +1103,19 @@ form label{font-weight:400}
     width: 100%;
     margin-bottom: 0px;
     margin-left: 10px;
-    margin-right: 10px;
-    margin-top: -75px;*/
+    margin-right: 10px;*/
+    /*margin-top: 90px;*/
     background: #fff;
     /*margin: 0 -30px 10px;*/
     /*margin-bottom: 15px;*/
     /*margin-left: 5px;*/
     margin-right: 10px;
-    position:relative;
+    position: relative;
     /*margin-top: -75px;*/
     padding: 10px;
     box-shadow: 1px 0 5px rgba(0,0,0,0.1);
-    width: 100%; 
-    height: 100px;
+    width: 100%;
+    height: 160px;
 }
 .page-body {
     background: #fff;
@@ -1146,7 +1146,7 @@ form label{font-weight:400}
     margin-top: 8px; 
 }
 .page-titles .breadcrumb{padding:0px;background:transparent;font-size:14px}
-.page-titles .breadcrumb li{margin-top:0px;margin-bottom:0px}
+.page-titles .breadcrumb li{margin-top:0px;margin-bottom:0px;margin-left:25px;}
 .page-titles .breadcrumb .breadcrumb-item+.breadcrumb-item::before{content:"\e649";font-family:themify;color:#a6b7bf;font-size:11px}
 .page-titles .breadcrumb .breadcrumb-item.active{color:#99abb4}
 
