@@ -60,7 +60,7 @@ namespace LDMS.WEB
             services.AddSingleton(jwtSettings);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMemoryCache();
-            services.AddControllers();
+            services.AddControllers(); 
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

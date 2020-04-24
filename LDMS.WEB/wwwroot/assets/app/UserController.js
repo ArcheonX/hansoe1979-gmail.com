@@ -158,25 +158,25 @@
         }); 
 
         $('select[name="selectDivision"]').on('change', function () {
-            if (!$.isEmptyObject(validobj.submitted)) {
-                validobj.form();
-            }
+            //if (!$.isEmptyObject(validobj.submitted)) {
+            //    validobj.form();
+            //}
             var divisionId = $(this).val();
             ReloadDepartment($, divisionId, null); 
         });
 
         $('select[name="selectDepartment"]').on('change', function () {
-            if (!$.isEmptyObject(validobj.submitted)) {
-                validobj.form();
-            } 
+            //if (!$.isEmptyObject(validobj.submitted)) {
+            //    validobj.form();
+            //} 
             var departmentId = $(this).val();
             ReloadSection($, departmentId, null);  
         });
         
         $('select[name="selectSection"]').on('change', function () {
-            if (!$.isEmptyObject(validobj.submitted)) {
-                validobj.form();
-            }
+            //if (!$.isEmptyObject(validobj.submitted)) {
+            //    validobj.form();
+            //}
         });
 
         $('select[name="selectJobGrade"]').on('change', function () {
@@ -243,16 +243,14 @@
             $('#btnMasterReport').attr("class", "btn btn-info waves-effect waves-light");
         });
 
-        $('#btnAddEmployee').click(function () {
-            ClearEditor();
+        $('#btnAddEmployee').click(function () { 
             $('#viewAllUser').attr("style", "display:none;width:100%");
             $('#UserEditor').attr("style", "display:block;width:100%");
             $('#MasterReport').attr("style", "display:none;width:100%");
             CreateEditor($, null); 
         });
 
-        $('#btnBack').click(function () {
-            ClearEditor();
+        $('#btnBack').click(function () {  
             $('#viewAllUser').attr("style", "display:block;width:100%");
             $('#UserEditor').attr("style", "display:none;width:100%");
             $('#MasterReport').attr("style", "display:none;width:100%");
@@ -263,19 +261,24 @@
             if (!$("#frmUserEditor").valid()) {
                 return false;
             }
+            var roleId = 0;
+            $('#dtUserRoleList > tbody  > tr').each(function () {
+                var self = $(this);
+                var isSelected = self.find("td").eq(4).find("input[type='radio']").prop("checked");
+                if (isSelected) {
+                    var value = self.find("td").eq(1).text();
+                    roleId = parseInt(value);
+                }
+            });
+            if (roleId == null || roleId == undefined || roleId == 0) {
+                MessageController.Error("Please Enter User Role", "User Role Required");
+                return false;
+            }
             MessageController.ConfirmCallback("Are you sure you want to do this?", "Confirm change", function (res) {
                 if (!res) {
                     return false;
                 }
-                var roleId = 0;
-                $('#dtUserRoleList > tbody  > tr').each(function () {
-                    var self = $(this); 
-                    var isSelected = self.find("td").eq(4).find("input[type='checkbox']").prop("checked");
-                    if (isSelected) {
-                        var value = self.find("td").eq(1).text(); //self.find("td").eq(1).find(":text").val();
-                        roleId = parseInt(value); 
-                    }
-                }); 
+                
                 var empModel = {
                     CenterId: parseInt($("#selectCenter").val()),
                     DivisionId: parseInt($("#selectDivision").val()),
@@ -327,15 +330,6 @@
         });
     })
 })(jQuery);
-
-function checkboxonlyOne(checkbox) {
-    var checkboxes = document.getElementsByName(checkbox.name);
-    $.each(checkboxes, function () {
-        if (this !== checkbox) {
-            this.prop('checked', false); 
-        }
-    }); 
-}
 
 function ExportMasterReport($) {  
     var filterModel = {
@@ -493,8 +487,7 @@ function UpdateEmployee(empModel) {
         success: function (response) {
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
             $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-            $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-            ClearEditor();
+            $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%"); 
             SearchEmployee(); 
         },
         failure: function (response) {
@@ -522,8 +515,7 @@ function CreateEmployee(empModel) {
         success: function (response) {
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
             $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-            $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-            ClearEditor();
+            $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%"); 
             SearchEmployee();
         },
         failure: function (response) {
@@ -580,14 +572,13 @@ function EditEmployee(employeeId) {
 }
 
 function ClearEditor() {
-    $("#userCenterId").val(null);
-    $("#userDivisionId").val(null);
-    $("#userDepartmentId").val(null);
-    $("#userSectionId").val(null);
-     $("#isInstructer").prop("checked", false);
+    $("#userCenterId").val("");
+    $("#userDivisionId").val("");
+    $("#userDepartmentId").val("");
+    $("#userSectionId").val("");
+    $("#isInstructer").prop("checked", false);
     $("#btnResetPassword").attr("style", "display:none;width:100%"); 
     $("#isSectionHead").prop("checked", false);
-
     $('#selectCenter').val(null).trigger('change');  
     $('#selectGender').val(null).trigger('change');
     $('#selectJobGrade').val(null).trigger('change');
@@ -595,22 +586,22 @@ function ClearEditor() {
     $('#selectDivision').val(null).trigger('change');
     $('#selectDepartment').val(null).trigger('change');
     $('#selectSection').val(null).trigger('change');   
-    $('#txtEmployeeId').val(null);
-    $('#txtEmployeeName').val(null);
-    $('#txtEmployeeSurName').val(null);
-    $('#txtNationality').val(null);
-    $('#txtEmail').val(null);
-    $('#txtPhone').val(null);
-    $('#txtRemark').val(null);
-    $('#isInstructer').val(null);
-    $('#isSectionHead').val(null);
+    $('#txtEmployeeId').val("");
+    $('#txtEmployeeName').val("");
+    $('#txtEmployeeSurName').val("");
+    $('#txtNationality').val("");
+    $('#txtEmail').val("");
+    $('#txtPhone').val("");
+    $('#txtRemark').val("");
     $('#dtUserRoleList > tbody  > tr').each(function () {
         var self = $(this); 
         var check = self.find("td").eq(4).find("input[type='radio']");
         check.prop("checked", false);
     }); 
 }
-function CreateEditor($, employeeId) { 
+
+function CreateEditor($, employeeId) {
+    ClearEditor(); 
     $("#userEditMode").val("false");
     $('select[name="selectDivision"]').val(null);
     $('select[name="selectDepartment"]').val(null);
@@ -877,10 +868,11 @@ function CreateDataTablePaging() {
     $('.dataTables_length').addClass('bs-select');
 }
 
-function OnSelectRadio(ele) {
+function OnChangeMasterType(ele) {
     $("#txtInstructorId").attr("disabled", "disabled");
     $("#selectPlatform").attr("disabled", "disabled");
     $("#selectCourse").attr("disabled", "disabled");
+
     if (ele.id == "Instructor") {
         $("#txtInstructorId").removeAttr("disabled");
     } else if (ele.id == "Platform") {
@@ -888,5 +880,5 @@ function OnSelectRadio(ele) {
     } else if (ele.id == "Course") {
         $("#selectCourse").removeAttr("disabled");
     }
-} 
-
+}
+ 

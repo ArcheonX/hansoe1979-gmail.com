@@ -19,19 +19,19 @@ namespace LDMS.WEB
         /// <param name="configuration"></param>
         public static void ConfigureAppServices(this IServiceCollection self, IConfiguration configuration)
         {
-            self.AddScoped<ILDMSConnection, ADOConnection>(serviceProvider =>
+            self.AddTransient<ILDMSConnection, ADOConnection>(serviceProvider =>
             {
                 return new ADOConnection(configuration.GetConnectionString("DefaultConnection"));
             });
-            self.AddScoped<CustomCookieAuthenticationEvents>();
-            self.AddScoped<ILdapService, LdapService>();
+            self.AddTransient<CustomCookieAuthenticationEvents>();
+            self.AddTransient<ILdapService, LdapService>();
 
             Assembly service = Assembly.GetAssembly(typeof(ILDMSService));
             foreach (Type mytype in typeof(ILDMSService).Assembly.GetTypes().Where(mytype => !mytype.IsAbstract && mytype.IsSubclassOf(typeof(ILDMSService))))
             {
                 foreach (Type myImple in service.GetTypes().Where(myImple => mytype.IsAssignableFrom(myImple)))
                 {
-                    self.AddScoped(mytype, myImple);
+                    self.AddTransient(mytype, myImple);
                 }
             }
         }
