@@ -26,7 +26,7 @@ namespace LDMS.WEB.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> GetAllPlants()
         {
-            return Response(await MasterService.GetAllCenters());
+            return Response(await MasterService.GetAllPlants());
         }
 
         [AuthorizeRole(UserRole.All)]
@@ -36,7 +36,7 @@ namespace LDMS.WEB.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> GetAllCenters()
         {
-            return Response(await MasterService.GetAllJobGrades());
+            return Response(await MasterService.GetAllCenters());
         }
 
         [AuthorizeRole(UserRole.All)]
@@ -46,7 +46,7 @@ namespace LDMS.WEB.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> GetAllCenters(int plantId)
         {
-            return Response(await MasterService.GetAllJobTitles());
+            return Response(await MasterService.GetAllCenters(plantId));
         }
 
         [AuthorizeRole(UserRole.All)]

@@ -230,57 +230,65 @@
         }
     </style>
     <script type="text/javascript">
-    
-    //alert('EditorSubplatform');
-
-    if ($('#hID').val() != 'null') { // Edit
-        alert('Have ID : ' + $('#hID').val());
-        //LoadSubPlatformCourse($('#hID').val());
-        LoadSubPlatformCourseList($('#hID').val());
-    }
-    else { // new
-
-    }
 
 
-    $('#btnUpdateSubPlatform').click(function () {
-        alert('Update : ' + $('#hID').val() );
+    $(document).ready(function () {
+        $('#btnUpdateSubPlatform').click(function () {
+        //alert('Update : ' + $('#hID').val() );
         //SaveSubPlatformCourse($('#hID').val());
         UpdateSubPlatform($("#hID_Platform").val(), $('#hID').val());
+        });
+
+         $('#btnBacktoPlatform').click(function () {
+             BacktoPlatform($("#hID_Platform").val());
+         });
+
+              $('#selectCourse_all').click(function () {
+         $('input:checkbox').prop('checked', this.checked);
+        });
+
+
+         $('#btnSearchCourse').click(function () {
+              debugger;
+             $('#modSearhCourse').modal('toggle');
+             LoadCourseLearnMethod();
+             $('#dtCourse tbody').empty();
+        });
+
+
+        $('#btnClose').click(function () {
+            $('#modSearhCourse').modal('hide');
+            $('#dtCourse tbody').empty();
+            CreateDataTablePaging($);
+        });
+
+        $('#btnSearch').click(function () {
+            SearchCourse($);
+        });
+
+
+        //alert('EditorSubplatform');
+
+        if ($('#hID').val() != 'null') { // Edit
+            //alert('Have ID : ' + $('#hID').val());
+            //LoadSubPlatformCourse($('#hID').val());
+            LoadSubPlatformCourseList($('#hID').val());
+        }
+        else { // new
+
+        }
+
+        deleteCourse();
+
     });
-
-     $('#btnBacktoPlatform').click(function () {
-         BacktoPlatform($("#hID_Platform").val());
-    });
-
-
-    deleteCourse();
+    
+    
 
     /*$('#selCourse_all').click(function () {
      $('input:checkbox').prop('checked', this.checked);
     });*/
 
-     $('#selectCourse_all').click(function () {
-     $('input:checkbox').prop('checked', this.checked);
-    });
-
-
-     $('#btnSearchCourse').click(function () {
-         $('#modSearhCourse').modal('toggle');
-         LoadCourseLearnMethod();
-         $('#dtCourse tbody').empty();
-    });
-
-
-    $('#btnClose').click(function () {
-        $('#modSearhCourse').modal('hide');
-        $('#dtCourse tbody').empty();
-        CreateDataTablePaging($);
-    });
-
-    $('#btnSearch').click(function () {
-        SearchCourse($);
-    });
+   
 
     function deleteCourse() {
         $('.table tbody').on('click', '.btn', function () {
@@ -289,7 +297,7 @@
     }
 
     function BacktoPlatform(ID) {
-        alert('BacktoPlatform ' + ID);
+        //alert('BacktoPlatform ' + ID);
         $.ajax({
             url: "/Platform/BacktoPlatform",
             type: "GET",
@@ -320,7 +328,7 @@
         }*/
 
         var table = $('#dtSubPlatformCourses').DataTable();
-        alert(table);
+        //alert(table);
             table
             .column( 1 )
             .data()
@@ -335,8 +343,8 @@
             } );
 
 
-        alert(JSON.stringify(model));
-        alert('Have ID : ' + $('#hID').val());
+        //alert(JSON.stringify(model));
+        //alert('Have ID : ' + $('#hID').val());
         $.ajax({
             url: "/Platform/InsertSubPlatformCourse",
             type: "GET",
@@ -376,7 +384,7 @@
     }
 
     function RenderSubPlatormCourse(e) {
-        alert('RenderSubPlatormCourse');
+        //alert('RenderSubPlatormCourse');
         $("#dtSubPlatformCourses tbody > tr").remove();
             for (i = 0; i < e.length; i++) {
                 var row = $("<tr />");
@@ -398,7 +406,7 @@
     }
 
     function ModalSelectCourse() {
-        alert('SelectCourse');
+        //alert('SelectCourse');
         var i = 1;
         //var table = $('#dtSubPlatformCourses').DataTable();
         var index = 1;
@@ -470,7 +478,7 @@
 
 
   function RendorCourse(e) {
-        alert('RendorCourse');
+       // alert('RendorCourse');
         $("#dtCourse tbody > tr").remove();
             for (i = 0; i < e.length; i++) {
                 var row = $("<tr />");
@@ -517,7 +525,7 @@ function CreateDataTablePaging($) {
     }
 
     function LoadSubPlatformCourseList( ID ) {
-             alert('LoadSubPlatformCourseList : ' + ID );
+             //alert('LoadSubPlatformCourseList : ' + ID );
              dtData = $('#dtSubPlatformCourses').DataTable({
                 'processing': true,
                 'serverSide': true,
@@ -558,7 +566,7 @@ function CreateDataTablePaging($) {
     }
 
     function DeleteCourse(ID) {
-        alert('DeleteCourse : ' + ID);
+        //alert('DeleteCourse : ' + ID);
         $.ajax({
             url: "/Platform/DeleteSubPlatformCourse",
             type: "GET",
@@ -575,7 +583,7 @@ function CreateDataTablePaging($) {
     }
 
     function SaveSubPlatFormCourse() {
-        alert('SaveSubPlatFormCourse');
+        //alert('SaveSubPlatFormCourse');
         var model = [];
         var i = 0;
 
@@ -590,8 +598,8 @@ function CreateDataTablePaging($) {
             i++;
         }
 
-        alert(JSON.stringify(model));
-        alert('Have ID : ' + $('#hID').val());
+        //alert(JSON.stringify(model));
+        //alert('Have ID : ' + $('#hID').val());
         $.ajax({
             url: "/Platform/InsertSubPlatformCourse",
             type: "GET",

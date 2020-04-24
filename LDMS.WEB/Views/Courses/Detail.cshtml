@@ -283,7 +283,8 @@
                                 name="selectCenter"
                                 title="Please Enter Center"
                                 class="form-control required"
-                                style="width: 100%">
+                                style="width: 100%"
+                                disabled="disabled">
                         </select>
                     </div>
                 </div>
@@ -299,7 +300,8 @@
                                 name="selectDivision"
                                 title="Please Enter Division"
                                 class="form-control required"
-                                style="width: 100%">
+                                style="width: 100%"
+                                disabled="disabled">
                         </select>
                     </div>
                     <div class="col-sm-1 col-md-1">
@@ -312,7 +314,8 @@
                                 name="selectDepartment"
                                 title="Please Enter Department"
                                 class="form-control required"
-                                style="width: 100%">
+                                style="width: 100%"
+                                disabled="disabled">
                         </select>
                     </div>
                 </div>
@@ -328,7 +331,8 @@
                                 name="selectSection"
                                 title="Please Enter Section"
                                 class="form-control required"
-                                style="width: 100%">
+                                style="width: 100%"
+                                disabled="disabled">
                         </select>
                     </div>
                 </div>
@@ -991,7 +995,8 @@
                                options.append($("<option />").val(this.ID).text(this.CenterName_EN));
                             //}
                         });
-                         $('select[name="selectCenter"]').val($('#hID_CenterTarget').val()).trigger('change');
+                        $('select[name="selectCenter"]').val($('#hID_CenterTarget').val()).trigger('change');
+                        document.getElementById("selectCenter").disabled = false;
                          // ReloadDivision($, $('#hID_CenterTarget').val(), null);
                         if (callback) {
                             //callback($("#userDivisionId").val());
@@ -1004,6 +1009,9 @@
                         MessageController.Error(response.responseText, "Error");
                     }
                 });
+
+
+                
             }
         }
 
@@ -1027,6 +1035,7 @@
                             //}
                         });
                         $('select[name="selectDivision"]').val($('#hID_DivisionTarget').val()).trigger('change');
+                        document.getElementById("selectDivision").disabled = false;
                         //ReloadDepartment($, $('#hID_DivisionTarget').val(), null);
 
                         if (callback) {
@@ -1062,7 +1071,8 @@
                             //}
                         });
 
-                         $('select[name="selectDepartment"]').val($('#hID_DepartmentTarget').val()).trigger('change');
+                        $('select[name="selectDepartment"]').val($('#hID_DepartmentTarget').val()).trigger('change');
+                        document.getElementById("selectDepartment").disabled = false;
                          //ReloadSection($, $('#hID_DepartmentTarget').val(), null);
 
                         if (callback) {
@@ -1098,7 +1108,7 @@
                         });
 
                         $('select[name="selectSection"]').val($('#hID_SectionTarget').val()).trigger('change');
-
+                        document.getElementById("selectSection").disabled = false;
                         if (callback) {
                             //callback($("#userSectionId").val());
                         }

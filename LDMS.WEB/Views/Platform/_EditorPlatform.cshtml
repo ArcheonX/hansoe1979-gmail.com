@@ -172,7 +172,7 @@
 //var initialLoad = true;
  $(document).ready(function () {
 
-         alert('document ID ' + $('#hID').val());
+         //alert('document ID ' + $('#hID').val());
 
          if ($('#hID').val() != 'null') {
              //LoadSubPlatform($('#hID').val());
@@ -259,7 +259,7 @@
     }
 
     function LoadSubPlatformList( ID ) {
-            alert('LoadSubPlatformList');
+            //alert('LoadSubPlatformList');
              dtData = $('#dtSubplatform').DataTable({
                 'processing': true,
                 'serverSide': true,
@@ -343,7 +343,7 @@
     }
 
     function loadSubPlatformEdit(ID) {
-        alert('loadSubPlatformEdit : ' + ID);
+        //alert('loadSubPlatformEdit : ' + ID);
         $.ajax(
             {
                 url: "/Platform/LoadSubPlatformByID",
@@ -362,7 +362,7 @@
 
 
     function DeleteSubPlatform(ID) {
-        alert('DeleteSubPlatform : ' + ID );
+        //alert('DeleteSubPlatform : ' + ID );
         $.ajax({
             url: "/Platform/DeleteSubPlatform",
             type: "GET",

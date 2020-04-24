@@ -751,6 +751,7 @@ function CreateEditor($, employeeId) {
 }
 
 function SearchEmployee() {
+    MessageController.BlockUI({ boxed: true, target: '#dtUserList' });
     var deps = $('#selectFilterDepartment').val();
     var searmodel = {
         EmployeeId: $("#txtFilterEmployeeID").val(),
@@ -765,36 +766,53 @@ function SearchEmployee() {
             $('#UserListcontent').empty();
             $('#UserListcontent').html(response);
             CreateDataTablePaging(); 
+            MessageController.UnblockUI('#dtUserList');
         },
-        failure: function (response) {  
-            alert(response.responseText);
+        failure: function (response) {
+            MessageController.UnblockUI('#dtUserList');
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         },
-        error: function (response) {  
-            alert(response.responseText);
+        error: function (response) {
+            MessageController.UnblockUI('#dtUserList');
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
         }
     });
 }
 
 function CreateDataTablePaging() {
-    var table = $('#dtUserList').DataTable();
-    table.destroy();
+    if ($.fn.dataTable.isDataTable('#dtUserList')) {
+        var table = $('#dtUserList').DataTable();
+        table.destroy();
+    } 
     $('#dtUserList').DataTable({
-        "paging": true,
+        'processing': true,
+        'paging': true,
         "ordering": false,
         "searching": false,
         "lengthChange": false,
         "bAutoWidth": false,
-        "Filter": true,
+        "Filter": false,
         "info": false,
         "bPaginate": false,
         "bLengthChange": false,
-        "language": {
-            "lengthMenu": "Display _MENU_ records per page",
-            "zeroRecords": "    Nothing found - sorry",
-            "info": "    page _PAGE_ of _PAGES_",
-            "infoEmpty": "    No records available",
-            "infoFiltered": "(filtered from _MAX_ total records)"
-        }
+        //"language": {
+        //    "lengthMenu": "Display _MENU_ records per page",
+        //    "zeroRecords": "    Nothing found - sorry",
+        //    "info": "    page _PAGE_ of _PAGES_",
+        //    "infoEmpty": "    No records available",
+        //    "infoFiltered": "(filtered from _MAX_ total records)"
+        //},
+        "bJQueryUI": true, //Enable smooth theme
+        "sPaginationType": "full_numbers", //Enable smooth theme
+        "sDom": 'lfrtip'
     });
     $('.dataTables_length').addClass('bs-select');
 }

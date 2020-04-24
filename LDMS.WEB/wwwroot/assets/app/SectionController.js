@@ -172,6 +172,7 @@
     })
 })(jQuery);
 function LoadSection() {
+    MessageController.BlockUI({ boxed: true, target: '#dtSectionRows' });
     $.ajax({
         type: "GET",
         url: '/Organization/Sections',
@@ -182,33 +183,40 @@ function LoadSection() {
             $('#dtSectionRows').empty();
             $('#dtSectionRows').html(response);
             try {
-                if (!$.fn.dataTable.isDataTable('#dtSectionRows')) {
-                    $('#dtSectionRows').DataTable({
-                        "paging": true,
-                        "ordering": false,
-                        "searching": false,
-                        "lengthChange": false,
-                        "bAutoWidth": true,
-                        "Filter": true,
-                        "info": false,
-                        "bPaginate": false,
-                        "bLengthChange": false,
-                        "sErrMode": "console",
-                        "language": {
-                            "lengthMenu": "Display _MENU_ records per page",
-                            "zeroRecords": "    Nothing found - sorry",
-                            "info": "    page _PAGE_ of _PAGES_",
-                            "infoEmpty": "    No records available",
-                            "infoFiltered": "(filtered from _MAX_ total records)"
-                        }
-                    });
+                if ($.fn.dataTable.isDataTable('#dtSectionRows')) {
+                    var table = $('#dtSectionRows').DataTable();
+                    table.destroy();
                 }
+                $('#dtSectionRows').DataTable({
+                    'processing': true,
+                    'paging': true,
+                    "ordering": false,
+                    "searching": false,
+                    "lengthChange": false,
+                    "bAutoWidth": false,
+                    "Filter": false,
+                    "info": false,
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    //"language": {
+                    //    "lengthMenu": "Display _MENU_ records per page",
+                    //    "zeroRecords": "    Nothing found - sorry",
+                    //    "info": "    page _PAGE_ of _PAGES_",
+                    //    "infoEmpty": "    No records available",
+                    //    "infoFiltered": "(filtered from _MAX_ total records)"
+                    //},
+                    "bJQueryUI": true, //Enable smooth theme
+                    "sPaginationType": "full_numbers", //Enable smooth theme
+                    "sDom": 'lfrtip'
+                });
                 $('.dataTables_length').addClass('bs-select');
             } catch (e) {
                 return false;
             }
+            MessageController.UnblockUI('#dtSectionRows');
         },
         failure: function (response) { 
+            MessageController.UnblockUI('#dtSectionRows');
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {
@@ -216,6 +224,7 @@ function LoadSection() {
             }
         },
         error: function (response) { 
+            MessageController.UnblockUI('#dtSectionRows');
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {
@@ -225,6 +234,7 @@ function LoadSection() {
     });
 }
 function LoadEmployees() {
+    MessageController.BlockUI({ boxed: true, target: '#dtListEmployee' });
     $.ajax({
         type: "GET",
         url: '/Organization/Employees',
@@ -237,33 +247,40 @@ function LoadEmployees() {
             $('#dtListEmployee').empty();
             $('#dtListEmployee').html(response);
             try {
-                if (!$.fn.dataTable.isDataTable('#dtListEmployee')) {
-                    $('#dtListEmployee').DataTable({
-                        "paging": true,
-                        "ordering": false,
-                        "searching": false,
-                        "lengthChange": false,
-                        "bAutoWidth": true,
-                        "Filter": true,
-                        "info": false,
-                        "bPaginate": false,
-                        "bLengthChange": false,
-                        "sErrMode": "console",
-                        "language": {
-                            "lengthMenu": "Display _MENU_ records per page",
-                            "zeroRecords": "    Nothing found - sorry",
-                            "info": "    page _PAGE_ of _PAGES_",
-                            "infoEmpty": "    No records available",
-                            "infoFiltered": "(filtered from _MAX_ total records)"
-                        }
-                    });
+                if ($.fn.dataTable.isDataTable('#dtListEmployee')) {
+                    var table = $('#dtListEmployee').DataTable();
+                    table.destroy();
                 }
+                $('#dtListEmployee').DataTable({
+                    'processing': true,
+                    'paging': true,
+                    "ordering": false,
+                    "searching": false,
+                    "lengthChange": false,
+                    "bAutoWidth": false,
+                    "Filter": false,
+                    "info": false,
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    //"language": {
+                    //    "lengthMenu": "Display _MENU_ records per page",
+                    //    "zeroRecords": "    Nothing found - sorry",
+                    //    "info": "    page _PAGE_ of _PAGES_",
+                    //    "infoEmpty": "    No records available",
+                    //    "infoFiltered": "(filtered from _MAX_ total records)"
+                    //},
+                    "bJQueryUI": true, //Enable smooth theme
+                    "sPaginationType": "full_numbers", //Enable smooth theme
+                    "sDom": 'lfrtip'
+                });
                 $('.dataTables_length').addClass('bs-select');
             } catch (e) {
                 return false;
             }
+            MessageController.UnblockUI('#dtListEmployee');
         },
         failure: function (response) {
+            MessageController.UnblockUI('#dtListEmployee');
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {
@@ -271,6 +288,7 @@ function LoadEmployees() {
             }
         },
         error: function (response) {
+            MessageController.UnblockUI('#dtListEmployee');
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {

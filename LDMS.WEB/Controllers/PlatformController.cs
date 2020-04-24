@@ -58,7 +58,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [HttpGet]
+        [HttpPost]
         [Route("Platform/SearchPlatform")]
         public async Task<ActionResult> SearchPlatform(SearchPlatformModel model)
         {

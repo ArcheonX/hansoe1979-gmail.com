@@ -38,7 +38,12 @@
                             </span>
                         </div>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" id="txtFilterPlatformType" class="form-control input-sm" />
+                            <select id="selectPlatformType"
+                                    name="selectPlatformType"
+                                    title="Please Select Platform Type"
+                                    class="form-control"
+                                    style="width: 100%">
+                            </select>
                         </div>
                     </div>
                     <div class="row form-group">
@@ -88,36 +93,71 @@
             </div>
         </div>
     </div>
-        @section Scripts{ 
-            <script type="text/javascript">
-        var dtData;
-        $("#btnSeacrh").click(function (e) {
-            //alert('search');
-            Search();
-            return false;
-        });
+@section Scripts{ 
+  <script type="text/javascript">
+        
 
         $(document).ready(function () {
+
+            LoadPlatformType();
             Search();
+            
+            var dtData;
+            $("#btnSeacrh").click(function (e) {
+                //alert('search');
+                Search();
+                return false;
+            });
         });
 
-        function Search() { 
+      function LoadPlatformType() {
+      $.ajax({ url: "/Platform/GetAllPlatformType",
+                type: "GET",
+            }).done(function (items) {
+                $('#selectPlatformType').empty();
+                var options = $('#selectPlatformType');
+                options.append($("<option />").val(null).text("---Please Select---"));
+                $.each(items, function () {
+                    options.append($("<option />").val(this.ID).text(this.PlatformTypeName_EN));
+                });
+                //$('select[name="selectPlatformType"]').val(value);
+            });
+      }
+
+        function Search() {
+             
               $('#dtPlatformList').DataTable({
-                'processing': true,
-                'serverSide': true,
-                'paging': true,
-                "pagingType": "full_numbers",
-                'searching': false,
+                  'processing': true,
+                  'serverSide': true,
+                  'paging': true,
+                  "ordering": false,
+                  "searching": false,
+                  "lengthChange": false,
+                  "bAutoWidth": false,
+                  "Filter": false,
+                  "info": false,
+                  "bPaginate": false,
+                  "bLengthChange": false,
+                  //"language": {
+                  //    "lengthMenu": "Display _MENU_ records per page",
+                  //    "zeroRecords": "    Nothing found - sorry",
+                  //    "info": "    page _PAGE_ of _PAGES_",
+                  //    "infoEmpty": "    No records available",
+                  //    "infoFiltered": "(filtered from _MAX_ total records)"
+                  //},
+                  "bJQueryUI": true, //Enable smooth theme
+                  "sPaginationType": "full_numbers", //Enable smooth theme
+                  "sDom": 'lfrtip',
                  //retrieve: true,
                  destroy: true,
                 'ajax': {
                     'url': '@Url.Action("Search", "Platform")',
                     'type': 'POST',
                     'data': {
-                        'PlatformId': $("#txtFilterPlatformID").val(),
-                        'PlatformName': $("#txtFilterPlatformName").val(),
-                        'PlatformType': $("#txtFilterPlatformType").val(),
-                        'PlatformStatus': $("#selectPlatformtStatus").val(),
+                        PlatformId: $("#txtFilterPlatformID").val(),
+                        PlatformName: $("#txtFilterPlatformName").val(),
+                        PlatformType: $('#selectPlatformType').val(),
+                        PlatformStatus: $("#selectPlatformtStatus").val(),
                         "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
                     },
                 },

@@ -2,13 +2,7 @@
     ViewData["Title"] = "Course Training";
     ViewData["MainTitle"] = "I-Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<script src="~/assets/plugins/highchart/highcharts.js"></script>
-<script src="~/assets/plugins/highchart/modules/exporting.js"></script>
-<script src="~/assets/plugins/highchart/modules/export-data.js"></script>
-<script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-
+} 
 <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
     <div class="panel panel-default" style="width:100%;border-width:thin;border-style:solid;">
         <div class="panel-body" style="width:100%;">
@@ -132,11 +126,27 @@
         function Search() {
             //alert('search function');
              dtData = $('#dtCourseList').DataTable({
-                'processing': true,
-                'serverSide': true,
-                'paging': true,
-                "pagingType": "full_numbers",
-                'searching': false,
+                 'processing': true,
+                 'serverSide': true,
+                 'paging': true,
+                 "ordering": false,
+                 "searching": false,
+                 "lengthChange": false,
+                 "bAutoWidth": false,
+                 "Filter": false,
+                 "info": false,
+                 "bPaginate": false,
+                 "bLengthChange": false,
+                 //"language": {
+                 //    "lengthMenu": "Display _MENU_ records per page",
+                 //    "zeroRecords": "    Nothing found - sorry",
+                 //    "info": "    page _PAGE_ of _PAGES_",
+                 //    "infoEmpty": "    No records available",
+                 //    "infoFiltered": "(filtered from _MAX_ total records)"
+                 //},
+                 "bJQueryUI": true, //Enable smooth theme
+                 "sPaginationType": "full_numbers", //Enable smooth theme
+                 "sDom": 'lfrtip',
                  //retrieve: true,
                  destroy: true,
                 'ajax': {
@@ -146,7 +156,7 @@
                         'CourseID': $("#txtFilterCourseID").val(),
                         'CourseName': $("#txtFilterCourseName").val(),
                         'CourseStatus': $("#selectCourseStatus").val(),
-                        'LearnMetod': $("#selectLearnMetod").val(),
+                        'LearnMethod': $("#selectLearnMethod").val(),
                         "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
                     },
                 },
