@@ -234,7 +234,7 @@
 
     $(document).ready(function () {
         $('#btnUpdateSubPlatform').click(function () {
-        alert('Update : ' + $('#hID').val() );
+        //alert('Update : ' + $('#hID').val() );
         //SaveSubPlatformCourse($('#hID').val());
         UpdateSubPlatform($("#hID_Platform").val(), $('#hID').val());
         });
@@ -266,25 +266,23 @@
             SearchCourse($);
         });
 
+
+        //alert('EditorSubplatform');
+
+        if ($('#hID').val() != 'null') { // Edit
+            //alert('Have ID : ' + $('#hID').val());
+            //LoadSubPlatformCourse($('#hID').val());
+            LoadSubPlatformCourseList($('#hID').val());
+        }
+        else { // new
+
+        }
+
+        deleteCourse();
+
     });
     
-    //alert('EditorSubplatform');
-
-    if ($('#hID').val() != 'null') { // Edit
-        alert('Have ID : ' + $('#hID').val());
-        //LoadSubPlatformCourse($('#hID').val());
-        LoadSubPlatformCourseList($('#hID').val());
-    }
-    else { // new
-
-    }
-
-
-
-
-   
-
-    deleteCourse();
+    
 
     /*$('#selCourse_all').click(function () {
      $('input:checkbox').prop('checked', this.checked);
@@ -299,7 +297,7 @@
     }
 
     function BacktoPlatform(ID) {
-        alert('BacktoPlatform ' + ID);
+        //alert('BacktoPlatform ' + ID);
         $.ajax({
             url: "/Platform/BacktoPlatform",
             type: "GET",
@@ -330,7 +328,7 @@
         }*/
 
         var table = $('#dtSubPlatformCourses').DataTable();
-        alert(table);
+        //alert(table);
             table
             .column( 1 )
             .data()
@@ -345,8 +343,8 @@
             } );
 
 
-        alert(JSON.stringify(model));
-        alert('Have ID : ' + $('#hID').val());
+        //alert(JSON.stringify(model));
+        //alert('Have ID : ' + $('#hID').val());
         $.ajax({
             url: "/Platform/InsertSubPlatformCourse",
             type: "GET",
@@ -386,7 +384,7 @@
     }
 
     function RenderSubPlatormCourse(e) {
-        alert('RenderSubPlatormCourse');
+        //alert('RenderSubPlatormCourse');
         $("#dtSubPlatformCourses tbody > tr").remove();
             for (i = 0; i < e.length; i++) {
                 var row = $("<tr />");
@@ -408,7 +406,7 @@
     }
 
     function ModalSelectCourse() {
-        alert('SelectCourse');
+        //alert('SelectCourse');
         var i = 1;
         //var table = $('#dtSubPlatformCourses').DataTable();
         var index = 1;
@@ -480,7 +478,7 @@
 
 
   function RendorCourse(e) {
-        alert('RendorCourse');
+       // alert('RendorCourse');
         $("#dtCourse tbody > tr").remove();
             for (i = 0; i < e.length; i++) {
                 var row = $("<tr />");
@@ -527,7 +525,7 @@ function CreateDataTablePaging($) {
     }
 
     function LoadSubPlatformCourseList( ID ) {
-             alert('LoadSubPlatformCourseList : ' + ID );
+             //alert('LoadSubPlatformCourseList : ' + ID );
              dtData = $('#dtSubPlatformCourses').DataTable({
                 'processing': true,
                 'serverSide': true,
@@ -568,7 +566,7 @@ function CreateDataTablePaging($) {
     }
 
     function DeleteCourse(ID) {
-        alert('DeleteCourse : ' + ID);
+        //alert('DeleteCourse : ' + ID);
         $.ajax({
             url: "/Platform/DeleteSubPlatformCourse",
             type: "GET",
@@ -585,7 +583,7 @@ function CreateDataTablePaging($) {
     }
 
     function SaveSubPlatFormCourse() {
-        alert('SaveSubPlatFormCourse');
+        //alert('SaveSubPlatFormCourse');
         var model = [];
         var i = 0;
 
@@ -600,8 +598,8 @@ function CreateDataTablePaging($) {
             i++;
         }
 
-        alert(JSON.stringify(model));
-        alert('Have ID : ' + $('#hID').val());
+        //alert(JSON.stringify(model));
+        //alert('Have ID : ' + $('#hID').val());
         $.ajax({
             url: "/Platform/InsertSubPlatformCourse",
             type: "GET",

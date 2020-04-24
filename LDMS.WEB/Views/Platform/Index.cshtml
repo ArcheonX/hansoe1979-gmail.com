@@ -38,7 +38,12 @@
                             </span>
                         </div>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" id="txtFilterPlatformType" class="form-control input-sm" />
+                            <select id="selectPlatformType"
+                                    name="selectPlatformType"
+                                    title="Please Select Platform Type"
+                                    class="form-control"
+                                    style="width: 100%">
+                            </select>
                         </div>
                     </div>
                     <div class="row form-group">
@@ -88,20 +93,39 @@
             </div>
         </div>
     </div>
-        @section Scripts{ 
-            <script type="text/javascript">
-        var dtData;
-        $("#btnSeacrh").click(function (e) {
-            //alert('search');
-            Search();
-            return false;
-        });
+@section Scripts{ 
+  <script type="text/javascript">
+        
 
         $(document).ready(function () {
+
+            LoadPlatformType();
             Search();
+            
+            var dtData;
+            $("#btnSeacrh").click(function (e) {
+                //alert('search');
+                Search();
+                return false;
+            });
         });
 
-        function Search() { 
+      function LoadPlatformType() {
+      $.ajax({ url: "/Platform/GetAllPlatformType",
+                type: "GET",
+            }).done(function (items) {
+                $('#selectPlatformType').empty();
+                var options = $('#selectPlatformType');
+                options.append($("<option />").val(null).text("---Please Select---"));
+                $.each(items, function () {
+                    options.append($("<option />").val(this.ID).text(this.PlatformTypeName_EN));
+                });
+                //$('select[name="selectPlatformType"]').val(value);
+            });
+      }
+
+        function Search() {
+             
               $('#dtPlatformList').DataTable({
                 'processing': true,
                 'serverSide': true,
@@ -114,10 +138,10 @@
                     'url': '@Url.Action("Search", "Platform")',
                     'type': 'POST',
                     'data': {
-                        'PlatformId': $("#txtFilterPlatformID").val(),
-                        'PlatformName': $("#txtFilterPlatformName").val(),
-                        'PlatformType': $("#txtFilterPlatformType").val(),
-                        'PlatformStatus': $("#selectPlatformtStatus").val(),
+                        PlatformId: $("#txtFilterPlatformID").val(),
+                        PlatformName: $("#txtFilterPlatformName").val(),
+                        PlatformType: $('#selectPlatformType').val(),
+                        PlatformStatus: $("#selectPlatformtStatus").val(),
                         "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
                     },
                 },
