@@ -112,8 +112,8 @@
       "destination": "wwwroot/lib/datatables/"
     },
     {
-      "library": "datatable@2.0.1",
-      "destination": "wwwroot/lib/datatable/"
+      "library": "tether@1.4.7",
+      "destination": "wwwroot/lib/tether/"
     }
   ]
 }
