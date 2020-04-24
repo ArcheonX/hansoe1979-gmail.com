@@ -1,12 +1,19 @@
 ﻿(function ($) {
     "use strict";
     $(document).ready(function () {   
-        $("input[type='datetime']").datepicker();
-        $('select').select2({
-            allowClear: true,
+        $("input[type='datetime']").datepicker(); 
+        $('select').select2({ 
             closeOnSelect: true,
-            theme: "bootstrap"
+            theme: "bootstrap",
+            allowClear: true,
+            placeholder: 'All',
+            language: {
+                noResults: function () {
+                    return "{{ __('No results found') }}";
+                }
+            }
         });
+
         var validobj = $("#frmUserEditor").validate({ 
             onkeyup: false,
             errorClass: "myErrorClass",
@@ -24,14 +31,6 @@
                 error.attr("style", "color: #f60b0b");
             },
         }); 
-        $('select[name="selectCenter"]').on('change', function () {
-            if (!$.isEmptyObject(validobj.submitted)) {
-                validobj.form();
-            }
-            var centerId = $(this).val();
-            ReloadDivision($, centerId,null); 
-        });
-         
 
         $.ajax({
             type: "GET",
@@ -39,7 +38,7 @@
             success: function (response) {
                 var options = $('#selectFilterDepartment');
                 var optionsreport = $('#selectMasterReportDepartment');
-                options.append($("<option />").val(null).text("---All---"));
+                //options.append($("<option />").val(null).text("---All---"));
                 optionsreport.append($("<option />").val(null).text("---All---"));
 
                 $.each(response.Data, function () {
@@ -149,7 +148,14 @@
         }); 
 
         SearchEmployee($);
-         
+
+        $('select[name="selectCenter"]').on('change', function () {
+            if (!$.isEmptyObject(validobj.submitted)) {
+                validobj.form();
+            }
+            var centerId = $(this).val();
+            ReloadDivision($, centerId, null);
+        }); 
 
         $('select[name="selectDivision"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
@@ -158,33 +164,39 @@
             var divisionId = $(this).val();
             ReloadDepartment($, divisionId, null); 
         });
+
         $('select[name="selectDepartment"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
             } 
             var departmentId = $(this).val();
             ReloadSection($, departmentId, null);  
-        }); 
+        });
+        
         $('select[name="selectSection"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
             }
         });
+
         $('select[name="selectJobGrade"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
             }
         });
+
         $('select[name="selectJObTitle"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
             }
         });
+
         $('select[name="selectGender"]').on('change', function () {
             if (!$.isEmptyObject(validobj.submitted)) {
                 validobj.form();
             }
         }); 
+
         $('#btnResetPassword').click(function () {
             MessageController.ConfirmCallback("Are you sure you want to reset to default password?", "Confirm change", function (res) {
                 if (res) {
@@ -214,6 +226,7 @@
                 }
             });
         });
+
         $('#btnUser').click(function () {
             $('#viewAllUser').attr("style", "display:block;width:100%");
             $('#UserEditor').attr("style", "display:none;width:100%");
@@ -221,6 +234,7 @@
             $('#btnUser').attr("class", "btn btn-info waves-effect waves-light");
             $('#btnMasterReport').attr("class", "btn btn btn-outline-info waves-effect waves-light");
         });
+
         $('#btnMasterReport').click(function () {
             $('#viewAllUser').attr("style", "display:none;width:100%");
             $('#UserEditor').attr("style", "display:none;width:100%");
@@ -228,17 +242,22 @@
             $('#btnUser').attr("class", "btn btn btn-outline-info waves-effect waves-light");
             $('#btnMasterReport').attr("class", "btn btn-info waves-effect waves-light");
         });
+
         $('#btnAddEmployee').click(function () {
+            ClearEditor();
             $('#viewAllUser').attr("style", "display:none;width:100%");
             $('#UserEditor').attr("style", "display:block;width:100%");
             $('#MasterReport').attr("style", "display:none;width:100%");
             CreateEditor($, null); 
         });
+
         $('#btnBack').click(function () {
+            ClearEditor();
             $('#viewAllUser').attr("style", "display:block;width:100%");
             $('#UserEditor').attr("style", "display:none;width:100%");
             $('#MasterReport').attr("style", "display:none;width:100%");
         });
+
         $('#btnSaveEmployee').click(function (event) {
             event.preventDefault();
             if (!$("#frmUserEditor").valid()) {
@@ -256,22 +275,23 @@
                         var value = self.find("td").eq(1).text(); //self.find("td").eq(1).find(":text").val();
                         roleId = parseInt(value); 
                     }
-                });
+                }); 
                 var empModel = {
-                    IsEditMode: $("#userEditMode").val() == "true",
-                    EmployeeId: $("#txtEmployeeId").val(),
-                    EmployeeName: $("#txtEmployeeName").val(),
-                    EmployeeSurName: $("#txtEmployeeSurName").val(),
+                    CenterId: parseInt($("#selectCenter").val()),
+                    DivisionId: parseInt($("#selectDivision").val()),
+                    DepartmentId: parseInt($("#selectDepartment").val()),
+                    SectionId: parseInt($("#selectSection").val()),
                     JobGradeId: parseInt($("#selectJobGrade").val()),
                     JobTitleId: parseInt($("#selectJObTitle").val()),
                     Gender: $("#selectGender").val(),
-                    CenterId: parseInt($("#selectCenter").val()),
-                    Nationality: $("#txtNationality").val(),
-                    DivisionId: parseInt($("#selectDivision").val()),
-                    Email: $("#txtEmail").val(),
-                    DepartmentId: parseInt($("#selectDepartment").val()),
-                    Phone: $("#txtPhone").val(),
-                    SectionId: parseInt($("#selectSection").val()),
+
+                    IsEditMode: $("#userEditMode").val() == "true",
+                    EmployeeId: $("#txtEmployeeId").val(),
+                    EmployeeName: $("#txtEmployeeName").val(),
+                    EmployeeSurName: $("#txtEmployeeSurName").val(), 
+                    Nationality: $("#txtNationality").val(), 
+                    Email: $("#txtEmail").val(), 
+                    Phone: $("#txtPhone").val(), 
                     Password: $("#txtPassword").val(),
                     Remark: $("#txtRemark").val(),
                     RoleId: roleId,
@@ -285,6 +305,7 @@
                 }  
            }); 
         }); 
+
         $('#btnSearchEmployee').click(function () { 
             SearchEmployee();
         });
@@ -473,7 +494,8 @@ function UpdateEmployee(empModel) {
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
             $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
             $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
-            SearchEmployee();
+            ClearEditor();
+            SearchEmployee(); 
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -501,6 +523,7 @@ function CreateEmployee(empModel) {
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
             $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
             $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
+            ClearEditor();
             SearchEmployee();
         },
         failure: function (response) {
@@ -556,6 +579,37 @@ function EditEmployee(employeeId) {
     CreateEditor($, employeeId); 
 }
 
+function ClearEditor() {
+    $("#userCenterId").val(null);
+    $("#userDivisionId").val(null);
+    $("#userDepartmentId").val(null);
+    $("#userSectionId").val(null);
+     $("#isInstructer").prop("checked", false);
+    $("#btnResetPassword").attr("style", "display:none;width:100%"); 
+    $("#isSectionHead").prop("checked", false);
+
+    $('#selectCenter').val(null).trigger('change');  
+    $('#selectGender').val(null).trigger('change');
+    $('#selectJobGrade').val(null).trigger('change');
+    $('#selectJObTitle').val(null).trigger('change');
+    $('#selectDivision').val(null).trigger('change');
+    $('#selectDepartment').val(null).trigger('change');
+    $('#selectSection').val(null).trigger('change');   
+    $('#txtEmployeeId').val(null);
+    $('#txtEmployeeName').val(null);
+    $('#txtEmployeeSurName').val(null);
+    $('#txtNationality').val(null);
+    $('#txtEmail').val(null);
+    $('#txtPhone').val(null);
+    $('#txtRemark').val(null);
+    $('#isInstructer').val(null);
+    $('#isSectionHead').val(null);
+    $('#dtUserRoleList > tbody  > tr').each(function () {
+        var self = $(this); 
+        var check = self.find("td").eq(4).find("input[type='radio']");
+        check.prop("checked", false);
+    }); 
+}
 function CreateEditor($, employeeId) { 
     $("#userEditMode").val("false");
     $('select[name="selectDivision"]').val(null);
@@ -623,6 +677,7 @@ function CreateEditor($, employeeId) {
             }
         }
     });  
+
     $.ajax({
         type: "GET",
         url: "/Master/GetAllCenters",
@@ -649,6 +704,7 @@ function CreateEditor($, employeeId) {
             }
         }
     });  
+
     $.ajax({
         type: "GET",
         url: "/Master/GetAllRoles",
@@ -662,7 +718,7 @@ function CreateEditor($, employeeId) {
                     '<td style="text-align:center;display:none">' + this.RoleId + '</td>' +
                     '<td style="text-align:left">' + this.RoleName_EN + '</td>' +
                     '<td style="text-align:left">' + this.RoleDescription + '</td>' +
-                    '<td style="text-align:center;width:100px"><input type="checkbox" name="selectUserRole" value="' + this.RoleId + '"  id="selectRole_' + this.RoleId + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.RoleId + '"> </label> </td >' +
+                    '<td style="text-align:center;width:100px"><input type="radio" name="selectUserRole" value="' + this.RoleId + '"  id="selectRole_' + this.RoleId + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.RoleId + '"> </label> </td >' +
                     '</tr>'; 
                 table.append(row);
             }); 
@@ -682,6 +738,7 @@ function CreateEditor($, employeeId) {
             }
         }
     });
+
     if (employeeId != undefined && employeeId != "") {
         $.ajax({
             type: "GET",
@@ -690,10 +747,12 @@ function CreateEditor($, employeeId) {
             success: function (response) {
                 $("#userEditMode").val("true");
                 var user = response.Data;
+
                 $("#userCenterId").val(user.CenterId);
                 $("#userDivisionId").val(user.DivisionId);
                 $("#userDepartmentId").val(user.DepartmentId);
                 $("#userSectionId").val(user.SectionId);
+
                 if (user.IsAD == false) {
                     $("#btnResetPassword").attr("style", "display:block;width:100%");
                 }
@@ -706,6 +765,7 @@ function CreateEditor($, employeeId) {
                     $("#isSectionHead").prop("checked", true); 
                 }
                 $('#selectCenter').val(user.CenterId).trigger('change');
+
                 ReloadDivision($, user.CenterId, function () { 
                     ReloadDepartment($, user.DivisionId, function () {
                         ReloadSection($, user.DepartmentId, null);
@@ -727,7 +787,7 @@ function CreateEditor($, employeeId) {
                     var self = $(this); 
                     var roleId = parseInt(self.find("td").eq(1).text());
                     if (roleId == user.RoleId) {
-                        var check = self.find("td").eq(4).find("input[type='checkbox']");
+                        var check = self.find("td").eq(4).find("input[type='radio']");
                         check.prop("checked", true);
                     } 
                 }); 

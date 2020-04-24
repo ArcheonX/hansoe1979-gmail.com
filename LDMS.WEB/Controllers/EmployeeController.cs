@@ -28,27 +28,29 @@ namespace LDMS.WEB.Controllers
                 RowIndex = user.RowIndex,
                 CenterId = user.ID_Center.GetValueOrDefault(),
                 DivisionId = user.ID_Division.GetValueOrDefault(),
+                DepartmentId = user.LDMS_M_Department != null ? user.LDMS_M_Department.ID_Department : 0,
+                SectionId = user.ID_Section.GetValueOrDefault(),
+                JobGradeId = user.ID_JobGrade.GetValueOrDefault(),
+                JobTitleId = user.ID_JobTitle.GetValueOrDefault(),
+
+                DepartmentName = user.LDMS_M_Department != null ? user.LDMS_M_Department.DepartmentID : "",
+                SectionName = user.LDMS_M_Section != null ? user.LDMS_M_Section.SectionID : "",
+                JobGrade = user.LDMS_M_JobGrade != null ? user.LDMS_M_JobGrade.JobGradeID : "",
+                JobTitle = user.LDMS_M_JobTitle != null ? user.LDMS_M_JobTitle.JobTitleID : "",
+
                 Email = user.Email,
                 EmployeeId = user.EmployeeID,
                 EmployeeName = user.Name,
                 EmployeeSurName = user.Surname,
-                Gender = user.Gender,
-                JobGradeId = user.ID_JobGrade.GetValueOrDefault(),
-                JobTitleId = user.ID_JobTitle.GetValueOrDefault(),
+                Gender = user.Gender,               
                 Nationality = user.Nationality,
                 Password = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Password : "",
                 PhoneNumber = user.PhoneNumber,
                 Remark = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Remark : "",
-                RoleId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Role : 0,
-                SectionId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault() : 0,
+                RoleId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Role : 0,               
                 IsInstructer = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsInstructor == 1 : false,
                 IsSectionHead = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsSectionHead == 1 : false,
-                IsAD = user.IsAD == 1,
-                DepartmentId = user.LDMS_M_Department != null ? user.LDMS_M_Department.ID_Department : 0,
-                DepartmentName = user.LDMS_M_Department != null ? user.LDMS_M_Department.DepartmentID : "",
-                SectionName = user.LDMS_M_Section != null ? user.LDMS_M_Section.SectionID : "",
-                JobGrade = user.LDMS_M_JobGrade != null ? user.LDMS_M_JobGrade.JobGradeID : "",
-                JobTitle = user.LDMS_M_JobTitle != null ? user.LDMS_M_JobTitle.JobTitleID : ""
+                IsAD = user.IsAD == 1              
             };
         }
 
@@ -84,7 +86,7 @@ namespace LDMS.WEB.Controllers
             }
             else
             {
-                return Response(new ServiceResult(new Models.Employee.EmployeeModel()));
+                return Response(new ServiceResult(new EmployeeModel()));
             }
         }
 
