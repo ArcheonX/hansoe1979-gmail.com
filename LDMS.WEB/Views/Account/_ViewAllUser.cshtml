@@ -11,7 +11,7 @@
                         <th style="text-align:center">Department</th>
                         <th style="text-align:center;width:150px">Status(AD)</th>
                         <th style="text-align: center;width:150px">Edit</th>
-                        <th style="text-align:center;width:150px">Delete</th> 
+                        <th style="text-align:center;width:150px;display:none">Delete</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +39,7 @@
                                 <img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class="light-logo svg-colorize-blue" alt="homepage" />
                             </a>
                         </td>
-                        <td style="text-align:center">
+                        <td style="text-align:center;display:none">
                             @if (@std.IsAD == 1 || (@HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"] == @std.EmployeeID))
                             {
                                 <img src='@Url.Content("~/assets/images/svg/icon-delete.svg")' class="light-logo" alt="homepage" />

@@ -435,7 +435,14 @@ function SearchEmployee() {
                     {
                         "mData": "EmployeeId",
                         "mRender": function (data, type, row) {
-                            return '<input type = "checkbox"  onchange="OnSelectEmp(' + data + ', this);" class="chk-select-employee" name = "selectEmployee_' + data + '" value = "' + data + '"  id = "selectEmployee_' + data + '" /> <label for="selectEmployee_' + data + '"> </label>';
+                            var isSelect = employees.any((item) => {
+                                return data == value.EmployeeId;
+                            });
+                            if (isSelect) {
+                                return '<input type = "checkbox" checked="checked"  onchange="OnSelectEmp(' + data + ', this);" class="chk-select-employee" name = "selectEmployee_' + data + '" value = "' + data + '"  id = "selectEmployee_' + data + '" /> <label for="selectEmployee_' + data + '"> </label>';
+                            } else {
+                                return '<input type = "checkbox"  onchange="OnSelectEmp(' + data + ', this);" class="chk-select-employee" name = "selectEmployee_' + data + '" value = "' + data + '"  id = "selectEmployee_' + data + '" /> <label for="selectEmployee_' + data + '"> </label>';
+                            }
                         }
                     }
                 ],  
