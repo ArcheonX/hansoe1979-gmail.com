@@ -38,8 +38,12 @@ namespace LDMS.WEB.Controllers
             var user = (await UserService.Authenticattion(userModel.Username, userModel.Password)).Data as LDMS_M_User;
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
-                return Response(new ServiceResult("Home/Index"));
-                //return Response(new ServiceResult(HttpContext.Request.Get("REDIRECTPAGE"))); 
+                var page = HttpContext.Request.Get("REDIRECTPAGE");
+                if (string.IsNullOrEmpty(page))
+                {
+                    page = "/Home/Index";
+                }
+                return Response(new ServiceResult(page)); 
             }
             else
             {
@@ -63,6 +67,53 @@ namespace LDMS.WEB.Controllers
             return View();
         }
 
+        [AuthorizeRole(UserRole.All)]
+        [HttpPost] 
+        [Route("Account/ChangePassword")]
+        public async Task<IActionResult> SubmitChangePassword(string employeeId, string currentPassword,string newpassword)
+        {
+            var user = (await UserService.ChangePassword(employeeId, currentPassword, newpassword)).Data as LDMS_M_User;
+            if (user != null)
+            {
+                var page = HttpContext.Request.Get("REDIRECTPAGE");
+                if (string.IsNullOrEmpty(page))
+                {
+                    page = "/Home/Index";
+                }
+                return Response(new ServiceResult(page));
+            }
+            else
+            {
+                return Response(new ServiceResult(new UnauthorizedAccessException("Invalid Account")));
+            } 
+        }
+
+        [AuthorizeRole(UserRole.All)]
+        [HttpPost]
+        [Route("Account/AllowGPP")]
+        public async Task<IActionResult> AllowGPP(string employeeId, bool IsAllow)
+        {
+            var user = (await UserService.AllowGPP(employeeId, IsAllow)).Data as LDMS_M_User;
+            if (user != null)
+            {
+                var page = HttpContext.Request.Get("REDIRECTPAGE");
+                if (string.IsNullOrEmpty(page))
+                {
+                    page = "/Home/Index";
+                }
+                if (!IsAllow)
+                {
+                    HttpContext.Request.ExpireAllCookies(HttpContext.Response);
+                    HttpContext.Session.Clear();
+                    page = "/Account/Index";
+                }
+                return Response(new ServiceResult(page));
+            }
+            else
+            {
+                return Response(new ServiceResult(new UnauthorizedAccessException("Invalid Account")));
+            }
+        }
 
         [AuthorizeRole(UserRole.All)]
         [Route("Account/Privacy")]        
@@ -78,6 +129,8 @@ namespace LDMS.WEB.Controllers
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Logout()
         {
+            HttpContext.Request.ExpireAllCookies(HttpContext.Response);
+            HttpContext.Session.Clear(); 
             return RedirectToAction("Index");
         }
 
@@ -87,8 +140,6 @@ namespace LDMS.WEB.Controllers
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UserManagement()
         {
-            ViewData["Title"] = "I-Manage LDMS";
-            ViewData["MainTitle"] = "I-Manage";
             return View();
         }
         [AuthorizeRole(UserRole.All)]

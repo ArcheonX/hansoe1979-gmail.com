@@ -106,6 +106,14 @@
     {
       "library": "toastr.js@2.1.4",
       "destination": "wwwroot/lib/toastr.js/"
+    },
+    {
+      "library": "datatables@1.10.20",
+      "destination": "wwwroot/lib/datatables/"
+    },
+    {
+      "library": "tether@1.4.7",
+      "destination": "wwwroot/lib/tether/"
     }
   ]
 }

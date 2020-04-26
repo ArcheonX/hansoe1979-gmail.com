@@ -40,6 +40,8 @@ BEGIN
 				[Password] = @Password   
 			   ,[IsActive] = 1
 			   ,[PasswordSalt] = @PasswordSalt
+			   ,[IsForceChangePass] = 0
+			   ,[Is_FirstLogin] = 0
 			   ,[UpdateBy] = @UpdateBy
 			   ,[UpdateDate] = GETDATE()
 		   		WHERE [EmployeeID]  = @EmployeeId AND [Password] = @OldPassword;

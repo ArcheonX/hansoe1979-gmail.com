@@ -32,6 +32,7 @@ function OnAuthentication() {
         //});
         return;
     }
+    MessageController.BlockUI({ boxed: true, target: '#pn-login' });
     $.ajax({
         type: "POST",
         url: "/Account/Login",
@@ -48,25 +49,20 @@ function OnAuthentication() {
                     localStorage.pass = "";
                     localStorage.RememberMe = false;
                 }
+                MessageController.UnblockUI('#pn-login');
                 window.location.href = response.Data;
             } else { 
-                MessageController.Error("Pleas Enter 'Password'", 'Login Faild');
-                //MessageController.UnblockUI({
-                //    target: '#main-wrapper',
-                //});
+                MessageController.UnblockUI('#pn-login');
+                MessageController.Error("Pleas Enter 'Password'", 'Login Faild'); 
             }
         },
         failure: function (response) { 
-            MessageController.Error("Invalid Account", "Login Faild");
-            //MessageController.UnblockUI({
-            //    target: '#main-wrapper',
-            //});
+            MessageController.UnblockUI('#pn-login');
+            MessageController.Error("Invalid Account", "Login Faild"); 
         },
         error: function (response) { 
-            MessageController.Error("Invalid Account", "Login Faild");
-            //MessageController.UnblockUI({
-            //    target: '#main-wrapper',
-            //});
+            MessageController.UnblockUI('#pn-login');
+            MessageController.Error("Invalid Account", "Login Faild"); 
         }
     });  
 }

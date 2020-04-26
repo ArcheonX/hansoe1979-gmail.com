@@ -1,177 +1,269 @@
-﻿(function ($) { 
-    $(document).ready(function () {
-        $("input[type='datetime']").datepicker();
-        $('select').select2({
-            allowClear: true,
-            closeOnSelect: true,
-            theme: "bootstrap"
-        });
-        $('select[name="selectPlantLegal"]').on('change', function () { 
-            var plantId = $(this).val();
-            ReloadCenter($, plantId);
-        });
-        $('select[name="selectCenterLegal"]').on('change', function () {
-            var centerId = $(this).val();
-            ReloadDivision($, centerId);
-        });
-        $('select[name="selectDivisionLegal"]').on('change', function () {
-            var divisionId = $(this).val();
-            ReloadDepartment($, divisionId);
-        }); 
-        $.ajax({
-            type: "GET",
-            url: '/Master/GetAllPlatforms',
-            success: function (response) { 
-                var options = $('#selectPlatform');
-                options.empty();
-                options.append($("<option />").val(null).text("---All---"));
-                $.each(response.Data, function () {
-                    options.append($("<option />").val(this.ID).text('(' + this.PlatformID + ') ' + this.PlatformName_EN));
-                });
-                $('select[name="selectPlatform"]').val(null).trigger('change');
-            },
-            failure: function (response) { 
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            },
-            error: function (response) { 
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            }
-        });
-
-        $.ajax({
-            type: "GET",
-            url: '/Master/GetAllCourses',
-            success: function (response) {
-                var options = $('#selectCourse');
-                var options2 = $("#selectCourseLegal");
-                options.empty();
-                options2.empty();
-                options.append($("<option />").val(null).text("---All---"));
-                options2.append($("<option />").val(null).text("---All---"));
-                $.each(response.Data, function () {
-                    options.append($("<option />").val(this.ID).text('(' + this.CourseID + ') ' + this.CourseName));
-                    options2.append($("<option />").val(this.ID).text('(' + this.CourseID + ') ' + this.CourseName));
-                });
-                $('select[name="selectCourse"]').val(null).trigger('change');
-                $('select[name="selectCourseLegal"]').val(null).trigger('change');
-            },
-            failure: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            },
-            error: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            }
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/Master/GetAllJobGrades",
-            success: function (response) {
-                var options = $('#selectJobGradeLegal');
-                options.empty();
-                options.append($("<option />").val(null).text("---All---"));
-                $.each(response.Data, function () {
-                    options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
-                });
-                $('select[name="selectJobGradeLegal"]').val(null).trigger('change');
-            },
-            failure: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            },
-            error: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            }
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/Master/GetAllJobTitles",
-            success: function (response) {
-                var options = $('#selectJobTitleLegal');
-                options.empty();
-                options.append($("<option />").val(null).text("---All---"));
-                $.each(response.Data, function () {
-                    options.append($("<option />").val(this.ID).text(this.JobTitleName_EN));
-                });
-                $('select[name="selectJobTitleLegal"]').val(null).trigger('change');
-            },
-            failure: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            },
-            error: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            }
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/Master/GetAllPlants",
-            success: function (response) {
-                var options = $('#selectPlantLegal');
-                options.append($("<option />").val(null).text("Please select"));
-                $.each(response.Data, function () {
-                    options.append($("<option />").val(this.ID).text(this.PlantName_EN));
-                });
-                $('select[name="selectPlantLegal"]').val(null).trigger('change');
-            },
-            failure: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            },
-            error: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            }
-        });
+﻿jQuery(document).ready(function () {
+    CreatePlatformPopup();
+    CreateCoursePopup();
+    $("input[type='datetime']").datepicker({ 
+        format: 'DD/MM/YYYY'
+    });     
+    $('select').select2({
+        allowClear: true,
+        closeOnSelect: true,
+        theme: "bootstrap"
     });
-})(jQuery);
-function OnSelectRadio(ele) { 
-    $("#selectPlatform").attr("disabled", "disabled");
+    $('select[name="selectPlantLegal"]').on('change', function () {
+        var plantId = $(this).val();
+        ReloadCenter($, plantId);
+    });
+    $('select[name="selectCenterLegal"]').on('change', function () {
+        var centerId = $(this).val();
+        ReloadDivision($, centerId);
+    });
+    $('select[name="selectDivisionLegal"]').on('change', function () {
+        var divisionId = $(this).val();
+        ReloadDepartment($, divisionId);
+    }); 
+    $.ajax({
+        type: "GET",
+        url: "/Master/GetAllJobGrades",
+        success: function (response) {
+            var options = $('#selectJobGradeLegal');
+            options.empty();
+            options.append($("<option />").val(null).text("---All---"));
+            $.each(response.Data, function () {
+                options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
+            });
+            $('select[name="selectJobGradeLegal"]').val(null).trigger('change');
+        },
+        failure: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/Master/GetAllJobTitles",
+        success: function (response) {
+            var options = $('#selectJobTitleLegal');
+            options.empty();
+            options.append($("<option />").val(null).text("---All---"));
+            $.each(response.Data, function () {
+                options.append($("<option />").val(this.ID).text(this.JobTitleName_EN));
+            });
+            $('select[name="selectJobTitleLegal"]').val(null).trigger('change');
+        },
+        failure: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/Master/GetAllPlants",
+        success: function (response) {
+            var options = $('#selectPlantLegal');
+            options.append($("<option />").val(null).text("Please select"));
+            $.each(response.Data, function () {
+                options.append($("<option />").val(this.ID).text(this.PlantName_EN));
+            });
+            $('select[name="selectPlantLegal"]').val(null).trigger('change');
+        },
+        failure: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+}); 
+function CreatePlatformPopup() { 
+    $('.search-platform-modal').magnificPopup({
+        type: 'inline',
+        preloader: false, 
+        modal: true,
+        callbacks: {
+            beforeOpen: function () {
+                $("#selectPlatformType").val(null).trigger('change');
+                $("#selectPlatformStatus").val(1).trigger('change');
+                SearchPlatform(); 
+            }
+        }
+    });
+    $(document).on('click', '.popup-modal-dismiss', function (e) {
+        e.preventDefault();
+        $.magnificPopup.close();
+    });
+}
+ 
+function SearchPlatform() {
+    var table = $('#dtPlatform').DataTable();
+    table.destroy();
+    var searmodel = {
+        PlatformId: $("#txtPlatformID").val(),
+        PlatformName: $("#txtPlatformName").val(),
+        PlatformType: $("#selectPlatformType").val(),
+        PlatformStatus: $("#selectPlatformStatus").val()
+    };
+    MessageController.BlockUI({ boxed: true, target: '#search-platform-modal' });
+    $.ajax({
+        type: "GET",
+        url: "/Platform/Platforms",
+        data: searmodel,
+        success: function(response) {
+            var tbody = $('#dtPlatform').children('tbody');
+            var table = tbody.length ? tbody : $('#dtPlatform');
+            table.empty();
+            $.each(response.Data, function() {
+                var row = '<tr>' +
+                    '<td style="text-align:center;">' + this.ID + '</td>' +
+                    '<td style="text-align:left;">' + this.PlatformName_EN + '</td>' +
+                    '<td style="text-align:right;"><input type="checkbox" name="selectPlatform_' + this.ID + '" value="' + this.PlatformID + '"  id="selectPlatform_' + this.ID + '"  /><label for="selectPlatform_' + this.ID + '"> </label> </td >' +
+                    '</tr>';
+                table.append(row);
+            });
+            $('#dtPlatform').DataTable({
+                "autoWidth": false,
+                "lengthChange": false,
+                "pageLength": 5,
+                "paging": true,
+                "ordering": false,
+                "searching": false,
+                "lengthChange": false,
+                "bAutoWidth": false,
+                "Filter": true,
+                "info": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "language": {
+                    "lengthMenu": "Display _MENU_ records per page",
+                    "zeroRecords": "    Nothing found - sorry",
+                    "info": "    page _PAGE_ of _PAGES_",
+                    "infoEmpty": "    No records available",
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                }
+            });
+            $('.dataTables_length').addClass('bs-select');
+            MessageController.UnblockUI('#search-platform-modal');
+        }
+    });
+}
+
+function CreateCoursePopup() {
+    $('.search-course-modal').magnificPopup({
+        type: 'inline',
+        preloader: false,
+        modal: true,
+        callbacks: {
+            beforeOpen: function () {
+                $("#selectCourseStatus").val(1).trigger('change');
+                $("#selectLearnMethod").val(null).trigger('change');
+                SearchCourse();
+            }
+        }
+    });
+
+    $(document).on('click', '.popup-modal-dismiss', function (e) {
+        e.preventDefault();
+        $.magnificPopup.close();
+    });
+}
+
+function SearchCourse() {
+    var table = $('#dtCourse').DataTable();
+    table.destroy();
+    var searmodel = {
+        CourseID: $("#txtCourseID").val(),
+        CourseName: $("#txtCourseName").val(),
+        CourseStatus: $("#selectCourseStatus").val(),
+        LearnMethod: $("#selectLearnMethod").val()
+    };
+    MessageController.BlockUI({ boxed: true, target: '#search-course-modal' });
+    $.ajax({
+        type: "GET",
+        url: "/Courses/Courses",
+        data: searmodel,
+        success: function (response) {
+            var tbody = $('#dtCourse').children('tbody');
+            var table = tbody.length ? tbody : $('#dtCourse');
+            table.empty();
+            $.each(response.Data, function () {
+                var row = '<tr>' +
+                    '<td style="text-align:center;">' + this.ID + '</td>' +
+                    '<td style="text-align:left;">' + this.CourseName + '</td>' +
+                    '<td style="text-align:right;"><input type="checkbox" name="selectCourse' + this.ID + '" value="' + this.CourseID + '"  id="selectCourse_' + this.ID + '"  /><label for="selectselectCourse_' + this.ID + '"> </label></td >' +
+                    '</tr>';
+                table.append(row);
+            });
+            $('#dtCourse').DataTable({
+                "autoWidth": false,
+                "lengthChange": false,
+                "pageLength": 5,
+                "paging": true,
+                "ordering": false,
+                "searching": false,
+                "lengthChange": false,
+                "bAutoWidth": false,
+                "Filter": true,
+                "info": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "language": {
+                    "lengthMenu": "Display _MENU_ records per page",
+                    "zeroRecords": "    Nothing found - sorry",
+                    "info": "    page _PAGE_ of _PAGES_",
+                    "infoEmpty": "    No records available",
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                }
+            });
+            $('.dataTables_length').addClass('bs-select');
+            MessageController.UnblockUI('#search-course-modal');
+        }
+    });
+}
+
+function OnSelectReportType(ele) {
     $("#selectCourse").attr("disabled", "disabled");
-    if (ele.id == "Platform") {
-        $("#selectPlatform").removeAttr("disabled"); 
-    } else if (ele.id == "Course") {
-        $("#selectCourse").removeAttr("disabled"); 
+    $("#btnSearchCourse").attr("disabled", "disabled");
+    $("#btnSearchPlatform").attr("disabled", "disabled");
+    $("#selectPlatform").attr("disabled", "disabled");  
+
+    if (ele.id =="Platform") {
+        $("#selectPlatform").removeAttr("disabled");
+        $("#btnSearchPlatform").removeAttr("disabled");
+    } else {
+        $("#selectCourse").removeAttr("disabled");
+        $("#btnSearchCourse").removeAttr("disabled");
     }
-} 
+}  
+
 function OnChangeReport(reportType) {
     $('#pnReportNormal').attr("style", "width: 100%;display: none;");
     $('#pnReportEmployeeComparation').attr("style", "width: 100%;display: none;");
@@ -200,14 +292,22 @@ function OnChangeReport(reportType) {
     } else if (reportType == 'BASICFIRE') {
         $('#pnReportBasicFireFighting').attr("style", "width: 100%;display: block;");
         $('#btnBasicReport').attr("class", "btn btn-info waves-effect waves-light");
-    } 
+    }
+    //$('.popup-modal').magnificPopup({
+    //    type: 'inline',
+    //    preloader: false,
+    //    modal: true
+    //});
+    //$(document).on('click', '.popup-modal-dismiss', function (e) {
+    //    e.preventDefault();
+    //    $.magnificPopup.close();
+    //});
 }
 
 function ReloadCenter($, plantId) {
     var options = $('#selectCenterLegal');
     options.empty(); 
-    if (plantId != null && plantId != undefined && plantId != "") {
-        debugger;
+    if (plantId != null && plantId != undefined && plantId != "") { 
         $.ajax({
             type: "GET",
             url: "/Master/GetAllCentersByPlant",
@@ -240,8 +340,7 @@ function ReloadCenter($, plantId) {
 function ReloadDivision($, centerId) {
     var options = $('#selectDivisionLegal');
     options.empty(); 
-    if (centerId != null && centerId != undefined && centerId != "") {
-        debugger;
+    if (centerId != null && centerId != undefined && centerId != "") { 
         $.ajax({
             type: "GET",
             url: "/Master/GetAllDivisionsByCenter",
@@ -279,8 +378,7 @@ function ReloadDepartment($, divisionId) {
             type: "GET",
             url: "/Master/GetAllDepartmentsByDivision",
             data: { "divisionId": divisionId },
-            success: function (response) {
-                debugger;
+            success: function (response) { 
                 options.append($("<option />").val(null).text("Please select"));
                 $.each(response.Data, function () {
                     options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
@@ -304,3 +402,51 @@ function ReloadDepartment($, divisionId) {
         });
     }
 } 
+
+function OnSelectPlatform() {
+    debugger;
+    var platform = [];
+    var data = $('#dtPlatform').DataTable().rows().data();
+    data.each(function (row, index) {
+        var isSelected = row.find("td").eq(2).find("input[type='checkbox']").prop("checked");
+        if (isSelected) {
+            var value = row.find("td").eq(0).text();
+            platform.push(value);
+        }
+    });
+    //$('#dtPlatform> tbody  > tr').each(function () {
+    //    var self = $(this);
+    //    var isSelected = self.find("td").eq(2).find("input[type='checkbox']").prop("checked");
+    //    if (isSelected) {
+    //        var value = self.find("td").eq(0).text();
+    //        platform.push(value);
+    //    }
+    //});
+    //debugger;
+    //var platform = platform.join(",");
+    //$("#txtselectPlatform").val(platform);
+    //$("#search-platform-modal").magnificPopup('close');
+}
+function OnSelectCourse() {
+    debugger;
+    var courses = [];
+
+    $('#dtCourse> tbody  > tr').each(function () {
+        var self = $(this);
+        var isSelected = self.find("td").eq(2).find("input[type='checkbox']").prop("checked");
+        if (isSelected) {
+            var value = self.find("td").eq(0).text();
+            courses.push(value);
+        }
+    }); 
+
+    debugger;
+    var course = platform.join(",");
+    $("#txtselectCourse").val(course);
+    $("#search-course-modal").magnificPopup('close');
+}
+function SearchCoursePlatformComparation() { 
+
+    var trainingdatefrm = $("#dteTrainingDateFrm").val();
+    var trainingdateto = $("#dteTrainingDateTo").val();
+}

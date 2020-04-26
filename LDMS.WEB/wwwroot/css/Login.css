@@ -1,34 +1,57 @@
-﻿@font-face {
-    font-family: Montserrat-Regular;
-    src: url('../fonts/montserrat/Montserrat-Regular.ttf');
-}
-
-@font-face {
-    font-family: Montserrat-ExtraBold;
-    src: url('../fonts/montserrat/Montserrat-ExtraBold.ttf');
-}
-
-@font-face {
-    font-family: Montserrat-Bold;
-    src: url('../fonts/montserrat/Montserrat-Bold.ttf');
-}
-
-
-/*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
-body, html {
+﻿body, html {
     height: 100%;
     font-family: Montserrat-Regular, sans-serif;
     overflow: hidden;
     background: #d7dfe3
+}
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+} 
+header {
+    flex-shrink: 0;
+    -ms-flex-negative: 0; 
+} 
+.body {
+    flex-grow: 1;
+    overflow: auto;
+    min-height: 2em;
+    position: absolute;
+    top: 15%;
+    bottom: 15%;
+    left: 0px;
+    right: 0px;
+    overflow: no-content;
+}
+
+footer {
+    flex-shrink: 0; 
+    position: absolute;
+    bottom: 0px;
+    height: 50px;
+    left: 0px;
+    right: 0px;
+    overflow: no-content;
+} 
+.navbar-brand {
+    width: 25%;
+} 
+.logo-img {
+    width: 25%;
+}
+.ldms-logo{ 
+    width:100%;
+    position:sticky
 }
 .head-title h1 {
     font-size: 28px !important;
     color: white;
     margin: 0 auto;
     font-weight: 400;
-}
-
+}  
 .page-wrapper {
     width: 100%;
     background: #d7dfe3;
@@ -37,8 +60,7 @@ body, html {
     margin-top: 150px;
 }
 /*---------------------------------------------*/
-a {
-    font-family: Montserrat-Regular;
+a { 
     font-size: 14px;
     line-height: 1.7;
     color: #666666;
@@ -58,14 +80,7 @@ a:hover {
 /*---------------------------------------------*/
 h1, h2, h3, h4, h5, h6 {
     margin: 0px;
-}
-p {
-    font-family: Montserrat-Regular;
-    font-size: 14px;
-    line-height: 1.7;
-    color: #666666;
-    margin: 0px;
-}
+} 
 ul, li {
     margin: 0px;
     list-style-type: none;
@@ -151,7 +166,7 @@ iframe {
     background: #fff;
     border-radius: 30px;
 }
-.container-login100::before {
+    .container-login100::before {
         content: "";
         display: block;
         position: absolute;
@@ -160,13 +175,27 @@ iframe {
         height: 100%;
         top: 0;
         left: 0;
-       
-        background: -webkit-linear-gradient(bottom, #fff, #00c6fb);
+        background: #00c6fb;
+        background: -webkit-gradient(linear, left top, left bottom, from(#00c6fb), to(#fff));
+        background: -webkit-linear-gradient(top, #00c6fb, #fff);
+        background: -moz-linear-gradient(top, #00c6fb, #fff);
+        background: -ms-linear-gradient(top, #00c6fb, #fff);
+        background: -o-linear-gradient(top, #00c6fb, #fff);
+        background: linear-gradient(top, #00c6fb, #fff);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00c6fb', endColorstr='#fff',GradientType=0);
+        zoom: 1;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        -moz-background-clip: padding;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        /*background: -webkit-linear-gradient(bottom, #fff, #00c6fb);
         background: -o-linear-gradient(bottom, #fff, #00c6fb);
         background: -moz-linear-gradient(bottom, #fff, #00c6fb);
         background: linear-gradient(bottom, #fff, #00c6fb);
-        opacity: 0.9;
-}
+        opacity: 0.9;*/
+    }
 .wrap-login100 {
     width: 50%;
     background: transparent; 
@@ -350,15 +379,4 @@ iframe {
 .alert-validate:hover:before {
     visibility: visible;
     opacity: 1;
-}
-.footer {
-    bottom: 0;
-    color: #67757c;
-    left: 0px;
-    padding: 17px 15px;
-    position: absolute;
-    right: 0;
-    border-top: 1px solid rgba(120,130,140,0.13);
-    background: #ffffff;
-    padding-left: calc(25%);
 }

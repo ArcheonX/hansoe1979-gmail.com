@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <title>LDMS - @ViewData["Title"]</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <meta name="description" content="">
     <meta name="author" content="">
     <!--- JS Lib-->
@@ -13,22 +14,36 @@
     <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/lib/bootstrap/dist/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/tether/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/magnific-popup/dist/jquery.magnific-popup.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <!--[if lt IE 9]>
         <script src="~/lib/html5shiv/html5shiv.js"></script>
         <script src="~/lib/respond.js/respond.min.js"></script>
     <![endif]-->
     <!--- JS plugins-->
-    <script type="text/javascript" src="~/lib/datatable/datatables.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
-    <script type="text/javascript" src="~/lib/datatables/jquery.dataTables.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/lib/highchart/highcharts.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/lib/highchart/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/lib/highchart/modules/export-data.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/datatables/js/jquery.dataTables.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/datatables/js/dataTables.bootstrap.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/datatables/js/dataTables.jqueryui.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <link href="~/lib/datatables/css/dataTables.jqueryui.css" type="text/css" rel="stylesheet">
+
+    <script type="text/javascript" src="~/lib/highchart/js/highcharts.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/highchart/js/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/highchart/js/modules/export-data.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/selecttwo/js/select2.full.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <!--- JS App-->
@@ -36,11 +51,13 @@
     <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/assets/app/LDMSUtility.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    @*<script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     @*<script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     @*<script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     <!--- CSS-->
-    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/css-hamburgers/hamburgers.min.css">
     <link href="~/css/style.css" type="text/css" rel="stylesheet">
     <link href="~/css/LDMS.css" type="text/css" rel="stylesheet">
     <link href="~/css/colors/blue.css" id="theme" type="text/css" rel="stylesheet">
@@ -50,12 +67,87 @@
     <link href="~/lib/selecttwo/css/select2.css" type="text/css" rel="stylesheet" />
     <link href="~/lib/selecttwo/css/select2-bootstrap.min.css" type="text/css" rel="stylesheet" />
     <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
-    <link href="~/lib/datatable/datatables.css" type="text/css" rel="stylesheet">  
+    <link href="~/lib/magnific-popup/dist/magnific-popup.css?v=bd93153bf9375d66780f086cda347bfb" type="text/css" rel="stylesheet">
     @RenderSection("Scripts", required: false)
     @RenderSection("Header", required: false)
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-</head>
-<body class="fix-header card-no-border">  
+</head> 
+<body style="height:100%; width:100%;background:linear-gradient(bottom, #fff, #00c6fb);">
+    <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:no-content;">
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">
+                        <b>
+                            <img src="~/assets/images/logo-light-icon.png" class="light-logo" alt="homepage" />
+                            <img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                        </b>
+                    </a>
+                </div>
+                <div class="head-title"><h1>Learning and Development Management System</h1></div>
+                <div class="logo-img"><span class="pull-right"><img class="ldms-logo" src="~/assets/images/svg/STT.svg" alt="homepage" /></span></div>
+            </nav>
+        </header>
+    </div>
+    <div id="content" style="position:absolute; top:0; bottom:0; left:0px; right:0px; overflow:auto;">
+        <aside class="left-sidebar">
+            <div class="user-profile">
+                <div class="profile-img">
+                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
+                </div>
+                <div class="profile-text">
+                    <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                    <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                    <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
+                </div>
+            </div>
+            <div class="scroll-sidebar" id="scroll-sidebar">
+                <nav class="sidebar-nav" style="height:100%;overflow-y:auto">
+                    @await Component.InvokeAsync("NavigationMenu")
+                </nav>
+            </div>
+        </aside>
+        <aside class="right-sidebar">
+            <div class="page-wrapper">
+                <div class="page-titles">
+                    <div class="col-md-5 col-8 align-self-center" style="margin-top:75px;">
+                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
+                        <ol class="breadcrumb" style="margin-top:10px;">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="page-body">
+                    <div style="margin-top:15px;">
+                        @RenderBody()
+                    </div>
+                </div>
+                <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
+            </div>
+        </aside>
+            @*<div class="page-wrapper">
+                <div class="page-titles">
+                    <div class="col-md-5 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="page-body">
+                    @RenderBody()
+                </div>
+            </div>*@
+    </div>
+    @*<div id="footer" style="position:relative; bottom:0px; height:50px; left:0px; right:0px; overflow:no-content;">
+        <span class="text-center" style="width:100%;margin-left:25%;">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
+    </div>*@
+</body>
+</html>
+
+@*<body class="fix-header card-no-border">  
         <header class="topbar">
             <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
                 <div class="navbar-header">
@@ -80,6 +172,7 @@
                     <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
                     <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
                     <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                    <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
                 </div>
             </div>
             <div class="scroll-sidebar" id="scroll-sidebar">
@@ -107,14 +200,4 @@
             </div>
         </div> 
 </body>
-</html> 
-<script>
-    (function ($) {
-        "use strict";
-        $(document).ready(function () {
-            $("#scroll-sidebar").animate({
-                scrollTop: 0
-            }, 'fast');
-        })
-    })(jQuery);
-</script>
+</html>*@  

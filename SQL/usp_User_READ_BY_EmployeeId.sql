@@ -29,7 +29,7 @@ BEGIN
 	muser.Name,muser.Nationality,muser.OutDate,muser.PhoneNumber,muser.Surname,
 		
 	usrRole.ID as UserRoleId,usrRole.ID_Role,usrRole.IsInstructor,usrRole.Password,usrRole.Remark,usrRole.ID_Section,usrRole.passwordSalt,usrRole.IsSectionHead,
-	usrRole.IsForceChangePass,usrRole.Is_FirstLogin,usrRole.Is_AcceptGCP,
+	usrRole.IsForceChangePass,usrRole.Is_FirstLogin,ISNULL(usrRole.IsAllowGPP,0) AS Is_AcceptGPP,
 	rol.ID as RoleId,rol.RoleDescription,rol.RoleName_EN,rol.RoleName_TH,
 
 	dep.ID as ID_Department,dep.DepartmentID,dep.DepartmentName_EN,dep.DepartmentName_TH,dep.Description,
