@@ -10,6 +10,7 @@
             <div class="panel-body" style="width:100%;">
                 <form method="post">
                     @Html.AntiForgeryToken()  @*CSRF Protected*@
+                    
                     <div class="form-horizontal" style="margin-top:25px">
                         <div class="row form-group">
                             <div class="col-sm-2 col-md-2">
@@ -104,7 +105,8 @@
 
         <script type="text/javascript">
             $(document).ready(function () {
-                LoadData($('#hID').val());
+                $("txtFilterEmployeeID").val(CookiesController.getCookie("PlantID"));
+                LoadData();
                 $("#selectPlant").change(function () {
                     //$("#additionalOptions").show();
                     changePlant(this);
@@ -121,30 +123,24 @@
                 });
             };
 
-            function LoadData(ID) {
-                if (ID !== "null") {
+            function LoadData() {
+                
 
                     loadPlant();
                     
-
+                    $('txtFilterEmployeeID').val(CookiesController.getCookie("PlantID"));
                     //loadCenter();
                     //loadDivision();
                     //loadDepartment();
                     //loadSection();
 
-                    ReloadCenter($, $('#hID_PlantTarget').val(), null);
+                    ReloadCenter($, $('#selectPlant').val(), null);
                     ReloadDivision($, $('#hID_DivisionTarget').val(), null);
                     
                     
 
                     
-                }
-                else {
-
-                    loadPlant();
-                    LoadCourseLearnMethod();
-                    LoadCourseType();
-                }
+               
             }
 
             function changePlant(sel) {
@@ -191,7 +187,7 @@
                         $.each(response.Data, function () {
                             options.append($("<option />").val(this.ID).text(this.PlantName_EN));
                         });
-                        $('select[name="selectPlant"]').val($('#hID_PlantTarget').val()).trigger('change');
+                        $('select[name="selectPlant"]').val($('#selectPlant').val()).trigger('change');
                     },
                     failure: function (response) {
                         MessageController.Error(response.responseText, "Error");
