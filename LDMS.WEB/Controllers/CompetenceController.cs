@@ -10,11 +10,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace LDMS.WEB.Controllers
 {
     public class CompetenceController : BaseController
-    { 
-        public CompetenceController( )
-        { 
-             
-        }      
+    {
+        private readonly CompetenceAnalyticService CompetenceAnalyticService;
+        public CompetenceController(CompetenceAnalyticService competenceAnalyticService )
+        {
+            CompetenceAnalyticService = competenceAnalyticService;
+        }
+
+        [AuthorizeRole(UserRole.All)]
+        [Route("Competence/Index")]
+        [Route("Competence")]
+        public IActionResult Index()
+        {
+            ViewData["Title"] = "My Team Competence Analytic";
+            ViewData["MainTitle"] = "My Team / My Monitoring";
+            return View();
+        } 
         [AuthorizeRole(UserRole.All)]
         [Route("Competence/Analytic")]
         public IActionResult Analytic()
@@ -22,6 +33,33 @@ namespace LDMS.WEB.Controllers
             ViewData["Title"] = "My Team Competence Analytic";
             ViewData["MainTitle"] = "My Team / My Monitoring";
             return View();
+        }
+
+      
+        [AuthorizeRole(UserRole.All)]
+        [Route("Competence/Add")]
+        public IActionResult Add()
+        {
+            ViewData["Title"] = "My Team Competence Analytic";
+            ViewData["MainTitle"] = "My Team / My Monitoring";
+            return View();
+        }
+        [AuthorizeRole(UserRole.All)]
+        [Route("Competence/Edit")]
+        public IActionResult Edit()
+        {
+            ViewData["Title"] = "My Team Competence Analytic";
+            ViewData["MainTitle"] = "My Team / My Monitoring";
+            return View();
+        }
+
+        [HttpPost]
+        [AuthorizeRole(UserRole.All)]
+        [Route("Competence/Analytics")]
+        public async Task<IActionResult> Analytics()
+        {
+            var analytics = (await CompetenceAnalyticService.ReadAll()).Data;
+            return Json(analytics);
         }
     }
 }

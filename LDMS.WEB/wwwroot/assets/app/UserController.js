@@ -379,8 +379,7 @@ function ReloadDivision($, centerId, callback) {
             'centerId': centerId
         },
         success: function (response) {
-            options.append($("<option />").val(null).text("Please select"));
-            debugger;
+            options.append($("<option />").val(null).text("Please select")); 
             $.each(response.Data, function () {
                 options.append($("<option />").val(this.ID_Division).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
             });
@@ -854,6 +853,7 @@ function CreateDataTablePaging() {
         "info": false,
         "bPaginate": false,
         "bLengthChange": false,
+        "pageLength": 10,
         //"language": {
         //    "lengthMenu": "Display _MENU_ records per page",
         //    "zeroRecords": "    Nothing found - sorry",
