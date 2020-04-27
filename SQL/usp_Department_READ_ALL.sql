@@ -22,8 +22,13 @@ BEGIN
 
     -- Insert statements for procedure here
 	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,
-	dep.ID as ID_Department,dep.DepartmentID,dep.DepartmentName_EN,dep.DepartmentName_TH,dep.Description ,dep.ID_Division
-	FROM LDMS_M_Department dep WITH (NOLOCK) WHERE dep.IsActive=1;
+	ID as ID_Department,
+	DepartmentID,
+	DepartmentName_EN,
+	DepartmentName_TH,
+	[Description]  as DepartmentDescription,
+	ID_Division
+	FROM LDMS_M_Department WITH (NOLOCK) WHERE IsActive=1;
 END
 GO
 

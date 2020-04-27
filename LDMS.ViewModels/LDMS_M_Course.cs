@@ -15,7 +15,7 @@ namespace LDMS.ViewModels
         public string OutLine { get; set; }
         public int IsRefreshment { get; set; }
         public int RefreshmentPeriod { get; set; }
-        public int RefreshmentUnit { get; set; }
+        public string RefreshmentUnit { get; set; }
         public string TargetEmployeeID { get; set; }
         public int ID_PlantTarget { get; set; }
         public int ID_CenterTarget { get; set; }

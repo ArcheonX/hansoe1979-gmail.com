@@ -18,11 +18,15 @@
                         <th style="text-align:center;">@std.SectionID</th>
                         <th style="text-align:center">@std.SectionName_EN</th>
                         <th style="text-align:center;width:100px">
-                            <a onclick="EditSection('@std.ID','@std.SectionID','@std.SectionName_EN')" style="cursor:pointer;width:45%" id="btnRowEditSection">
-                                <img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class="light-logo svg-colorize-blue" alt="homepage" />
+                            <a href="#section-Editor-modal" 
+                               data-var1="@std.ID_Section"
+                               data-var2="@std.SectionID"
+                               data-var3="@std.SectionName_EN"
+                               class="section-Editor-modal" style="cursor:pointer;width:45%" id="btnRowEditSection">
+                                <img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")'  alt="homepage" />
                             </a>
-                            <a onclick="DeleteSection('@std.ID','@std.SectionID','@std.SectionName_EN')" style="cursor:pointer;width:45%" id="btnRowDeletedSection">
-                                <img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class="light-logo svg-colorize-blue" alt="homepage" />
+                            <a onclick="DeleteSection('@std.ID_Section','@std.SectionID','@std.SectionName_EN')" style="cursor:pointer;width:45%" id="btnRowDeletedSection">
+                                <img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' alt="homepage" />
                             </a>
 
                         </th>

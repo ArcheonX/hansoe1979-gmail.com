@@ -4,7 +4,7 @@ namespace LDMS.ViewModels
 {
     public class LDMS_M_Role : BaseViewModel
     {
-        public int RoleId { get; set; }
+        public int ID_Role { get; set; }
         public string RoleName_EN { get; set; }
         public string RoleName_TH { get; set; }
         public string RoleDescription { get; set; }
