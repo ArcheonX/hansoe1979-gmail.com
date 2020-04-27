@@ -1,7 +1,6 @@
 ﻿(function ($) {
     "use strict";
-    $(document).ready(function () { 
-    //$("input[type='datetime']").datepicker();
+    $(document).ready(function () {  
     $('select').select2({
         allowClear: true,
         closeOnSelect: true,
@@ -39,13 +38,12 @@
             if (!$("#frmSectionEditor").valid()) {
                 return false;
             }
-
             if ($("#txtSectionName").val() == undefined || $("#txtSectionName").val() == null || $("#txtSectionName").val() == "") {
                 MessageController.Error("Please Enter Section Name", "Validation Failed");
                 return false;
             }
 
-            if ($("#txtSectionId").val() == undefined || $("#txtSectionId").val() == null || $("#txtSectionId").val() == "") {
+            if ($("#txtSectionAbbreviation").val() == undefined || $("#txtSectionAbbreviation").val() == null || $("#txtSectionAbbreviation").val() == "") {
                 MessageController.Error("Please Enter Section Abbreviation", "Validation Failed");
                 return false;
             }
@@ -54,18 +52,18 @@
                     return false;
                 }
                 var model = {
-                    ID: $("#sectionId").val(),
-                    SectionID: $("#txtSectionId").val(),
+                    ID_Section: $("#txtSectionId").val(),
+                    SectionID: $("#txtSectionAbbreviation").val(),
                     ID_Department: CookiesController.getCookie("DEPARTMENTID"),
                     SectionName_EN: $("#txtSectionName").val(),
                     SectionName_TH: $("#txtSectionName").val(),
-                    Description: "",
-                    IsActive: true
+                    Description: "" 
                 }
-                if (model.ID <= 0
-                    || model.ID == null
-                    || model.ID == "null"
-                    || model.ID == undefined) {
+                if (model.ID_Section <= 0
+                    || model.ID_Section == null
+                    || model.ID_Section == "null"
+                    || model.ID_Section == undefined) {
+                    model.ID_Section = 0;
                     CreateSection(model);
                 } else {
                     UpdateSection(model);
@@ -168,9 +166,10 @@
         }
     }); 
         LoadEmployees(); 
-        LoadDepartmentSection();
+        LoadDepartmentSection();  
     })
 })(jQuery);
+
 function LoadSection() {
     MessageController.BlockUI({ boxed: true, target: '#dtSectionRows' });
     $.ajax({
@@ -210,6 +209,7 @@ function LoadSection() {
                     "sDom": 'lfrtip'
                 });
                 $('.dataTables_length').addClass('bs-select');
+                CreateSectionPopup();
             } catch (e) {
                 return false;
             }
@@ -233,6 +233,7 @@ function LoadSection() {
         }
     });
 }
+
 function LoadEmployees() {
     MessageController.BlockUI({ boxed: true, target: '#dtListEmployee' });
     $.ajax({
@@ -297,6 +298,7 @@ function LoadEmployees() {
         }
     });
 }
+
 function LoadDepartmentSection() {
     $.ajax({
         type: "GET",
@@ -309,7 +311,7 @@ function LoadDepartmentSection() {
             options.empty();
             options.append($("<option />").val(null).text("---All---")); 
             $.each(response.Data, function () {
-                options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN)); 
+                options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN)); 
             });
             Array.prototype.slice.call(document.querySelectorAll('select[id*="selectSection"]'))
                 .forEach(function (element) {
@@ -348,11 +350,13 @@ function LoadDepartmentSection() {
         }
     });
 }
+
 function EditSection(id, code, name) {
     $("#txtSectionId").val(code);
     $("#txtSectionName").val(name); 
     $("#sectionId").val(id); 
 }
+
 function DeleteSection(id, code, name) {
     MessageController.WarningCallback("Are you sure you want to delete Section '" + code + ' ' + name + "'?", "Confirm Delete!", function (res) {
         if (res) { 
@@ -381,16 +385,41 @@ function DeleteSection(id, code, name) {
         }
     });
 }
+
 function CreateSection(sectiomModel) { 
     $.ajax({
         type: "POST",
         url: '/Organization/CreateSection',
-        data: sectiomModel,
+        data: sectiomModel,// { model: JSON.stringify(sectiomModel) },
         success: function (response) {
-            LoadSection();
-            $("#txtSectionId").val(null);
-            $("#txtSectionName").val(null);
-            $("#sectionId").val(null); 
+            $("#section-Editor-modal").magnificPopup('close');
+            LoadSection(); 
+        },
+        failure: function (response) { 
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) { 
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+}
+
+function UpdateSection(sectiomModel) { 
+    $.ajax({
+        type: "POST",
+        url: '/Organization/UpdateSection',
+        data: sectiomModel,// { model: JSON.stringify(sectiomModel) },
+        success: function (response) {
+            $("#section-Editor-modal").magnificPopup('close');
+            LoadSection();  
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -408,31 +437,37 @@ function CreateSection(sectiomModel) {
         }
     });
 }
-function UpdateSection(sectiomModel) { 
-    $.ajax({
-        type: "POST",
-        url: '/Organization/UpdateSection',
-        data: sectiomModel,
-        success: function (response) {
-            LoadSection(); 
-            $("#txtSectionId").val(null);
-            $("#txtSectionName").val(null);
-            $("#sectionId").val(null); 
-        },
-        failure: function (response) {
-            if (JSON.parse(response.responseText).Errors.length > 0) {
-                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-            } else {
-                MessageController.Error(response.responseText, "Error");
-            }
-        },
-        error: function (response) {
-            if (JSON.parse(response.responseText).Errors.length > 0) {
-                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-            } else {
-                MessageController.Error(response.responseText, "Error");
+
+function CreateSectionPopup() {
+    $('.section-Editor-modal').magnificPopup({
+        type: 'inline',
+        preloader: false,
+        modal: true,
+        callbacks: {
+            beforeOpen: function () {
+                var mp = this.st;
+                if (mp) { 
+                    var datatset = mp.el[0].dataset;
+                    $("#txtSectionId").val(datatset.var1);
+                    $("#txtSectionAbbreviation").val(datatset.var2); 
+                    $("#txtSectionName").val(datatset.var3);                   
+                } else {
+                    $("#txtSectionId").val(null);
+                    $("#txtSectionName").val(null);
+                    $("#txtSectionAbbreviation").val(null); 
+                } 
+            },
+            afterClose: function () {
+                $("#txtSectionId").val(null);
+                $("#txtSectionName").val(null);
+                $("#txtSectionAbbreviation").val(null); 
             }
         }
+    });
+
+    $(document).on('click', '.popup-modal-dismiss', function (e) {
+        e.preventDefault();
+        $.magnificPopup.close();
     });
 }
  

@@ -18,7 +18,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE OR ALTER PROCEDURE usp_LDMS_M_UserRole_UpdateSection
+CREATE OR ALTER PROCEDURE usp_LDMS_M_User_UpdateSection
 	-- Add the parameters for the stored procedure here
 	@employeeId nvarchar(50),
 	@sectionId INT,
@@ -31,7 +31,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	UPDATE	[dbo].[LDMS_M_UserRole]
+	UPDATE	[dbo].[LDMS_M_User]
 	SET   
 		[IsSectionHead] = @sectionHeader
        ,[ID_Section] = @sectionId 

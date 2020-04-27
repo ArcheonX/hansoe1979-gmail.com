@@ -22,7 +22,14 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,* FROM LDMS_M_Section WITH (NOLOCK) WHERE IsActive=1;
+	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,
+	ID as ID_Section,
+	SectionID,
+	SectionName_EN,
+	SectionName_TH,
+	[Description] AS SectionDescription,
+	ID_Department
+	FROM LDMS_M_Section WITH (NOLOCK) WHERE IsActive=1;
 END
 GO
 

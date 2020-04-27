@@ -2,7 +2,7 @@
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_T_CompetenceAnalytic_Score
+    public class LDMS_T_CompetenceAnalytic_Score:BaseViewModel
     {
         public int ID { get; set; }
         public int ID_CompetenceAnalytic { get; set; }

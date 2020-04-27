@@ -114,6 +114,10 @@
     {
       "library": "tether@1.4.7",
       "destination": "wwwroot/lib/tether/"
+    },
+    {
+      "library": "linq.js@2.2.0.2",
+      "destination": "wwwroot/lib/linq.js/"
     }
   ]
 }
