@@ -22,7 +22,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)] 
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [Route("Organization/Section")]
         public async Task<IActionResult> Section()
         {
@@ -32,7 +32,7 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.All)]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
-        [Route("Organization/SectionByDepartment")] 
+        [Route("Organization/SectionByDepartment")]
         public async Task<IActionResult> SectionByDepartment(int departmentId)
         {
             return Response(await MasterService.GetAllSections(departmentId));
@@ -41,22 +41,22 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.All)]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
-        [Route("Organization/Employees")] 
+        [Route("Organization/Employees")]
         public async Task<IActionResult> Employees(int departmentId, int sectionId, string keyword)
         {
             var grades = (await MasterService.GetAllJobGrades()).Data as List<ViewModels.LDMS_M_JobGrade>;
             var titles = (await MasterService.GetAllJobTitles()).Data as List<ViewModels.LDMS_M_JobTitle>;
             var sections = (await MasterService.GetAllSections(departmentId)).Data as List<ViewModels.LDMS_M_Section>;
             var users = (await UserService.GetAllEmployeeByDepartmentId(departmentId)).Data as List<ViewModels.LDMS_M_User>;
-            var employees = users.Select(emp => new Models.Employee.EmployeeSectionView(emp)
+            var employees = users.Select(emp => new EmployeeSectionView(emp)
             {
-                JobGrade = grades.FirstOrDefault(e => e.ID_JobGrade == emp.ID_JobGrade.GetValueOrDefault())?.JobGradeName_EN,
-                JobTitle = titles.FirstOrDefault(e => e.ID_JobTitle == emp.ID_JobTitle.GetValueOrDefault())?.JobTitleName_EN,
+                JobGrade = grades.FirstOrDefault(e => e.ID_JobGrade == emp.ID_JobGrade)?.JobGradeName_EN,
+                JobTitle = titles.FirstOrDefault(e => e.ID_JobTitle == emp.ID_JobTitle)?.JobTitleName_EN,
                 LDMS_M_Sections = sections
             }).ToList();
             if (sectionId > 0)
             {
-                employees = employees.Where(e => e.LDMS_M_UserRole != null && e.LDMS_M_UserRole.ID_Section == sectionId).ToList();
+                employees = employees.Where(e => e.ID_Section == sectionId).ToList();
             }
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -79,7 +79,7 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.All)]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
         [HttpGet]
-        [Route("Organization/Sections")] 
+        [Route("Organization/Sections")]
         public async Task<IActionResult> GetAllSections(int departmentId)
         {
             var sections = (await MasterService.GetAllSections(departmentId)).Data as List<ViewModels.LDMS_M_Section>;
@@ -88,7 +88,7 @@ namespace LDMS.WEB.Controllers
 
         [AuthorizeRole(UserRole.AdminHR, UserRole.SuperAdmin)]
         [HttpPost]
-        [Route("Organization/CreateSection")] 
+        [Route("Organization/CreateSection")]
         public async Task<IActionResult> CreateSection(ViewModels.LDMS_M_Section model)
         {
             return Response(await MasterService.CreateSection(model));
@@ -96,15 +96,15 @@ namespace LDMS.WEB.Controllers
 
         [AuthorizeRole(UserRole.AdminHR, UserRole.SuperAdmin)]
         [HttpPost]
-        [Route("Organization/UpdateSection")] 
+        [Route("Organization/UpdateSection")]
         public async Task<IActionResult> UpdateSection(ViewModels.LDMS_M_Section model)
         {
             return Response(await MasterService.UpdateSection(model));
         }
 
-        [AuthorizeRole(UserRole.AdminHR,UserRole.SuperAdmin)]
+        [AuthorizeRole(UserRole.AdminHR, UserRole.SuperAdmin)]
         [HttpDelete]
-        [Route("Organization/DeleteSection")] 
+        [Route("Organization/DeleteSection")]
         public async Task<IActionResult> DeleteSection(int sectionId)
         {
             return Response(await MasterService.DeleteSection(sectionId));
@@ -112,14 +112,14 @@ namespace LDMS.WEB.Controllers
 
         [AuthorizeRole(UserRole.AdminHR, UserRole.SuperAdmin)]
         [HttpPost]
-        [Route("Organization/SectionEmployeeSave")] 
+        [Route("Organization/SectionEmployeeSave")]
         public async Task<IActionResult> SectionEmployeeSave(List<SectionEmployeeSaveModel> models)
         {
-            List<ViewModels.LDMS_M_UserRole> userRoles = models.Select(e => new ViewModels.LDMS_M_UserRole()
+            List<ViewModels.LDMS_M_User> userRoles = models.Select(e => new ViewModels.LDMS_M_User()
             {
                 EmployeeID = e.EmployeeId,
-                ID_Section = e.SectionId,
-                IsSectionHead = e.IsSectionHead ? 1 : 0
+                ID_Section = e.SectionId.GetValueOrDefault(),
+                IsSectionHead = e.IsSectionHead
             }).ToList();
             return Response(await UserService.UpdateUserSection(userRoles));
         }

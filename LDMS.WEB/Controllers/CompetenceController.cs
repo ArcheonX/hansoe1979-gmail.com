@@ -12,7 +12,7 @@ namespace LDMS.WEB.Controllers
     public class CompetenceController : BaseController
     {
         private readonly CompetenceAnalyticService CompetenceAnalyticService;
-        public CompetenceController(CompetenceAnalyticService competenceAnalyticService )
+        public CompetenceController(CompetenceAnalyticService competenceAnalyticService)
         {
             CompetenceAnalyticService = competenceAnalyticService;
         }
@@ -25,7 +25,7 @@ namespace LDMS.WEB.Controllers
             ViewData["Title"] = "My Team Competence Analytic";
             ViewData["MainTitle"] = "My Team / My Monitoring";
             return View();
-        } 
+        }
         [AuthorizeRole(UserRole.All)]
         [Route("Competence/Analytic")]
         public IActionResult Analytic()
@@ -35,7 +35,7 @@ namespace LDMS.WEB.Controllers
             return View();
         }
 
-      
+
         [AuthorizeRole(UserRole.All)]
         [Route("Competence/Add")]
         public IActionResult Add()
@@ -60,6 +60,16 @@ namespace LDMS.WEB.Controllers
         {
             var analytics = (await CompetenceAnalyticService.ReadAll()).Data;
             return Json(analytics);
+        }
+
+        [HttpPost]
+        [AuthorizeRole(UserRole.All)]
+        [Route("Competence/CreateCompetence")]
+        public async Task<IActionResult> CreateCompetence(ViewModels.LDMS_T_CompetenceAnalytic competenceAnalytic
+            , List<ViewModels.LDMS_T_CompetenceAnalytic_Employee> employees
+            , List<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic> topics)
+        {
+            return Response(await CompetenceAnalyticService.CreateCompetence(competenceAnalytic, employees, topics));
         }
     }
 }

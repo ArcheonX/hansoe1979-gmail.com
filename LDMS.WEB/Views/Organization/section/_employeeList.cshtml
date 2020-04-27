@@ -23,7 +23,7 @@
                     <td style="text-align:center;">@std.JobGrade</td>
                     <td style="text-align:center;">@std.JobTitle</td>
                     <td style="text-align:right;">
-                        @if (@std.LDMS_M_UserRole.IsSectionHead == 1)
+                        @if (@std.IsSectionHead)
                         {
                             <input type="checkbox" name="selectSectionHead_@std.EmployeeID"
                                    checked
@@ -43,7 +43,7 @@
                             <option value="null">--None---</option>
                             @foreach (var std2 in @std.LDMS_M_Sections)
                             {
-                                @if (@std2.ID_Section == @std.LDMS_M_UserRole.ID_Section)
+                                @if (@std2.ID_Section == @std.ID_Section)
                                 {
                                     <option value="@std2.ID_Section" selected="selected">@std2.SectionID - @std2.SectionName_EN</option>
                                 }

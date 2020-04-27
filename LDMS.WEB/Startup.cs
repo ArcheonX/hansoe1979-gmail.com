@@ -1,19 +1,14 @@
 using LDMS.Core;
 using LDMS.Identity;
-using LDMS.WEB.Filters;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Threading.Tasks;
 
 namespace LDMS.WEB
 {
@@ -89,7 +84,7 @@ namespace LDMS.WEB
               options.SlidingExpiration = true;
           });
             services.AddControllersWithViews();
-
+           
             //services.ConfigureApplicationCookie(options =>
             //{ 
             //    options.Events.OnRedirectToLogin = context => {
@@ -129,7 +124,7 @@ namespace LDMS.WEB
                 MinimumSameSitePolicy = SameSiteMode.None,
             };
             app.UseCookiePolicy(cookiePolicyOptions);
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");

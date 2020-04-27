@@ -26,12 +26,12 @@ namespace LDMS.WEB.Controllers
             return new EmployeeModel()
             {
                 RowIndex = user.RowIndex,
-                CenterId = user.ID_Center.GetValueOrDefault(),
-                DivisionId = user.ID_Division.GetValueOrDefault(),
-                DepartmentId = user.LDMS_M_Department != null ? user.LDMS_M_Department.ID_Department : 0,
-                SectionId = user.ID_Section.GetValueOrDefault(),
-                JobGradeId = user.ID_JobGrade.GetValueOrDefault(),
-                JobTitleId = user.ID_JobTitle.GetValueOrDefault(),
+                CenterId = user.ID_Center,
+                DivisionId = user.ID_Division,
+                DepartmentId = user.ID_Department,
+                SectionId = user.ID_Section,
+                JobGradeId = user.ID_JobGrade,
+                JobTitleId = user.ID_JobTitle,
 
                 DepartmentName = user.LDMS_M_Department != null ? user.LDMS_M_Department.DepartmentID : "",
                 SectionName = user.LDMS_M_Section != null ? user.LDMS_M_Section.SectionID : "",
@@ -42,15 +42,15 @@ namespace LDMS.WEB.Controllers
                 EmployeeId = user.EmployeeID,
                 EmployeeName = user.Name,
                 EmployeeSurName = user.Surname,
-                Gender = user.Gender,               
+                Gender = user.Gender,
                 Nationality = user.Nationality,
-                Password = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Password : "",
+                Password = user.Password,
                 PhoneNumber = user.PhoneNumber,
-                Remark = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Remark : "",
-                RoleId = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Role : 0,               
-                IsInstructer = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsInstructor == 1 : false,
-                IsSectionHead = user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsSectionHead == 1 : false,
-                IsAD = user.IsAD == 1              
+                Remark = user.Remark,
+                RoleId = user.ID_Role,
+                IsInstructer = user.IsInstructor,
+                IsSectionHead = user.IsSectionHead,
+                IsAD = user.IsAD
             };
         }
 
@@ -66,7 +66,25 @@ namespace LDMS.WEB.Controllers
             {
                 departments = model.Departments.Split(",").Select(int.Parse).ToArray();
             }
-            var users = (await UserService.GetAll(model.EmployeeId, model.EmployeeName, departments.ToList())).Data as List<LDMS_M_User>;
+
+            int[] sections = new int[0];
+            if (model.Sections != null && model.Sections.Any())
+            {
+                sections = model.Sections.Split(",").Select(int.Parse).ToArray();
+            }
+
+            int[] grades = new int[0];
+            if (model.JobGrades != null && model.JobGrades.Any())
+            {
+                grades = model.JobGrades.Split(",").Select(int.Parse).ToArray();
+            }
+
+            int[] titles = new int[0];
+            if (model.JobTitles != null && model.JobTitles.Any())
+            {
+                titles = model.JobTitles.Split(",").Select(int.Parse).ToArray();
+            }
+            var users = (await UserService.GetAll(model.EmployeeId, model.EmployeeName, departments.ToList(),sections.ToList(), grades.ToList(), titles.ToList())).Data as List<LDMS_M_User>;
             var userView = users.Select(user => CovertToView(user)).ToList();
             return Response(new ServiceResult(userView));
         }
@@ -134,7 +152,7 @@ namespace LDMS.WEB.Controllers
                     Nationality = model.Nationality,
                     PhoneNumber = model.PhoneNumber,
                     Surname = model.EmployeeSurName,
-                    IsAD = 1,
+                    IsAD = true,
                     EmployeeID = model.EmployeeId,
                     Gender = model.Gender,
                     ID_Center = model.CenterId,
@@ -142,20 +160,15 @@ namespace LDMS.WEB.Controllers
                     ID_Division = model.DivisionId,
                     ID_JobGrade = model.JobGradeId,
                     ID_JobTitle = model.JobTitleId,
-                    IsActive = 1
-                };
-                LDMS_M_UserRole userRole = new LDMS_M_UserRole()
-                {
-                    EmployeeID = model.EmployeeId,
-                    IsActive = 1,
+                    IsActive = true,
                     ID_Role = model.RoleId,
                     ID_Section = model.SectionId,
-                    IsInstructor = model.IsInstructer ? 1 : 0,
-                    IsSectionHead = model.IsSectionHead ? 1 : 0,
+                    IsInstructor = model.IsInstructer,
+                    IsSectionHead = model.IsSectionHead,
                     Password = model.Password,
                     Remark = model.Remark
-                };
-                return Response(await UserService.CreateUser(user, userRole));
+                }; 
+                return Response(await UserService.CreateUser(user));
             }
             catch (Exception exp)
             {
@@ -167,7 +180,7 @@ namespace LDMS.WEB.Controllers
         [HttpPost]
         [Route("Employee/UpdateEmployee")]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult> UpdateEmployee(Models.Employee.EmployeeModel model)
+        public async Task<IActionResult> UpdateEmployee(EmployeeModel model)
         {
             try
             {
@@ -178,7 +191,7 @@ namespace LDMS.WEB.Controllers
                     Nationality = model.Nationality,
                     PhoneNumber = model.PhoneNumber,
                     Surname = model.EmployeeSurName,
-                    IsAD = 1,
+                    IsAD = true,
                     EmployeeID = model.EmployeeId,
                     Gender = model.Gender,
                     ID_Center = model.CenterId,
@@ -186,20 +199,15 @@ namespace LDMS.WEB.Controllers
                     ID_Division = model.DivisionId,
                     ID_JobGrade = model.JobGradeId,
                     ID_JobTitle = model.JobTitleId,
-                    IsActive = 1
-                };
-                LDMS_M_UserRole userRole = new LDMS_M_UserRole()
-                {
-                    EmployeeID = model.EmployeeId,
-                    IsActive = 1,
+                    IsActive = true,
                     ID_Role = model.RoleId,
                     ID_Section = model.SectionId,
-                    IsInstructor = model.IsInstructer ? 1 : 0,
-                    IsSectionHead = model.IsSectionHead ? 1 : 0,
+                    IsInstructor = model.IsInstructer,
+                    IsSectionHead = model.IsSectionHead,
                     Password = model.Password,
                     Remark = model.Remark
-                };
-                return Response(await UserService.UpdateUser(user, userRole));
+                }; 
+                return Response(await UserService.UpdateUser(user));
             }
             catch (Exception exp)
             {

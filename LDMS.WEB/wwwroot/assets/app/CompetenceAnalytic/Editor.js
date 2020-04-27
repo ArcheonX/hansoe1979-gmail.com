@@ -17,6 +17,21 @@ var tmpselection = [];
             var departmentId = $(this).val();
             LoadDepartmentSection(departmentId);
         });
+        $('select[name="selectLevel"]').on('change', function () { 
+            var level = $(this).val(); 
+            if (level != null && level != undefined && level != undefined && level != "") {
+                employees = [];
+                employees.push({
+                    Index: 0,
+                    EmployeeId: "",
+                    EmployeeName: false,
+                    Action: "",
+                });
+                employees.pop();
+                RefreshExployees();
+            }
+        }); 
+
         LoadCourse();
         CreateEmployeePopup(); 
         topics.push({
@@ -48,8 +63,16 @@ function CreateEmployeePopup() {
         callbacks: {
             beforeOpen: function () {
                 LoadDepartment(); 
-                LoadJobTitle();
-                SearchEmployee(); 
+                LoadJobTitle(); 
+                $("#selectJobGrade").removeAttr("disabled");
+                var level = $("#selectLevel").val(); 
+                if (level != null && level != undefined && level != undefined && level!="") {
+                    $("#selectJobGrade").attr("disabled", "disabled");
+                    $('select[name="selectJobGrade"]').val(level).trigger('change');
+                } else {                    
+                    $('select[name="selectJobGrade"]').val(null).trigger('change');
+                }
+                SearchEmployee();  
             },
             beforeClose: function () {
                 tmpselection = []; 
@@ -168,7 +191,8 @@ function RefreshTopic() {
     tableTopic.page('last').draw('page');
 }
 
-function OnSelectEmp(employeeId, element) {
+function OnSelectEmp(element) {
+    var employeeId = element.id.replace("selectEmployee_", "").trim();
     if (document.getElementById('selectEmployee_' + employeeId).checked) {
         tmpselection.push(employeeId);
     } else {
@@ -178,7 +202,6 @@ function OnSelectEmp(employeeId, element) {
     } 
 }
 function OnSelectEmployee() {
-
     if (tmpselection.length > 20) {
         MessageController.Warning("Target Employee maximum exceed (Maximum = 20 Topic)", "Maximum exceed");
         return;
@@ -319,8 +342,8 @@ function LoadJobGrades() {
             options.append($("<option />").val(null).text("---All---"));
             options2.append($("<option />").val(null).text("---All---"));
             $.each(response.Data, function () {
-                options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
-                options2.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
+                options.append($("<option />").val(this.ID_JobGrade).text(this.JobGradeName_EN));
+                options2.append($("<option />").val(this.ID_JobGrade).text(this.JobGradeName_EN));
             });
             options.val(null).trigger('change');
             options2.val(null).trigger('change');
@@ -409,8 +432,7 @@ function SearchEmployee() {
         Departments: $("#selectDepartment").val(),
         Sections: $("#selectSection").val(),
         JobGrades: $("#selectJobGrade").val(),
-        JobTitles: $("#selectJobTitle").val(),
-        Levels: "",
+        JobTitles: $("#selectJobTitle").val() 
     }
     MessageController.BlockUI({ boxed: true, target: '#search-target-employee-modal' });
     if ($.fn.dataTable.isDataTable('#dtSelectEmployee')) {
@@ -436,12 +458,13 @@ function SearchEmployee() {
                         "mData": "EmployeeId",
                         "mRender": function (data, type, row) {
                             var isSelect = employees.any((item) => {
-                                return data == value.EmployeeId;
-                            });
+                                return data.trim() == item.EmployeeId.trim();
+                            }); 
                             if (isSelect) {
-                                return '<input type = "checkbox" checked="checked"  onchange="OnSelectEmp(' + data + ', this);" class="chk-select-employee" name = "selectEmployee_' + data + '" value = "' + data + '"  id = "selectEmployee_' + data + '" /> <label for="selectEmployee_' + data + '"> </label>';
+                                tmpselection.push(data);
+                                return "<input type = 'checkbox' checked='checked'  onchange='OnSelectEmp(this)' class='chk-select-employee' name = 'selectEmployee_" + data + "' value='" + data + "'  id='selectEmployee_" + data + "' /> <label for='selectEmployee_" + data + "'> </label>";
                             } else {
-                                return '<input type = "checkbox"  onchange="OnSelectEmp(' + data + ', this);" class="chk-select-employee" name = "selectEmployee_' + data + '" value = "' + data + '"  id = "selectEmployee_' + data + '" /> <label for="selectEmployee_' + data + '"> </label>';
+                                return "<input type = 'checkbox' onchange='OnSelectEmp(this)' class='chk-select-employee' name = 'selectEmployee_" + data + "' value='" + data + "'  id='selectEmployee_" + data + "' /> <label for='selectEmployee_" + data + "'> </label>";
                             }
                         }
                     }

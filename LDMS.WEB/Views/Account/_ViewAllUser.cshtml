@@ -25,7 +25,7 @@
                         <td style="text-align:center">@std.Name   @std.Surname</td>
                         <td style="text-align:left">@std.LDMS_M_Department.DepartmentID  @std.LDMS_M_Department.DepartmentName_EN</td>
                         <td style="text-align:center">
-                            @if (@std.IsAD == 1)
+                            @if (@std.IsAD)
                             {
                                 <img src='@Url.Content("~/assets/images/svg/icon-check-green.svg")' class="light-logo" />
                             }
@@ -40,7 +40,7 @@
                             </a>
                         </td>
                         <td style="text-align:center;display:none">
-                            @if (@std.IsAD == 1 || (@HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"] == @std.EmployeeID))
+                            @if (@std.IsAD || (@HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"] == @std.EmployeeID))
                             {
                                 <img src='@Url.Content("~/assets/images/svg/icon-delete.svg")' class="light-logo" alt="homepage" />
                             }
