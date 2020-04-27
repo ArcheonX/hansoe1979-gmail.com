@@ -9,6 +9,6 @@ namespace LDMS.ViewModels
         public string PostDetail { get; set; }
         public string AttachFilePath { get; set; }
         public DateTime PostDate { get; set; }
-        public int ID_PostByEmployee { get; set; }
+        public string PostBy_EmployeeID { get; set; }
     }
 }

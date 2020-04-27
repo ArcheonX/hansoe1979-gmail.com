@@ -1,0 +1,440 @@
+﻿@{
+    ViewData["Title"] = "Coaching";
+    ViewData["MainTitle"] = "My-Team";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+        <div class="panel panel-default" style="width:100%;border-width:thin;border-style:solid;">
+            <div class="panel-body" style="width:100%;">
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal" style="margin-top:25px">
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Plant ID</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <select id="selectPlant"
+                                        name="selectPlant"
+                                        title="Please Enter Plant"
+                                        class="form-control required"
+                                        style="width: 100%">
+                                </select>
+                            </div>
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Center</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-3 col-md-3">
+                                <select id="selectCenter"
+                                        name="selectCenter"
+                                        title="Please Enter Center"
+                                        class="form-control required"
+                                        style="width: 100%"
+                                        disabled="disabled">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Divison</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <select id="selectDivision"
+                                        name="selectDivision"
+                                        title="Please Enter Division"
+                                        class="form-control required"
+                                        style="width: 100%"
+                                        disabled="disabled">
+                                </select>
+                            </div>
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Department</label>
+                                </span>
+                            </div>
+                            <div class="col-3">
+                                <select id="selectDepartment"
+                                        name="selectDepartment"
+                                        title="Please Enter Department"
+                                        class="form-control required"
+                                        style="width: 100%"
+                                        disabled="disabled">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Status</label>
+                                </span>
+                            </div>
+                            <div class="col-4">
+                                <select id="selectCourseStatus" name="selectCourseStatus" class="form-control" style="width: 100%">
+                                    <option value="0">-- Select All --</option>
+                                    <option value="10">Not Start</option>
+                                    <option value="30">On Progress</option>
+                                    <option value="70">Complete</option>
+                                    <option value="99">Incomplete</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Employee</label>
+                                </span>
+                            </div>
+                            <div class="col-3">
+                                <input type="text" id="txtEmployeeID" class="form-control input-sm" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Platform</label>
+                                </span>
+                            </div>
+                            <div class="col-4">
+                                <select id="selectPlatform"
+                                        name="selectPlatform"
+                                        title="Please Enter Platform"
+                                        class="form-control required"
+                                        style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-sm-1 col-md-1 offset-9">
+                                <a id="btnSeacrh" class="btn btn-info waves-effect waves-light" style="width:100%; color:white;" onclick="Search()"> Search </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="table-responsive m-t-40">
+            <table class="display dataTable" width="100%" id="dtCoachingList">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">No</th>
+                        <th style="text-align:center;width:200px">Sub Platform</th>
+                        <th style="text-align:center;width:150px">Course</th>
+                        <th style="text-align:center;width:150px">Employee</th>
+                        <th style="text-align:center;width:100px">Assign Date</th>
+                        <th style="text-align:center;width:200px">Topic</th>
+                        <th style="text-align:center;width:100px">Status</th>
+                        <th style="text-align:center;width:50px">Review</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+@section Scripts{
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+         $(document).ready(function () {
+
+             loadPlant();
+             loadPlatform();
+             //LoadCourseLearnMethod();
+             Search();
+
+             
+             $("#selectPlant").change(function() {
+                //$("#additionalOptions").show();
+                changePlant(this);
+             });
+
+            $("#selectCenter").change(function() {
+                //$("#additionalOptions").show();
+                changeCenter(this);
+            });
+
+            $("#selectDivision").change(function() {
+                //$("#additionalOptions").show();
+                changeDivision(this);
+            });
+
+         });
+
+        function loadPlatform() {
+            //alert(' loadPlant');
+            $.ajax({
+                type: "GET",
+                url: "/Platform/GetPlatformByDep",
+                success: function (response) {
+
+                    //alert('response : ' + response.Data);
+                    var options = $('#selectPlatform');
+                    options.append($("<option />").val(null).text("Please select"));
+                    $.each(response, function () {
+                        options.append($("<option />").val(this.ID).text(this.PlatformName_EN));
+                    });
+                    $('select[name="selectPlatform"]').val($('#hID_Platform').val()).trigger('change');
+                },
+                failure: function (response) {
+                    MessageController.Error(response.responseText, "Error");
+                },
+                error: function (response) {
+                    MessageController.Error(response.responseText, "Error");
+                }
+            });
+        }
+
+        function loadPlant() {
+            //alert(' loadPlant');
+            $.ajax({
+                type: "GET",
+                url: "/Master/GetAllPlants",
+                success: function (response) {
+                    var options = $('#selectPlant');
+                    options.append($("<option />").val(null).text("Please select"));
+                    $.each(response.Data, function () {
+                        options.append($("<option />").val(this.ID).text(this.PlantName_EN));
+                    });
+                    $('select[name="selectPlant"]').val($('#hID_PlantTarget').val()).trigger('change');
+                },
+                failure: function (response) {
+                    MessageController.Error(response.responseText, "Error");
+                },
+                error: function (response) {
+                    MessageController.Error(response.responseText, "Error");
+                }
+            });
+        }
+
+        function changePlant(sel) {
+            //alert('changePlant');
+            $('#selectDivision').empty();
+            $('#selectDepartment').empty();
+            $('#selectSection').empty();
+
+            var plantid = sel.value;
+            ReloadCenter($, plantid, null);
+        }
+
+        function changeCenter(sel) {
+            //alert('changeCenter');
+            $('#selectDepartment').empty();
+            $('#selectSection').empty();
+
+            var centerId = sel.value;
+            ReloadDivision($, centerId, null);
+        }
+
+        function changeDivision(sel) {
+           // alert('changeDivision');
+            $('#selectSection').empty();
+            var divisionId = sel.value;
+            ReloadDepartment($, divisionId, null);
+        }
+
+        function LoadCourseLearnMethod() {
+           $('#selectLearnMethod').empty();
+                 $.ajax({
+                url: "/Courses/GetAllCourseLearnMethod",
+                type: "GET",
+                    }).done(function (items) {
+                        var options = $('#selectLearnMethod');
+                        options.append($("<option />").val(null).text("--- Select All---"));
+                        $.each(items, function () {
+                            options.append($("<option />").val(this.ID).text(this.Course_LearnMethodName_EN));
+                        });
+                        $('select[name="selectLearnMethod"]').val(null);
+                    });
+        }
+
+        function ReloadCenter($, plantId, callback) {
+            var options = $('#selectCenter');
+            options.empty();
+            if (plantId && plantId != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "/Master/GetAllCentersByPlant",
+                    data: {
+                           plantId : plantId
+                           },
+                    success: function (response) {
+                        options.append($("<option />").val(null).text("Please select"));
+                        $.each(response.Data, function () {
+                            //if (this.ID_Plant == plantId) {
+                               options.append($("<option />").val(this.ID).text(this.CenterName_EN));
+                            //}
+                        });
+                        $('select[name="selectCenter"]').val($('#hID_CenterTarget').val()).trigger('change');
+                        document.getElementById("selectCenter").disabled = false;
+                         // ReloadDivision($, $('#hID_CenterTarget').val(), null);
+                        if (callback) {
+                            //callback($("#userDivisionId").val());
+                        }
+                    },
+                    failure: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    },
+                    error: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                });
+
+
+                
+            }
+        }
+
+        function ReloadDivision($, centerId, callback) {
+            //alert('ReloadDivision : ' + centerId);
+
+            var options = $('#selectDivision');
+            options.empty();
+            if (centerId && centerId != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "/Master/GetAllDivisionsByCenter",
+                    data: {
+                        centerId : centerId
+                    },
+                    success: function (response) {
+                        options.append($("<option />").val(null).text("Please select"));
+                        $.each(response.Data, function () {
+                            //if (this.ID_Center == centerId) {
+                                options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
+                            //}
+                        });
+                        $('select[name="selectDivision"]').val($('#hID_DivisionTarget').val()).trigger('change');
+                        document.getElementById("selectDivision").disabled = false;
+                        //ReloadDepartment($, $('#hID_DivisionTarget').val(), null);
+
+                        if (callback) {
+                            //callback($("#userDivisionId").val());
+                        }
+                    },
+                    failure: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    },
+                    error: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                });
+            }
+        }
+
+        function ReloadDepartment($, divisionId, callback) {
+            var options = $('#selectDepartment');
+            options.empty();
+            if (divisionId && divisionId != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "/Master/GetAllDepartmentsByDivision",
+                    data: {
+                        divisionId : divisionId
+                    },
+                    success: function (response) {
+
+                        options.append($("<option />").val(null).text("Please select"));
+                        $.each(response.Data, function () {
+                            //if (this.ID_Division == divisionId) {
+                                options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
+                            //}
+                        });
+
+                        $('select[name="selectDepartment"]').val($('#hID_DepartmentTarget').val()).trigger('change');
+                        document.getElementById("selectDepartment").disabled = false;
+                         //ReloadSection($, $('#hID_DepartmentTarget').val(), null);
+
+                        if (callback) {
+                            //callback($("#userDepartmentId").val());
+                        }
+                    },
+                    failure: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    },
+                    error: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                });
+            }
+        }
+
+
+        function Search() {
+            //alert('search function');
+             dtData = $('#dtCoachingList').DataTable({
+                 'processing': true,
+                 'serverSide': true,
+                 'paging': true,
+                 "ordering": false,
+                 "searching": false,
+                 "lengthChange": false,
+                 "bAutoWidth": false,
+                 "Filter": false,
+                 "info": false,
+                 "bPaginate": false,
+                 "bLengthChange": false,
+                 "bJQueryUI": true, //Enable smooth theme
+                 "sPaginationType": "full_numbers", //Enable smooth theme
+                 "sDom": 'lfrtip',
+                 destroy: true,
+                'ajax': {
+                    'url': '@Url.Action("Search", "Coaching")',
+                    'type': 'POST',
+                    'data': {
+                        ID_Plant: $('#selectPlant').val(),
+                        ID_Center: $('#selectCenter').val(),
+                        ID_Division: $('#selectDivision').val(),
+                        ID_Department: $('#selectDepartment').val(),
+                        ID_Status: $('#selectCourseStatus').val(),
+                        ID_Employee: $('#txtEmployeeID').val(),
+                        ID_Platform: $('#selectPlatform').val(),
+                        "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
+                    },
+                },
+                'columns': [
+                    { data: 'rownumber' },
+                    { data: 'SubPlatformName_EN' },
+                    { data: 'CourseName' },
+                    { data: 'EmployeeName' },
+                    { data: 'AssignDate' },
+                    { data: 'Topic' },
+                    { data: 'CoachingStatus' },
+                    {
+                        "mData": "ID",
+                        "mRender": function (data, type, row) {
+                            var url = '@Url.Content("~/Coaching/Detail/")'+data;
+                            var icon = '@Url.Content("~/assets/images/svg/icon-edit-blue.svg")';
+                            return "<a href='"+url+"'><img src='"+icon+"' class='light-logo' alt='homepage' /></a>";
+                        }
+                    },
+                 ],
+                 "columnDefs": [
+                     { "orderable": false, "targets": 0, "className": "text-center",  "width": "4%" },
+                     { "orderable": false, "targets": 1, "className": "text-center" },
+                     { "orderable": false, "targets": 2, "className": "text-center" },
+                     { "orderable": false, "targets": 3, "className": "text-center" },
+                     { "orderable": false, "targets": 4, "className": "text-center" },
+                     { "orderable": false, "targets": 5, "className": "text-center" },
+                     { "orderable": false, "targets": 6, "className": "text-center" },
+                     { "orderable": false, "targets": 7, "className": "text-center" }
+
+                 ]
+            });
+        }
+
+    </script>
+}
+
+

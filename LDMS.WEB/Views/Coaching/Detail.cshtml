@@ -1,0 +1,223 @@
+﻿@{
+    ViewData["Title"] = "Coaching";
+    ViewData["MainTitle"] = "My-Team-Coaching";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+    <div class="panel panel-default" style="width:100%;border-width:thin;border-style:solid;">
+        <div class="panel-body" style="width:100%;">
+            <form method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal" style="margin-top:25px">
+                    <div class="row form-group">
+                        <div class="col-sm-1 col-md-4">
+                            <span class="pull-right Topic">
+                                <label class="LabelCaption">Topic</label>
+                            </span>
+                        </div>
+
+                        <div class="col-sm-1 col-md-1 offset-9">
+                            <a id="btnSeacrh" class="btn btn-info waves-effect waves-light" style="width:100%; color:white;" onclick="Search()"> Search </a>
+                        </div>
+                        <div class="col-sm-1 col-md-1" style="margin-left:-25px">
+                            <a id="btnAdd" onclick="window.location.href = '@Url.Action("Add", "Courses")';" class="btn btn-success waves-effect waves-light" style="width:100%; color:white">Add</a>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-1 col-md-1">
+                            <div class="user-profile-coaching">
+                                <div class="profile-img">
+                                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2" style="margin-top:20px; margin-left:10px">
+                            <div class="profile-text">
+                                <a aria-expanded="false">Name : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                            </div>
+                            <div class="profile-text">
+                                <a aria-expanded="false">Position : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                            </div>
+                            <div class="profile-text">
+                                <a aria-expanded="false">Platform : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                            </div>
+                            <div class="profile-text">
+                                <a aria-expanded="false">Sub Platform : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                            </div>
+                            <div class="profile-text">
+                                <a aria-expanded="false">Course : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-8 col-md-8" style="margin-top:20px; margin-left:10px">
+                            <textarea id="txtTopic"
+                                      name="txtTopic"
+                                      rows="5" style="width:100%">
+                            </textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-sm-1 col-md-4">
+                            <span class="pull-right">
+                                <label class="LabelCaption">Assign Date : </label>
+                            </span>
+                        </div>
+                        <div class="col-sm-1 col-md-4">
+                            <span class="pull-left">
+                                <label class="LabelCaption">29/04/2020</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-1 col-md-4">
+                            <span class="pull-right">
+                                <label class="LabelCaption">Status : </label>
+                            </span>
+                        </div>
+                        <div class="col-sm-1 col-md-4">
+                            <select id="selectCourseStatus" name="selectCourseStatus" class="form-control" style="width: 100%">
+                                <option value="0">-- Select All --</option>
+                                <option value="1">Not Start</option>
+                                <option value="2">On Progress</option>
+                                <option value="3">Complete</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="border-width:thin; border-style:solid; margin-left:0px; display:block; margin-top: 5px; margin-bottom:5px; width:100%;display:block"></div>
+
+                <div id="divCoach" style="margin-top:25px; margin-left:10px" class="collapse show">
+                    <div id="div" style="border-width:thin; border-style:solid; background-color:cornflowerblue; margin-left:5px; display:block; margin-top: 0px; margin-bottom:20px; width:99%;display:block">
+                        <div class="row form-group">
+                            <div class="col-sm-1 col-md-1" style="margin-top:20px; position:relative">
+                                <label class="LabelCaption pull-right" style="color:white">1 st Review</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div" style="border-width:thin; border-style:solid; margin-left:5px; display:block; margin-top: -20px; margin-bottom:20px; width:99%;display:block">
+                        <div class="row form-group">
+                            <div class="col-sm-11 col-md-11" style="margin-top:20px; margin-left:50px; width:80%">
+                                <textarea id="txtTopic"
+                                          name="txtTopic"
+                                          rows="6" style="width:100%" disabled="disabled">
+                                    </textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-1 col-md-1" style="margin-top:10px; margin-left:50px; width:80%">
+                                <span class="pull-left">
+                                    <label class="LabelCaption pull-right">File Attach : </label>
+                                </span>
+                            </div>
+                            <div class="col-sm-8 col-md-8" style="margin-top:10px; width:80%">
+                                <span class="pull-left">
+                                    <a href="#">ldms_file_attahc.pdf</a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-1 col-md-1" style="margin-top:10px; margin-left:50px; width:80%">
+                                <span class="pull-left">
+                                    <label class="LabelCaption pull-right">Post Date : </label>
+                                </span>
+                            </div>
+                            <div class="col-sm-2 col-md-2" style="margin-top:10px;">
+                                <span class="pull-left">
+                                    <label class="LabelCaption pull-right">20/04/2020 15:45</label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divPost" style="margin-top:25px; margin-left:10px" class="collapse show">
+                    <div id="div" style="border-width:thin; border-style:solid; margin-left:5px; display:block; margin-top: -20px; margin-bottom:20px; width:99%;display:block">
+                        <div class="row form-group">
+                            <div class="col-sm-11 col-md-11" style="margin-top:20px; margin-left:50px; width:80%">
+                                <textarea id="txtTopic"
+                                          name="txtTopic"
+                                          rows="6" style="width:100%">
+                                    </textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-10 col-md-10" style="margin-top:10px; width:80%">
+                                <span class="pull-right">
+                                    <a id="btnPost" class="btn btn-success waves-effect waves-light" style="width:100%; color:white">Post</a>
+                                </span>
+                            </div>
+                            <div class="col-sm-1 col-md-1" style="margin-top:10px; width:80%">
+                                <span class="pull-left">
+                                    <a id="btnAttach" class="btn btn-info waves-effect waves-light" style="width:100%; color:white">Attach</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <style type="text/css">
+        .form-group {
+            position : relative;
+            background-size : cover;
+        }
+
+        .Topic {
+            position : absolute;
+            background-size : cover;
+            left: 26em;
+            margin-top : 10px; 
+        }
+
+        .user-profile-coaching {
+            margin-bottom: 1.5rem;
+        }
+
+        .user-profile-coaching .profile-img {
+            width: 120px;
+            height: 120px;
+            padding-top: 15px;
+            padding-left: 15px;
+            border-radius: 100%
+        }
+        .user-profile-coaching .profile-img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%
+        }
+
+        .user-profile-coaching .profile-text {
+            padding: 5px 0px;
+            position: relative
+        }
+        .user-profile-coaching .profile-text > a {
+            width: 100%;
+            padding: 6px 30px;
+            display: block
+        }
+        .user-profile-coaching .profile-text > a:after {
+            position: absolute;
+            right: 20px;
+            top: 20px
+        }
+
+
+    </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+        });
+
+    </script>
+}
