@@ -1,6 +1,3 @@
-USE [veraplus_ldms]
-GO
-
 /****** Object:  Table [dbo].[LDMS_T_CompetenceAnalytic_Employee]    Script Date: 4/27/2020 1:12:15 AM ******/
 DROP TABLE [dbo].[LDMS_T_CompetenceAnalytic_Employee]
 GO

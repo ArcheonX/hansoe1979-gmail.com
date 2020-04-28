@@ -1,22 +1,22 @@
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 -- =============================================
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
+/*
+declare @p10 dbo.EmployeeIdList 
+declare @p11 dbo.TopicList
+insert into @p11 values(0,1,N'(HR-S001-01) Course Name1')
+insert into @p11 values(0,11,N'(HR-S011-02) Course Name11')
+insert into @p11 values(0,24,N'(LCO003) [ST-00001111kdfsdfsdfdsf]czxczcxzxc')
+insert into @p11 values(0,0,N'TTTT')  
+insert into @p10 values('5000001144')
+insert into @p10 values('5010421485')
+insert into @p10 values('5012032455') 
+exec [dbo].[usp_CompetenceAnalytic_Create] @CompetenceName=N'Competence  Test',
+@Criteria1=N'Limited Knowledge',@Criteria2=N'Have Knowledge but lack Skill',
+@Criteria3=N'Have Knowledge with skilled',@Criteria4=N'Have Knowledge and skillful',@Criteria5=N'Professional Skilled & Can train the others',
+@ID_Department=1,@ID_JobGrade=NULL,@ID_EmployeeManager=N'STT00001',@CreateBy=N'STT00001',@EmployeeTable=@p10,@Topics=@p11
+*/
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalytic_Create]
 	-- Add the parameters for the stored procedure here
@@ -28,6 +28,7 @@ CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalytic_Create]
 	@Criteria5 nvarchar(100),
 	@ID_Department int = null,
 	@ID_JobGrade int= null,
+	@ID_EmployeeManager  nvarchar(50),
 	@CreateBy  nvarchar(50),
 	@EmployeeTable EmployeeIdList readonly,
 	@Topics TopicList readonly
@@ -38,14 +39,11 @@ BEGIN
 	SET NOCOUNT ON;
 	BEGIN TRANSACTION;
 	BEGIN TRY
-			DECLARE @ID_CompetenceAnalytic INT;
-			DECLARE @ID_EmployeeManager nvarchar(50);
+			DECLARE @ID_CompetenceAnalytic INT;  
 
-			SET @ID_EmployeeManager = @CreateBy;
-
-			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic]([ID_EmployeeManager],[CompetenceAnalyticName],[Criteria1]
+			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic](ID_EmployeeManager,[CompetenceAnalyticName],[Criteria1]
 				   ,[Criteria2] ,[Criteria3],[Criteria4],[Criteria5],[CreateBy],[CreateDate] ,[ID_Department] ,[ID_JobGrade],[IS_ACTIVE])
-			VALUES (0 ,@CompetenceName ,@Criteria1  ,@Criteria2 ,@Criteria3 ,@Criteria4 ,@Criteria5 ,@CreateBy ,GETDATE()  ,@ID_Department ,@ID_JobGrade,1);
+			VALUES (@ID_EmployeeManager ,@CompetenceName ,@Criteria1  ,@Criteria2 ,@Criteria3 ,@Criteria4 ,@Criteria5 ,@CreateBy ,GETDATE()  ,@ID_Department ,@ID_JobGrade,1);
 	
 			SELECT @ID_CompetenceAnalytic =  SCOPE_IDENTITY();
 

@@ -1,9 +1,11 @@
 ﻿var topics = [];
 var employees = [];
 var tmpselection = [];
+
 (function ($) {
     "use strict";
     $(document).ready(function () {
+
         $("input[type='datetime']").datepicker();
         $('select').select2({
             allowClear: true,
@@ -11,7 +13,7 @@ var tmpselection = [];
             theme: "bootstrap"
         });
         $('#btnBack').click(function () {
-            window.location.href = "Index"; 
+            window.location.href = "/Competence/Index"; 
         });
         $('select[name="selectDepartment"]').on('change', function () {
             var departmentId = $(this).val();
@@ -31,30 +33,136 @@ var tmpselection = [];
                 RefreshExployees();
             }
         }); 
-
+        $('#btnSaveCompetence').click(function () {
+            OnSaveCompetence();
+        });
         LoadCourse();
         CreateEmployeePopup(); 
-        topics.push({
-            Index: 0,
-            Topic: "",
-            IsSpecial: false,
-            ID_Course: 0,
-            Action: "",
-        });
-        topics.pop();
-        RefreshTopic();
-
-        employees.push({
-            Index: 0,
-            EmployeeId: "",
-            EmployeeName: false, 
-            Action: "",
-        });
-        employees.pop();
-        RefreshExployees();
-        LoadJobGrades();
+        LoadJobGrades();    
+        var analytic_id = $("#analytic_id").val();
+        if (analytic_id != "" && analytic_id != null && analytic_id != undefined && analytic_id != "0" && analytic_id != 0) {            
+            LoadCompetence(parseInt(analytic_id));
+        } else {
+            topics.push({
+                Index: 0,
+                Topic: "",
+                IsSpecial: false,
+                ID_Course: 0,
+                Action: "",
+            });
+            topics.pop();
+            RefreshTopic();
+            employees.push({
+                Index: 0,
+                EmployeeId: "",
+                EmployeeName: "",
+                Action: "",
+            });
+            employees.pop();
+            RefreshExployees();
+        }
     })
 })(jQuery);
+
+function LoadCompetence(analytic_id) {
+    $.ajax({
+        type: "GET",
+        url: "/Competence/Competence",
+        data: { "competenceId": analytic_id },
+        success: function (response) {
+            $("#txtCompetenceName").val(response.Data.CompetenceAnalyticName);
+            $("#txtExpectatoin5").val(response.Data.Criteria5);
+            $("#txtExpectatoin4").val(response.Data.Criteria4);
+            $("#txtExpectatoin3").val(response.Data.Criteria3);
+            $("#txtExpectatoin2").val(response.Data.Criteria2);
+            $("#txtExpectatoin1").val(response.Data.Criteria1);
+            $("#selectLevel").val(response.Data.ID_JobGrade).trigger('change');
+        },
+        failure: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/Competence/Topics",
+        data: { "competenceId": analytic_id },
+        success: function (response) {
+            var index = 1;
+            $.each(response.Data, function () {
+                topics.push({
+                    Index: index,
+                    ID_CompetenceAnalytic: this.ID_CompetenceAnalytic,
+                    Topic: this.KnowledgeTopicName,
+                    IsSpecial: this.ID_Course > 0 ? false : true,
+                    ID_Course: this.ID_Course,
+                    Action: "",
+                });
+                index++;
+            });
+            RefreshTopic(); 
+        },
+        failure: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/Competence/Employees",
+        data: { "competenceId": analytic_id },
+        success: function (response) {
+            var index = 1; 
+            $.each(response.Data, function () {
+                employees.push({
+                    Index: index,
+                    EmployeeId: this.EmployeeID,
+                    EmployeeName: this.LDMS_M_User.FullName,
+                    Action: "",
+                });
+                index++;
+            });
+            RefreshExployees();
+        },
+        failure: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+}
+
 function CreateEmployeePopup() {
     $('.search-target-employee-modal').magnificPopup({
         type: 'inline',
@@ -85,6 +193,7 @@ function CreateEmployeePopup() {
         $.magnificPopup.close();
     });
 }
+
 function DeleteTopic(rowindex) { 
     MessageController.ConfirmCallback("Are you sure you want to do delete this Topic?", "Confirm Delete Topic", function (res) {
         if (res) { 
@@ -100,6 +209,7 @@ function DeleteTopic(rowindex) {
         } 
     }); 
 }
+
 function AddTopic(item) { 
     var index = (topics.length + 1);
     if (index > 20) {
@@ -140,6 +250,7 @@ function AddTopic(item) {
         RefreshTopic(); 
     } 
 }
+
 function RefreshTopic() {
     if ($.fn.dataTable.isDataTable('#dtTopic')) {
         var table = $('#dtTopic').DataTable();
@@ -155,17 +266,17 @@ function RefreshTopic() {
                 title: 'Special',
                 "mRender": function (data, type, row) {
                     if (data == true) {
-                        return '<a style="cursor: none" ><img src="../assets/images/svg/icon-check-green.svg" class="light-logo" alt="homepage" /> </a>';
+                        return '<a style="cursor: none" ><img src="/assets/images/svg/icon-check-green.svg" class="light-logo" alt="homepage" /> </a>';
                     }
                     else {
-                        return '<a style="cursor: none"><img src="../assets/images/svg/icon-cross.svg" class="light-logo" alt="homepage" /> </a>';
+                        return '<a style="cursor: none"><img src="/assets/images/svg/icon-cross.svg" class="light-logo" alt="homepage" /> </a>';
                     }
                 }
             },
             {
                 "mData": "Index",
                 "mRender": function(data, type, row) {
-                    return '<a onclick="DeleteTopic(' + data + ')" style="cursor: pointer" id="btnDeleteTopic"><img src="../assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /> </a>';
+                    return '<a onclick="DeleteTopic(' + data + ')" style="cursor: pointer" id="btnDeleteTopic"><img src="/assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /> </a>';
                 }
             }
        ], 
@@ -201,6 +312,7 @@ function OnSelectEmp(element) {
         }); 
     } 
 }
+
 function OnSelectEmployee() {
     if (tmpselection.length > 20) {
         MessageController.Warning("Target Employee maximum exceed (Maximum = 20 Topic)", "Maximum exceed");
@@ -243,7 +355,7 @@ function RefreshExployees() {
             {
                 "mData": "Index",
                 "mRender": function (data, type, row) {
-                    return '<a onclick="DeleteEmployee(' + data + ')" style="cursor: pointer" id="btnDeleteEmployee"><img src="../assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /> </a>';
+                    return '<a onclick="DeleteEmployee(' + data + ')" style="cursor: pointer" id="btnDeleteEmployee"><img src="/assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /> </a>';
                 }
             }
         ], 
@@ -298,6 +410,7 @@ function LoadCourse() {
         }
     });
 }
+
 function LoadDepartment() {
     var options = $('#selectDepartment');
     options.empty();
@@ -329,6 +442,7 @@ function LoadDepartment() {
         }
     });
 }
+
 function LoadJobGrades() {
     var options = $('#selectJobGrade');
     var options2 = $('#selectLevel');
@@ -364,6 +478,7 @@ function LoadJobGrades() {
         }
     });
 }
+
 function LoadJobTitle() {
     var options = $('#selectJobTitle');
     options.empty();
@@ -393,6 +508,7 @@ function LoadJobTitle() {
         }
     });
 }
+
 function LoadDepartmentSection(departmentId) {
     var options = $('#selectSection');
     options.empty();
@@ -425,6 +541,7 @@ function LoadDepartmentSection(departmentId) {
         }
     });
 }
+
 function SearchEmployee() {
     var searmodel = {
         EmployeeId: $("#txtEmployeeID").val(),
@@ -502,4 +619,82 @@ function SearchEmployee() {
             MessageController.UnblockUI('#search-target-employee-modal');
         }
     });
+}
+
+function OnSaveCompetence() { 
+    var competence = {
+        ID_Analytic: 0,
+        CompetenceAnalyticName: $("#txtCompetenceName").val(),
+        Criteria1: $("#txtExpectatoin1").val(),
+        Criteria2: $("#txtExpectatoin2").val(),
+        Criteria3: $("#txtExpectatoin3").val(),
+        Criteria4: $("#txtExpectatoin4").val(),
+        Criteria5: $("#txtExpectatoin5").val(),
+        ID_Analytic: 0,
+        ID_EmployeeManager: CookiesController.getCookie("EMPLOYEEID"),
+        ID_Department: CookiesController.getCookie("DEPARTMENTID"),
+        ID_JobGrade: $("#selectLevel").val()
+    };
+    var employeeIds = [];
+    var listTopics = [];
+    employees.forEach(function (t) {
+        employeeIds.push({ EmployeeID: t.EmployeeId });
+    });   
+    topics.forEach(function (t) {
+        listTopics.push({
+            ID_Course: t.ID_Course,
+            KnowledgeTopicName: t.Topic
+        })
+    });
+
+    if (competence.CompetenceAnalyticName == "" || competence.CompetenceAnalyticName == null || competence.CompetenceAnalyticName == undefined) {
+        MessageController.Error("Please Enter Competence Platform Name", "Required.");
+        return false;
+    }
+    if (listTopics.length <= 0) {
+        MessageController.Error("Please Enter Knowledge Topic", "Required.");
+        return false;
+    }
+    if (employeeIds.length <= 0) {
+        MessageController.Error("Please Enter Target Employee", "Required.");
+        return false;
+    } 
+
+    var url = "";
+    var analytic_id = $("#analytic_id").val();
+    if (analytic_id != "" && analytic_id != null && analytic_id != undefined && analytic_id != "0" && analytic_id != 0) {
+        url = '/Competence/UpdateCompetence';
+        competence.ID_Analytic = analytic_id;
+
+    } else {
+        url = '/Competence/CreateCompetence';
+    }
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            competenceAnalytic: competence,
+            employees: employeeIds,
+            topics: listTopics
+        },
+        success: function (response) { 
+            MessageController.Success("Save Competence Completed.", "Success");
+            window.location.href = "/Competence/Index";  
+        },
+        failure: function (response) { 
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) { 
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+
 }

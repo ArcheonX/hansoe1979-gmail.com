@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_CompetenceAnalytic_READ_ALL] 
+-- EXEC [dbo].[usp_CompetenceAnalyticEmployee_READ_BY_AnalyticId] 4
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalyticEmployee_READ_BY_AnalyticId] 
 @AnalyticId INT
@@ -30,16 +30,15 @@ BEGIN
 
 	muser.DateOfBirth,muser.DriverLicenseID,muser.email,muser.EmployeeID,muser.Gender,muser.IDCardNumber,muser.IsAD,muser.JoinDate ,muser.Name,
 	muser.Nationality,muser.OutDate,muser.PhoneNumber,muser.Surname, 
-	usrRole.ID_Section,
+	muser.ID_Section,
 	muser.ID_JobGrade,
 	muser.ID_JobTitle  
 
 	--usrRole.ID as UserRoleId,usrRole.ID_Role,usrRole.IsInstructor,usrRole.Password,usrRole.Remark,usrRole.passwordSalt,usrRole.IsSectionHead,usrRole.IsAllowGPP as Is_AcceptGPP
 
 	FROM LDMS_T_CompetenceAnalytic_Employee Employee WITH (NOLOCK)
-	LEFT OUTER JOIN LDMS_M_User muser WITH (NOLOCK) on  Employee.EmployeeID = muser.EmployeeID
-	LEFT OUTER JOIN LDMS_M_UserRole usrRole WITH (NOLOCK)  on muser.EmployeeID = usrRole.EmployeeID
-	LEFT OUTER JOIN LDMS_M_Role rol  WITH (NOLOCK) on usrRole.ID_Role = rol.ID
+	LEFT OUTER JOIN LDMS_M_User muser WITH (NOLOCK) on  Employee.EmployeeID = muser.EmployeeID 
+	LEFT OUTER JOIN LDMS_M_Role rol  WITH (NOLOCK) on muser.ID_Role = rol.ID
 	where Employee.ID_CompetenceAnalytic = @AnalyticId;
 
 END

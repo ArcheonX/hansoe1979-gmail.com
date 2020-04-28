@@ -22,12 +22,12 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,
+	SELECT ROW_NUMBER() OVER(ORDER BY ID ASC)  as RowIndex,
 	ID as ID_Analytic,
 	ID_EmployeeManager,
 	CompetenceAnalyticName,
 	Criteria1,
-	Criteria2 AS CenterDescription,
+	Criteria2,
 	Criteria3,
 	Criteria4,
 	Criteria5,

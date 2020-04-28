@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_CompetenceAnalytic_READ_ALL] 
+-- EXEC [dbo].[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId] 4
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId] 
 @AnalyticId INT

@@ -20,7 +20,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllPlants")]
         [AutoValidateAntiforgeryToken]
@@ -30,7 +30,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllCenters")]
         [AutoValidateAntiforgeryToken]
@@ -40,7 +40,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllCentersByPlant")]
         [AutoValidateAntiforgeryToken]
@@ -50,7 +50,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllDivisions")]
         [AutoValidateAntiforgeryToken]
@@ -60,7 +60,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllDivisionsByCenter")]
         [AutoValidateAntiforgeryToken]
@@ -70,7 +70,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllDepartments")]
         [AutoValidateAntiforgeryToken]
@@ -80,7 +80,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllDepartmentsByDivision")]
         [AutoValidateAntiforgeryToken]
@@ -90,7 +90,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllSections")]
         [AutoValidateAntiforgeryToken]
@@ -100,7 +100,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllSectionsByDepartment")]
         [AutoValidateAntiforgeryToken]
@@ -110,7 +110,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/Department")]
         [AutoValidateAntiforgeryToken]
@@ -120,7 +120,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/Division")]
         [AutoValidateAntiforgeryToken]
@@ -130,7 +130,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllJobGrades")]
         [AutoValidateAntiforgeryToken]
@@ -140,7 +140,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllJobTitles")]
         [AutoValidateAntiforgeryToken]
@@ -150,7 +150,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllRoles")]
         [AutoValidateAntiforgeryToken]
@@ -160,7 +160,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllPlatforms")]
         [AutoValidateAntiforgeryToken]
@@ -170,7 +170,7 @@ namespace LDMS.WEB.Controllers
         }
 
         [AuthorizeRole(UserRole.All)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Master/GetAllCourses")]
         [AutoValidateAntiforgeryToken]

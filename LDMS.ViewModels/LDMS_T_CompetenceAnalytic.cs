@@ -5,7 +5,7 @@ namespace LDMS.ViewModels
     public class LDMS_T_CompetenceAnalytic : BaseViewModel
     {
         public int? ID_Analytic { get; set; }
-        public int? ID_EmployeeManager { get; set; }
+        public string ID_EmployeeManager { get; set; }
         public string CompetenceAnalyticName { get; set; }
         public string Criteria1 { get; set; }
         public string Criteria2 { get; set; }

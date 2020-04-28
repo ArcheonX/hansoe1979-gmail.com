@@ -127,7 +127,7 @@ namespace LDMS.WEB.Controllers
         [HttpGet]
         [Route("Logout")]
         [Route("Account/Logout")]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Logout()
         {
             HttpContext.Request.ExpireAllCookies(HttpContext.Response);
@@ -138,14 +138,14 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR)]
         [HttpGet]
         [Route("Account/UserManagement")]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UserManagement()
         {
             return View();
         }
         [AuthorizeRole(UserRole.All)]
         [Route("Account/MyProfile")]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> MyProfile()
         {
             return View();
@@ -154,7 +154,7 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.SuperAdmin, UserRole.AdminHR)]
         [HttpGet]
         [Route("Account/SearchEmployee")]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> SearchEmployee(SearchEmployeeModel model)
         {
             int[] departments = new int[0];

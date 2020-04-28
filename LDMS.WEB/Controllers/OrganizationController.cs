@@ -73,6 +73,7 @@ namespace LDMS.WEB.Controllers
                 item.RowIndex = index;
                 index++;
             });
+            //return Json(employees);
             return PartialView("section/_employeeList", employees);
         }
 

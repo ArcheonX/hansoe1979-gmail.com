@@ -570,6 +570,8 @@ function EditEmployee(employeeId) {
     $("#isInstructer").prop("checked", false);
     $("#isSectionHead").prop("checked", false);
     if (employeeId != undefined && employeeId != "") {
+        MessageController.BlockUI({ boxed: true, target: '#UserEditor' });
+
         $.ajax({
             type: "GET",
             url: "/Employee/ReadEmployee",
@@ -724,6 +726,7 @@ function EditEmployee(employeeId) {
                 $('#txtRemark').val(user.Remark);
                 $('#isInstructer').val(user.IsInstructer);
                 $('#isSectionHead').val(user.IsSectionHead); 
+                MessageController.UnblockUI('#UserEditor');
             },
             failure: function (response) {
                 if (JSON.parse(response.responseText).Errors.length > 0) {

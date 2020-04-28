@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -88,7 +89,7 @@ namespace LDMS.Services
                           if (section != null)
                           {
                               user.LDMS_M_Section = section;
-                              user.ID_Section = section.ID_Department;
+                              user.ID_Section = section.ID_Section;
                           }
                           return user; 
                       },
@@ -152,7 +153,7 @@ namespace LDMS.Services
                              if (section != null)
                              {
                                  user.LDMS_M_Section = section;
-                                 user.ID_Section = section.ID_Department;
+                                 user.ID_Section = section.ID_Section;
                              }
                              return user;
                          },
@@ -193,29 +194,30 @@ namespace LDMS.Services
                     }
                 }
                 var updateBy = JwtManager.Instance.GetUserId(HttpContext.Request);
-                using (System.Data.IDbConnection conn = Connection)
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Employee_ID", typeof(string));
+                dt.Columns.Add("ID_Section", typeof(int));
+                dt.Columns.Add("Is_Header", typeof(bool));
+                foreach (var role in userRoles)
                 {
-                    using (var transaction = conn.BeginTransaction())
-                    {
-                        foreach (var item in userRoles)
-                        {
-                            var items = Connection.Query<SQLError>(_schema + ".[usp_LDMS_M_User_UpdateSection] @employeeId,@sectionId,@sectionHeader,@updateBy",
-                               new
-                               {
-                                   @employeeId = item.EmployeeID,
-                                   @sectionId = item.ID_Section,
-                                   @sectionHeader = item.IsSectionHead,
-                                   @updateBy = updateBy
-                               });
-                            if (items != null && items.Any())
-                            {
-                                transaction.Rollback();
-                                return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
-                            }
-                        }
-                        transaction.Commit();
-                        return new ServiceResult();
+                    DataRow row = dt.NewRow();
+                    row["Employee_ID"] = role.EmployeeID;
+                    row["ID_Section"] = role.ID_Section;
+                    row["Is_Header"] = role.ID_Section > 0?role.IsSectionHead:false;
+                    dt.Rows.Add(row);
+                }
+
+                using (IDbConnection conn = Connection)
+                {
+                    var parameters = new DynamicParameters();  
+                    parameters.Add("@UserSectionTable", dt, DbType.Object);
+                    parameters.Add("@updateBy", updateBy);
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_LDMS_M_User_UpdateSection]", param: parameters, commandType: CommandType.StoredProcedure);
+                    if (items != null && items.Any())
+                    { 
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    return new ServiceResult();
                 }
             }
             catch (Exception x)
@@ -261,7 +263,7 @@ namespace LDMS.Services
                           if (section != null)
                           {
                               user.LDMS_M_Section = section;
-                              user.ID_Section = section.ID_Department;
+                              user.ID_Section = section.ID_Section;
                           }
                           return user;
                       },
@@ -320,7 +322,7 @@ namespace LDMS.Services
                               if (section != null)
                               {
                                   user.LDMS_M_Section = section;
-                                  user.ID_Section = section.ID_Department;
+                                  user.ID_Section = section.ID_Section;
                               }
                               return user;
                           },

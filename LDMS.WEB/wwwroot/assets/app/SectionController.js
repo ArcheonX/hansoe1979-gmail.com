@@ -1,4 +1,6 @@
-﻿(function ($) {
+﻿var IsInit = true;
+
+(function ($) {
     "use strict";
     $(document).ready(function () {  
     $('select').select2({
@@ -74,18 +76,18 @@
             LoadEmployees();
         }); 
         $("#btnEmpListSave").click(function (event) {
-            var models = [];
-            $('#dtListEmployee > tbody  > tr').each(function () { 
-                var self = $(this);
-                var employeeId = self.find("td").eq(1).text();
-                var sectionHead = self.find("td").eq(5).find("input[type='checkbox']").prop("checked");
-                var sectionId = self.find("td").eq(6).find("select option:selected").val();
+            var models = []; 
+            var table = $('#dtListEmployee').DataTable(); 
+            var data = table.rows().data();
+            data.each(function (value, index) { 
+                var sectionHead = $("#selectSectionHead_" + value[1]).prop('checked'); // document.Find self.find("td").eq(5).find("input[type='checkbox']").prop("checked");
+                var sectionId = $("#selectSection_" + value[1]).val();// self.find("td").eq(6).find("select option:selected").val();
                 var model = {
-                    EmployeeId: employeeId,
+                    EmployeeId: value[1],
                     IsSectionHead: sectionHead,
                     SectionId: sectionId 
                 };
-                models.push(model);
+                models.push(model); 
             });
 
             $.ajax({
@@ -196,14 +198,7 @@ function LoadSection() {
                     "Filter": false,
                     "info": false,
                     "bPaginate": false,
-                    "bLengthChange": false,
-                    //"language": {
-                    //    "lengthMenu": "Display _MENU_ records per page",
-                    //    "zeroRecords": "    Nothing found - sorry",
-                    //    "info": "    page _PAGE_ of _PAGES_",
-                    //    "infoEmpty": "    No records available",
-                    //    "infoFiltered": "(filtered from _MAX_ total records)"
-                    //},
+                    "bLengthChange": false, 
                     "bJQueryUI": true, //Enable smooth theme
                     "sPaginationType": "full_numbers", //Enable smooth theme
                     "sDom": 'lfrtip'
@@ -262,19 +257,13 @@ function LoadEmployees() {
                     "Filter": false,
                     "info": false,
                     "bPaginate": false,
-                    "bLengthChange": false,
-                    //"language": {
-                    //    "lengthMenu": "Display _MENU_ records per page",
-                    //    "zeroRecords": "    Nothing found - sorry",
-                    //    "info": "    page _PAGE_ of _PAGES_",
-                    //    "infoEmpty": "    No records available",
-                    //    "infoFiltered": "(filtered from _MAX_ total records)"
-                    //},
+                    "bLengthChange": false, 
                     "bJQueryUI": true, //Enable smooth theme
                     "sPaginationType": "full_numbers", //Enable smooth theme
                     "sDom": 'lfrtip'
                 });
                 $('.dataTables_length').addClass('bs-select');
+                IsInit = false;
             } catch (e) {
                 return false;
             }
@@ -309,30 +298,23 @@ function LoadDepartmentSection() {
         success: function (response) {
             var options = $('#selectSection');
             options.empty();
-            options.append($("<option />").val(null).text("---All---")); 
+            options.append($("<option />").val(null).text("---All---"));
             $.each(response.Data, function () {
-                options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN)); 
+                options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN));
             });
             Array.prototype.slice.call(document.querySelectorAll('select[id*="selectSection"]'))
-                .forEach(function (element) {
+                .forEach(function (element) { 
                     var selectValue = element.value;
-                    var options = $("#" + element.id); 
+                    var options = $("#" + element.id);
                     options.empty();
                     if (element.id != 'selectSection') {
                         options.append($("<option />").val(null).text("---None---"));
-                    } else {
-                        options.append($("<option />").val(null).text("---All---"));
-                    }
-                    $.each(response.Data, function () {
-                        if (this.ID == selectValue) {
-                            options.append($("<option  selected='selected' />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
-                        } else {
-                            options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
-                        }
-                    });
-
-              
-            }); 
+                        $.each(response.Data, function () {
+                            options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN));
+                        });
+                        $("#" + element.id).val(selectValue).trigger('change');
+                    }   
+                });
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -349,7 +331,7 @@ function LoadDepartmentSection() {
             }
         }
     });
-}
+} 
 
 function EditSection(id, code, name) {
     $("#txtSectionId").val(code);
