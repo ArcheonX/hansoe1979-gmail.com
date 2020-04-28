@@ -780,7 +780,7 @@
                 var options = $('#selectPlant');
                 options.append($("<option />").val(null).text("Please select"));
                 $.each(response.Data, function () {
-                    options.append($("<option />").val(this.ID).text(this.PlantName_EN));
+                    options.append($("<option />").val(this.ID_Plant).text(this.PlantName_EN));
                 });
                 $('select[name="selectPlant"]').val($('#hID_PlantVenue').val()).trigger('change');
                 //ReloadVenuRoom($, $('#hID_PlantVenue').val(), null);
