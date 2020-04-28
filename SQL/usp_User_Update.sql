@@ -18,8 +18,9 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE OR ALTER PROCEDURE usp_User_Update
+CREATE OR ALTER PROCEDURE [dbo].[usp_User_Update]
 	-- Add the parameters for the stored procedure here 
+	@ID_Employee bigint,
 	@EmployeeId nvarchar(50),
 	@EmployeeName nvarchar(50),
 	@EmployeeSurName nvarchar(50),
@@ -37,7 +38,12 @@ CREATE OR ALTER PROCEDURE usp_User_Update
 	@Remark nvarchar(250)  =null,
 	@PhoneNumber  nvarchar(50)  =null,
 	@Email  nvarchar(50)  =null,
-	@UpdateBy  nvarchar(50)  =null
+	@UpdateBy  nvarchar(50)  =null,
+	@IDCardNumber nvarchar(50)  =null,
+	@JoinDate datetime =null,
+	@OutDate datetime =null,
+	@DateOfBirth datetime =null,
+	@ProfilePath  nvarchar(250)  =null  
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -45,8 +51,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	DECLARE @PlantId INT;
-	DECLARE @JoinDate DATETIME= GETDATE();
+	DECLARE @PlantId INT; 
 	SELECT @PlantId = ID_Plant FROM LDMS_M_Center  WHERE ID = @CenterId;
 	IF NOT EXISTS (SELECT * FROM LDMS_M_User WHERE EmployeeID = @EmployeeId)
 		RAISERROR (101,-1,-1, 'An Employee ID doen''t exists');  
@@ -54,34 +59,39 @@ BEGIN
 BEGIN TRANSACTION;
 BEGIN TRY
 
-	UPDATE  [dbo].[LDMS_M_User]
-	SET 
-		[Gender] = @Gender,
-		[Name] = @EmployeeName,
-		[Surname] = @EmployeeSurName,
-		[Nationality] =@Nationality,
-		[ID_JobGrade] = @JobGradeId,
-		[ID_JobTitle] =@JobTitleId,
-		[ID_Plant] = @PlantId,
-		[ID_Center]=@CenterId,
-		[ID_Division]=@DivisionId,
-		[ID_Department] = @DepartmentId,
-		[PhoneNumber] = @PhoneNumber,
-		[Email]=@Email,
-		[UpdateBy] = @UpdateBy,
-		[UpdateDate] =GETDATE(),
-		[IsActive] = 1
+	UPDATE [dbo].[LDMS_M_User]
+   SET [EmployeeID] = @EmployeeId
+      ,[Name] = @EmployeeName
+      ,[Surname] =@EmployeeSurName
+      ,[Gender] = @Gender
+      ,[Nationality] =@Nationality
+      ,[Email] = @Email
+      ,[PhoneNumber] = @PhoneNumber
+      ,[IsAD] = case when @Email is null or @Email ='' then 0 else 1 end
+      ,[DriverLicenseID] = ''
+      ,[IDCardNumber] =@IDCardNumber
+      ,[ID_JobGrade] = @JobGradeId
+      ,[ID_JobTitle] = @JobTitleId
+      ,[ID_Plant] = @PlantId
+      ,[ID_Center] = @CenterId
+      ,[ID_Division] =@DivisionId
+      ,[ID_Department] =@DepartmentId
+      ,[JoinDate] = @JoinDate
+      ,[OutDate] = @OutDate
+      ,[DateOfBirth] = @DateOfBirth
+      ,[ProfilePath] =@ProfilePath
+      ,[ID_Role] = @RoleId 
+      ,[Remark] = @Remark
+      ,[IsInstructor] = @IsInstructer
+      ,[IsSectionHead] = @IsSectionHead
+      ,[ID_Section] =@SectionId   
+      ,[IsActive] = 1
+      ,[IsDeleted] = 0
+      ,[IsLocked] =0 
+      ,[UpdateBy] =@UpdateBy
+      ,[UpdateDate] = GETDATE()
 	WHERE [EmployeeID]  = @EmployeeId; 
-	
-	UPDATE	[dbo].[LDMS_M_UserRole]
-		SET [ID_Role] = @RoleId 
-           ,[ID_Section] = @SectionId
-           ,[Remark] = @Remark 
-           ,[IsActive] = 1
-		   ,[UpdateBy] = @UpdateBy
-		   ,[UpdateDate] =GETDATE()
-		   	WHERE [EmployeeID]  = @EmployeeId; 
-
+	 
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH

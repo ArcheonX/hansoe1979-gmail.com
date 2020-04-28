@@ -30,7 +30,7 @@ BEGIN
 
     -- Insert statements for procedure here
 	UPDATE LDMS_M_User
-	SET IsActive = 0 ,UpdateBy = @paramUpdateBy,UpdateDate =GETDATE()
+	SET IsActive = 0 , IsDeleted = 1 , UpdateBy = @paramUpdateBy,UpdateDate =GETDATE()
 	WHERE EmployeeID = @paramEmployeeId AND IsAD = 0;
 END
 GO

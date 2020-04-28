@@ -34,7 +34,9 @@ namespace LDMS.Services
         {
             using (System.Data.IDbConnection conn = Connection)
             {
-                var results = Connection.Query<T>(_schema + ".[usp_" + table + "_READ_ALL]");
+                var results = Connection.Query<T>(_schema + ".[usp_" + table + "_READ_ALL]", 
+                      commandTimeout: 60,
+                      commandType: System.Data.CommandType.StoredProcedure);
                 return results.ToList();
             }
         }
