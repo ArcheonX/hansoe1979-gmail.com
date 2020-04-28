@@ -74,18 +74,18 @@
             LoadEmployees();
         }); 
         $("#btnEmpListSave").click(function (event) {
-            var models = [];
-            $('#dtListEmployee > tbody  > tr').each(function () { 
-                var self = $(this);
-                var employeeId = self.find("td").eq(1).text();
-                var sectionHead = self.find("td").eq(5).find("input[type='checkbox']").prop("checked");
-                var sectionId = self.find("td").eq(6).find("select option:selected").val();
+            var models = []; 
+            var table = $('#dtListEmployee').DataTable(); 
+            var data = table.rows().data();
+            data.each(function (value, index) { 
+                var sectionHead = $("#selectSectionHead_" + value[1]).prop('checked'); // document.Find self.find("td").eq(5).find("input[type='checkbox']").prop("checked");
+                var sectionId = $("#selectSection_" + value[1]).val();// self.find("td").eq(6).find("select option:selected").val();
                 var model = {
-                    EmployeeId: employeeId,
+                    EmployeeId: value[1],
                     IsSectionHead: sectionHead,
                     SectionId: sectionId 
                 };
-                models.push(model);
+                models.push(model); 
             });
 
             $.ajax({
@@ -196,14 +196,7 @@ function LoadSection() {
                     "Filter": false,
                     "info": false,
                     "bPaginate": false,
-                    "bLengthChange": false,
-                    //"language": {
-                    //    "lengthMenu": "Display _MENU_ records per page",
-                    //    "zeroRecords": "    Nothing found - sorry",
-                    //    "info": "    page _PAGE_ of _PAGES_",
-                    //    "infoEmpty": "    No records available",
-                    //    "infoFiltered": "(filtered from _MAX_ total records)"
-                    //},
+                    "bLengthChange": false, 
                     "bJQueryUI": true, //Enable smooth theme
                     "sPaginationType": "full_numbers", //Enable smooth theme
                     "sDom": 'lfrtip'
