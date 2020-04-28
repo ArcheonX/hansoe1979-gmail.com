@@ -54,6 +54,13 @@ namespace LDMS.ViewModels
         public LDMS_M_JobTitle LDMS_M_JobTitle { get; set; } 
         public LDMS_M_Role LDMS_M_Role { get; set; }  
         
+        public string FullName
+        {
+            get
+            {
+                return string.Format("{0} {1}", Name, Surname);
+            }
+        }
         public LDMS_M_User()
         {
             LDMS_M_Plant = new LDMS_M_Plant();

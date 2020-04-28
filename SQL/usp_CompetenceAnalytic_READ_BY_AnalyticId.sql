@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_CompetenceAnalytic_READ_ALL] 
+-- EXEC [dbo].[usp_CompetenceAnalytic_READ_BY_AnalyticId]  1
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalytic_READ_BY_AnalyticId] 
 @AnalyticId INT
@@ -28,7 +28,7 @@ BEGIN
 	ID_EmployeeManager,
 	CompetenceAnalyticName,
 	Criteria1,
-	Criteria2 AS CenterDescription,
+	Criteria2,
 	Criteria3,
 	Criteria4,
 	Criteria5,

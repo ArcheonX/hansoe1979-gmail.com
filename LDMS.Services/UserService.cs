@@ -89,7 +89,7 @@ namespace LDMS.Services
                           if (section != null)
                           {
                               user.LDMS_M_Section = section;
-                              user.ID_Section = section.ID_Department;
+                              user.ID_Section = section.ID_Section;
                           }
                           return user; 
                       },
@@ -153,7 +153,7 @@ namespace LDMS.Services
                              if (section != null)
                              {
                                  user.LDMS_M_Section = section;
-                                 user.ID_Section = section.ID_Department;
+                                 user.ID_Section = section.ID_Section;
                              }
                              return user;
                          },
@@ -203,7 +203,7 @@ namespace LDMS.Services
                     DataRow row = dt.NewRow();
                     row["Employee_ID"] = role.EmployeeID;
                     row["ID_Section"] = role.ID_Section;
-                    row["Is_Header"] = role.IsSectionHead;
+                    row["Is_Header"] = role.ID_Section > 0?role.IsSectionHead:false;
                     dt.Rows.Add(row);
                 }
 
@@ -218,27 +218,6 @@ namespace LDMS.Services
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
                     return new ServiceResult();
-                    //using (var transaction = conn.BeginTransaction())
-                    //{
-                    //    foreach (var item in userRoles)
-                    //    {
-                    //        var items = Connection.Query<SQLError>(_schema + ".[usp_LDMS_M_User_UpdateSection] @employeeId,@sectionId,@sectionHeader,@updateBy",
-                    //           new
-                    //           {
-                    //               @employeeId = item.EmployeeID,
-                    //               @sectionId = item.ID_Section,
-                    //               @sectionHeader = item.IsSectionHead,
-                    //               @updateBy = updateBy
-                    //           });
-                    //        if (items != null && items.Any())
-                    //        {
-                    //            transaction.Rollback();
-                    //            return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
-                    //        }
-                    //    }
-                    //    transaction.Commit();
-                    //    return new ServiceResult();
-                    //}
                 }
             }
             catch (Exception x)
@@ -284,7 +263,7 @@ namespace LDMS.Services
                           if (section != null)
                           {
                               user.LDMS_M_Section = section;
-                              user.ID_Section = section.ID_Department;
+                              user.ID_Section = section.ID_Section;
                           }
                           return user;
                       },
@@ -343,7 +322,7 @@ namespace LDMS.Services
                               if (section != null)
                               {
                                   user.LDMS_M_Section = section;
-                                  user.ID_Section = section.ID_Department;
+                                  user.ID_Section = section.ID_Section;
                               }
                               return user;
                           },

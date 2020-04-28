@@ -33,7 +33,9 @@ namespace LDMS.WEB.Models.Employee
             Email = lDMS_M_User.Email; 
             LDMS_M_Department = lDMS_M_User.LDMS_M_Department;
             LDMS_M_Plant = lDMS_M_User.LDMS_M_Plant;
-            RowIndex = lDMS_M_User.RowIndex;            
+            RowIndex = lDMS_M_User.RowIndex;
+            IsSectionHead = lDMS_M_User.IsSectionHead;
+            ID_Section = lDMS_M_User.ID_Section;
         }
     }
 }

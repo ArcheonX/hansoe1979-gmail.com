@@ -43,9 +43,9 @@ namespace LDMS.Services
                 DynamicParameters parameter = new DynamicParameters();
                 parameter.Add("@AnalyticId", analyticId);
 
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic>(_schema + ".[usp_CompetenceAnalytic_READ_BY_AnalyticId]", param: parameter).FirstOrDefault();
+                    var items = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic>(_schema + ".[usp_CompetenceAnalytic_READ_BY_AnalyticId]", param: parameter,commandType: CommandType.StoredProcedure).FirstOrDefault();
                     return new ServiceResult(items);
                 }
             }
@@ -83,21 +83,21 @@ namespace LDMS.Services
         {
             try
             {
+                var parameters = new DynamicParameters();
+                parameters.Add("@CompetenceName", competenceAnalytic.CompetenceAnalyticName);
+                parameters.Add("@Criteria1", competenceAnalytic.Criteria1);
+                parameters.Add("@Criteria2", competenceAnalytic.Criteria2);
+                parameters.Add("@Criteria3", competenceAnalytic.Criteria3);
+                parameters.Add("@Criteria4", competenceAnalytic.Criteria4);
+                parameters.Add("@Criteria5", competenceAnalytic.Criteria5);
+                parameters.Add("@ID_Department", competenceAnalytic.ID_Department);
+                parameters.Add("@ID_JobGrade", competenceAnalytic.ID_JobGrade);
+                parameters.Add("@ID_EmployeeManager", competenceAnalytic.ID_EmployeeManager);
+                parameters.Add("@CreateBy", CurrentUserId);
+                parameters.Add("@EmployeeTable", CreatEmployeeTable(employees), DbType.Object);
+                parameters.Add("@Topics", CreatTopicTable(topics), DbType.Object);
                 using (IDbConnection conn = Connection)
-                {
-                    var parameters = new DynamicParameters(); 
-                    parameters.Add("@CompetenceName", competenceAnalytic.CompetenceAnalyticName);
-                    parameters.Add("@Criteria1", competenceAnalytic.Criteria1);
-                    parameters.Add("@Criteria2", competenceAnalytic.Criteria2);
-                    parameters.Add("@Criteria3", competenceAnalytic.Criteria3);
-                    parameters.Add("@Criteria4", competenceAnalytic.Criteria4);
-                    parameters.Add("@Criteria5", competenceAnalytic.Criteria5);
-                    parameters.Add("@ID_Department", competenceAnalytic.ID_Department);
-                    parameters.Add("@ID_JobGrade", competenceAnalytic.ID_JobGrade);
-                    parameters.Add("@CreateBy", CurrentUserId);
-                    parameters.Add("@EmployeeTable", CreatEmployeeTable(employees), DbType.Object);
-                    parameters.Add("@Topics", CreatTopicTable(topics), DbType.Object);
-
+                { 
                     var items = conn.Query<SQLError>(_schema + ".[usp_CompetenceAnalytic_Create]", parameters, commandType: CommandType.StoredProcedure);
                     if (items != null && items.Any())
                     {
@@ -113,12 +113,51 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> AnalyticEmployee(int analyticId)
+        public async Task<ServiceResult> UpdateCompetence(
+            ViewModels.LDMS_T_CompetenceAnalytic competenceAnalytic, 
+            List<ViewModels.LDMS_T_CompetenceAnalytic_Employee> employees, 
+            List<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic> topics)
+        {
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@ID_CompetenceAnalytic", competenceAnalytic.ID_Analytic.GetValueOrDefault());
+                parameters.Add("@CompetenceName", competenceAnalytic.CompetenceAnalyticName);
+                parameters.Add("@Criteria1", competenceAnalytic.Criteria1);
+                parameters.Add("@Criteria2", competenceAnalytic.Criteria2);
+                parameters.Add("@Criteria3", competenceAnalytic.Criteria3);
+                parameters.Add("@Criteria4", competenceAnalytic.Criteria4);
+                parameters.Add("@Criteria5", competenceAnalytic.Criteria5);
+                parameters.Add("@ID_Department", competenceAnalytic.ID_Department);
+                parameters.Add("@ID_JobGrade", competenceAnalytic.ID_JobGrade);
+                parameters.Add("@ID_EmployeeManager", competenceAnalytic.ID_EmployeeManager);
+                parameters.Add("@UpdateBy", CurrentUserId);
+                parameters.Add("@EmployeeTable", CreatEmployeeTable(employees), DbType.Object);
+                parameters.Add("@Topics", CreatTopicTable(topics), DbType.Object);
+                using (IDbConnection conn = Connection)
+                {
+                    var items = conn.Query<SQLError>(_schema + ".[usp_CompetenceAnalytic_Update]", parameters, commandType: CommandType.StoredProcedure);
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    }
+                    return new ServiceResult();
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
+
+        public async Task<ServiceResult> AnalyticEmployees(int analyticId)
         {
             try
             {
                 DynamicParameters parameter = new DynamicParameters();
                 parameter.Add("@AnalyticId", analyticId);
+
 
                 using (System.Data.IDbConnection conn = Connection)
                 {
@@ -134,7 +173,7 @@ namespace LDMS.Services
                               return analytic;
                           },
                           splitOn: "EmployeeID",
-                        param: parameter).ToList();
+                          param: parameter, commandType: CommandType.StoredProcedure).ToList();
                     return new ServiceResult(items);
                 }
             }
@@ -145,16 +184,16 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> AnalyticKnowledgeTopic(int analyticId)
+        public async Task<ServiceResult> AnalyticKnowledgeTopics(int analyticId)
         {
             try
             {
                 DynamicParameters parameter = new DynamicParameters();
                 parameter.Add("@AnalyticId", analyticId);
 
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic>(_schema + ".[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId]", param: parameter).ToList();
+                    var items = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic>(_schema + ".[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId]", param: parameter, commandType: CommandType.StoredProcedure).ToList();
                     return new ServiceResult(items);
                 }
             }
@@ -186,6 +225,14 @@ namespace LDMS.Services
             dt.Columns.Add("TopicName", typeof(string));
             foreach (var topic in topics)
             {
+                if(topic.ID<=0 || topic.ID == null)
+                {
+                    topic.ID = 0;
+                }
+                if (topic.ID_Course <= 0 || topic.ID_Course == null)
+                {
+                    topic.ID_Course = 0;
+                }
                 System.Data.DataRow row = dt.NewRow();
                 row["ID_Topic"] = topic.ID;
                 row["ID_Course"] = topic.ID_Course;
