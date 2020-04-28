@@ -175,5 +175,18 @@ namespace LDMS.Services
             }
         }
 
+        public List<dynamic> GetCourseByInstructorID(string instructorID)
+        {
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@ID_Instructor", instructorID);
+
+                List<dynamic> ret = conn.Query<dynamic>("[dbo].[sp_M_Course_SelectByInstructor]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                return ret;
+            }
+        }
+
     }
 }

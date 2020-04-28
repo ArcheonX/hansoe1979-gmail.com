@@ -1,4 +1,5 @@
-﻿using LDMS.Services;
+﻿using LDMS.Identity;
+using LDMS.Services;
 //using LDMS.WEB.Models;
 using LDMS.ViewModels;
 using Microsoft.AspNetCore.Hosting;
@@ -113,7 +114,9 @@ namespace LDMS.WEB.Controllers
                 Address = address, Type = type, IsActive = (status == "1"), District_Id = district, Aumphur_Id = amphur,
                 Provice_Id = province, Phone = phone, Post_Code = postCode, Email = email, Education_Level = eduLevel,
                 Major = major, Course_Experience = cExperience, Skill_Professional = skill, Customer_Reference = reference,
-                Manufacturing_Area = manu};
+                Manufacturing_Area = manu, ID = id, Create_By = JwtManager.Instance.GetUserId(HttpContext.Request), 
+                Update_By = JwtManager.Instance.GetUserId(HttpContext.Request)
+            };
 
             if (profile != null)
             {
@@ -154,5 +157,15 @@ namespace LDMS.WEB.Controllers
 
             return Json("1");
         }
+
+        [HttpPost]
+        [Route("Instructor/GetClass")]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult GetClass(string insID)
+        {
+            return Json(_instructorService.GetCourseByInstructorID(insID));
+        }
+
+
     }
 }

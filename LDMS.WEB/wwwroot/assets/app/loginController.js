@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    debugger;
     if (localStorage.RememberMe && localStorage.RememberMe != '' && localStorage.RememberMe == "true") {
         $('#chkRememberMe').prop('checked', true);
         $('#txtUserName').val(localStorage.usrname);
@@ -39,7 +38,6 @@ function OnAuthentication() {
         data: loginModel,
         success: function (response) { 
             if (response.Code == 200) {
-                debugger; 
                 if ($("#chkRememberMe").prop('checked') == true) { 
                     localStorage.usrname = $('#txtUserName').val();
                     localStorage.pass = $('#txtPassword').val();
