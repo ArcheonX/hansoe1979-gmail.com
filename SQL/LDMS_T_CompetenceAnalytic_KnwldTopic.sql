@@ -14,6 +14,8 @@ CREATE TABLE [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic](
 	[ID] [bigint] IDENTITY(1,1) NOT NULL,
 	[ID_CompetenceAnalytic] [int] NOT NULL,
 	[ID_Course] [int] NULL,
+	[MinScore] [int] NULL,
+	[MaxScore] [int] NULL,
 	[KnowledgeTopicName] [nvarchar](100) NOT NULL,
 	[CreateBy] [nvarchar](50)  NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
