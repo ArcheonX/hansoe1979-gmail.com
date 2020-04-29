@@ -49,19 +49,19 @@
                         </div>
                         <div class="col-sm-2 col-md-2" style="margin-top:20px; margin-left:10px">
                             <div class="profile-text">
-                                <a aria-expanded="false">Name : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                                <a aria-expanded="false">Name : @Model.EmployeeName</a>
                             </div>
                             <div class="profile-text">
-                                <a aria-expanded="false">Position : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                                <a aria-expanded="false">Position : @Model.Position</a>
                             </div>
                             <div class="profile-text">
-                                <a aria-expanded="false">Platform : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                                <a aria-expanded="false">Platform : @Model.PlatformName_EN</a>
                             </div>
                             <div class="profile-text">
-                                <a aria-expanded="false">Sub Platform : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                                <a aria-expanded="false">Sub Platform : @Model.SubPlatformName_EN</a>
                             </div>
                             <div class="profile-text">
-                                <a aria-expanded="false">Course : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                                <a aria-expanded="false">Course : @Model.CourseName</a>
                             </div>
                         </div>
 
