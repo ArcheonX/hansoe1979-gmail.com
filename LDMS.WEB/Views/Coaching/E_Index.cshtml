@@ -141,6 +141,7 @@
                         ID_Status: $('#selectCourseStatus').val(),
                         ID_Employee: '',
                         ID_Platform: $('#selectPlatform').val(),
+                        IS_Employee : true,
                         "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
                     },
                 },
@@ -153,10 +154,17 @@
                     { data: 'Topic' },
                     {
                         data : 'CoachingStatus',
-                        
                         "mRender": function (data, type, row) {
-                            if (data === 'Not Start') {
-                                 icon = '@Url.Content("~/assets/images/svg/icon-edit-blue.svg")';
+
+                            //alert(data);
+                            if (data == 'Not Start') {
+                                icon = '@Url.Content("~/assets/images/svg/icon-edit.svg")';
+                            }
+                            else if (data == 'Completed') {
+                                icon = '@Url.Content("~/assets/images/svg/projects-icon.svg")';
+                            }
+                            else {
+                                icon = '@Url.Content("~/assets/images/svg/icon-edit-blue.svg")';
                             }
                             return data;
                         }
@@ -166,7 +174,7 @@
                         "mRender": function (data, type, row) {
                             var url = '@Url.Content("~/Coaching/EDetail/")' + data;
                             //var icon = '@Url.Content("~/assets/images/svg/icon-edit-blue.svg")';
-                            return "<a href='"+url+"'><img src='"+icon+"' class='light-logo' alt='homepage' /></a>";
+                            return "<a href='"+url+"'><img src='"+icon+"' class='light-logo' width='32' height='32' alt='homepage' /></a>";
                         }
                     },
                  ],

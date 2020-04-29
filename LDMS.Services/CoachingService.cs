@@ -44,7 +44,7 @@ namespace LDMS.Services
         }
 
 
-        public ViewModels.Paging_Result GetCoaching(ViewModels.LDMS_T_CoachingSearch criteria)
+        public ViewModels.Paging_Result GetCoaching(ViewModels.LDMS_T_CoachingSearch criteria, bool employee)
         {
             using (IDbConnection conn = Connection)
             {
@@ -59,7 +59,20 @@ namespace LDMS.Services
                     if (criteria.ID_Division != null) p.Add("@ID_Division", criteria.ID_Division);
                     if (criteria.ID_Department != null) p.Add("@ID_Department", criteria.ID_Department);
                     if (criteria.ID_Status != "0") p.Add("@ID_Status", criteria.ID_Status);
-                    if (criteria.ID_Employee != null) p.Add("@ID_Employee", criteria.ID_Employee);
+                    
+                    
+                    if (criteria.ID_Employee != null)
+                    {
+                        p.Add("@ID_Employee", criteria.ID_Employee);
+                    }
+                    else 
+                    {
+                        if (employee) {
+                            p.Add("@ID_Employee", CurrentUserId); // user login
+                        }
+
+                    }
+
                     if (criteria.ID_Platform != null) p.Add("@ID_Platform", criteria.ID_Platform);
 
                     p.Add("@PageNum", criteria.PageNum);
@@ -88,7 +101,7 @@ namespace LDMS.Services
         }
 
 
-        public int CreateCoachingHead(string ID_Coaching, string EmployeeReport, string AttachFilePath)
+        public int CreateCoachingHead(string ID_Coaching, string EmployeeReport, string AttachFilePath, string AttachFileName)
         {
 
             using (IDbConnection conn = Connection)
@@ -100,6 +113,7 @@ namespace LDMS.Services
                     p.Add("@ID_Coaching", ID_Coaching);
                     p.Add("@EmployeeReport", EmployeeReport);
                     p.Add("@AttachFilePath", AttachFilePath);
+                    p.Add("@AttachFileName", AttachFileName);
                     p.Add("@ID_PostByEmployee", CurrentUserId);
 
                     int ret = conn.Query<int>(_schema + ".[sp_T_CoachingReviewHead_Insert]", p, commandType: CommandType.StoredProcedure).Single();
@@ -137,7 +151,7 @@ namespace LDMS.Services
         }
 
         
-        public ViewModels.LDMS_T_CoachingReviewDetail CreateCoachingDetail(string ID_CoachingReviewHead, string PostDetail, string AttachFilePath)
+        public int CreateCoachingDetail(string ID_CoachingReviewHead, string PostDetail, string AttachFilePath, string AttachFileName)
         {
 
             using (IDbConnection conn = Connection)
@@ -147,9 +161,10 @@ namespace LDMS.Services
                 p.Add("@ID_CoachingReviewHead", ID_CoachingReviewHead);
                 p.Add("@PostDetail", PostDetail);
                 p.Add("@AttachFilePath", AttachFilePath);
+                p.Add("@AttachFileName", AttachFileName);
                 p.Add("@PostBy_EmployeeID", CurrentUserId);
 
-                ViewModels.LDMS_T_CoachingReviewDetail ret = conn.Query<ViewModels.LDMS_T_CoachingReviewDetail>(_schema + ".[sp_T_CoachingReviewDetail_Insert]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                int ret = conn.Query<int>(_schema + ".[sp_T_CoachingReviewDetail_Insert]", p, commandType: CommandType.StoredProcedure).Single();
 
                 return ret;
             }

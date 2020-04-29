@@ -8,6 +8,7 @@ namespace LDMS.ViewModels
         public int ID_Coaching { get; set; }
         public string EmployeeReport { get; set; }
         public string AttachFilePath { get; set; }
+        public string AttachFileName { get; set; }
         public DateTime PostDate { get; set; }
         public string PostBy_EmployeeID { get; set; }
     }
