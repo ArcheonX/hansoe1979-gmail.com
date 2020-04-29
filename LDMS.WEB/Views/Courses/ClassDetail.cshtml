@@ -461,7 +461,7 @@
         </form>
 
 
-        <div class="modal" id="modSearhInstructor" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+        <div class="modal" id="modSearhInstructor" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="true" data-keyboard="false">
             <div class="modal-dialog modal-lg" style="background-color:white;border-radius:2%;width:150%">
                 <div class="modal-content" style="margin-top:100px;width:120%">
                     <div class="modal-header card-header">
@@ -499,7 +499,11 @@
                                             title="Please Enter Type"
                                             class="form-control required"
                                             style="width: 100%">
+                                        <option value="ALL">All</option>
+                                        <option value="INT">Internal</option>
+                                        <option value="EXT">External</option>
                                     </select>
+                                  
                                 </div>
                                 <div class="col-sm-2 col-md-2">
                                     <span class="pull-right" style="vertical-align:middle">
@@ -581,7 +585,6 @@
         $("input[type='datetime']").datepicker();
         LoadTime();
         loadPlant();
-        //LoadVenuRoom();
         LoadClass();
         validation();
         /*$('select').select2({
@@ -735,13 +738,13 @@
     function changePlant(sel) {
         //$('#selectRoom').empty();
         var plantId = sel.value;
-        debugger;
         //alert(' changePlant plantId ' + plantId);
         ReloadVenuRoom($, plantId, null);
     }
    
     function OpenModalInstructor() {
-         $('#modSearhInstructor').modal('toggle');
+        $('#modSearhInstructor').modal('toggle');
+        
     }
 
     function CloseModalInstructor() {
@@ -773,6 +776,7 @@
     }
 
     function loadPlant() {
+        //alert('hID_PlantVenue ' + $('#hID_PlantVenue').val());
         $.ajax({
             type: "GET",
             url: "/Master/GetAllPlants",
@@ -782,32 +786,12 @@
                 $.each(response.Data, function () {
                     options.append($("<option />").val(this.ID_Plant).text(this.PlantName_EN));
                 });
-                $('select[name="selectPlant"]').val($('#hID_PlantVenue').val()).trigger('change');
-                //ReloadVenuRoom($, $('#hID_PlantVenue').val(), null);
-            },
-            failure: function (response) {
-                MessageController.Error(response.responseText, "Error");
-            },
-            error: function (response) {
-                MessageController.Error(response.responseText, "Error");
-            }
-        });
-    }
-
-    function LoadVenuRoom() {
-
-        //alert('LoadVenuRoom');
-        $.ajax({
-            type: "GET",
-            url: "/Courses/GetVenuRoom",
-            success: function (response) {
-                var options = $('#selectRoom');
-                options.append($("<option />").val(null).text("Please select"));
-                $.each(response, function () {
-                    options.append($("<option />").val(this.ID).text(this.RoomName_EN));
-                });
-                //alert('hID_VenueRoom : ' + $('#hID_VenueRoom').val());
-                $('select[name="selectRoom"]').val($('#hID_VenueRoom').val()).trigger('change');
+                if ($('#hID_PlantVenue').val() != "0") {
+                    $('select[name="selectPlant"]').val($('#hID_PlantVenue').val()).trigger('change');
+                }
+                else {
+                    $('select[name="selectPlant"]').val(null).trigger('change');
+                }
             },
             failure: function (response) {
                 MessageController.Error(response.responseText, "Error");
@@ -820,21 +804,32 @@
 
     function ReloadVenuRoom($, plantId, callback) {
 
-        //alert('ReloadVenuRoom plantId : ' + plantId);
+        //alert('hID_VenueRoom ' + $('#hID_VenueRoom').val());
+
         var options = $('#selectRoom');
             options.empty();
             if (plantId && plantId != "") {
                 $.ajax({
                     type: "GET",
-                    url: "/Courses/GetVenuRoom",
+                    url: "/Courses/GetVenuRoomByPlantID",
+                    data: {
+                        ID_Plant : plantId
+                    },
                     success: function (response) {
                         options.append($("<option />").val(null).text("Please select"));
                         $.each(response, function () {
-                            if (this.ID_Plant == plantId) {
+                            //if (this.ID_Plant == plantId) {
                                 options.append($("<option />").val(this.ID).text(this.RoomName_EN));
-                            }
+                            //}
                         });
-                        $('select[name="selectRoom"]').val($('#hID_VenueRoom').val()).trigger('change');
+
+                        if ($('#hID_VenueRoom').val() != "0") {
+                            $('select[name="selectRoom"]').val($('#hID_VenueRoom').val()).trigger('change');
+                        }
+                        else {
+                             $('select[name="selectRoom"]').val(null).trigger('change');
+                        }
+                        
                         if (callback) {
                             //callback($("#userDivisionId").val());
                         }
@@ -921,7 +916,7 @@
 
     function SaveClass() {
         //alert('SaveClass');
-        debugger;
+        //debugger;
          $.ajax({
                     url: "/Courses/InsertClass",
                     type: "POST",

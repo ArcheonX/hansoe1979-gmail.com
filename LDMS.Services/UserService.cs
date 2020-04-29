@@ -5,6 +5,7 @@ using LDMS.Identity;
 using LDMS.ViewModels;
 using LDMS.ViewModels.Menu;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -490,10 +491,11 @@ namespace LDMS.Services
                   param: new { @paramRoleId = roleId });
 
                 var groupMenu = items.OrderBy(e => e.LDMS_M_Module.Module_Sequence).GroupBy(e => e.LDMS_M_Module.ID_Module);
+                bool isFirst = true;
                 foreach (var item in groupMenu)
                 {
                     var module = items.Where(e => e.LDMS_M_Module.ID_Module == item.Key).Select(e => e.LDMS_M_Module).FirstOrDefault();
-                    yield return new NavigationMenu()
+                    var menu = new NavigationMenu()
                     {
                         ActionName = "",
                         CadWrite = true,
@@ -503,6 +505,7 @@ namespace LDMS.Services
                         MenuID = module.ModuleID,
                         MenuName = module.ModuleName_EN,
                         MenuUrl = module.Module_URL,
+                        FirstMenu = isFirst,
                         SubMenus = item.OrderBy(e => e.Sequence).Select(e => new SubNavigationMenu()
                         {
                             MenuUrl = e.SubModule_URL,
@@ -515,6 +518,8 @@ namespace LDMS.Services
                             MenuName = e.SubModuleName_EN
                         }).ToList()
                     };
+                    isFirst = false;
+                    yield return menu;
                 }
             }
         }
