@@ -56,8 +56,13 @@ namespace LDMS.WEB.Controllers
         [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [AuthorizeRole(UserRole.All)]
         [Route("Competence/Analytic/{ID}")]
-        public IActionResult Analytic()
+        public IActionResult Analytic(string ID)
         {
+            if (string.IsNullOrEmpty(ID))
+            {
+                Redirect("Competence/Add");
+            }
+            ViewBag.ID_Analytic = ID;
             ViewData["Title"] = "My Team Competence Analytic";
             ViewData["MainTitle"] = "My Team / My Monitoring";
             return View();

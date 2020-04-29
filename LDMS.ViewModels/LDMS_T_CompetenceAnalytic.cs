@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LDMS.ViewModels
 {
@@ -14,5 +15,15 @@ namespace LDMS.ViewModels
         public string Criteria5 { get; set; } 
         public int? ID_Department { get; set; }
         public int? ID_JobGrade { get; set; }
+
+        public List<LDMS_T_CompetenceAnalytic_Employee> Employees { get; set; }
+        public List<LDMS_T_CompetenceAnalytic_KnwldTopic> Topics { get; set; }
+        public List<LDMS_T_CompetenceAnalytic_Score> Scores { get; set; }
+        public LDMS_T_CompetenceAnalytic()
+        {
+            Employees = new List<LDMS_T_CompetenceAnalytic_Employee>();
+            Topics = new List<LDMS_T_CompetenceAnalytic_KnwldTopic>();
+            Scores = new List<LDMS_T_CompetenceAnalytic_Score>();
+        }
     }
 }

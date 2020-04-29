@@ -39,7 +39,7 @@ BEGIN
 	FROM LDMS_T_CompetenceAnalytic_Employee Employee WITH (NOLOCK)
 	LEFT OUTER JOIN LDMS_M_User muser WITH (NOLOCK) on  Employee.EmployeeID = muser.EmployeeID 
 	LEFT OUTER JOIN LDMS_M_Role rol  WITH (NOLOCK) on muser.ID_Role = rol.ID
-	where Employee.ID_CompetenceAnalytic = @AnalyticId;
+	where Employee.ID_CompetenceAnalytic = @AnalyticId and Employee.Is_Active = 1;
 
 END
 GO

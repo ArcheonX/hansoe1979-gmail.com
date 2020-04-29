@@ -54,8 +54,7 @@ BEGIN
 			WHERE [ID_CompetenceAnalytic] = @ID_CompetenceAnalytic and Is_Active =1;
 
 			UPDATE [dbo].[LDMS_T_CompetenceAnalytic]
-			   SET [ID_EmployeeManager] =@ID_EmployeeManager
-				  ,[CompetenceAnalyticName] = @CompetenceName
+			   SET [CompetenceAnalyticName] = @CompetenceName
 				  ,[Criteria1] = @Criteria1
 				  ,[Criteria2] = @Criteria2
 				  ,[Criteria3] = @Criteria3

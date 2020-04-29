@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_CompetenceAnalyticEmployee_READ_BY_AnalyticId] 4
+-- EXEC [dbo].[usp_CompetenceAnalyticScore_READ_BY_AnalyticId] 4
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalyticScore_READ_BY_AnalyticId] 
 @AnalyticId INT
@@ -30,8 +30,8 @@ BEGIN
 	score.ID_CompetenceEmployee,
 	score.Score
 	FROM LDMS_T_CompetenceAnalytic_Score score WITH (NOLOCK) 
-	INNER JOIN LDMS_T_CompetenceAnalytic_Employee emp WITH (NOLOCK)  on score.ID_CompetenceEmployee = emp.EmployeeID and emp.Is_Active =1 and emp.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic
-	INNER JOIN LDMS_T_CompetenceAnalytic_KnwldTopic topc WITH (NOLOCK)  on score.ID_CompetenceKnowledgeTopic = topc.ID and emp.Is_Active =1 and topc.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic
+	LEFT JOIN LDMS_T_CompetenceAnalytic_Employee emp WITH (NOLOCK)  on score.ID_CompetenceEmployee = emp.EmployeeID and emp.Is_Active =1 and emp.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic
+	LEFT JOIN LDMS_T_CompetenceAnalytic_KnwldTopic topc WITH (NOLOCK)  on score.ID_CompetenceKnowledgeTopic = topc.ID and emp.Is_Active =1 and topc.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic
 	where score.ID_CompetenceAnalytic = @AnalyticId;
 
 END
