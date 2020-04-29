@@ -1298,7 +1298,7 @@ form label{font-weight:400}
 }
 .right-sidebar
 {
-    position:fixed;
+    position:relative;
     /*right:-240px;*/
     /*margin-left:350px;*/
     width:100%;
@@ -2682,3 +2682,10 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after,input[type=checkbox]:n
 .switch label input[type=checkbox]:checked:not(:disabled) ~ .lever.switch-col-#fff:active:after{box-shadow:0 1px 3px 1px rgba(0,0,0,0.4),0 0 0 15px rgba(255,255,255,0.1)}
 .switch label input[type=checkbox]:checked+.lever.switch-col-#fff{background-color:rgba(255,255,255,0.5)}
 .switch label input[type=checkbox]:checked+.lever.switch-col-#fff:after{background-color:#fff}
+
+
+/* Modal */
+.modal-backdrop {
+    width: 100% !important;
+    height:100% !important;
+}
