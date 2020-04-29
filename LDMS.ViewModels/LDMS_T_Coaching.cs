@@ -15,5 +15,10 @@ namespace LDMS.ViewModels
         public DateTime CreateDate { get; set; }
         public string UpdateBy { get; set; }
         public DateTime UpdateDate { get; set; }
+        public string PlatformName_EN { get; set; }
+        public string SubPlatformName_EN { get; set; }
+        public string CourseName { get; set; }
+        public string EmployeeName { get; set; }
+        public string Position { get; set; }
     }
 }
