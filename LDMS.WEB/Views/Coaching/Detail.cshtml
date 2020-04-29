@@ -1,0 +1,532 @@
+﻿@{
+    ViewData["Title"] = "Coaching";
+    ViewData["MainTitle"] = "My-Team-Coaching";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model LDMS.ViewModels.LDMS_T_Coaching
+<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+    <div class="panel panel-default" style="width:100%;border-width:thin;border-style:solid;">
+        <div class="panel-body" style="width:100%;">
+            <form id="frmMain" class="form" method="post" enctype="multipart/form-data" style="width:100%">
+                @Html.AntiForgeryToken()
+                @if (Model != null)
+                {
+                    <input type="hidden" id="hID" name="hID" value=@Model.ID />
+                    <input type="hidden" id="hID_CoachingReviewHead" name="hID_CoachingReviewHead" value="" />
+                    <input type="hidden" id="hCoachingStatusID" name="hCoachingStatusID" value=@Model.CoachingStatus />
+                    <input type="hidden" id="hHeaderPostime" name="hHeaderPostime" value="" />
+                }
+                else
+                {
+                    <input type="hidden" id="hID_CoachingReviewHead" name="hID_CoachingReviewHead" value="" />
+                }
+                <div class="form-horizontal" style="margin-top:25px">
+                    <div class="row form-group">
+                        <div class="col-sm-1 col-md-4">
+                            <span class="pull-right Topic">
+                                <label class="LabelCaption">Topic</label>
+                            </span>
+                        </div>
+
+                        <div class="col-sm-1 col-md-1 offset-9">
+                            <a id="btnBack" class="btn btn-danger waves-effect waves-light" style="width:100%; color:white;" onclick="window.location.href = '@Url.Action("Index", "Coaching")';"> Back </a>
+                        </div>
+                        <div class="col-sm-1 col-md-1" style="margin-left:-25px">
+                            <a id="btnSave" class="btn btn-info waves-effect waves-light" style="width:100%; color:white" onclick="UpdateCoaching()">Save</a>
+                        </div>
+
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-1 col-md-1">
+                            <div class="user-profile-coaching">
+                                <div class="profile-img">
+                                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2" style="margin-top:20px; margin-left:10px">
+                            <div class="profile-text">
+                                <a aria-expanded="false">Name : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                            </div>
+                            <div class="profile-text">
+                                <a aria-expanded="false">Position : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                            </div>
+                            <div class="profile-text">
+                                <a aria-expanded="false">Platform : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                            </div>
+                            <div class="profile-text">
+                                <a aria-expanded="false">Sub Platform : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                            </div>
+                            <div class="profile-text">
+                                <a aria-expanded="false">Course : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-8 col-md-8" style="margin-top:20px; margin-left:10px">
+                            <textarea id="txtTopic"
+                                      name="txtTopic"
+                                      asp-for="Topic"
+                                      rows="5" style="width:100%">
+                            </textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-sm-1 col-md-4">
+                            <span class="pull-right">
+                                <label class="LabelCaption">Assign Date : </label>
+                            </span>
+                        </div>
+                        <div class="col-sm-1 col-md-4">
+                            <span class="pull-left">
+                                <label class="LabelCaption">@Model.AssignDate</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-1 col-md-4">
+                            <span class="pull-right">
+                                <label class="LabelCaption">Status : </label>
+                            </span>
+                        </div>
+                        <div class="col-sm-1 col-md-4">
+                            <select id="selectCourseStatus" name="selectCourseStatus" class="form-control" style="width: 100%">
+                                <option value="0">-- Select All --</option>
+                                <option value="10">Not Start</option>
+                                <option value="30">On Progress</option>
+                                <option value="70">Complete</option>
+                                <option value="99">Incomplete</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                            <a id="btnAdd" onclick="AddReview()" class="btn btn-success waves-effect waves-light" style="width:100%; color:white; display:none">Add Review</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="border-width:thin; border-style:solid; margin-left:0px; margin-top: 5px; margin-bottom:5px; width:100%;display:block"></div>
+
+                <div id="divCoach" style="margin-top:25px; margin-left:10px; display:none;">
+
+                </div>
+
+                <div id="divReview" style="margin-top:25px; margin-left:10px; display:block;overflow-y:auto; height:600px"></div>
+
+                <div id="divPost" style="margin-top:25px; margin-left:10px; display:none">
+                    <div id="div" style="border-width:thin; border-style:solid; background-color:cornflowerblue; margin-left:5px; display:block; margin-top: 0px; margin-bottom:20px; width:99%;display:block">
+                        <div class="row form-group">
+                            <div class="col-sm-1 col-md-1" style="margin-top:20px; position:relative">
+                                <label class="LabelCaption pull-right" style="color:white">Write Post</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div" style="border-width:thin; border-style:solid; margin-left:5px; display:block; margin-top: -20px; margin-bottom:20px; width:99%;display:block">
+                        <div class="row form-group">
+                            <div class="col-sm-10 col-md-10" style="margin-top:20px; margin-left:50px; width:80%">
+                                <textarea id="txtTopicPost"
+                                          name="txtTopicPost"
+                                          rows="6" style="width:100%">
+                                    </textarea>
+                            </div>
+                            <div class="col-sm-1 col-md-1" style="margin-top:8em; width:80%">
+                                <span class="pull-left">
+                                    <a id="btnPost" class="btn btn-success waves-effect waves-light" onclick="SavePost()" style="width:100%; color:white">Post</a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2 offset-9" style="margin-top:10px; width:80%">
+                                <span class="pull-left">
+                                    <!--<a id="btnAttach" class="btn btn-info waves-effect waves-light" style="width:100%; color:white">Attach</a>-->
+                                    <a id="aFile" target="_blank"></a>
+                                    <input type="hidden" id="hdfile" name="ofile" />
+                                    <input type="file" id="fiAttachFile" name="fileAttach" accept="application/pdf,application/vnd.ms-excel,application/vnd.ms-word" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <style type="text/css">
+        .form-group {
+            position: relative;
+            background-size: cover;
+        }
+
+        .Topic {
+            position: absolute;
+            background-size: cover;
+            left: 26em;
+            margin-top: 10px;
+        }
+
+        .user-profile-coaching {
+            margin-bottom: 1.5rem;
+        }
+
+            .user-profile-coaching .profile-img {
+                width: 120px;
+                height: 120px;
+                padding-top: 15px;
+                padding-left: 15px;
+                border-radius: 100%
+            }
+
+                .user-profile-coaching .profile-img img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 100%
+                }
+
+            .user-profile-coaching .profile-text {
+                padding: 5px 0px;
+                position: relative
+            }
+
+                .user-profile-coaching .profile-text > a {
+                    width: 100%;
+                    padding: 6px 30px;
+                    display: block
+                }
+
+                    .user-profile-coaching .profile-text > a:after {
+                        position: absolute;
+                        right: 20px;
+                        top: 20px
+                    }
+    </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //alert('ID_Coaching : ' + $('#hID').val());
+
+            LoadCoachingReviewHead($('#hID').val());
+            $('#selectCourseStatus').val($('#hCoachingStatusID').val());
+            ValidateState($('#hCoachingStatusID').val());
+            
+        });
+
+        function ValidateState(statusID) {
+            //alert("statusID : " + statusID)
+            if (statusID == "70") // Complete
+            {
+                document.getElementById("txtTopic").disabled = true;
+                document.getElementById("selectCourseStatus").disabled = true;
+                $('#btnSave').attr("style", "display:none");
+                //$('#divPost').attr("style", "display:none");
+
+            }
+            else if (statusID == "10") {
+                document.getElementById("selectCourseStatus").disabled = true;
+            }
+        }
+
+        function AddReview() {
+            $('#divPost').attr("style", "display:block");
+        }
+
+        function UpdateCoaching() {
+            $.ajax(
+                {
+                    url: "/Coaching/UpdateCoaching",
+                    type: "POST",
+                    data: {
+                        ID_Coaching  : $('#hID').val(),
+                        Topic : $('#txtTopic').val(),
+                        CoachingStatus : $('#selectCourseStatus').val(),
+                },
+                success: function (e) {
+                    alert('Update Complete');
+                    window.location.href = '@Url.Content("~/Coaching/Detail/")' + $('#hID').val();
+                },
+                }
+            )
+        }
+
+        function SavePost() {
+
+           // alert('SavePost : ' + $('#hID_CoachingReviewHead').val());
+            if ($('#hID_CoachingReviewHead').val() != "") {
+
+                PostReviewDetail($('#hID_CoachingReviewHead').val());
+            }
+            else {
+                SaveReviewHeader();
+            }
+        }
+
+        function SaveReviewHeader() {
+            
+            var input = document.getElementById('fiAttachFile');
+            var files = input.files[0];
+            var formData = new FormData();
+
+            formData.append("ID_Coaching", $('#hID').val());
+            formData.append("EmployeeReport", $('#txtTopicPost').val());
+            formData.append("Topic", $('#txtTopic').val());
+            formData.append("fileAttach", files);
+
+
+            $.ajax(
+                {
+                    url: "/Coaching/InsertReviewHead",
+                    type: "POST",
+                    dataType: "JSON",
+                    data:formData,
+                    processData: false,
+                    contentType: false,
+                    /*data: {
+                        ID_Coaching  : $('#hID').val(),
+                        EmployeeReport : $('#txtTopicPost').val(),
+                        AttachFilePath: $('#fiAttachFile').val(),
+                        topic: $('#txtTopic').val()
+                },*/
+                success: function (e) {
+                    alert('Save Review : ID_CoachingReviewHead ' + e.ID);
+                    $('#hID_CoachingReviewHead').val(e.ID);
+                    window.location.href = '@Url.Content("~/Coaching/Detail/")' + $('#hID').val();
+                },
+             }
+         )
+
+
+        }
+
+        function PostReviewDetail(ID) {
+            var input = document.getElementById('fiAttachFile');
+            var files = input.files[0];
+            //alert('files', files);
+            var formData = new FormData();
+            formData.append("ID_CoachingReviewHead", ID);
+            formData.append("PostDetail", $('#txtTopicPost').val());
+            formData.append("ID_Coaching", $('#hID').val());
+            //formData.append("oFile", $('#hdfile').val());
+            formData.append("fileAttach", files);
+
+            $.ajax(
+                {
+                    url: "/Coaching/InsertReviewDetail",
+                    type: "POST",
+                    dataType: "JSON",
+                    data:formData,
+                    processData: false,
+                    contentType: false,
+                success: function (e) {
+
+                    alert('Post Completed');
+                    $('#txtTopicPost').val('');
+                    LoadCoachingReviewHead(e);
+                    //UploadFile($('#hID').val());
+                },
+             }
+         )
+        }
+
+        function LoadCoachingReviewHead(ID) {
+            //alert('LoadCoachingReviewHead Before ' + ID);
+            $.ajax(
+                {
+                    url: "/Coaching/GetCoachingHead",
+                    type: "POST",
+                    data: {
+                        'ID_Coaching'  : ID
+                },
+                success: function (e) {
+                    if (e) {
+                        //alert('LoadCoachingReviewHead After ' + e.ID);
+                        $('#hID_CoachingReviewHead').val(e.ID);
+                        $('#hHeaderPostime').val(e.PostDate);
+                        LoadCoachingReviewDetail($('#hID_CoachingReviewHead').val());
+
+
+                        RenderCoachingReviewHead(e);
+
+                        $('#txtTopicReport').val(e.EmployeeReport);
+                        $('#btnAdd').attr("style", "display:none");
+                        $('#divCoach').attr("style", "display:block");
+                        // Check State
+                        if ($('#hCoachingStatusID').val() == "70") {
+                            $('#divPost').attr("style", "display:none");
+                        }
+                        else {
+                            $('#divPost').attr("style", "display:block");
+                        }
+                    }
+                },
+                }
+            )
+        }
+
+        function RenderCoachingReviewHead(e) {
+          var html = '<div id="div" style="border-width:thin; border-style:solid; background-color:cornflowerblue; margin-left:5px; margin-top: 0px; margin-bottom:20px; width:99%;display:block;">' +
+                        '<div class="row form-group">' +
+                            '<div class="col-sm-1 col-md-1" style="margin-top:20px; position:relative">' +
+                                '<label class="LabelCaption pull-right" style="color:white">1 st Review</label>' +
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div id="div" style="border-width:thin; border-style:solid; margin-left:5px; display:block; margin-top: -20px; margin-bottom:20px; width:99%;display:block">'+
+                        '<div class="row form-group">'+
+                            '<div class="col-sm-11 col-md-11" style="margin-top:20px; margin-left:50px; width:80%">'+
+                                //'<textarea id="txtTopicReport" name="txtTopicReport" rows="10" style="width:100%"></textarea>'+
+                                    '<label class="LabelCaption pull-left">' + e.EmployeeReport + '</label>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="row form-group">'+
+                            '<div class="col-sm-1 col-md-1" style="margin-top:10px; margin-left:50px; width:80%">'+
+                                '<span class="pull-left">'+
+                                    '<label class="LabelCaption pull-right">File Attach : </label>'+
+                                '</span>'+
+                            '</div>'+
+                            '<div class="col-sm-8 col-md-8" style="margin-top:10px; width:80%">'+
+                                '<span class="pull-left">'+
+                                    '<a href="'+ e.AttachFilePath + '">' + e.AttachFileName + '</a>'+
+                                '</span>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="row form-group">'+
+                            '<div class="col-sm-1 col-md-1" style="margin-top:10px; margin-left:50px; width:80%">'+
+                                '<span class="pull-left">'+
+                                    '<label class="LabelCaption pull-right">Post Date : </label>'+
+                                '</span>'+
+                            '</div>'+
+                            '<div class="col-sm-2 col-md-2" style="margin-top:10px;">'+
+                                '<span class="pull-left">'+
+                                   '<label class="LabelCaption pull-right">' + e.PostDate + '</label>' +
+                                '</span>'+
+                            '</div>'+
+                        '</div>'+
+                '</div>'
+
+             $("#divCoach").append(html);
+        }
+
+
+        function LoadCoachingReviewDetail(ID) {
+
+            //alert('LoadCoachingReviewDetail Start : ' + ID);
+            $.ajax(
+                {
+                    url: "/Coaching/GetReviewDetail",
+                    type: "POST",
+                    data: {
+                        'ID_CoachingReviewHead'  : ID
+                },
+                success: function (e) {
+                     //alert("lenght : " + e.length);
+                    RenderCoachingReviewDetail(e);
+                },
+                }
+            )
+        }
+
+        function RenderCoachingReviewDetail(e) {
+
+            //alert("lenght : " + e.length);
+            $('#divReview').attr("style", "display:block");
+            $("#divReview").empty();
+            for (var i = 0; i < e.length; i++) {
+
+                if (e[i].PostBy_EmployeeID === CookiesController.getCookie("EMPLOYEEID")) {
+                    var html = //'<div id="div" style="border-width:thin; border-style:solid; background-color:cornflowerblue; margin-left:5px; display:block; margin-top: 0px; margin-bottom:20px; width:99%;display:block">' +
+                        //'<div class="row form-group">' +
+                        //'<div class="col-sm-1 col-md-1" style="margin-top:20px; position:relative">' +
+                        //'<label class="LabelCaption pull-right" style="color:white">'+ "Review : " + (i+1) + '</label>' +
+                        //'</div>' +
+                        //'</div>' +
+                        //'</div>' +
+                        '<div id="div" style="border-width:thin; border-style:solid; margin-left:5px; display:block; margin-top: 20px; margin-bottom:20px; width:99%;display:block">' +
+                        '<div class="row form-group">' +
+                        '<div class="col-sm-11 col-md-11" style="margin-top:20px; margin-left:50px; width:80%">' +
+                        //'<textarea id="txtTopicDetail_' + i + '" name="txtTopicDetail_' + i + '" rows="10" style="width:100%"> </textarea>' +
+                        '<label class="LabelCaption pull-left">' + e[i].PostDetail + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="row form-group">' +
+                        '<div class="col-sm-1 col-md-1" style="margin-top:10px; margin-left:50px; width:80%">' +
+                        '<span class="pull-left">' +
+                        '<label class="LabelCaption pull-right">File Attach : </label>' +
+                        '</span>' +
+                        '</div>' +
+                        '<div class="col-sm-8 col-md-8" style="margin-top:10px; width:80%">' +
+                        '<span class="pull-left">' +
+                        '<a href="'+ e[i].AttachFilePath + '">' + e[i].AttachFileName + '</a>' + 
+                        '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="row form-group">' +
+                        '<div class="col-sm-1 col-md-1" style="margin-top:10px; margin-left:50px; width:80%">' +
+                        '<span class="pull-left">' +
+                        '<label class="LabelCaption pull-right">Post Date : </label>' +
+                        '</span>' +
+                        '</div>' +
+                        '<div class="col-sm-2 col-md-2" style="margin-top:10px;">' +
+                        '<span class="pull-left">' +
+                        '<label class="LabelCaption pull-right">' + e[i].PostDate + '</label>' +
+                        '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+
+                    $("#divReview").append(html);
+                }
+                else {
+                    var html = //'<div id="div" style="border-width:thin; border-style:solid; background-color:cornflowerblue; margin-left:5px; display:block; margin-top: 0px; margin-bottom:20px; width:99%;display:block">' +
+                                //'<div class="row form-group">' +
+                                //'<div class="col-sm-1 col-md-1" style="margin-top:20px; position:relative">' +
+                                //'<label class="LabelCaption pull-right" style="color:white">'+ "Review : " + (i+1) + '</label>' +
+                                //'</div>' +
+                                //'</div>' +
+                                //'</div>' +
+                                '<div id="div" style="border-width:thin; border-style:solid; margin-left:5px; display:block; margin-top: 20px; margin-bottom:20px; width:99%;display:block">' +
+                                '<div class="row form-group">' +
+                                '<div class="col-sm-11 col-md-11" style="margin-top:20px; margin-left:50px; width:80%">' +
+                                //'<textarea id="txtTopicDetail_' + i + '" name="txtTopicDetail_' + i + '" rows="10" style="width:100%"> </textarea>' +
+                                '<label class="LabelCaption pull-right">'+ e[i].PostDetail +'</label>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="row form-group">' +
+                                '<div class="col-sm-6 col-md-6" style="margin-top:10px; margin-left:50px; width:80%">' +
+                                '<span class="pull-right">' +
+                                '<label class="LabelCaption pull-right">File Attach : </label>' +
+                                '</span>' +
+                                '</div>' +
+                                '<div class="col-sm-4 col-md-4" style="margin-top:10px; width:80%">' +
+                                '<span class="pull-left">' +
+                                '<a href="'+ e[i].AttachFilePath + '">' + e[i].AttachFileName + '</a>' + 
+                                '</span>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="row form-group">' +
+                                '<div class="col-sm-6 col-md-6" style="margin-top:10px; margin-left:50px; width:80%">' +
+                                '<span class="pull-right">' +
+                                '<label class="LabelCaption pull-left">Post Date : </label>' +
+                                '</span>' +
+                                '</div>' +
+                                '<div class="col-sm-2 col-md-2" style="margin-top:10px;">' +
+                                '<span class="pull-left">' +
+                                '<label class="LabelCaption pull-left">' + e[i].PostDate + '</label>' +
+                                '</span>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>'
+
+                    $("#divReview").append(html);
+                }
+                //$("#txtTopicDetail_" + i).val(e[i].PostDetail);
+            }
+        }
+
+    </script>
+}
