@@ -135,6 +135,13 @@ namespace LDMS.WEB.Controllers
             return Json(_CourseService.GetVenuRoom().Result);
         }
 
+        [HttpGet]
+        [Route("Courses/GetVenuRoomByPlantID")]
+        public IActionResult GetVenuRoomByPlantID(string ID_Plant)
+        {
+            return Json(_CourseService.GetVenuRoomByPlantID(ID_Plant).Result);
+        }
+
 
         [HttpPost]
         [Route("Courses/Search")]

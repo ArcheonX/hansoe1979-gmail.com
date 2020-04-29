@@ -293,7 +293,7 @@ namespace LDMS.Services
                     var p = new DynamicParameters();
                     if (criteria.Instructor_ID != null) p.Add("@Instructor_ID", criteria.Instructor_ID);
                     if (criteria.Instructor_Name != null) p.Add("@@Instructor_Name", criteria.Instructor_Name);
-                    if (criteria.Type != null) p.Add("@Type", criteria.Type);
+                    if (criteria.Type != "ALL") p.Add("@Type", criteria.Type);
                     if (criteria.Organization != null) p.Add("@Organization", criteria.Organization);
                     if (criteria.Course_Experience != null) p.Add("@Course_Experience", criteria.Course_Experience);
 
@@ -322,6 +322,27 @@ namespace LDMS.Services
                     (_schema + ".[sp_M_VanueRoom_SelectAll]");
 
                     return (List<ViewModels.LDMS_M_VenueRoom>)items;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+        }
+
+        public async Task<List<ViewModels.LDMS_M_VenueRoom>> GetVenuRoomByPlantID(string ID_Plant)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                try
+                {
+                    var p = new DynamicParameters();
+                   
+                    p.Add("@ID_Plant", ID_Plant);
+
+                    List<ViewModels.LDMS_M_VenueRoom> ret = conn.Query<ViewModels.LDMS_M_VenueRoom>(_schema + ".[sp_M_VanueRoomByPlantID_Select]", p, commandType: CommandType.StoredProcedure).ToList();
+
+                    return ret;
                 }
                 catch (Exception e)
                 {

@@ -103,7 +103,7 @@
                 'paging': true,
                 "pagingType": "full_numbers",
                 'searching': false,
-
+                 "autoWidth": false,
                  destroy: true,
                 'ajax': {
                     'url': '@Url.Action("Search", "Instructor")',
@@ -149,17 +149,17 @@
                         "mRender": function (data, type, row) {
                              var icon = '@Url.Content("~/assets/images/svg/icon-delete-red.svg")';
 
-                            return "<a href=\"javascript:deli('"+data+"');\"><img src='" + icon+"' class='light-logo svg-colorize-blue' alt='homepage' /></a>";
+                            return "<a href=\"javascript:deli('"+data+"');\"><img src='" + icon+"' class='light-logo svg-colorize-red' alt='homepage' /></a>";
                         }
                     }
                  ],
                  "columnDefs": [
-                     { "targets": 0, "className": "text-center", "orderable": false},
-                     { "targets": 1, "className": "text-center" },
-                     { "targets": 3, "className": "text-center" },
-                     { "targets": 5, "className": "text-center" },
-                     { "targets": 6, "orderable": false, "className": "text-center" }
-                     { "targets": 7, "orderable": false, "className": "text-center" }
+                     { "targets": 0, "className": "text-center", "orderable": false, "width": "80px;"},
+                     { "targets": 1, "className": "text-center"},
+                     { "targets": 3, "className": "text-center"},
+                     { "targets": 5, "className": "text-center", "width": "140px;"},
+                     { "targets": 6, "orderable": false, "className": "text-center", "width": "80px;"},
+                     { "targets": 7, "orderable": false, "className": "text-center", "width": "80px;" }
                  ]
             });
         }
