@@ -34,24 +34,7 @@ namespace LDMS.WEB.Controllers
         public async Task<IActionResult> ReadCompetence(int competenceId)
         {
             return Response(await CompetenceAnalyticService.ReadById(competenceId));
-        }
-        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
-        [HttpGet]
-        [AuthorizeRole(UserRole.All)]
-        [Route("Competence/Topics")]
-        public async Task<IActionResult> ReadCompetenceTopics(int competenceId)
-        {
-            return Response(await CompetenceAnalyticService.AnalyticKnowledgeTopics(competenceId));
-        }
-        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
-        [HttpGet]
-        [AuthorizeRole(UserRole.All)]
-        [Route("Competence/Employees")]
-        public async Task<IActionResult> ReadCompetenceEmployees(int competenceId)
-        {
-            return Response(await CompetenceAnalyticService.AnalyticEmployees(competenceId));
-        }
-
+        } 
 
         [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [AuthorizeRole(UserRole.All)]
@@ -106,9 +89,9 @@ namespace LDMS.WEB.Controllers
         [HttpPost]
         [AuthorizeRole(UserRole.All)]
         [Route("Competence/CreateCompetence")]
-        public async Task<IActionResult> CreateCompetence(ViewModels.LDMS_T_CompetenceAnalytic competenceAnalytic
-            , List<ViewModels.LDMS_T_CompetenceAnalytic_Employee> employees
-            , List<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic> topics)
+        public async Task<IActionResult> CreateCompetence(ViewModels.TCompetenceAnalytic competenceAnalytic
+            , List<ViewModels.TCompetenceAnalyticEmployee> employees
+            , List<ViewModels.TCompetenceAnalyticTopic> topics)
         {
             return Response(await CompetenceAnalyticService.CreateCompetence(competenceAnalytic, employees, topics));
         }
@@ -117,11 +100,22 @@ namespace LDMS.WEB.Controllers
         [HttpPost]
         [AuthorizeRole(UserRole.All)]
         [Route("Competence/UpdateCompetence")]
-        public async Task<IActionResult> UpdateCompetence(ViewModels.LDMS_T_CompetenceAnalytic competenceAnalytic
-            , List<ViewModels.LDMS_T_CompetenceAnalytic_Employee> employees
-            , List<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic> topics)
+        public async Task<IActionResult> UpdateCompetence(ViewModels.TCompetenceAnalytic competenceAnalytic
+            , List<ViewModels.TCompetenceAnalyticEmployee> employees
+            , List<ViewModels.TCompetenceAnalyticTopic> topics)
         {
             return Response(await CompetenceAnalyticService.UpdateCompetence(competenceAnalytic, employees, topics));
+        }
+
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
+        [HttpPost]
+        [AuthorizeRole(UserRole.All)]
+        [Route("Competence/UpdateCompetenceScore")]
+        public async Task<IActionResult> UpdateCompetenceScore(int competenceId
+            , List<ViewModels.TCompetenceAnalyticScore> scores
+            , List<ViewModels.TCompetenceAnalyticExpectatoin> expectatoins)
+        {
+            return Response(await CompetenceAnalyticService.UpdateCompetenceScore(competenceId, expectatoins, scores));
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿var topics = [];
 var employees = [];
 var scores = [];
+var expectatoins = [];
+
 (function ($) {
     "use strict";
     $(document).ready(function () {
@@ -11,8 +13,10 @@ var scores = [];
         $('#btnEditCompetence').click(function () {
             window.location.href = "/Competence/Edit/" + $("#analytic_id").val();
         });
-        RenderChart();
-        LoadCompetence(parseInt(analytic_id));
+        $('#btnSaveCompetence').click(function () {
+            SaveCompetenceScore();
+        });  
+        LoadCompetence(parseInt(analytic_id)); 
     })
 })(jQuery);
 
@@ -34,64 +38,79 @@ function validate(evt) {
     }
 }
 
-function RenderChart() {
+function RenderChart() { 
+    var AnalyticCategories = [];
+    var Analyticseries = []; 
+
+    if (topics.length >= 6 && employees.length >= 10) {
+        return;
+    }
+    var topicScore = [];
+
+    topics.forEach(tp => {
+        AnalyticCategories.push(tp.Topic); 
+        var score = scores.where((sc) => {
+            return sc.ID_CompetenceKnowledgeTopic == tp.TopicId;
+        });
+        score.forEach(scr => {
+            topicScore.push({
+                EmployeeId: scr.ID_CompetenceEmployee,
+                Score: scr.Score
+            });
+        }); 
+    }); 
+    employees.forEach(emp => {
+        var AnalyticScores = []; 
+        var eScores = topicScore.where((sc) => {
+            return sc.EmployeeId== emp.EmployeeId;
+        });
+        eScores.forEach(scr => {
+            AnalyticScores.push(scr.Score);
+        }); 
+        Analyticseries.push(
+            {
+                name: emp.EmployeeName,
+                data: AnalyticScores,
+                pointPlacement: 'on'
+            });
+    });
     Highcharts.chart('container', {
         chart: {
             polar: true,
             type: 'line'
-        },
-
-        accessibility: {
-            description: 'A spiderweb chart compares the allocated budget against actual spending within an organization. The spider chart has six spokes. Each spoke represents one of the 6 departments within the organization: sales, marketing, development, customer support, information technology and administration. The chart is interactive, and each data point is displayed upon hovering. The chart clearly shows that 4 of the 6 departments have overspent their budget with Marketing responsible for the greatest overspend of $20,000. The allocated budget and actual spending data points for each department are as follows: Sales. Budget equals $43,000; spending equals $50,000. Marketing. Budget equals $19,000; spending equals $39,000. Development. Budget equals $60,000; spending equals $42,000. Customer support. Budget equals $35,000; spending equals $31,000. Information technology. Budget equals $17,000; spending equals $26,000. Administration. Budget equals $10,000; spending equals $14,000.'
-        },
-
+        }, 
         title: {
-            text: 'Budget vs spending',
-            x: -80
+            text: $("#txtCompetenceName").val() + ' Competence Analytic',
+            //x: -80
         },
-
         pane: {
-            size: '80%'
+            size: '100%'
         },
-
         xAxis: {
-            categories: ['Sales', 'Marketing', 'Development', 'Customer Support','Information Technology', 'Administration'],
+            categories: AnalyticCategories,
             tickmarkPlacement: 'on',
             lineWidth: 0
-        },
-
+        }, 
         yAxis: {
             gridLineInterpolation: 'polygon',
             lineWidth: 0,
             min: 0
         },
-
-        tooltip: {
-            shared: true,
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
-        },
-
+        //tooltip: {
+        //    shared: true,
+        //    pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.x:,.0f}</b><br/>'
+        //}, 
         legend: {
             align: 'right',
             verticalAlign: 'middle',
             layout: 'vertical'
         },
-
-        series: [{
-            name: 'Allocated Budget',
-            data: [43000, 19000, 60000, 35000, 17000, 10000],
-            pointPlacement: 'on'
-        }, {
-            name: 'Actual Spending',
-            data: [50000, 39000, 42000, 31000, 26000, 14000],
-            pointPlacement: 'on'
-        }],
-
+        credits: {
+            enabled: false,
+        },
+        series: Analyticseries,
         responsive: {
             rules: [{
-                condition: {
-                    maxWidth: 500
-                },
                 chartOptions: {
                     legend: {
                         align: 'center',
@@ -99,50 +118,47 @@ function RenderChart() {
                         layout: 'horizontal'
                     },
                     pane: {
-                        size: '70%'
+                        size: '100%'
                     }
                 }
             }]
-        }
-
+        } 
     });
 }
 
-function LoadCompetence(analytic_id) {
+function LoadCompetence(analytic_id) { 
+    MessageController.BlockUI({ boxed: false, target: '#pn-Analytic' });
+    topics = [];
+    employees = [];
+    scores = [];
+    expectatoins = [];
     $.ajax({
         type: "GET",
         url: "/Competence/Competence",
         data: { "competenceId": analytic_id },
-        success: function (response) {
+        success: function (response) { 
+            
             $("#txtCompetenceName").val(response.Data.CompetenceAnalyticName);
             $("#txtExpectatoin5").val("5 = " +response.Data.Criteria5);
             $("#txtExpectatoin4").val("4 = " +response.Data.Criteria4);
             $("#txtExpectatoin3").val("3 = " +response.Data.Criteria3);
             $("#txtExpectatoin2").val("2 = " +response.Data.Criteria2);
             $("#txtExpectatoin1").val("1 = " +response.Data.Criteria1);
-            $("#selectLevel").val(response.Data.ID_JobGrade).trigger('change');
-
-            var index = 1;
+            $("#selectLevel").val(response.Data.ID_JobGrade).trigger('change');             
             $.each(response.Data.Topics, function () {
                 topics.push({
-                    Index: index,
+                    TopicId: this.ID,
                     ID_CompetenceAnalytic: this.ID_CompetenceAnalytic,
                     Topic: this.KnowledgeTopicName,
                     IsSpecial: this.ID_Course > 0 ? false : true,
-                    ID_Course: this.ID_Course,
-                    Action: "",
-                });
-                index++;
-            });
-            index = 1;
+                    ID_Course: this.ID_Course
+                }); 
+            });  
             $.each(response.Data.Employees, function () {
-                employees.push({
-                    Index: index,
+                employees.push({ 
                     EmployeeId: this.EmployeeID,
-                    EmployeeName: this.LDMS_M_User.FullName,
-                    Action: "",
-                });
-                index++;
+                    EmployeeName: this.LDMS_M_User.FullName, 
+                }); 
             });
             scores.push({
                 ID_CompetenceKnowledgeTopic:0,
@@ -155,74 +171,172 @@ function LoadCompetence(analytic_id) {
                     ID_CompetenceKnowledgeTopic: this.ID_CompetenceKnowledgeTopic,
                     ID_CompetenceEmployee: this.ID_CompetenceEmployee,
                     Score: this.Score,
+                }); 
+            });
+
+            expectatoins.push({
+                ID_CompetenceKnowledgeTopic: 0,
+                ID_CompetenceAnalytic: 0,
+                Score: 0,
+            });
+            expectatoins.pop();
+            $.each(response.Data.Expectatoins, function () {
+                expectatoins.push({
+                    ID_CompetenceKnowledgeTopic: this.ID_CompetenceKnowledgeTopic,
+                    ID_CompetenceAnalytic: this.ID_CompetenceAnalytic,
+                    Score: this.Score,
                 });
-                index++;
             });
 
-            var thead = document.createElement('thead');
-            var tr = document.createElement('tr');
-            var topic = document.createElement('th');
-            topic.className = "thTopic";
-            topic.style = "vertical-align: middle;";
-            topic.appendChild(document.createTextNode('Knowledge Topic'));
-
-            var expec = document.createElement('th');
-            expec.className = "thExpectatoin";
-            expec.style = "vertical-align: middle;";
-            expec.appendChild(document.createTextNode('Expectatoin'));
-
-            tr.appendChild(topic);
-            tr.appendChild(expec);
-            employees.forEach(item => {
-                var thCol = document.createElement('th');
-                thCol.className = "verticalTableHeader";
-                thCol.style = "vertical-align: middle;";
-                thCol.appendChild(document.createTextNode(item.EmployeeName));
-                tr.appendChild(thCol);
+            BuildTable(); 
+            MessageController.UnblockUI('#pn-Analytic');
+            $("input[type=number]").focus(function () {
+                $(this).select();
             });
-            thead.appendChild(tr);
+            RenderChart(); 
+        },
+        failure: function (response) {
+            MessageController.UnblockUI('#pn-Analytic');
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            MessageController.UnblockUI('#pn-Analytic');
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    }); 
+}
 
-            var tbody = document.createElement('tbody');
-            topics.forEach(item => {
-                var tr_tpoic = document.createElement('tr');
+function BuildTable() {
 
-                var tdtpoic = document.createElement('td');
-                tdtpoic.className = "tdTopic";
-                tdtpoic.appendChild(document.createTextNode(item.Topic));
-                tr_tpoic.appendChild(tdtpoic);
+    var table = document.getElementById('tableAnalytic');
+    while (table.hasChildNodes()) {
+        table.removeChild(table.firstChild);
+    }
 
-                var tdExpectatoin = document.createElement('td');
-                tdExpectatoin.className = "tdScore";
-                tdExpectatoin.style = "width:50px;";
-                tr_tpoic.appendChild(tdExpectatoin);
-                if (item.IsSpecial == true) {
-                    $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin_' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='0' />").appendTo(tdExpectatoin);
-                } else {
-                    $("<input type='number' id='txtScore_topic_item." + item.TopicId + "_Expectatoin_' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='0' />").appendTo(tdExpectatoin);
-                }
-                employees.forEach(emp => {
+    var thead = document.createElement('thead');
+    var tr = document.createElement('tr');
+    var topic = document.createElement('th');
+    topic.className = "thTopic";
+    topic.style = "vertical-align: middle;";
+    topic.appendChild(document.createTextNode('Knowledge Topic'));
 
-                    var score_value = 0;
-                    var any_score = scores.where((sc) => {
-                        return sc.ID_CompetenceKnowledgeTopic == item.TopicId && sc.ID_CompetenceEmployee == emp.EmployeeId;
-                    });
-                    if (any_score && any_score.length>0) {
-                        score_value = any_score[0].Score;
-                    }
-                    var td = document.createElement('td');
-                    td.className = "tdScore";
-                    td.style = "width:50px;";
-                    tr_tpoic.appendChild(td);
-                    if (item.IsSpecial == true) {
-                        $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + score_value+"' />").appendTo(td);
-                    } else {
-                        $("<input type='number' id='txtScore_topic_item." + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + score_value +"' />").appendTo(td);
-                    }
+    var expec = document.createElement('th');
+    expec.className = "thExpectatoin";
+    expec.style = "vertical-align: middle;";
+    $("<div  class='rotated'>Expectatoin</div>").appendTo(expec); 
+
+    tr.appendChild(topic);
+    tr.appendChild(expec);
+    employees.forEach(item => {
+        var thCol = document.createElement('th');
+        thCol.className = "verticalTableHeader";
+        thCol.style = "vertical-align: middle;";
+        $("<div  class='rotated'>" + item.EmployeeName + "</div>").appendTo(thCol);  
+        tr.appendChild(thCol);
+    });
+    thead.appendChild(tr);
+    var tbody = document.createElement('tbody');
+    topics.forEach(item => {
+
+        var tr_tpoic = document.createElement('tr');
+        var tdtpoic = document.createElement('td');
+
+        tdtpoic.className = "tdTopic";
+        tdtpoic.appendChild(document.createTextNode(item.Topic));
+        tr_tpoic.appendChild(tdtpoic);
+
+
+        var tdExpectatoin = document.createElement('td');
+        tdExpectatoin.className = "tdScore";
+        tdExpectatoin.style = "width:50px;";
+        tr_tpoic.appendChild(tdExpectatoin);
+        var exp_val = 0;
+        var any_exp = expectatoins.where((sc) => {
+            return sc.ID_CompetenceKnowledgeTopic == item.TopicId;
+        });
+        if (any_exp && any_exp.length > 0) {
+            exp_val = any_exp[0].Score;
+        }
+        if (item.IsSpecial == true) {
+            $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + exp_val + "'  />").appendTo(tdExpectatoin);        }
+        else {
+            $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + exp_val + "' />").appendTo(tdExpectatoin);
+            
+        }
+        employees.forEach(emp => {
+            var score_value = 0;
+            var any_score = scores.where((sc) => {
+                return sc.ID_CompetenceKnowledgeTopic == item.TopicId && sc.ID_CompetenceEmployee == emp.EmployeeId;
+            });
+            if (any_score && any_score.length > 0) {
+                score_value = any_score[0].Score;
+            }
+            var td = document.createElement('td');
+            td.className = "tdScore";
+            td.style = "width:50px;";
+            tr_tpoic.appendChild(td);
+            if (item.IsSpecial == true) {
+                $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + score_value + "' />").appendTo(td);
+            }
+            else {
+                $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + score_value + "' />").appendTo(td);                
+            }
+        });
+        tbody.appendChild(tr_tpoic);
+    });
+    table.appendChild(thead);
+    table.appendChild(tbody);
+}
+
+function SaveCompetenceScore() {
+    var analytic_id = $("#analytic_id").val();
+    var analyticexpectatoins = [];
+    var analyticscores = []; 
+    topics.forEach(item => {
+        var score = $("#txtScore_topic_" + item.TopicId + '_Expectatoin').val();
+        if (score == null || score == undefined) {
+            score = "0";
+        }
+        analyticexpectatoins.push(
+            {
+                "ID_CompetenceAnalytic": String(analytic_id),
+                "ID_CompetenceKnowledgeTopic": String(item.TopicId),
+                "Score": String(score)
+            });
+        employees.forEach(emp => {
+            var empscore = $("#txtScore_topic_" + item.TopicId + '_Employee_' + emp.EmployeeId).val();
+            if (empscore == null || empscore == undefined) {
+                empscore = "0";
+            }
+            analyticscores.push(
+                {
+                    "ID_CompetenceKnowledgeTopic": String(item.TopicId) ,
+                    "ID_CompetenceEmployee": String(emp.EmployeeId),
+                    "Score": String(empscore)
                 });
-                tbody.appendChild(tr_tpoic);
-            });
-            table.appendChild(thead);
-            table.appendChild(tbody); 
+        });
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/Competence/UpdateCompetenceScore",
+        data:
+        {
+            "competenceId": analytic_id,
+            "scores":analyticscores,
+            "expectatoins": analyticexpectatoins
+        },
+        success: function (response) {
+            MessageController.Success("Update Competence Score Completed.", "Completed");
+            LoadCompetence(analytic_id);
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -239,11 +353,4 @@ function LoadCompetence(analytic_id) {
             }
         }
     });
-
-   
- 
-    var table = document.getElementById('tableAnalytic');
-    while (table.hasChildNodes()) {
-        table.removeChild(table.firstChild);
-    }   
 }

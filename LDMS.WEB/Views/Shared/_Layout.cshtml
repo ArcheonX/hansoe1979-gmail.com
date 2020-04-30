@@ -42,12 +42,14 @@
     <script type="text/javascript" src="~/lib/datatables/js/dataTables.bootstrap.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/datatables/js/dataTables.jqueryui.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <link href="~/lib/datatables/css/dataTables.jqueryui.css" type="text/css" rel="stylesheet">
-
-    <script type="text/javascript" src="~/lib/highchart/js/highcharts.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/lib/highchart/js/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script type="text/javascript" src="~/lib/highchart/js/modules/export-data.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/selecttwo/js/select2.full.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <!--- JS highcharts-->
+    <script src="~/lib/highchart/highcharts.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/highcharts-more.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/modules/export-data.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/modules/accessibility.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
     <!--- JS App-->
     <script type="text/javascript" src="~/assets/app/MessageController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
@@ -91,7 +93,7 @@
             </nav>
         </header>
     </div>
-    <div id="content" style="position:absolute; top:0; bottom:0; left:0px; right:0px;overflow:no-content;">
+    <div id="content" style="position:absolute; top:0; bottom:0; left:0px; right:0px;overflow:auto;">
         <aside class="left-sidebar" style="height:70%;">
             <div class="user-profile">
                 <div class="profile-img">

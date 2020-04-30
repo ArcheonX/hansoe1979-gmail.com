@@ -25,7 +25,7 @@ namespace LDMS.Services
             {
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic>(_schema + ".[usp_CompetenceAnalytic_READ_ALL]").ToList();
+                    var items = Connection.Query<ViewModels.TCompetenceAnalytic>(_schema + ".[usp_CompetenceAnalytic_READ_ALL]").ToList();
                     return new ServiceResult(items);
                 }
             }
@@ -45,12 +45,13 @@ namespace LDMS.Services
 
                 using (IDbConnection conn = Connection)
                 {
-                    var item = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic>(_schema + ".[usp_CompetenceAnalytic_READ_BY_AnalyticId]", param: parameter,commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var item = Connection.Query<ViewModels.TCompetenceAnalytic>(_schema + ".[usp_CompetenceAnalytic_READ_BY_AnalyticId]", param: parameter,commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (item != null)
                     {
-                        item.Employees = (await AnalyticEmployees(analyticId)).Data as List<ViewModels.LDMS_T_CompetenceAnalytic_Employee>;
-                        item.Scores = (await AnalyticScores(analyticId)).Data as List<ViewModels.LDMS_T_CompetenceAnalytic_Score>;
-                        item.Topics = (await AnalyticKnowledgeTopics(analyticId)).Data as List<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic>;
+                        item.Employees = (await GetAnalyticEmployees(analyticId));
+                        item.Scores = (await GetAnalyticScores(analyticId));
+                        item.Topics = (await GetAnalyticKnowledgeTopics(analyticId));
+                        item.Expectatoins = (await GetAnalyticExpectatoins(analyticId));
                     }
                     return new ServiceResult(item);
                 }
@@ -63,9 +64,9 @@ namespace LDMS.Services
         }
          
         public async Task<ServiceResult> CreateCompetence(
-            ViewModels.LDMS_T_CompetenceAnalytic competenceAnalytic,
-            List<ViewModels.LDMS_T_CompetenceAnalytic_Employee> employees,
-            List<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic> topics)
+            ViewModels.TCompetenceAnalytic competenceAnalytic,
+            List<ViewModels.TCompetenceAnalyticEmployee> employees,
+            List<ViewModels.TCompetenceAnalyticTopic> topics)
         {
             try
             {
@@ -100,9 +101,9 @@ namespace LDMS.Services
         }
 
         public async Task<ServiceResult> UpdateCompetence(
-            ViewModels.LDMS_T_CompetenceAnalytic competenceAnalytic, 
-            List<ViewModels.LDMS_T_CompetenceAnalytic_Employee> employees, 
-            List<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic> topics)
+            ViewModels.TCompetenceAnalytic competenceAnalytic, 
+            List<ViewModels.TCompetenceAnalyticEmployee> employees, 
+            List<ViewModels.TCompetenceAnalyticTopic> topics)
         {
             try
             {
@@ -137,14 +138,17 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> UpdateCompetenceScore(int analyticId, List<ViewModels.LDMS_T_CompetenceAnalytic_Score> scores)
+        public async Task<ServiceResult> UpdateCompetenceScore(int analyticId,
+            List<ViewModels.TCompetenceAnalyticExpectatoin> expectatoins,
+            List<ViewModels.TCompetenceAnalyticScore> scores)
         {
             try
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@AnalyticId", analyticId);
                 parameters.Add("@CreateBy", CurrentUserId); 
-                parameters.Add("@Scores", CreatScoreTable(scores, analyticId), DbType.Object); 
+                parameters.Add("@Scores", CreatScoreTable(scores, analyticId), DbType.Object);
+                parameters.Add("@Expectatoins", CreatExpectatoinTable(expectatoins, analyticId), DbType.Object);
                 using (IDbConnection conn = Connection)
                 {
                     var items = conn.Query<SQLError>(_schema + ".[usp_CompetenceAnalytic_Score]", parameters, commandType: CommandType.StoredProcedure);
@@ -162,17 +166,15 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> AnalyticEmployees(int analyticId)
+        private async Task<List<ViewModels.TCompetenceAnalyticEmployee>> GetAnalyticEmployees(int analyticId)
         {
             try
             {
                 DynamicParameters parameter = new DynamicParameters();
                 parameter.Add("@AnalyticId", analyticId);
-
-
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic_Employee, ViewModels.LDMS_M_User, ViewModels.LDMS_T_CompetenceAnalytic_Employee>
+                    var items = Connection.Query<ViewModels.TCompetenceAnalyticEmployee, ViewModels.LDMS_M_User, ViewModels.TCompetenceAnalyticEmployee>
                         (_schema + ".[usp_CompetenceAnalyticEmployee_READ_BY_AnalyticId]",
                           map: (analytic, user) =>
                           {
@@ -185,17 +187,17 @@ namespace LDMS.Services
                           },
                           splitOn: "EmployeeID",
                           param: parameter, commandType: CommandType.StoredProcedure).ToList();
-                    return new ServiceResult(items);
+                    return items;
                 }
             }
             catch (Exception x)
             {
                 _logger.LogError(x.Message);
-                return new ServiceResult(x);
+                return new List<ViewModels.TCompetenceAnalyticEmployee>();
             }
         }
 
-        public async Task<ServiceResult> AnalyticKnowledgeTopics(int analyticId)
+        private async Task<List<ViewModels.TCompetenceAnalyticTopic>> GetAnalyticKnowledgeTopics(int analyticId)
         {
             try
             {
@@ -204,18 +206,18 @@ namespace LDMS.Services
 
                 using (IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic>(_schema + ".[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId]", param: parameter, commandType: CommandType.StoredProcedure).ToList();
-                    return new ServiceResult(items);
+                    var items = Connection.Query<ViewModels.TCompetenceAnalyticTopic>(_schema + ".[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId]", param: parameter, commandType: CommandType.StoredProcedure).ToList();
+                    return items;
                 }
             }
             catch (Exception x)
             {
                 _logger.LogError(x.Message);
-                return new ServiceResult(x);
+                return new List<ViewModels.TCompetenceAnalyticTopic>();
             }
         }
 
-        public async Task<ServiceResult> AnalyticScores(int analyticId)
+        private async Task<List<ViewModels.TCompetenceAnalyticExpectatoin>> GetAnalyticExpectatoins(int analyticId)
         {
             try
             {
@@ -224,18 +226,38 @@ namespace LDMS.Services
 
                 using (IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic>(_schema + ".[usp_CompetenceAnalyticScore_READ_BY_AnalyticId]", param: parameter, commandType: CommandType.StoredProcedure).ToList();
-                    return new ServiceResult(items);
+                    var items = Connection.Query<ViewModels.TCompetenceAnalyticExpectatoin>(_schema + ".[usp_CompetenceAnalyticExpectatoin_READ_BY_AnalyticId]", param: parameter, commandType: CommandType.StoredProcedure).ToList();
+                    return items;
                 }
             }
             catch (Exception x)
             {
                 _logger.LogError(x.Message);
-                return new ServiceResult(x);
+                return new List<ViewModels.TCompetenceAnalyticExpectatoin>();
             }
         }
 
-        private System.Data.DataTable CreatEmployeeTable(List<ViewModels.LDMS_T_CompetenceAnalytic_Employee> employees)
+        private async Task<List<ViewModels.TCompetenceAnalyticScore>> GetAnalyticScores(int analyticId)
+        {
+            try
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@AnalyticId", analyticId);
+
+                using (IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<ViewModels.TCompetenceAnalyticScore>(_schema + ".[usp_CompetenceAnalyticScore_READ_BY_AnalyticId]", param: parameter, commandType: CommandType.StoredProcedure).ToList();
+                    return items;
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new List<ViewModels.TCompetenceAnalyticScore>();
+            }
+        }
+
+        private  DataTable CreatEmployeeTable(List<ViewModels.TCompetenceAnalyticEmployee> employees)
         {
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Columns.Add("EmployeeId", typeof(string));
@@ -248,7 +270,7 @@ namespace LDMS.Services
             return dt;
         }
 
-        private System.Data.DataTable CreatTopicTable(List<ViewModels.LDMS_T_CompetenceAnalytic_KnwldTopic> topics)
+        private  DataTable CreatTopicTable(List<ViewModels.TCompetenceAnalyticTopic> topics)
         {
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Columns.Add("ID_Topic", typeof(long));
@@ -273,7 +295,7 @@ namespace LDMS.Services
             return dt;
         }
 
-        private System.Data.DataTable CreatScoreTable(List<ViewModels.LDMS_T_CompetenceAnalytic_Score> scores,int analyticId)
+        private  DataTable CreatScoreTable(List<ViewModels.TCompetenceAnalyticScore> scores,int analyticId)
         {
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Columns.Add("ID_CompetenceKnowledgeTopic", typeof(long));
@@ -286,6 +308,23 @@ namespace LDMS.Services
                 row["ID_CompetenceKnowledgeTopic"] = topic.ID_CompetenceKnowledgeTopic;
                 row["ID_CompetenceAnalytic"] = analyticId;
                 row["ID_CompetenceEmployee"] = topic.ID_CompetenceEmployee;
+                row["Score"] = topic.Score;
+                dt.Rows.Add(row);
+            }
+            return dt;
+        }
+
+        private DataTable CreatExpectatoinTable(List<ViewModels.TCompetenceAnalyticExpectatoin> scores, int analyticId)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ID_CompetenceKnowledgeTopic", typeof(long));
+            dt.Columns.Add("ID_CompetenceAnalytic", typeof(int)); 
+            dt.Columns.Add("Score", typeof(int));
+            foreach (var topic in scores)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["ID_CompetenceKnowledgeTopic"] = topic.ID_CompetenceKnowledgeTopic;
+                row["ID_CompetenceAnalytic"] = analyticId; 
                 row["Score"] = topic.Score;
                 dt.Rows.Add(row);
             }
