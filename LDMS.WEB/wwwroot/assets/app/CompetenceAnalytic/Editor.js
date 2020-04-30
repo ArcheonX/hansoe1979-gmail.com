@@ -82,6 +82,7 @@ function LoadCompetence(analytic_id) {
             $.each(response.Data.Topics, function () {
                 topics.push({
                     Index: index,
+                    TopicId: this.ID,
                     ID_CompetenceAnalytic: this.ID_CompetenceAnalytic,
                     Topic: this.KnowledgeTopicName,
                     IsSpecial: this.ID_Course > 0 ? false : true,
@@ -198,6 +199,7 @@ function AddTopic(item) {
     if (text != null && text != undefined && text != "") {
         var topic = {
             Index: index,
+            TopicId:0,
             Topic: text,
             IsSpecial: special, 
             ID_Course: id_course,
@@ -600,6 +602,7 @@ function OnSaveCompetence() {
     });   
     topics.forEach(function (t) {
         listTopics.push({
+            ID: t.TopicId,
             ID_Course: t.ID_Course,
             KnowledgeTopicName: t.Topic
         })

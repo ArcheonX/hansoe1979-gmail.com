@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_CompetenceAnalyticExpectatoin_READ_BY_AnalyticId] 4
+-- EXEC [dbo].[usp_CompetenceAnalyticExpectatoin_READ_BY_AnalyticId] 1
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalyticExpectatoin_READ_BY_AnalyticId] 
 @AnalyticId INT
@@ -23,13 +23,14 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,
-	ID,
-	ID_CompetenceAnalytic,  
-	[ID_CompetenceKnowledgeTopic],
-	[Score]
-	FROM LDMS_T_CompetenceAnalytic_Expectatoin  WITH (NOLOCK)
-	where ID_CompetenceAnalytic = @AnalyticId;
+	SELECT ROW_NUMBER() OVER( ORDER BY ex.ID ASC)  as RowIndex,
+	ex.ID,
+	topc.ID_CompetenceAnalytic,  
+	topc.ID AS  [ID_CompetenceKnowledgeTopic],
+	ISNULL([Score],5) AS [Score]
+	FROM LDMS_T_CompetenceAnalytic_KnwldTopic topc WITH (NOLOCK) 
+	LEFT JOIN LDMS_T_CompetenceAnalytic_Expectatoin ex  WITH (NOLOCK)  on ex.ID_CompetenceKnowledgeTopic = topc.ID   and topc.ID_CompetenceAnalytic = ex.ID_CompetenceAnalytic and topc.Is_Active =1 
+	where topc.ID_CompetenceAnalytic = @AnalyticId and topc.Is_Active =1 
 
 END
 GO

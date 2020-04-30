@@ -40,19 +40,17 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 	BEGIN TRANSACTION;
-	BEGIN TRY  
-			--INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic](ID_EmployeeManager,[CompetenceAnalyticName],[Criteria1]
-			--	   ,[Criteria2] ,[Criteria3],[Criteria4],[Criteria5],[CreateBy],[CreateDate] ,[ID_Department] ,[ID_JobGrade],[IS_ACTIVE])
-			--VALUES (@ID_EmployeeManager ,@CompetenceName ,@Criteria1  ,@Criteria2 ,@Criteria3 ,@Criteria4 ,@Criteria5 ,@UpdateBy ,GETDATE()  ,@ID_Department ,@ID_JobGrade,1);
-		
+	BEGIN TRY  		
 			UPDATE [dbo].[LDMS_T_CompetenceAnalytic_Employee]
-			SET Is_Active = 0
-			WHERE [ID_CompetenceAnalytic] = @ID_CompetenceAnalytic and Is_Active =1;
+			SET Is_Active = 0 
+			WHERE [ID_CompetenceAnalytic] = @ID_CompetenceAnalytic and Is_Active =1
+			AND NOT EXISTS (SELECT * FROM @EmployeeTable TT WHERE TT.EmployeeID = [LDMS_T_CompetenceAnalytic_Employee].EmployeeID AND [LDMS_T_CompetenceAnalytic_Employee].Is_Active =1)
 			
 			UPDATE [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic]
 			SET Is_Active = 0
-			WHERE [ID_CompetenceAnalytic] = @ID_CompetenceAnalytic and Is_Active =1;
-
+			WHERE [ID_CompetenceAnalytic] = @ID_CompetenceAnalytic and Is_Active =1
+			AND NOT EXISTS (SELECT * FROM @Topics TT  WHERE TT.ID_Topic = [LDMS_T_CompetenceAnalytic_KnwldTopic].ID AND [LDMS_T_CompetenceAnalytic_KnwldTopic].Is_Active =1)
+			
 			UPDATE [dbo].[LDMS_T_CompetenceAnalytic]
 			   SET [CompetenceAnalyticName] = @CompetenceName
 				  ,[Criteria1] = @Criteria1
@@ -64,18 +62,21 @@ BEGIN
 				  ,[UpdateDate] = GETDATE()
 				  ,[ID_Department] =@ID_Department
 				  ,[ID_JobGrade] = @ID_JobGrade
-				  ,[Is_Active] = 1
+				  ,[Is_Active] = 1			 	
 			 WHERE ID = @ID_CompetenceAnalytic and Is_Active =1;
+			
 
 			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Employee] ([ID_CompetenceAnalytic] ,[EmployeeID] ,[CreateBy] ,[CreateDate]  ,[IS_ACTIVE])
-			SELECT @ID_CompetenceAnalytic ,EmployeeId ,@UpdateBy ,GETDATE(), 1 FROM @EmployeeTable;
+			SELECT @ID_CompetenceAnalytic ,TB.EmployeeId ,@UpdateBy ,GETDATE(), 1 FROM @EmployeeTable TB
+			WHERE NOT EXISTS (SELECT * FROM [LDMS_T_CompetenceAnalytic_Employee] TT WHERE TT.[ID_CompetenceAnalytic]= @ID_CompetenceAnalytic AND TT.EmployeeID=TB.EmployeeId AND TT.Is_Active =1)
 
-			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic] 
-			([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE],[MinScore],[MaxScore])
-			SELECT @ID_CompetenceAnalytic ,ID_Course,TopicName,@UpdateBy ,GETDATE(), 1,
-			CASE WHEN ID_Course>0 THEN NULL ELSE 0 END,
-			CASE WHEN ID_Course>0 THEN NULL ELSE 3 END
-			FROM @Topics; 
+			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic]  ([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE],[MinScore],[MaxScore])
+			SELECT @ID_CompetenceAnalytic ,TB.ID_Course,TB.TopicName,@UpdateBy ,GETDATE(), 1,
+			CASE WHEN TB.ID_Course>0 THEN NULL ELSE 0 END,
+			CASE WHEN TB.ID_Course>0 THEN NULL ELSE 3 END
+			FROM @Topics  TB
+			WHERE NOT EXISTS (SELECT * FROM [LDMS_T_CompetenceAnalytic_KnwldTopic] TT WHERE TT.[ID_CompetenceAnalytic]= @ID_CompetenceAnalytic AND TT.ID = TB.ID_Topic AND TT.Is_Active =1);
+
 	COMMIT TRANSACTION;	
 	END TRY
 	BEGIN CATCH
