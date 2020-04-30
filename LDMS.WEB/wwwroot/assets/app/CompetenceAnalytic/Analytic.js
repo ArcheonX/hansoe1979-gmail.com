@@ -266,10 +266,10 @@ function BuildTable() {
             exp_val = any_exp[0].Score;
         }
         if (item.IsSpecial == true) {
-            $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + exp_val + "'  />").appendTo(tdExpectatoin);        }
+            $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + exp_val + "'  />").appendTo(tdExpectatoin);
+        }
         else {
             $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + exp_val + "' />").appendTo(tdExpectatoin);
-            
         }
         employees.forEach(emp => {
             var score_value = 0;
