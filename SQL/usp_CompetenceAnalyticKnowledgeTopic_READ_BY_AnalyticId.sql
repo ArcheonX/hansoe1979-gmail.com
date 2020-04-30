@@ -29,7 +29,7 @@ BEGIN
 	KnwldTopic.ID_Course,
 	KnwldTopic.KnowledgeTopicName 
 	FROM LDMS_T_CompetenceAnalytic_KnwldTopic KnwldTopic WITH (NOLOCK)
-	where KnwldTopic.ID_CompetenceAnalytic = @AnalyticId;
+	where KnwldTopic.ID_CompetenceAnalytic = @AnalyticId  and KnwldTopic.Is_Active = 1;
 
 END
 GO

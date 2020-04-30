@@ -50,8 +50,12 @@ BEGIN
 			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Employee] ([ID_CompetenceAnalytic] ,[EmployeeID] ,[CreateBy] ,[CreateDate]  ,[IS_ACTIVE])
 			SELECT @ID_CompetenceAnalytic ,EmployeeId ,@CreateBy ,GETDATE(), 1 FROM @EmployeeTable;
 
-			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic] ([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE])
-			SELECT @ID_CompetenceAnalytic ,ID_Course,TopicName,@CreateBy ,GETDATE(), 1 FROM @Topics; 
+			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic] 
+			([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE],[MinScore],[MaxScore])
+			SELECT @ID_CompetenceAnalytic ,ID_Course,TopicName,@CreateBy ,GETDATE(), 1,
+			CASE WHEN ID_Course>0 THEN NULL ELSE 0 END,
+			CASE WHEN ID_Course>0 THEN NULL ELSE 3 END
+			FROM @Topics; 
 	COMMIT TRANSACTION;	
 	END TRY
 	BEGIN CATCH

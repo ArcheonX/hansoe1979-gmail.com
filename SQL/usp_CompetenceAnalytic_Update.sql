@@ -54,8 +54,7 @@ BEGIN
 			WHERE [ID_CompetenceAnalytic] = @ID_CompetenceAnalytic and Is_Active =1;
 
 			UPDATE [dbo].[LDMS_T_CompetenceAnalytic]
-			   SET [ID_EmployeeManager] =@ID_EmployeeManager
-				  ,[CompetenceAnalyticName] = @CompetenceName
+			   SET [CompetenceAnalyticName] = @CompetenceName
 				  ,[Criteria1] = @Criteria1
 				  ,[Criteria2] = @Criteria2
 				  ,[Criteria3] = @Criteria3
@@ -71,8 +70,12 @@ BEGIN
 			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Employee] ([ID_CompetenceAnalytic] ,[EmployeeID] ,[CreateBy] ,[CreateDate]  ,[IS_ACTIVE])
 			SELECT @ID_CompetenceAnalytic ,EmployeeId ,@UpdateBy ,GETDATE(), 1 FROM @EmployeeTable;
 
-			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic] ([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE])
-			SELECT @ID_CompetenceAnalytic ,ID_Course,TopicName,@UpdateBy ,GETDATE(), 1 FROM @Topics; 
+			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic] 
+			([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE],[MinScore],[MaxScore])
+			SELECT @ID_CompetenceAnalytic ,ID_Course,TopicName,@UpdateBy ,GETDATE(), 1,
+			CASE WHEN ID_Course>0 THEN NULL ELSE 0 END,
+			CASE WHEN ID_Course>0 THEN NULL ELSE 3 END
+			FROM @Topics; 
 	COMMIT TRANSACTION;	
 	END TRY
 	BEGIN CATCH

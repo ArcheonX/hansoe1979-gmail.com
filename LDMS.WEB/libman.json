@@ -118,6 +118,6 @@
     {
       "library": "linq.js@2.2.0.2",
       "destination": "wwwroot/lib/linq.js/"
-    }
+    } 
   ]
 }
