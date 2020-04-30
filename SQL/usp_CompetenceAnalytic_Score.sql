@@ -44,10 +44,11 @@ BEGIN
 		  ,[UpdateDate] = getdate()
 		FROM [dbo].[LDMS_T_CompetenceAnalytic_Score]
 		JOIN @Scores SC 
-		ON [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceKnowledgeTopic = sc.ID_CompetenceKnowledgeTopic
-		AND [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceEmployee = sc.ID_CompetenceEmployee
+			ON [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceKnowledgeTopic = sc.ID_CompetenceKnowledgeTopic AND [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceEmployee = sc.ID_CompetenceEmployee
+		--JOIN LDMS_T_CompetenceAnalytic_KnwldTopic TP 
+		--	ON TP.ID_CompetenceAnalytic = [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceAnalytic AND TP.ID = [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceKnowledgeTopic AND ISNULL(TP.ID_Course,0) = 0
 		WHERE [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceAnalytic = @AnalyticId;
-			 
+
 		INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Score] ([ID_CompetenceAnalytic] ,[ID_CompetenceKnowledgeTopic] ,[ID_CompetenceEmployee] ,[Score] ,[CreateBy] ,[CreateDate]           ,[UpdateDate])
 		SELECT @AnalyticId ,sc.ID_CompetenceKnowledgeTopic, sc.ID_CompetenceEmployee,sc.Score,@CreateBy ,getdate() ,getdate()
 		FROM @Scores sc 
@@ -65,9 +66,9 @@ BEGIN
 		ON [LDMS_T_CompetenceAnalytic_Expectatoin].ID_CompetenceKnowledgeTopic = sc.ID_CompetenceKnowledgeTopic 
 		WHERE [LDMS_T_CompetenceAnalytic_Expectatoin].ID_CompetenceAnalytic = @AnalyticId;
 
-		INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Expectatoin] ([ID_CompetenceAnalytic] ,[ID_CompetenceKnowledgeTopic] ,[Score] ,[CreateBy] ,[CreateDate]           ,[UpdateDate])
+		INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Expectatoin] ([ID_CompetenceAnalytic] ,[ID_CompetenceKnowledgeTopic] ,[Score] ,[CreateBy] ,[CreateDate],[UpdateDate])
 		SELECT @AnalyticId ,sc.ID_CompetenceKnowledgeTopic,sc.Score,@CreateBy ,getdate() ,getdate()
-		FROM @Scores sc 
+		FROM @Expectatoins sc 
 		WHERE NOT EXISTS (SELECT * FROM [dbo].[LDMS_T_CompetenceAnalytic_Expectatoin] sm 
 							where sm.ID_CompetenceAnalytic = @AnalyticId
 							AND sm.ID_CompetenceKnowledgeTopic = SC.ID_CompetenceKnowledgeTopic); 
