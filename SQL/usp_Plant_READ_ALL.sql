@@ -22,7 +22,13 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,* FROM LDMS_M_Plant WITH (NOLOCK) WHERE IsActive=1;
+	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,
+	ID as ID_Plant,
+	PlantID,
+	PlantName_EN,
+	PlantName_TH,
+	PlantDescription AS PlantDescription
+	FROM LDMS_M_Plant WITH (NOLOCK) WHERE IsActive=1;
 END
 GO
 

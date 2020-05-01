@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewData["Title"] = "Analytic";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/assets/app/CompetenceAnalytic/Analytic.js"></script>
+<div class="panel panel-default" id="pn-Analytic" style="width: 100%; border-width: thin; border-style: solid;">
+    <div class="panel-body" style="margin-right: 25px; margin-left: 25px; margin-top: 25px">
+        <input type="hidden" id="analytic_id" value="@ViewBag.ID_Analytic" />
+        <div class="form-horizontal">
+            <div class="row form-group">
+                <div class="col-sm-1 col-md-1 offset-10">
+                    <button id="btnEditCompetence" class="btn btn-outline-primary waves-effect waves-light" style="width:100%">
+                        <img style="width:25px;height:20px" src="~/assets/images/svg/icon-edit-blue.svg" />&nbsp;Edit
+                    </button>
+                </div>
+                <div class="col-sm-1 col-md-1" style="margin-left:-25px">
+                    <button id="btnBack" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:100%">
+                        <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <div class="form-horizontal">
+                    <div class="row form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <span class="pull-left" style="vertical-align:middle">
+                                <label class="LabelCaption"><b>Competence Platform Name </b></label>
+                            </span>
+                            <input type="text" id="txtCompetenceName" disabled style="width: 100%" class="form-control required" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <span class="pull-left" style="vertical-align:middle">
+                                <label class="LabelCaption"><b>Expectatoin Criteria </b></label>
+                            </span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="text" disabled id="txtExpectatoin5" style="width: 100%" class="form-control required" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="text" disabled id="txtExpectatoin4" style="width: 100%" class="form-control required" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="text" disabled id="txtExpectatoin3" style="width: 100%" class="form-control required" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="text" disabled id="txtExpectatoin2" style="width: 100%" class="form-control required" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="text" disabled id="txtExpectatoin1" style="width: 100%" class="form-control required" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row form-group">
+                        <div class="col-sm-6 col-md-6">
+                            <button id="btnSaveCompetence" class="btn btn-outline-success waves-effect waves-light" style="width:100%">
+                                <img style="width:25px;height:20px" src="~/assets/images/svg/save.svg" />&nbsp;&nbsp;Save Score
+                            </button>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <button id="btnImportExcel" class="btn btn-outline-primary waves-effect waves-light" style="width:100%">
+                                <img style="width:25px;height:20px" src="~/assets/images/svg/icon-excel-green.svg" />&nbsp;Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-8" style="margin-top:-30px;"> 
+                <figure class="highcharts-figure">
+                    <div id="container"></div> 
+                </figure>
+            </div>
+        </div>
+
+        <div class="row" style="overflow:auto;padding-top:75px;margin-left:-35px;">
+            <div class="col-sm-12 col-md-12">
+                <table class="table"  id="tableAnalytic" style="width:100%;background-color:#f5f3f3;overflow:scroll;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;width:100px">#</th>
+                            <th style="text-align:center;width:100%;">Competence Platform</th>
+                            <th style="text-align:center;width:150px">Level</th>
+                            <th style="text-align:center;width:100px">Edit</th>
+                            <th style="text-align:center;width:100px">Analytic</th>
+                        </tr>
+                    </thead> 
+                </table> 
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .rotated {
+        transform: rotate(-90deg); /* Equal to rotateZ(45deg) */ 
+    }
+    .vertical-text span {
+        transform: rotate(90deg);
+        transform-origin: left top 0;
+    }
+    .verticalTableHeader {
+        text-align: center;
+        white-space: nowrap;
+        background-color: #002cfb;
+        color: #ffffff;
+        padding-left: 10px;
+    }
+    .thExpectatoin {
+        text-align: center;
+        background-color: #0094ff; 
+        color: #fff;
+        padding-left: 25px;
+        border-color:#ffffff;
+        border-style:solid;
+        border-width:5px;
+        border-spacing:10px;
+
+    }
+    .thTopic {
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+        background-color: #05b79c;
+        width: 150px;
+        height: 200px; 
+    }
+    .tdScore {
+        text-align: center;
+        white-space: nowrap;
+        border: thin; 
+    }
+    .tdTopic {
+        text-align: center;
+        white-space: nowrap;
+        width: 150px; 
+    }
+    .quantity::-webkit-inner-spin-button,
+    .quantity::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .highcharts-figure, .highcharts-data-table table {
+        width:100%;
+        height:100%;
+        margin: 1em auto;
+    }
+    .highcharts-data-table table { 
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%; 
+    }
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+</style>

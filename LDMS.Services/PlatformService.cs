@@ -10,6 +10,7 @@ using System.Text.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using LDMS.Daos;
+using LDMS.Identity;
 
 namespace LDMS.Services
 {
@@ -35,9 +36,9 @@ namespace LDMS.Services
                 p.Add("@PlatformName_TH", PlatformName_TH);
                 p.Add("@ID_PlatformType", ID_PlatformType);
                 p.Add("@PlatformDescription", PlatformDescription);
-                p.Add("@ID_Department_Create", ID_Department_Create);
+                p.Add("@ID_Department_Create", JwtManager.Instance.GetFromToken(HttpContext.Request, "DEPARTMENTID")); 
                 p.Add("@PlatformStatus", PlatformStatus);
-                p.Add("@CreateBy", 1); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@CreateBy", JwtManager.Instance.GetUserId(HttpContext.Request)); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
 
                 int ret = conn.Query<int>(_schema + ".[sp_M_Platform_Insert]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
 
@@ -57,9 +58,9 @@ namespace LDMS.Services
                 p.Add("@PlatformName_TH", PlatformName_TH);
                 p.Add("@ID_PlatformType", ID_PlatformType);
                 p.Add("@PlatformDescription", PlatformDescription);
-                p.Add("@ID_Department_Create", ID_Department_Create);
+                p.Add("@ID_Department_Create", JwtManager.Instance.GetFromToken(HttpContext.Request, "DEPARTMENTID"));
                 p.Add("@PlatformStatus", PlatformStatus);
-                p.Add("@UpdateBy", 1); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@UpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request)); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
 
                 int ret = conn.Query<int>(_schema + ".[sp_M_Platform_Update]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
 
@@ -416,7 +417,18 @@ namespace LDMS.Services
 
         }
 
+        public List<LDMS_M_Platform> GetPlatformByDep()
+        {
+            using (System.Data.IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@ID_Department ", JwtManager.Instance.GetFromToken(HttpContext.Request, "DEPARTMENTID"));
 
+                List<LDMS_M_Platform> ret = conn.Query<LDMS_M_Platform>(_schema + ".[sp_M_Platfrom_SelectALL_WithDep]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
+
+                return ret;
+            }
+        } 
 
     }
 }

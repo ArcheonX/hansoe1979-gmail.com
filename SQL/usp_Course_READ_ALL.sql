@@ -21,7 +21,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as RowIndex,* FROM LDMS_M_Course WITH (NOLOCK) WHERE IsActive=1;
+	SELECT ROW_NUMBER() OVER(PARTITION BY ID ORDER BY ID ASC)  as rownumber,* FROM LDMS_M_Course WITH (NOLOCK) WHERE IsActive=1;
 END
 GO
 

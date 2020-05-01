@@ -19,22 +19,15 @@ namespace LDMS.Services
             try
             {
                 using (System.Data.IDbConnection conn = Connection)
-                { 
-                    var users = Connection.Query<LDMS_M_UserRole, LDMS_M_Role, LDMS_M_UserRole>
-                        (_schema + ".[usp_UserRole_READ_BY_EmployeeId] @param_EmployeeId,@param_Password",
-                        map: (userRole, role) =>
-                        {
-                            if (userRole != null)
-                            {
-                                userRole.LDMS_M_Role = role;
-                            } 
-                            return userRole;
-                        },
-                          splitOn: "UserRoleId,RoleId",
-                            param: new { @param_EmployeeId = username, @param_Password= password });
-                    return users.Any();
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@employeeId", username, System.Data.DbType.String);
+                    parameter.Add("@password", password, System.Data.DbType.String);
+                    var users = Connection.ExecuteScalar<int>(_schema + ".[usp_User_Authentication]", param: parameter,commandType: System.Data.CommandType.StoredProcedure);
+                    return users>0;
                 }
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 return false;
             }

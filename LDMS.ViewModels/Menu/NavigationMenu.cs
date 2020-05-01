@@ -4,6 +4,7 @@ namespace LDMS.ViewModels.Menu
 {
     public class NavigationMenu
     {
+        public bool FirstMenu { get; set; }
         public string MenuID { get; set; }
         public string MenuIco { get; set; }
         public string MenuUrl { get; set; }

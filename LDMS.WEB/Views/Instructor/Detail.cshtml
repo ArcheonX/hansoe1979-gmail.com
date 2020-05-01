@@ -320,7 +320,7 @@
                     success: function (e) {
                         $('#hdID').val(e.ID);
                         $('#txtInsID').val(e.Instructor_ID);
-                        $('#txtInsID').prop("disabled", true);
+                        $('#txtInsID').attr('readonly', true);
                         $('#txtOrg').val(e.Organization);
                         $('#txtInsName').val(e.Instructor_Name);
                         Emp_SetEmployeeName(e.Instructor_Name);
@@ -392,7 +392,7 @@
                         if (e == "0")
                             SaveI();
                         else {
-                            alert('@LDMS.WEB.Resources.Message.e_Instructor_ExistsInsID'.replace('{0]}', $("#txtInsID").val()));
+                            alert('@LDMS.WEB.Resources.Message.e_Instructor_ExistsInsID'.replace('{0}', $("#txtInsID").val()));
                             $("#txtInsID").focus();
                         }
                     },
@@ -404,10 +404,11 @@
         });
 
         function SaveI() {
+            var form = $('#frmMain')[0];
             $.ajax({
                     type: 'post',
                     dataType: "JSON",
-                    data: new FormData(this),
+                    data: new FormData(form),
                     processData: false,
                     contentType: false,
                     url: '@Url.Action("Save", "Instructor")',

@@ -1,0 +1,8 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="UserListcontent" style="width: 100%;display:block">
+    <input type="hidden" id="analytic_id" value="@ViewBag.ID_Analytic" />
+    @await Html.PartialAsync("_addCompetenceAnalytic")
+</div>

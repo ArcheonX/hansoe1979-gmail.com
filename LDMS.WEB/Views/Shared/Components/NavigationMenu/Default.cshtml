@@ -1,16 +1,75 @@
 ﻿@model List<LDMS.ViewModels.Menu.NavigationMenu>
 @foreach (var item in Model)
 {
-    <ul id="sidebarnav">
-        <li class="nav-small-cap"><h4> @item.MenuName</h4></li> 
-        @foreach (var itm in item.SubMenus)
-        {
-            <li style="padding-left:25px">
-                <a class="waves-effect waves-dark"
-                   asp-controller="@itm.ControllerName" asp-action="@itm.ActionName" aria-expanded="false">
-                    <i class="mdi mdi-gauge"></i><span class="hide-menu">@itm.MenuName</span>
-                </a>
-            </li> 
-        }
-    </ul>
- }
+    <div class="panel-group" style="width:100%;">
+        <div class="panel panel-default"  style="width:100%;">
+            <div class="panel-heading" style="width:100%;">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" class="toggle" href="#" id="@item.MenuID" style="color:#000000">@item.MenuName</a> @*#collapse_@item.MenuID*@
+                </h4>
+            </div>
+            @if (@item.FirstMenu)
+            {
+                <div id="collapse_@item.MenuID">
+                    <ul class="list-group">
+                        @foreach (var itm in item.SubMenus)
+                        {
+                            <li style="padding-left:25px">
+                                <a class="waves-effect waves-dark" asp-controller="@itm.ControllerName" asp-action="@itm.ActionName" aria-expanded="false">
+                                    <i class="mdi mdi-gauge"></i><span class="hide-menu" style="color:#000000">@itm.MenuName</span>
+                                </a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <div id="collapse_@item.MenuID" class="collapse">
+                    <ul class="list-group">
+                        @foreach (var itm in item.SubMenus)
+                        {
+                            <li style="padding-left:25px">
+                                <a class="waves-effect waves-dark" asp-controller="@itm.ControllerName" asp-action="@itm.ActionName" aria-expanded="false">
+                                    <i class="mdi mdi-gauge"></i><span class="hide-menu" style="color:#000000">@itm.MenuName</span>
+                                </a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>  
+} 
+<script>
+    (function ($) {
+        "use strict";
+        $(document).ready(function () {
+            if (localStorage.menuId != null && localStorage.menuId != undefined) {
+                $(".toggle").each(function () {
+                    var cdoc = document.getElementById("collapse_" + this.id);
+                    if (cdoc.classList.length <= 0 && cdoc.id != localStorage.menuId) {
+                        cdoc.classList.toggle('collapse');
+                    }
+                });
+                var doc = document.getElementById("collapse_" + localStorage.menuId);
+                if (doc.classList.length >=1) {
+                    doc.classList.toggle('collapse');
+                } 
+            }
+            $('.toggle').click(function () {
+                var doc = document.getElementById("collapse_" + this.id);
+                doc.classList.toggle('collapse');  
+                localStorage.menuId = this.id;
+                $(".toggle").each(function () {
+                    var cdoc = document.getElementById("collapse_" + this.id);
+                    if (cdoc.classList.length <= 0 && cdoc.id != doc.id) {
+                        cdoc.classList.toggle('collapse'); 
+                    }
+                });
+            });
+        })
+    })(jQuery);
+</script>
