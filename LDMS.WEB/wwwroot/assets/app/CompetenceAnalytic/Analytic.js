@@ -1,8 +1,6 @@
 ﻿var topics = [];
 var employees = [];
-var scores = [];
-var expectatoins = [];
-
+var scores = []; 
 (function ($) {
     "use strict";
     $(document).ready(function () {
@@ -190,23 +188,10 @@ function LoadCompetence(analytic_id) {
                     ID_CompetenceKnowledgeTopic: this.ID_CompetenceKnowledgeTopic,
                     ID_CompetenceEmployee: this.ID_CompetenceEmployee,
                     Score: this.Score,
+                    MinScore: this.MinScore,
+                    MaxScore: this.MaxScore
                 }); 
-            });
-
-            expectatoins.push({
-                ID_CompetenceKnowledgeTopic: 0,
-                ID_CompetenceAnalytic: 0,
-                Score: 0,
-            });
-            expectatoins.pop();
-            $.each(response.Data.Expectatoins, function () {
-                expectatoins.push({
-                    ID_CompetenceKnowledgeTopic: this.ID_CompetenceKnowledgeTopic,
-                    ID_CompetenceAnalytic: this.ID_CompetenceAnalytic,
-                    Score: this.Score,
-                });
-            });
-
+            }); 
             BuildTable(); 
             MessageController.UnblockUI('#pn-Analytic');
             $("input[type=number]").focus(function () {
@@ -276,38 +261,26 @@ function BuildTable() {
         var tdExpectatoin = document.createElement('td');
         tdExpectatoin.className = "tdScore";
         tdExpectatoin.style = "width:50px;";
-        tr_tpoic.appendChild(tdExpectatoin);
-        //var exp_val = 0;
-        //var any_exp = expectatoins.where((sc) => {
-        //    return sc.ID_CompetenceKnowledgeTopic == item.TopicId;
-        //});
-        //if (any_exp && any_exp.length > 0) {
-        //    exp_val = any_exp[0].Score;
-        //}
-        //if (item.IsSpecial == true) {
-        $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min='0'  max='5' value='" + item.Expectatoin + "'  />").appendTo(tdExpectatoin);
-        //}
-        //else {
-        //    $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + exp_val + "' />").appendTo(tdExpectatoin);
-        //}
+        tr_tpoic.appendChild(tdExpectatoin); 
+        $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min='0'  max='5' value='" + item.Expectatoin + "'  />").appendTo(tdExpectatoin);        
         employees.forEach(emp => {
             var score_value = 0;
+            var minScore = 0;
+            var maxScore = 0;
             var any_score = scores.where((sc) => {
                 return sc.ID_CompetenceKnowledgeTopic == item.TopicId && sc.ID_CompetenceEmployee == emp.EmployeeId;
             });
             if (any_score && any_score.length > 0) {
                 score_value = any_score[0].Score;
+                minScore = any_score[0].MinScore;
+                maxScore = any_score[0].MaxScore;
             }
             var td = document.createElement('td');
             td.className = "tdScore";
             td.style = "width:50px;";
             tr_tpoic.appendChild(td);
-           // if (item.IsSpecial == true) {
-                $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + score_value + "' />").appendTo(td);
-            //}
-            //else {
-            //    $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + score_value + "' />").appendTo(td);                
-            //}
+            $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min='" + minScore + "'  max='" + maxScore +"' value='" + score_value + "' />").appendTo(td);
+            
         });
         tbody.appendChild(tr_tpoic);
     });
