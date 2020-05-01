@@ -26,6 +26,8 @@ namespace LDMS.WEB.Controllers
         {
             return View();
         }
+
+
         [AuthorizeRole(UserRole.All)]
         public IActionResult Index()
         {
@@ -316,8 +318,16 @@ namespace LDMS.WEB.Controllers
             var course = _PlatFormService.LoadSubPlatformCourse(criteria);
 
             return Json(course);
+        }
 
+        [AuthorizeRole(UserRole.All)]
+        [HttpGet]
+        [Route("Platform/GetPlatformByDep")]
+        public IActionResult GetPlatformByDep()
+        {
+            List<LDMS_M_Platform> p = _PlatFormService.GetPlatformByDep();
 
+            return Json(p);
         }
     }
 }

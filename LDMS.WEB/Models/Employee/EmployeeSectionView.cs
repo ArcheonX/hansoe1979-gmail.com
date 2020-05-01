@@ -30,11 +30,12 @@ namespace LDMS.WEB.Models.Employee
             ID_Division = lDMS_M_User.ID_Division;
             ID_Department = lDMS_M_User.ID_Department;
             PhoneNumber = lDMS_M_User.PhoneNumber;
-            Email = lDMS_M_User.Email;
-            LDMS_M_UserRole = lDMS_M_User.LDMS_M_UserRole;
+            Email = lDMS_M_User.Email; 
             LDMS_M_Department = lDMS_M_User.LDMS_M_Department;
             LDMS_M_Plant = lDMS_M_User.LDMS_M_Plant;
-            RowIndex = lDMS_M_User.RowIndex;            
+            RowIndex = lDMS_M_User.RowIndex;
+            IsSectionHead = lDMS_M_User.IsSectionHead;
+            ID_Section = lDMS_M_User.ID_Section;
         }
     }
 }

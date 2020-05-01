@@ -35,7 +35,7 @@ BEGIN
       ,[IsActive] = 0
    WHERE [ID] =@param_sectionId; 
 
-   UPDATE LDMS_M_UserRole
+   UPDATE LDMS_M_User
    SET ID_Section = NULL 
    WHERE ID_Section = @param_sectionId;
 

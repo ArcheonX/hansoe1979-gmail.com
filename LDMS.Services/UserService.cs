@@ -5,9 +5,11 @@ using LDMS.Identity;
 using LDMS.ViewModels;
 using LDMS.ViewModels.Menu;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -46,37 +48,70 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-        public async Task<ServiceResult> GetAll(string employeeId = null, string employeeName = null, List<int> departments = null)
+        public async Task<ServiceResult> GetAll(
+            string employeeId = null, 
+            string employeeName = null, 
+            List<int> departments = null, 
+            List<int> sectionIds = null, 
+            List<int> jobgrades = null, 
+            List<int> jobtitles = null)
         {
             try
             {
+                var roles = await All<LDMS_M_Role>("Role");
+                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
                 using (System.Data.IDbConnection conn = Connection)
-                {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                    (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments",
-                      map: (user, userRole, role, depart, plant) =>
+                { 
+                    var items = Connection.Query<LDMS_M_User,LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_Section, LDMS_M_User>
+                    (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments,@paramsections,@paramjobgrades,@paramjobtitles",
+                      map: (user, plant,center,division, depart,section) =>
                       {
-                          if (userRole != null)
+                          if (plant != null)
                           {
-                              userRole.LDMS_M_Role = role;
-                              userRole.Password = null;
+                              user.LDMS_M_Plant = plant;
+                              user.ID_Plant = plant.ID_Plant;
                           }
-                          user.LDMS_M_UserRole = userRole;
+                          if (center != null)
+                          {
+                              user.LDMS_M_Center = center;
+                              user.ID_Center = center.ID_Center;
+                          }
+                          if (division != null)
+                          {
+                              user.LDMS_M_Division = division;
+                              user.ID_Division = division.ID_Division;
+                          }
                           if (depart != null)
                           {
                               user.LDMS_M_Department = depart;
                               user.ID_Department = depart.ID_Department;
                           }
-                          if (plant != null)
+                          if (section != null)
                           {
-                              user.LDMS_M_Plant = plant;
+                              user.LDMS_M_Section = section;
+                              user.ID_Section = section.ID_Section;
                           }
-                          return user;
+                          return user; 
                       },
-                      splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
-                      param: new { @paramEmployeeId = employeeId, @paramEmployeeName = employeeName, @paramdepartments = departments != null ? string.Join(",", departments) : null });
-                    var user = items.ToList();
-                    return new ServiceResult(user);
+                      splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section",
+                      param: new
+                      {
+                          @paramEmployeeId = employeeId,
+                          @paramEmployeeName = employeeName,
+                          @paramdepartments = departments != null ? string.Join(",", departments) : "",
+                          @paramsections = sectionIds != null ? string.Join(",", sectionIds) : "",
+                          @paramjobgrades = jobgrades != null ? string.Join(",", jobgrades) : "",
+                          @paramjobtitles = jobtitles != null ? string.Join(",", jobtitles) : "",
+                      });
+                    var users = items.ToList();
+                    users.ForEach(user =>
+                    {
+                        user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    });
+                    return new ServiceResult(users);
                 }
             }
             catch (Exception x)
@@ -92,30 +127,50 @@ namespace LDMS.Services
             {
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                       (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
-                         map: (user, userRole, role, depart, plant) =>
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_Section, LDMS_M_User>
+                        (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
+                         map: (user, plant, center, division, depart, section) =>
                          {
-                             if (userRole != null)
-                             {
-                                 userRole.LDMS_M_Role = role;
-                             }
-                             user.LDMS_M_UserRole = userRole;
                              if (plant != null)
                              {
                                  user.LDMS_M_Plant = plant;
+                                 user.ID_Plant = plant.ID_Plant;
+                             }
+                             if (center != null)
+                             {
+                                 user.LDMS_M_Center = center;
+                                 user.ID_Center = center.ID_Center;
+                             }
+                             if (division != null)
+                             {
+                                 user.LDMS_M_Division = division;
+                                 user.ID_Division = division.ID_Division;
                              }
                              if (depart != null)
                              {
                                  user.LDMS_M_Department = depart;
                                  user.ID_Department = depart.ID_Department;
                              }
+                             if (section != null)
+                             {
+                                 user.LDMS_M_Section = section;
+                                 user.ID_Section = section.ID_Section;
+                             }
                              return user;
                          },
-                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                      splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section",
                            param: new { @param_EmployeeId = employeeId });
 
                     var user = items.FirstOrDefault();
+                    if (user != null)
+                    {
+                        var roles = await All<LDMS_M_Role>("Role");
+                        var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                        var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
+                        user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    }
                     return new ServiceResult(user);
                 }
             }
@@ -126,43 +181,44 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> UpdateUserSection(List<LDMS_M_UserRole> userRoles)
+        public async Task<ServiceResult> UpdateUserSection(List<LDMS_M_User> userRoles)
         {
             try
             {
                 var groupBySection = userRoles.GroupBy(e => e.ID_Section);
                 foreach (var section in groupBySection)
                 {
-                    var secHeads = section.Where(e => e.IsSectionHead == 1).ToList();
+                    var secHeads = section.Where(e => e.IsSectionHead).ToList();
                     if (secHeads.Count > 1)
                     {
                         return new ServiceResult(new Exception("One Section Allow One Header"));
                     }
                 }
                 var updateBy = JwtManager.Instance.GetUserId(HttpContext.Request);
-                using (System.Data.IDbConnection conn = Connection)
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Employee_ID", typeof(string));
+                dt.Columns.Add("ID_Section", typeof(int));
+                dt.Columns.Add("Is_Header", typeof(bool));
+                foreach (var role in userRoles)
                 {
-                    using (var transaction = conn.BeginTransaction())
-                    {
-                        foreach (var item in userRoles)
-                        {
-                            var items = Connection.Query<SQLError>(_schema + ".[usp_LDMS_M_UserRole_UpdateSection] @employeeId,@sectionId,@sectionHeader,@updateBy",
-                               new
-                               {
-                                   @employeeId = item.EmployeeID,
-                                   @sectionId = item.ID_Section,
-                                   @sectionHeader = item.IsSectionHead,
-                                   @updateBy = updateBy
-                               });
-                            if (items != null && items.Any())
-                            {
-                                transaction.Rollback();
-                                return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
-                            }
-                        }
-                        transaction.Commit();
-                        return new ServiceResult();
+                    DataRow row = dt.NewRow();
+                    row["Employee_ID"] = role.EmployeeID;
+                    row["ID_Section"] = role.ID_Section;
+                    row["Is_Header"] = role.ID_Section > 0?role.IsSectionHead:false;
+                    dt.Rows.Add(row);
+                }
+
+                using (IDbConnection conn = Connection)
+                {
+                    var parameters = new DynamicParameters();  
+                    parameters.Add("@UserSectionTable", dt, DbType.Object);
+                    parameters.Add("@updateBy", updateBy);
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_LDMS_M_User_UpdateSection]", param: parameters, commandType: CommandType.StoredProcedure);
+                    if (items != null && items.Any())
+                    { 
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    return new ServiceResult();
                 }
             }
             catch (Exception x)
@@ -176,32 +232,52 @@ namespace LDMS.Services
         {
             try
             {
+                var roles = await All<LDMS_M_Role>("Role");
+                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                       (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
-                         map: (user, userRole, role, depart, plant) =>
-                         {
-                             if (userRole != null)
-                             {
-                                 userRole.LDMS_M_Role = role;
-                             }
-                             user.LDMS_M_UserRole = userRole;
-                             if (plant != null)
-                             {
-                                 user.LDMS_M_Plant = plant;
-                             }
-                             if (depart != null)
-                             {
-                                 user.LDMS_M_Department = depart;
-                                 user.ID_Department = depart.ID_Department;
-                             }
-                             return user;
-                         },
-                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_Section, LDMS_M_User>
+                      (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
+                      map: (user, plant, center, division, depart, section) =>
+                      {
+                          if (plant != null)
+                          {
+                              user.LDMS_M_Plant = plant;
+                              user.ID_Plant = plant.ID_Plant;
+                          }
+                          if (center != null)
+                          {
+                              user.LDMS_M_Center = center;
+                              user.ID_Center = center.ID_Center;
+                          }
+                          if (division != null)
+                          {
+                              user.LDMS_M_Division = division;
+                              user.ID_Division = division.ID_Division;
+                          }
+                          if (depart != null)
+                          {
+                              user.LDMS_M_Department = depart;
+                              user.ID_Department = depart.ID_Department;
+                          }
+                          if (section != null)
+                          {
+                              user.LDMS_M_Section = section;
+                              user.ID_Section = section.ID_Section;
+                          }
+                          return user;
+                      },
+                      splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section",
                            param: new { @param_DepartmentId = departmentId });
-                    var user = items.ToList();
-                    return new ServiceResult(user);
+                    var users = items.ToList();
+                    users.ForEach(user =>
+                    {
+                        user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    });
+                    return new ServiceResult(users);
                 }
             }
             catch (Exception x)
@@ -214,32 +290,53 @@ namespace LDMS.Services
         {
             try
             {
+                var roles = await All<LDMS_M_Role>("Role");
+                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
+
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                       (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
-                         map: (user, userRole, role, depart, plant) =>
-                         {
-                             if (userRole != null)
-                             {
-                                 userRole.LDMS_M_Role = role;
-                             }
-                             user.LDMS_M_UserRole = userRole;
-                             if (plant != null)
-                             {
-                                 user.LDMS_M_Plant = plant;
-                             }
-                             if (depart != null)
-                             {
-                                 user.LDMS_M_Department = depart;
-                                 user.ID_Department = depart.ID_Department;
-                             }
-                             return user;
-                         },
-                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_Section, LDMS_M_User>
+                   (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
+                          map: (user, plant, center, division, depart, section) =>
+                          {
+                              if (plant != null)
+                              {
+                                  user.LDMS_M_Plant = plant;
+                                  user.ID_Plant = plant.ID_Plant;
+                              }
+                              if (center != null)
+                              {
+                                  user.LDMS_M_Center = center;
+                                  user.ID_Center = center.ID_Center;
+                              }
+                              if (division != null)
+                              {
+                                  user.LDMS_M_Division = division;
+                                  user.ID_Division = division.ID_Division;
+                              }
+                              if (depart != null)
+                              {
+                                  user.LDMS_M_Department = depart;
+                                  user.ID_Department = depart.ID_Department;
+                              }
+                              if (section != null)
+                              {
+                                  user.LDMS_M_Section = section;
+                                  user.ID_Section = section.ID_Section;
+                              }
+                              return user;
+                          },
+                      splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section",
                            param: new { @param_SectionId = sectionId });
-                    var user = items.ToList();
-                    return new ServiceResult(user);
+                    var users = items.ToList();
+                    users.ForEach(user =>
+                    {
+                        user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    });
+                    return new ServiceResult(users);
                 }
             }
             catch (Exception x)
@@ -254,38 +351,22 @@ namespace LDMS.Services
             try
             {
                 using (System.Data.IDbConnection conn = Connection)
-                {
-                    var items = Connection.Query<LDMS_M_User, LDMS_M_UserRole, LDMS_M_Role, LDMS_M_Department, LDMS_M_Plant, LDMS_M_User>
-                       (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
-                         map: (user, userRole, role, depart, plant) =>
-                         {
-                             if (userRole != null)
-                             {
-                                 userRole.LDMS_M_Role = role;
-                             }
-                             user.LDMS_M_UserRole = userRole;
-                             user.LDMS_M_Department = depart;
-                             user.LDMS_M_Plant = plant;
-                             return user;
-                         },
-                         splitOn: "UserRoleId,RoleId,ID_Department,ID_Plant",
-                           param: new { @param_EmployeeId = username });
-
-                    var user = items.FirstOrDefault();
+                { 
+                    var user = (await GetUserByEmployeeId(username)).Data as LDMS_M_User;
                     if (user == null)
                     {
                         CreateDataLog(DataLogType.LoginFaild, username, "EmployeeID not found");
                         throw new Exception("Unauthorized");
                     }
                     bool isAuthenPass = false;
-                    if (user.IsAD == 1)
+                    if (user.IsAD)
                     {
                         isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
                         if(!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with AD.");
                     }
                     else
                     {
-                        var passwordHash = PasswordHelper.GenerateSaltedHash(password, user.LDMS_M_UserRole.passwordSalt);
+                        var passwordHash = PasswordHelper.GenerateSaltedHash(password, user.PasswordSalt);
                         isAuthenPass = _localAuthenticationService.Authenticate(username, passwordHash);
                         if (!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with Local.");
                     }
@@ -302,19 +383,19 @@ namespace LDMS.Services
                             new Claim(ClaimTypes.NameIdentifier, user.EmployeeID),
                             new Claim(ClaimTypes.Name, user.EmployeeID),
                             new Claim("PLANTID", user.ID_Plant.ToString()),
-                            new Claim("CENTERID", user.ID_Center.GetValueOrDefault().ToString()),
-                            new Claim("DIVISIONID", user.ID_Division.GetValueOrDefault().ToString()),
-                            new Claim("DEPARTMENTID", user.ID_Department.GetValueOrDefault().ToString()),
-                            new Claim("SECTIONTID",user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Section.ToString():""),
-                            new Claim(ClaimTypes.Role,user.LDMS_M_UserRole!=null? user.LDMS_M_UserRole.ID_Role.ToString():"0"),
+                            new Claim("CENTERID", user.ID_Center.ToString()),
+                            new Claim("DIVISIONID", user.ID_Division.ToString()),
+                            new Claim("DEPARTMENTID", user.ID_Department.ToString()),
+                            new Claim("SECTIONTID",user.ID_Section.ToString()),
+                            new Claim(ClaimTypes.Role,user.ID_Role.ToString()),
                         };
                     user.Token = JwtManager.Instance.GenerateJWT(claims);
                     user.RefreshToken = JwtManager.Instance.GenerateRefreshToken();
                     System.Security.Principal.GenericIdentity userIdentity = new System.Security.Principal.GenericIdentity(user.EmployeeID);
-                    userIdentity.AddClaim(new Claim(ClaimTypes.Role, user.LDMS_M_UserRole.ID_Role.ToString()));
+                    userIdentity.AddClaim(new Claim(ClaimTypes.Role, user.ID_Role.ToString()));
                     userIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.EmployeeID));
                     HttpContext.User = new ClaimsPrincipal(userIdentity);
-                    user.LDMS_M_UserRole.Password = null;
+                    user.Password = null;
                     HttpContext.Response.Set("FIRSNAME", user.Name, 120);
                     HttpContext.Response.Set("LASTNAME", user.Surname, 120);
                     HttpContext.Response.Set("FULLNAME", string.Format("{0} {1}", user.Name, user.Surname), 120);
@@ -322,17 +403,17 @@ namespace LDMS.Services
                     HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.GetValueOrDefault()) : "", 120);
                     HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.DepartmentID) : "", 120);
 
-                    HttpContext.Response.Set("PLANTID", user.ID_Plant.ToString(), 120);
-                    HttpContext.Response.Set("CENTERID", user.ID_Center.ToString(), 120);
-                    HttpContext.Response.Set("DIVISIONID", string.Format("{0}", user.ID_Division), 120);
+                    HttpContext.Response.Set("PLANTID",user.LDMS_M_Plant!=null? user.LDMS_M_Plant.ID_Plant.ToString(): user.ID_Plant.ToString(), 120);
+                    HttpContext.Response.Set("CENTERID", user.LDMS_M_Center != null ? user.LDMS_M_Center.ID_Center.ToString() : user.ID_Center.ToString(), 120);
+                    HttpContext.Response.Set("DIVISIONID", user.LDMS_M_Division != null ? user.LDMS_M_Division.ID_Division.ToString() :  user.ID_Division.ToString(), 120);
                     HttpContext.Response.Set("DEPARTMENTID", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.ID_Department) : "", 120);
-                    HttpContext.Response.Set("SECTIONTID", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.ID_Section.GetValueOrDefault().ToString() : "0", 120);
+                    HttpContext.Response.Set("SECTIONTID", user.LDMS_M_Section != null ? user.LDMS_M_Section.ID_Section.ToString() : "0", 120);
 
-                    HttpContext.Response.Set("JOBGRADEID", user.ID_JobGrade.GetValueOrDefault().ToString(), 120);
-                    HttpContext.Response.Set("JOBTITLEID", user.ID_JobTitle.GetValueOrDefault().ToString(), 120);
-                    HttpContext.Response.Set("FACEIMAGE", "~/assets/images/svg/user-icon.svg", 120);
-                    HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
-                    HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120);
+                    HttpContext.Response.Set("JOBGRADEID", user.ID_JobGrade.ToString(), 120);
+                    HttpContext.Response.Set("JOBTITLEID", user.ID_JobTitle.ToString(), 120);
+                    HttpContext.Response.Set("FACEIMAGE", string.IsNullOrEmpty(user.ProfilePath)? "~/assets/images/svg/user-icon.svg": user.ProfilePath, 120);
+                    HttpContext.Response.Set("FORCECHANGEPASS", user.IsForceChangePass.ToString(), 120);
+                    HttpContext.Response.Set("ALLOWGPP", user.IsAllowGPP.ToString(), 120);
                     HttpContext.Response.Set("ISAD", user.IsAD.ToString(), 120);
 
                     HttpContext.Response.Set("JWToken", user.Token, 120);
@@ -353,24 +434,17 @@ namespace LDMS.Services
 
         private void CheckRedirectPage(LDMS_M_User user)
         {
-            if (user.LDMS_M_UserRole != null)
+            if (user.IsForceChangePass || user.IsFirstLogin)
             {
-                if (user.LDMS_M_UserRole.IsForceChangePass == 1)
-                {
-                    HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
-                }
-                else if (user.LDMS_M_UserRole.Is_AcceptGPP == 0 && user.IsAD == 0)
-                {
-                    HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
-                }
-                else
-                {
-                    HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
-                }
+                HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
+            }
+            else if (!user.IsAllowGPP&& !user.IsAD)
+            {
+                HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
             }
             else
             {
-                HttpContext.Response.Set("REDIRECTPAGE", "/Account/Index", 120);
+                HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
             }
         }
 
@@ -417,10 +491,11 @@ namespace LDMS.Services
                   param: new { @paramRoleId = roleId });
 
                 var groupMenu = items.OrderBy(e => e.LDMS_M_Module.Module_Sequence).GroupBy(e => e.LDMS_M_Module.ID_Module);
+                bool isFirst = true;
                 foreach (var item in groupMenu)
                 {
                     var module = items.Where(e => e.LDMS_M_Module.ID_Module == item.Key).Select(e => e.LDMS_M_Module).FirstOrDefault();
-                    yield return new NavigationMenu()
+                    var menu = new NavigationMenu()
                     {
                         ActionName = "",
                         CadWrite = true,
@@ -430,6 +505,7 @@ namespace LDMS.Services
                         MenuID = module.ModuleID,
                         MenuName = module.ModuleName_EN,
                         MenuUrl = module.Module_URL,
+                        FirstMenu = isFirst,
                         SubMenus = item.OrderBy(e => e.Sequence).Select(e => new SubNavigationMenu()
                         {
                             MenuUrl = e.SubModule_URL,
@@ -442,6 +518,8 @@ namespace LDMS.Services
                             MenuName = e.SubModuleName_EN
                         }).ToList()
                     };
+                    isFirst = false;
+                    yield return menu;
                 }
             }
         }
@@ -504,37 +582,40 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> CreateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
+        public async Task<ServiceResult> CreateUser(LDMS_M_User user)
         {
             try
             {
                 using (System.Data.IDbConnection conn = Connection)
                 {
                     var passsalt = PasswordHelper.CreateSalt();
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Create] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Password,@PasswordSalt ,@Remark,@PhoneNumber, @Email ,@CreateBy",
-                        new
-                        {
-                            @EmployeeId = user.EmployeeID,
-                            @EmployeeName = user.Name,
-                            @EmployeeSurName = user.Surname,
-                            @JobGradeId = user.ID_JobGrade,
-                            @JobTitleId = user.ID_JobTitle,
-                            @CenterId = user.ID_Center,
-                            @DivisionId = user.ID_Division,
-                            @DepartmentId = user.ID_Department,
-                            @SectionId = userRole.ID_Section,
-                            @RoleId = userRole.ID_Role,
-                            @IsInstructer = userRole.IsInstructor,
-                            @IsSectionHead = userRole.IsSectionHead,
-                            @Nationality = user.Nationality,
-                            @Gender = user.Gender,
-                            @PasswordSalt = passsalt,
-                            @Password = PasswordHelper.GenerateSaltedHash(user.EmployeeID, passsalt),
-                            @Remark = userRole.Remark,
-                            @PhoneNumber = user.PhoneNumber,
-                            @Email = user.Email,
-                            @CreateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                        });
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@EmployeeId", user.EmployeeID);
+                    parameter.Add("@EmployeeName", user.Name);
+                    parameter.Add("@EmployeeSurName", user.Surname);
+                    parameter.Add("@JobGradeId", user.ID_JobGrade);
+                    parameter.Add("@JobTitleId", user.ID_JobTitle);
+                    parameter.Add("@CenterId", user.ID_Center);
+                    parameter.Add("@DivisionId", user.ID_Division);
+                    parameter.Add("@DepartmentId", user.ID_Department);
+                    parameter.Add("@SectionId", user.ID_Section);
+                    parameter.Add("@RoleId", user.ID_Role);
+                    parameter.Add("@IsInstructer", user.IsInstructor);
+                    parameter.Add("@IsSectionHead", user.IsSectionHead);
+                    parameter.Add("@Nationality", user.Nationality); 
+                    parameter.Add("@Gender", user.Gender);
+                    parameter.Add("@Password", PasswordHelper.GenerateSaltedHash(user.EmployeeID, passsalt));
+                    parameter.Add("@PasswordSalt", passsalt);
+                    parameter.Add("@Remark", user.Remark, System.Data.DbType.AnsiString);
+                    parameter.Add("@PhoneNumber", user.PhoneNumber);
+                    parameter.Add("@Email", user.Email, System.Data.DbType.AnsiString);
+                    parameter.Add("@CreateBy", JwtManager.Instance.GetUserId(HttpContext.Request));
+                    parameter.Add("@IDCardNumber", user.IDCardNumber);
+                    parameter.Add("@JoinDate", user.JoinDate);
+                    parameter.Add("@OutDate", user.OutDate);
+                    parameter.Add("@DateOfBirth", user.DateOfBirth);
+                    parameter.Add("@ProfilePath",user.ProfilePath);
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Create]", param: parameter);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
@@ -549,38 +630,42 @@ namespace LDMS.Services
             }
         }
 
-        public async Task<ServiceResult> UpdateUser(LDMS_M_User user, LDMS_M_UserRole userRole)
+        public async Task<ServiceResult> UpdateUser(LDMS_M_User user)
         {
             try
             {
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Update] @EmployeeId, @EmployeeName ,@EmployeeSurName, @JobGradeId,@JobTitleId,@CenterId ,@DivisionId,@DepartmentId , @SectionId, @RoleId, @IsInstructer, @IsSectionHead,@Nationality,@Gender,@Remark,@PhoneNumber, @Email ,@UpdateBy",
-                        new
-                        {
-                            @EmployeeId = user.EmployeeID,
-                            @EmployeeName = user.Name,
-                            @EmployeeSurName = user.Surname,
-                            @JobGradeId = user.ID_JobGrade,
-                            @JobTitleId = user.ID_JobTitle,
-                            @CenterId = user.ID_Center,
-                            @DivisionId = user.ID_Division,
-                            @DepartmentId = user.ID_Department,
-                            @SectionId = userRole.ID_Section,
-                            @RoleId = userRole.ID_Role,
-                            @IsInstructer = userRole.IsInstructor,
-                            @IsSectionHead = userRole.IsSectionHead,
-                            @Nationality = user.Nationality,
-                            @Gender = user.Gender,
-                            @Remark = userRole.Remark,
-                            @PhoneNumber = user.PhoneNumber,
-                            @Email = user.Email,
-                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                        });
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@ID_Employee", user.ID_User);
+                    parameter.Add("@EmployeeId", user.EmployeeID);
+                    parameter.Add("@EmployeeName", user.Name);
+                    parameter.Add("@EmployeeSurName", user.Surname);
+                    parameter.Add("@JobGradeId", user.ID_JobGrade);
+                    parameter.Add("@JobTitleId", user.ID_JobTitle);
+                    parameter.Add("@CenterId", user.ID_Center);
+                    parameter.Add("@DivisionId", user.ID_Division);
+                    parameter.Add("@DepartmentId", user.ID_Department);
+                    parameter.Add("@SectionId", user.ID_Section);
+                    parameter.Add("@RoleId", user.ID_Role);
+                    parameter.Add("@IsInstructer", user.IsInstructor);
+                    parameter.Add("@IsSectionHead", user.IsSectionHead);
+                    parameter.Add("@Nationality", user.Nationality);
+                    parameter.Add("@Gender", user.Gender);
+                    parameter.Add("@Remark", user.Remark);
+                    parameter.Add("@PhoneNumber", user.PhoneNumber);
+                    parameter.Add("@Email", user.Email);
+                    parameter.Add("@UpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request));
+                    parameter.Add("@IDCardNumber", user.IDCardNumber);
+                    parameter.Add("@JoinDate", user.JoinDate);
+                    parameter.Add("@OutDate", user.OutDate);
+                    parameter.Add("@DateOfBirth", user.DateOfBirth);
+                    parameter.Add("@ProfilePath", user.ProfilePath);
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Create]", param: parameter);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
-                    }
+                    } 
                     CreateDataLog(DataLogType.UpdateAccount, user.EmployeeID, string.Format("Update {0}", user.EmployeeID));
                     return await GetUserByEmployeeId(user.EmployeeID);
                 }
@@ -602,7 +687,7 @@ namespace LDMS.Services
                 {
                     var passsalt = PasswordHelper.CreateSalt();
                     var newHaspass = PasswordHelper.GenerateSaltedHash(newpassword, passsalt);
-                    var oldPasshash = PasswordHelper.GenerateSaltedHash(currentPassword, (emp.Data as LDMS_M_User).LDMS_M_UserRole.passwordSalt);
+                    var oldPasshash = PasswordHelper.GenerateSaltedHash(currentPassword, (emp.Data as LDMS_M_User).PasswordSalt);
 
                     var items = Connection.Query<SQLError>(_schema + ".[usp_User_ChangePassword] @EmployeeId, @OldPassword, @Password,@PasswordSalt,@UpdateBy",
                         new
@@ -621,8 +706,8 @@ namespace LDMS.Services
 
                     var user = emp.Data as LDMS_M_User;
 
-                    HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
-                    HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120); 
+                    HttpContext.Response.Set("FORCECHANGEPASS", user.IsForceChangePass.ToString(), 120);
+                    HttpContext.Response.Set("ALLOWGPP", user.IsAllowGPP.ToString(), 120); 
                     CheckRedirectPage(emp.Data as LDMS_M_User);
                     CreateDataLog(DataLogType.ChangePassword, employeeId, "Change Password.");
                     return emp;
@@ -639,26 +724,25 @@ namespace LDMS.Services
         {
             try
             {
-                var emp = await GetUserByEmployeeId(employeeId);
+              //  var emp = await GetUserByEmployeeId(employeeId);
 
                 using (System.Data.IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_AllowGPP] @EmployeeId, @IsAllow,@UpdateBy",
-                        new
-                        {
-                            @EmployeeId = employeeId,
-                            @IsAllow = isAllow ? 1 : 0,
-                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                        });
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@EmployeeId", employeeId, System.Data.DbType.String);
+                    parameter.Add("@IsAllow", isAllow?1:0, System.Data.DbType.Int32);
+                    parameter.Add("@UpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request), System.Data.DbType.String);
+
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_AllowGPP]", param: parameter, commandType: System.Data.CommandType.StoredProcedure);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
+                    var emp = await GetUserByEmployeeId(employeeId);
                     var user = emp.Data as LDMS_M_User;
-
-                    HttpContext.Response.Set("FORCECHANGEPASS", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.IsForceChangePass.ToString() : "0", 120);
-                    HttpContext.Response.Set("ALLOWGPP", user.LDMS_M_UserRole != null ? user.LDMS_M_UserRole.Is_AcceptGPP.ToString() : "0", 120); 
-                    emp = await GetUserByEmployeeId(employeeId);
+                    HttpContext.Response.Set("FORCECHANGEPASS", user.IsForceChangePass.ToString(), 120);
+                    HttpContext.Response.Set("ALLOWGPP", user.IsAllowGPP.ToString(), 120); 
+                
                     CheckRedirectPage(emp.Data as LDMS_M_User);
                     CreateDataLog(DataLogType.AcceptGPP, employeeId, string.Format("Allow {0}", isAllow));
                     return emp;

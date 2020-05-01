@@ -31,6 +31,8 @@
     <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jslinq/linq.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jslinq/linq.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <!--[if lt IE 9]>
         <script src="~/lib/html5shiv/html5shiv.js"></script>
         <script src="~/lib/respond.js/respond.min.js"></script>
@@ -71,9 +73,9 @@
     @RenderSection("Scripts", required: false)
     @RenderSection("Header", required: false)
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-</head> 
-<body style="height:100%; width:100%;background:linear-gradient(bottom, #fff, #00c6fb);">
-    <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:no-content;">
+</head>
+<body style="background:linear-gradient(bottom, #fff, #00c6fb);">
+    <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:auto;">
         <header class="topbar">
             <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
                 <div class="navbar-header">
@@ -89,8 +91,8 @@
             </nav>
         </header>
     </div>
-    <div id="content" style="position:absolute; top:0; bottom:0; left:0px; right:0px; overflow:auto;">
-        <aside class="left-sidebar">
+    <div id="content" style="position:absolute; top:0; bottom:0; left:0px; right:0px;overflow:no-content;">
+        <aside class="left-sidebar" style="height:70%;">
             <div class="user-profile">
                 <div class="profile-img">
                     <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
@@ -104,12 +106,12 @@
                 </div>
             </div>
             <div class="scroll-sidebar" id="scroll-sidebar">
-                <nav class="sidebar-nav" style="height:100%;overflow-y:auto">
+                <nav class="sidebar-nav">
                     @await Component.InvokeAsync("NavigationMenu")
                 </nav>
             </div>
         </aside>
-        <aside class="right-sidebar">
+        <aside class="right-sidebar" style="height:100%;overflow:auto;">
             <div class="page-wrapper">
                 <div class="page-titles">
                     <div class="col-md-5 col-8 align-self-center" style="margin-top:75px;">
@@ -127,77 +129,6 @@
                 <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
             </div>
         </aside>
-            @*<div class="page-wrapper">
-                <div class="page-titles">
-                    <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="page-body">
-                    @RenderBody()
-                </div>
-            </div>*@
     </div>
-    @*<div id="footer" style="position:relative; bottom:0px; height:50px; left:0px; right:0px; overflow:no-content;">
-        <span class="text-center" style="width:100%;margin-left:25%;">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
-    </div>*@
 </body>
-</html>
-
-@*<body class="fix-header card-no-border">  
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
-                        <b>
-                            <img src='@Url.Content("~/assets/images/logo-light-icon.png")' class="light-logo" alt="homepage" />
-                            <img src='@Url.Content("~/assets/images/logo-light-text.png")' class="light-logo" alt="homepage" />
-                        </b>
-                    </a>
-                </div>
-                <div class="head-title"><h1>Learning and Development Management System</h1></div>
-                <div class="logo-img"><img src="~/assets/images/svg/STT.svg" alt="homepage" /></div>
-            </nav>
-        </header> 
-        <aside class="left-sidebar">
-            <div class="user-profile">
-                <div class="profile-img">
-                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
-                </div>
-                <div class="profile-text">
-                    <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
-                    <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
-                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
-                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
-                    <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
-                </div>
-            </div>
-            <div class="scroll-sidebar" id="scroll-sidebar">
-                <nav class="sidebar-nav" style="height:800px;overflow-y:auto">
-                    @await Component.InvokeAsync("NavigationMenu")
-                </nav>
-            </div>
-        </aside>
-        <div class="page-wrapper" style="margin-top:70px;">
-            <div class="container-fluid">
-                <div class="row page-titles">
-                    <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="row page-body">
-                    @RenderBody()
-                </div>
-                <div class="row">
-                    <footer class="footer" style="margin-left:-150px;"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
-                </div> 
-            </div>
-        </div> 
-</body>
-</html>*@  
+</html> 

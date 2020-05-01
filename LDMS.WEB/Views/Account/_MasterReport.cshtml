@@ -3,13 +3,13 @@
         <div class="form-horizontal" style="margin-top:25px">
             <div class="row form-group">
                 <div class="col-sm-2 col-md-2 offset-2"> 
-                    <input type='checkbox' name='Instructor' value='Instructor' id="Instructor" /><label for="Instructor">Instructor</label> 
+                    <input type='radio' name='reportType' checked="checked" onchange="OnChangeMasterType(this);" value='Instructor' id="Instructor" /><label for="Instructor">Instructor</label> 
                 </div>
                 <div class="col-sm-2 col-md-2">
-                    <input type='checkbox' name='Platform' value='Platform' id="Platform" /><label for="Platform">Platform</label> 
+                    <input type='radio' name='reportType' onchange="OnChangeMasterType(this);" value='Platform' id="Platform" /><label for="Platform">Platform</label> 
                 </div>
                 <div class="col-sm-2 col-md-2">
-                    <input type='checkbox' name='Course' value='Course' id="Course" /><label for="Course">Course</label> 
+                    <input type='radio' name='reportType' onchange="OnChangeMasterType(this);" value='Course' id="Course" /><label for="Course">Course</label> 
                 </div>
             </div>
             <div class="row form-group">
@@ -19,7 +19,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <input type="text" style="width: 100%" class="form-control input-sm" />
+                    <input type="text" id="txtInstructorId" style="width: 100%" class="form-control input-sm" />
                 </div>
             </div>
             <div class="row form-group">
@@ -29,7 +29,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select id="selectPlatform" name="selectPlatform" title="Please Enter Section" class="form-control" style="width: 100%">
+                    <select id="selectPlatform" name="selectPlatform"  disabled title="Please Enter Section" class="form-control" style="width: 100%">
                     </select>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select id="selectCourse" name="selectCourse" title="Please Enter Course" class="form-control" style="width: 100%">
+                    <select id="selectCourse" name="selectCourse"   disabled title="Please Enter Course" class="form-control" style="width: 100%">
                     </select>
                 </div>
             </div>
@@ -51,11 +51,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select required id="selectMasterReportDepartment" name="selectMasterReportDepartment" title="Please Enter Department" class="form-control" style="width: 100%">
-                        @*@foreach (var std in ViewData["Department"] as IList<LDMS.ViewModels.LDMS_M_Department>)
-                        {
-                            <option value="@std.ID">@std.DepartmentID - @std.DepartmentName_EN</option>
-                        }*@
+                    <select required id="selectMasterReportDepartment" name="selectMasterReportDepartment" title="Please Enter Department" class="form-control" style="width: 100%"> 
                     </select>
                 </div>
             </div>
@@ -66,11 +62,7 @@
                     </span>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <select id="selectMasterReportJobGrade" name="selectMasterReportJobGrade" class="form-control" style="width: 100%">
-                        @*@foreach (var std in ViewData["JobsGrade"] as IList<LDMS.ViewModels.LDMS_M_JobGrade>)
-                        {
-                            <option value="@std.ID">@std.JobGradeID - @std.JobGradeName_EN</option>
-                        }*@
+                    <select id="selectMasterReportJobGrade" name="selectMasterReportJobGrade" class="form-control" style="width: 100%"> 
                     </select>
                 </div>
             </div>
@@ -115,7 +107,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-1 col-md-1 offset-10">
-                    <button id="btnSaveEmployee" class="btn btn-success waves-effect waves-light" style="width:100%"> Export - I </button>
+                    <button id="btnSaveEmployee" class="btn btn-success waves-effect waves-light" style="width:100%"> Export </button>
                 </div> 
             </div>
         </div>

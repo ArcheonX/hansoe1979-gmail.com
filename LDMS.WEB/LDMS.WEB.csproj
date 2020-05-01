@@ -50,6 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\ClassRegister\" />
     <Folder Include="wwwroot\Uploads\Instructor\" />
   </ItemGroup>
 

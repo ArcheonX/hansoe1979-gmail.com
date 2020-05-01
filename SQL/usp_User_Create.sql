@@ -34,12 +34,17 @@ CREATE OR ALTER   PROCEDURE [dbo].[usp_User_Create]
 	@IsSectionHead INT,
 	@Nationality nvarchar(50)  =null,
 	@Gender nvarchar(10)  =null,
-	@Password  nvarchar(1024),
-	@PasswordSalt  nvarchar(1024),
+	@Password  nvarchar(1024) =null,
+	@PasswordSalt  nvarchar(1024) =null,
 	@Remark nvarchar(250)  =null,
 	@PhoneNumber  nvarchar(50)  =null,
 	@Email  nvarchar(50)  =null,
-	@CreateBy  nvarchar(50)  =null
+	@CreateBy  nvarchar(50)  =null,
+	@IDCardNumber nvarchar(50)  =null,
+	@JoinDate datetime =null,
+	@OutDate datetime =null,
+	@DateOfBirth datetime =null,
+	@ProfilePath  nvarchar(250)  =null  
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -47,93 +52,26 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	DECLARE @PlantId INT;
-	DECLARE @JoinDate DATETIME= GETDATE();
+	DECLARE @PlantId INT; 
 	SELECT @PlantId = ID_Plant FROM LDMS_M_Center  WHERE ID = @CenterId;
 	IF EXISTS (SELECT * FROM LDMS_M_User WHERE EmployeeID = @EmployeeId)
 		RAISERROR (100,-1,-1, 'An Employee ID already exists');  
 
 BEGIN TRANSACTION;
 BEGIN TRY
-	INSERT INTO [dbo].[LDMS_M_User]
-           ([EmployeeID]
-           ,[IsAD]
-           ,[DriverLicenseID]
-           ,[IDCardNumber]
-           ,[Gender]
-           ,[Name]
-           ,[Surname]
-           ,[Nationality]
-           ,[ID_JobGrade]
-           ,[ID_JobTitle]
-           ,[ID_Plant]
-           ,[ID_Center]
-           ,[ID_Division]
-           ,[ID_Department]
-           ,[JoinDate]
-           ,[OutDate]
-           ,[DateOfBirth]
-           ,[PhoneNumber]
-           ,[Email]
-           ,[ProfilePath]
-           ,[CreateBy]
-           ,[CreateDate]
-           ,[UpdateBy]
-           ,[UpdateDate]
-           ,[IsActive])
+INSERT INTO [dbo].[LDMS_M_User] ([EmployeeID] ,[Name] ,[Surname] ,[Gender] ,[Nationality] ,[Email] ,[PhoneNumber]
+           ,[IsAD] ,[DriverLicenseID] ,[IDCardNumber] ,[ID_JobGrade] ,[ID_JobTitle] 
+		   ,[ID_Plant] ,[ID_Center] ,[ID_Division] ,[ID_Department],[ID_Section] ,[ID_Role]
+           ,[JoinDate] ,[OutDate] ,[DateOfBirth] ,[ProfilePath]  ,[Password] ,[PasswordSalt]
+           ,[Remark] ,[IsInstructor] ,[IsSectionHead]  ,[IsForceChangePass] ,[IsAllowGPP] ,[Is_FirstLogin]
+           ,[IsActive] ,[IsDeleted] ,[IsLocked] ,[CreateBy] ,[CreateDate])
      VALUES
-           (@EmployeeId
-           ,0
-           ,null
-           ,null
-           ,@Gender
-           ,@EmployeeName
-           ,@EmployeeSurName
-           ,@Nationality
-           ,@JobGradeId
-           ,@JobTitleId
-           ,@PlantId
-           ,@CenterId
-           ,@DivisionId
-           ,@DepartmentId
-           ,@JoinDate
-           ,null
-           ,null
-           ,@PhoneNumber
-           ,@Email
-           ,null
-           ,@CreateBy
-           ,null
-           ,null
-           ,null
-           ,1);
-
-INSERT INTO [dbo].[LDMS_M_UserRole]
-           ([EmployeeID]
-           ,[ID_Role]
-           ,[Password]
-           --,[IsInstructor]
-           --,[IsSectionHead]
-           ,[ID_Section]
-           ,[Remark]
-           ,[CreateBy]
-           ,[CreateDate] 
-           ,[IsActive]
-           ,[PasswordSalt]
-		   ,[IsForceChangePass])
-     VALUES
-           (@EmployeeId
-           ,@RoleId
-           ,@Password
-           --,@IsInstructer
-           --,@IsSectionHead
-           ,@SectionId
-           ,@Remark
-           ,@CreateBy
-           ,GETDATE() 
-           ,1
-           ,@PasswordSalt,
-		   0);
+           (@EmployeeId ,@EmployeeName ,@EmployeeSurName ,@Gender ,@Nationality ,@Email ,@PhoneNumber 
+		   ,case when @Email is null or @Email ='' then 0 else 1 end ,null ,@IDCardNumber ,@JobGradeId ,@JobTitleId 
+		   ,@PlantId ,@CenterId ,@DivisionId ,@DepartmentId ,@SectionId  ,@RoleId
+           ,@JoinDate ,@OutDate  ,@DateOfBirth ,@ProfilePath  ,@Password ,@PasswordSalt
+           ,@Remark ,@IsInstructer  ,@IsSectionHead ,case when @Email is null or @Email ='' then 1 else 0 end ,0 ,1
+           ,1 ,0 ,0 ,@CreateBy ,GETDATE());
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH

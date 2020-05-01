@@ -29,7 +29,7 @@ namespace LDMS.WEB.Controllers
             return View();
         }
         [AuthorizeRole(UserRole.AdminHR, UserRole.SuperAdmin)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
         [HttpGet]
         [Route("Report/GetIMasterReport")]
         public async Task<IActionResult> GetIMasterReport(MasterReportFilterModel model)

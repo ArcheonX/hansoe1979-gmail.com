@@ -862,7 +862,7 @@
                     var options = $('#selectPlant');
                     options.append($("<option />").val(null).text("Please select"));
                     $.each(response.Data, function () {
-                        options.append($("<option />").val(this.ID).text(this.PlantName_EN));
+                        options.append($("<option />").val(this.ID_Plant).text(this.PlantName_EN));
                     });
                     $('select[name="selectPlant"]').val($('#hID_PlantTarget').val()).trigger('change');
                 },
@@ -992,7 +992,7 @@
                         options.append($("<option />").val(null).text("Please select"));
                         $.each(response.Data, function () {
                             //if (this.ID_Plant == plantId) {
-                               options.append($("<option />").val(this.ID).text(this.CenterName_EN));
+                               options.append($("<option />").val(this.ID_Center).text(this.CenterName_EN));
                             //}
                         });
                         $('select[name="selectCenter"]').val($('#hID_CenterTarget').val()).trigger('change');
@@ -1031,7 +1031,7 @@
                         options.append($("<option />").val(null).text("Please select"));
                         $.each(response.Data, function () {
                             //if (this.ID_Center == centerId) {
-                                options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
+                                options.append($("<option />").val(this.ID_Division).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
                             //}
                         });
                         $('select[name="selectDivision"]').val($('#hID_DivisionTarget').val()).trigger('change');
@@ -1103,7 +1103,7 @@
                         options.append($("<option />").val(null).text("Please select"));
                         $.each(response.Data, function () {
                             //if (this.ID_Department == departmentId) {
-                                options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
+                                options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN));
                             //}
                         });
 

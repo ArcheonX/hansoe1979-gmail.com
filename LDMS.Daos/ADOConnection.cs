@@ -11,7 +11,7 @@ namespace LDMS.Daos
         }
         public override IDbConnection GetConnection()
         {
-            return new SqlConnection(_connectionstring);
+            return (IDbConnection) new SqlConnection(_connectionstring);  
         }
     } 
 }

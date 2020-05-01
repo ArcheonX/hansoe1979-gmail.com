@@ -39,7 +39,7 @@ BEGIN
 	Instructor.Instructor_Name as "Name",
 	CASE Instructor.IsActive WHEN 1 THEN 'Active' ELSE 'In Active' END AS   "Status",
 	Instructor.[Type] AS "Type",
-	Instructor.ID_Employee AS "EmpID",
+	Instructor.EmployeeID AS "EmpID",
 	'' AS "Job Level",
 	'' AS "Job Grade",
 	'' AS "Job Title",

@@ -8,6 +8,14 @@
         $('#txtUserName').val("");
         $('#txtPassword').val("");
     }
+
+    $("#txtPassword").bind("keyup", function (event) {
+        var code = (event.keyCode ? event.keyCode : event.which);
+        if (code == 13) {
+            event.preventDefault();
+            OnAuthentication();
+        }
+    });
 });
 function OnAuthentication() {
     //MessageController.BlockUI({

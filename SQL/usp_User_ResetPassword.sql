@@ -30,11 +30,11 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-	IF EXISTS (SELECT * FROM [dbo].[LDMS_M_UserRole] WHERE [EmployeeID]  = @EmployeeId)
+	IF EXISTS (SELECT * FROM [dbo].[LDMS_M_User] WHERE [EmployeeID]  = @EmployeeId)
 		BEGIN
 
 		-- Insert statements for procedure here
-		UPDATE	[dbo].[LDMS_M_UserRole]
+		UPDATE	[dbo].[LDMS_M_User]
 			SET 
 				[Password] = @Password   
 			   ,[IsActive] = 1
