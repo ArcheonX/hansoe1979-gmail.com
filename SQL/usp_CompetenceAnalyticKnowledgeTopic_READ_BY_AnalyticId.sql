@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId] 4
+-- EXEC [dbo].[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId] 1
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalyticKnowledgeTopic_READ_BY_AnalyticId] 
 @AnalyticId INT
@@ -27,7 +27,8 @@ BEGIN
 	KnwldTopic.ID,
 	KnwldTopic.ID_CompetenceAnalytic, 
 	KnwldTopic.ID_Course,
-	KnwldTopic.KnowledgeTopicName 
+	KnwldTopic.KnowledgeTopicName,
+	ISNULL(KnwldTopic.Expectatoin,5) AS Expectatoin
 	FROM LDMS_T_CompetenceAnalytic_KnwldTopic KnwldTopic WITH (NOLOCK)
 	where KnwldTopic.ID_CompetenceAnalytic = @AnalyticId  and KnwldTopic.Is_Active = 1;
 

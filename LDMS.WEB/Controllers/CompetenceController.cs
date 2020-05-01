@@ -93,7 +93,7 @@ namespace LDMS.WEB.Controllers
             , List<ViewModels.TCompetenceAnalyticEmployee> employees
             , List<ViewModels.TCompetenceAnalyticTopic> topics)
         {
-            return Response(await CompetenceAnalyticService.CreateCompetence(competenceAnalytic, employees, topics));
+            return Response(await CompetenceAnalyticService.CreateCompetence(competenceAnalytic, employees,topics));
         }
 
         [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None)]
@@ -112,10 +112,9 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.All)]
         [Route("Competence/UpdateCompetenceScore")]
         public async Task<IActionResult> UpdateCompetenceScore(int competenceId
-            , List<ViewModels.TCompetenceAnalyticScore> scores
-            , List<ViewModels.TCompetenceAnalyticExpectatoin> expectatoins)
+            , List<ViewModels.TCompetenceAnalyticScore> scores )
         {
-            return Response(await CompetenceAnalyticService.UpdateCompetenceScore(competenceId, expectatoins, scores));
+            return Response(await CompetenceAnalyticService.UpdateCompetenceScore(competenceId, scores));
         }
     }
 }

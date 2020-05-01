@@ -1,7 +1,7 @@
 ﻿var topics = [];
 var employees = [];
 var tmpselection = [];
-
+//var expectatoins = [];
 (function ($) {
     "use strict";
     $(document).ready(function () {
@@ -48,6 +48,7 @@ var tmpselection = [];
                 Topic: "",
                 IsSpecial: false,
                 ID_Course: 0,
+                Expectatoin:0,
                 Action: "",
             });
             topics.pop();
@@ -87,6 +88,7 @@ function LoadCompetence(analytic_id) {
                     Topic: this.KnowledgeTopicName,
                     IsSpecial: this.ID_Course > 0 ? false : true,
                     ID_Course: this.ID_Course,
+                    Expectatoin: this.Expectatoin,
                     Action: "",
                 });
                 index++;
@@ -101,8 +103,8 @@ function LoadCompetence(analytic_id) {
                 });
                 index++;
             });
-            RefreshExployees(); 
-            RefreshTopic(); 
+            RefreshExployees();
+            RefreshTopic();
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -118,7 +120,7 @@ function LoadCompetence(analytic_id) {
                 MessageController.Error(response.responseText, "Error");
             }
         }
-    }); 
+    });
 }
 
 function CreateEmployeePopup() {
@@ -203,6 +205,7 @@ function AddTopic(item) {
             Topic: text,
             IsSpecial: special, 
             ID_Course: id_course,
+            Expectatoin: 5,
             Action: "",
         }; 
         topics.push(topic); 
@@ -221,6 +224,14 @@ function RefreshTopic() {
             { data: 'Index', title:'#' },
             { data: 'Topic', title: 'Topic' },
             {
+               "mData": "Expectatoin",
+                "title": 'Expectatoin',
+                "width":"50px",
+                "mRender": function (data, type, row) {
+                    return '<input type="number" id="txtExpectatoin_' + row.TopicId + '" style="width:100%;text-align:center" onkeypress="validate(event)" class="quantity"   min="0"  max="5" value="' + data+'" />';                    
+                }
+            },
+            {
                 "mData": "IsSpecial",
                 title: 'Special',
                 "mRender": function (data, type, row) {
@@ -235,7 +246,7 @@ function RefreshTopic() {
             {
                 "mData": "Index",
                 "mRender": function(data, type, row) {
-                    return '<a onclick="DeleteTopic(' + data + ')" style="cursor: pointer" id="btnDeleteTopic"><img src="/assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /> </a>';
+                    return '<a onclick="DeleteTopic(' + data + ')" style="cursor: pointer" style="padding-left:15px;" id="btnDeleteTopic"><img src="/assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /> </a>';
                 }
             }
        ], 
@@ -532,8 +543,7 @@ function SearchEmployee() {
                     { data: 'JobTitle', title: 'Job Title' },
                     {
                         "mData": "EmployeeId",
-                        "mRender": function (data, type, row) {
-                            debugger;
+                        "mRender": function (data, type, row) { 
                             var isSelect = employees.any((item) => {
                                 return data.trim() == item.EmployeeId.trim();
                             }); 
@@ -604,7 +614,8 @@ function OnSaveCompetence() {
         listTopics.push({
             ID: t.TopicId,
             ID_Course: t.ID_Course,
-            KnowledgeTopicName: t.Topic
+            KnowledgeTopicName: t.Topic,
+            Expectatoin: t.Expectatoin
         })
     });
 
@@ -658,4 +669,22 @@ function OnSaveCompetence() {
         }
     });
 
+}
+
+function validate(evt) {
+    var theEvent = evt || window.event;
+
+    // Handle paste
+    if (theEvent.type === 'paste') {
+        key = event.clipboardData.getData('text/plain');
+    } else {
+        // Handle key press
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+    }
+    var regex = /[0-5]|\./;
+    if (!regex.test(key)) {
+        theEvent.returnValue = false;
+        if (theEvent.preventDefault) theEvent.preventDefault();
+    }
 }

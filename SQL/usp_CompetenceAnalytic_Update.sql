@@ -33,7 +33,7 @@ CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalytic_Update]
 	@ID_EmployeeManager  nvarchar(50),
 	@UpdateBy  nvarchar(50),
 	@EmployeeTable EmployeeIdList readonly,
-	@Topics TopicList readonly
+	@Topics TopicList readonly 
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -60,21 +60,25 @@ BEGIN
 				  ,[Criteria5] = @Criteria5 
 				  ,[UpdateBy] = @UpdateBy
 				  ,[UpdateDate] = GETDATE()
-				  ,[ID_Department] =@ID_Department
+				  ,[ID_Department] = @ID_Department
 				  ,[ID_JobGrade] = @ID_JobGrade
 				  ,[Is_Active] = 1			 	
-			 WHERE ID = @ID_CompetenceAnalytic and Is_Active =1;
-			
+			 WHERE ID = @ID_CompetenceAnalytic and Is_Active =1;  
+
+
+			UPDATE [LDMS_T_CompetenceAnalytic_KnwldTopic]
+			SET [Expectatoin] =TB.Expectatoin
+				 ,[UpdateBy] = @UpdateBy
+				 ,[UpdateDate] = GETDATE()
+			FROM [LDMS_T_CompetenceAnalytic_KnwldTopic] JOIN  @Topics  TB ON [LDMS_T_CompetenceAnalytic_KnwldTopic].ID = TB.ID_Topic AND [LDMS_T_CompetenceAnalytic_KnwldTopic].ID_CompetenceAnalytic = @ID_CompetenceAnalytic
+			WHERE ISNULL(TB.ID_Topic,0) > 0;
 
 			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Employee] ([ID_CompetenceAnalytic] ,[EmployeeID] ,[CreateBy] ,[CreateDate]  ,[IS_ACTIVE])
 			SELECT @ID_CompetenceAnalytic ,TB.EmployeeId ,@UpdateBy ,GETDATE(), 1 FROM @EmployeeTable TB
 			WHERE NOT EXISTS (SELECT * FROM [LDMS_T_CompetenceAnalytic_Employee] TT WHERE TT.[ID_CompetenceAnalytic]= @ID_CompetenceAnalytic AND TT.EmployeeID=TB.EmployeeId AND TT.Is_Active =1)
 
-			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic]  ([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE],[MinScore],[MaxScore])
-			SELECT @ID_CompetenceAnalytic ,TB.ID_Course,TB.TopicName,@UpdateBy ,GETDATE(), 1,
-			CASE WHEN TB.ID_Course>0 THEN NULL ELSE 0 END,
-			CASE WHEN TB.ID_Course>0 THEN NULL ELSE 3 END
-			FROM @Topics  TB
+			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic]  ([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE],[Expectatoin])
+			SELECT @ID_CompetenceAnalytic ,TB.ID_Course,TB.TopicName,@UpdateBy ,GETDATE(), 1,Expectatoin FROM @Topics TB
 			WHERE NOT EXISTS (SELECT * FROM [LDMS_T_CompetenceAnalytic_KnwldTopic] TT WHERE TT.[ID_CompetenceAnalytic]= @ID_CompetenceAnalytic AND TT.ID = TB.ID_Topic AND TT.Is_Active =1);
 
 	COMMIT TRANSACTION;	

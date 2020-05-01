@@ -66,11 +66,15 @@ function OnAuthentication() {
         },
         failure: function (response) { 
             MessageController.UnblockUI('#pn-login');
-            MessageController.Error("Invalid Account", "Login Faild"); 
+            if (response.responseJSON != null && response.responseJSON != undefined && response.responseJSON.Errors.length > 0) {
+                MessageController.Error(response.responseJSON.Errors[0], "Login Faild"); 
+            } else {
+                MessageController.Error("Invalid Account", "Login Faild");
+            }
         },
         error: function (response) { 
             MessageController.UnblockUI('#pn-login');
-            MessageController.Error("Invalid Account", "Login Faild"); 
+            MessageController.Error(response.responseJSON.Errors[0], "Login Faild"); 
         }
     });  
 }

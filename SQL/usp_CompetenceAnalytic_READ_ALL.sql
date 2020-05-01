@@ -33,7 +33,7 @@ BEGIN
 	Criteria5,
 	ID_Department,
 	ID_JobGrade
-	FROM LDMS_T_CompetenceAnalytic WITH (NOLOCK);
+	FROM LDMS_T_CompetenceAnalytic WITH (NOLOCK) WHERE Is_Active=1;
 END
 GO
 

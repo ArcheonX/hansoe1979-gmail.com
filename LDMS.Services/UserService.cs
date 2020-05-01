@@ -125,7 +125,7 @@ namespace LDMS.Services
         {
             try
             {
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
                     var items = Connection.Query<LDMS_M_User, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_Section, LDMS_M_User>
                         (_schema + ".[usp_User_READ_BY_EmployeeId] @param_EmployeeId",
@@ -350,31 +350,34 @@ namespace LDMS.Services
         {
             try
             {
-                using (System.Data.IDbConnection conn = Connection)
-                { 
-                    var user = (await GetUserByEmployeeId(username)).Data as LDMS_M_User;
-                    if (user == null)
-                    {
-                        CreateDataLog(DataLogType.LoginFaild, username, "EmployeeID not found");
-                        throw new Exception("Unauthorized");
-                    }
-                    bool isAuthenPass = false;
-                    if (user.IsAD)
-                    {
-                        isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
-                        if(!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with AD.");
-                    }
-                    else
-                    {
-                        var passwordHash = PasswordHelper.GenerateSaltedHash(password, user.PasswordSalt);
-                        isAuthenPass = _localAuthenticationService.Authenticate(username, passwordHash);
-                        if (!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with Local.");
-                    }
-                    if (!isAuthenPass)
-                    { 
-                        throw new Exception("Unauthorized");
-                    }
-                    List<Claim> claims = new List<Claim>
+                ServiceResult serviceResult = (await GetUserByEmployeeId(username));
+                if (!serviceResult.IsOk)
+                {
+                    return serviceResult;
+                }
+                var user = serviceResult.Data as LDMS_M_User;
+                if (user == null)
+                {
+                    CreateDataLog(DataLogType.LoginFaild, username, "EmployeeID not found");
+                    throw new Exception("EmployeeID not found");
+                }
+                bool isAuthenPass = false;
+                if (user.IsAD)
+                {
+                    isAuthenPass = _ldAPAuthenticationService.Authenticate(username, password);
+                    if (!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with AD.");
+                }
+                else
+                {
+                    var passwordHash = PasswordHelper.GenerateSaltedHash(password, user.PasswordSalt);
+                    isAuthenPass = _localAuthenticationService.Authenticate(username, passwordHash);
+                    if (!isAuthenPass) CreateDataLog(DataLogType.LoginFaild, username, "user signin with Local.");
+                }
+                if (!isAuthenPass)
+                {
+                    throw new Exception("Unauthorized");
+                }
+                List<Claim> claims = new List<Claim>
                         {
                             new Claim(JwtRegisteredClaimNames.Sub, user.EmployeeID),
                             new Claim(ClaimTypes.GivenName, string.IsNullOrEmpty(user.Name)?"":user.Name),
@@ -389,46 +392,42 @@ namespace LDMS.Services
                             new Claim("SECTIONTID",user.ID_Section.ToString()),
                             new Claim(ClaimTypes.Role,user.ID_Role.ToString()),
                         };
-                    user.Token = JwtManager.Instance.GenerateJWT(claims);
-                    user.RefreshToken = JwtManager.Instance.GenerateRefreshToken();
-                    System.Security.Principal.GenericIdentity userIdentity = new System.Security.Principal.GenericIdentity(user.EmployeeID);
-                    userIdentity.AddClaim(new Claim(ClaimTypes.Role, user.ID_Role.ToString()));
-                    userIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.EmployeeID));
-                    HttpContext.User = new ClaimsPrincipal(userIdentity);
-                    user.Password = null;
-                    HttpContext.Response.Set("FIRSNAME", user.Name, 120);
-                    HttpContext.Response.Set("LASTNAME", user.Surname, 120);
-                    HttpContext.Response.Set("FULLNAME", string.Format("{0} {1}", user.Name, user.Surname), 120);
-                    HttpContext.Response.Set("EMPLOYEEID", user.EmployeeID, 120);
-                    HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.GetValueOrDefault()) : "", 120);
-                    HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.DepartmentID) : "", 120);
+                user.Token = JwtManager.Instance.GenerateJWT(claims);
+                user.RefreshToken = JwtManager.Instance.GenerateRefreshToken();
+                System.Security.Principal.GenericIdentity userIdentity = new System.Security.Principal.GenericIdentity(user.EmployeeID);
+                userIdentity.AddClaim(new Claim(ClaimTypes.Role, user.ID_Role.ToString()));
+                userIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.EmployeeID));
+                HttpContext.User = new ClaimsPrincipal(userIdentity);
+                user.Password = null;
+                HttpContext.Response.Set("FIRSNAME", user.Name, 120);
+                HttpContext.Response.Set("LASTNAME", user.Surname, 120);
+                HttpContext.Response.Set("FULLNAME", string.Format("{0} {1}", user.Name, user.Surname), 120);
+                HttpContext.Response.Set("EMPLOYEEID", user.EmployeeID, 120);
+                HttpContext.Response.Set("JOINDATE", user.JoinDate.HasValue ? string.Format("{0:dd-MMM-yyyy}", user.JoinDate.GetValueOrDefault()) : "", 120);
+                HttpContext.Response.Set("DEPARTMENT", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.DepartmentID) : "", 120);
 
-                    HttpContext.Response.Set("PLANTID",user.LDMS_M_Plant!=null? user.LDMS_M_Plant.ID_Plant.ToString(): user.ID_Plant.ToString(), 120);
-                    HttpContext.Response.Set("CENTERID", user.LDMS_M_Center != null ? user.LDMS_M_Center.ID_Center.ToString() : user.ID_Center.ToString(), 120);
-                    HttpContext.Response.Set("DIVISIONID", user.LDMS_M_Division != null ? user.LDMS_M_Division.ID_Division.ToString() :  user.ID_Division.ToString(), 120);
-                    HttpContext.Response.Set("DEPARTMENTID", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.ID_Department) : "", 120);
-                    HttpContext.Response.Set("SECTIONTID", user.LDMS_M_Section != null ? user.LDMS_M_Section.ID_Section.ToString() : "0", 120);
+                HttpContext.Response.Set("PLANTID", user.LDMS_M_Plant != null ? user.LDMS_M_Plant.ID_Plant.ToString() : user.ID_Plant.ToString(), 120);
+                HttpContext.Response.Set("CENTERID", user.LDMS_M_Center != null ? user.LDMS_M_Center.ID_Center.ToString() : user.ID_Center.ToString(), 120);
+                HttpContext.Response.Set("DIVISIONID", user.LDMS_M_Division != null ? user.LDMS_M_Division.ID_Division.ToString() : user.ID_Division.ToString(), 120);
+                HttpContext.Response.Set("DEPARTMENTID", user.LDMS_M_Department != null ? string.Format("{0}", user.LDMS_M_Department.ID_Department) : "", 120);
+                HttpContext.Response.Set("SECTIONTID", user.LDMS_M_Section != null ? user.LDMS_M_Section.ID_Section.ToString() : "0", 120);
 
-                    HttpContext.Response.Set("JOBGRADEID", user.ID_JobGrade.ToString(), 120);
-                    HttpContext.Response.Set("JOBTITLEID", user.ID_JobTitle.ToString(), 120);
-                    HttpContext.Response.Set("FACEIMAGE", string.IsNullOrEmpty(user.ProfilePath)? "~/assets/images/svg/user-icon.svg": user.ProfilePath, 120);
-                    HttpContext.Response.Set("FORCECHANGEPASS", user.IsForceChangePass.ToString(), 120);
-                    HttpContext.Response.Set("ALLOWGPP", user.IsAllowGPP.ToString(), 120);
-                    HttpContext.Response.Set("ISAD", user.IsAD.ToString(), 120);
-
-                    HttpContext.Response.Set("JWToken", user.Token, 120);
-
-                    CheckRedirectPage(user);
-
-                    HttpContext.Session.SetString("JWToken", user.Token);
-                    CreateDataLog(DataLogType.LoginSuccess, username, "user signin.");
-                    return new ServiceResult(user);
-                }
+                HttpContext.Response.Set("JOBGRADEID", user.ID_JobGrade.ToString(), 120);
+                HttpContext.Response.Set("JOBTITLEID", user.ID_JobTitle.ToString(), 120);
+                HttpContext.Response.Set("FACEIMAGE", string.IsNullOrEmpty(user.ProfilePath) ? "~/assets/images/svg/user-icon.svg" : user.ProfilePath, 120);
+                HttpContext.Response.Set("FORCECHANGEPASS", user.IsForceChangePass.ToString(), 120);
+                HttpContext.Response.Set("ALLOWGPP", user.IsAllowGPP.ToString(), 120);
+                HttpContext.Response.Set("ISAD", user.IsAD.ToString(), 120);
+                HttpContext.Response.Set("JWToken", user.Token, 120);
+                CheckRedirectPage(user);
+                HttpContext.Session.SetString("JWToken", user.Token);
+                CreateDataLog(DataLogType.LoginSuccess, username, "user signin.");
+                return new ServiceResult(user);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new ServiceResult(new Exception("Unauthorized"));
+                return new ServiceResult(ex);
             }
         }
 
