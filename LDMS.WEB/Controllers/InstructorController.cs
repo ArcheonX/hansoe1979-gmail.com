@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace LDMS.WEB.Controllers
 {
@@ -171,6 +172,13 @@ namespace LDMS.WEB.Controllers
             return Json(_instructorService.GetCourseByInstructorID(insID));
         }
 
+        [HttpGet]
+        [Route("Instructor/SearchEmployeeName")]
+        public async Task<ActionResult> SearchEmployeeName(string EmployeeName)
+        {
+            var users = await _instructorService.GetAll(null, EmployeeName, null);
+            return Json(users.Data);
+        }
 
     }
 }

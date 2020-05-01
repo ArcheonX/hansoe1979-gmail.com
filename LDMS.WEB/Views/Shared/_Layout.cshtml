@@ -70,7 +70,6 @@
     <link href="~/lib/selecttwo/css/select2-bootstrap.min.css" type="text/css" rel="stylesheet" />
     <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
     <link href="~/lib/magnific-popup/dist/magnific-popup.css?v=bd93153bf9375d66780f086cda347bfb" type="text/css" rel="stylesheet">
-    @RenderSection("Scripts", required: false)
     @RenderSection("Header", required: false)
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 </head> 
@@ -129,7 +128,7 @@
                 <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
             </div>
         </aside>
-            @*<div class="page-wrapper">
+        @*<div class="page-wrapper">
                 <div class="page-titles">
                     <div class="col-md-5 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
@@ -144,8 +143,9 @@
             </div>*@
     </div>
     @*<div id="footer" style="position:relative; bottom:0px; height:50px; left:0px; right:0px; overflow:no-content;">
-        <span class="text-center" style="width:100%;margin-left:25%;">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
-    </div>*@
+            <span class="text-center" style="width:100%;margin-left:25%;">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
+        </div>*@
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
 

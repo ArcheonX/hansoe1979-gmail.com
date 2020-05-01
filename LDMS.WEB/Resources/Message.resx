@@ -120,6 +120,18 @@
   <data name="c_ConfirmDelete" xml:space="preserve">
     <value>Are you sure delete this record?</value>
   </data>
+  <data name="e_CourseRegister_ConfirmApprove" xml:space="preserve">
+    <value>Are you sure to Approve this?</value>
+  </data>
+  <data name="e_CourseRegister_ConfirmClose" xml:space="preserve">
+    <value>Are you sure to Close this class? (Waiting record will be reject from this class.)</value>
+  </data>
+  <data name="e_CourseRegister_ConfirmReject" xml:space="preserve">
+    <value>Are you sure to Reject this?</value>
+  </data>
+  <data name="e_CourseRegister_ConfirmSave" xml:space="preserve">
+    <value>Confirm save result?</value>
+  </data>
   <data name="e_Input4" xml:space="preserve">
     <value>Please fill at least 4 character.</value>
   </data>
