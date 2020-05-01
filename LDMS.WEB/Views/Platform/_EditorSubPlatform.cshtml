@@ -528,10 +528,26 @@ function CreateDataTablePaging($) {
              //alert('LoadSubPlatformCourseList : ' + ID );
              dtData = $('#dtSubPlatformCourses').DataTable({
                 'processing': true,
-                'serverSide': true,
-                'paging': true,
-                "pagingType": "full_numbers",
-                'searching': false,
+                  'serverSide': true,
+                  'paging': true,
+                  "ordering": false,
+                  "searching": false,
+                  "lengthChange": false,
+                  "bAutoWidth": false,
+                  "Filter": false,
+                  "info": false,
+                  "bPaginate": false,
+                  "bLengthChange": false,
+                  //"language": {
+                  //    "lengthMenu": "Display _MENU_ records per page",
+                  //    "zeroRecords": "    Nothing found - sorry",
+                  //    "info": "    page _PAGE_ of _PAGES_",
+                  //    "infoEmpty": "    No records available",
+                  //    "infoFiltered": "(filtered from _MAX_ total records)"
+                  //},
+                  "bJQueryUI": true, //Enable smooth theme
+                  "sPaginationType": "full_numbers", //Enable smooth theme
+                  "sDom": 'lfrtip',
                  //retrieve: true,
                  destroy: true,
                 'ajax': {
