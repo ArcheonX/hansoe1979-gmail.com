@@ -65,6 +65,23 @@ var tmpselection = [];
     })
 })(jQuery);
 
+function DeleteEmployee(rowindex) {
+    MessageController.ConfirmCallback("Are you sure you want to do delete this Target Employee?", "Confirm Delete Target Employee", function (res) {
+        if (res) {
+            employees = employees.where((item) => {
+                return item.Index != rowindex;
+            }); 
+            var index = 1;
+            employees.forEach(item => {
+                item.Index = index;
+                index++;
+            });
+            RefreshExployees();
+            $("#search-target-employee-modal").magnificPopup('close');
+        }
+    }); 
+}
+
 function LoadCompetence(analytic_id) {
     $.ajax({
         type: "GET",

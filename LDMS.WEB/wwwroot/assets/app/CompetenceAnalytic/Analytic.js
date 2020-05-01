@@ -16,16 +16,13 @@ var scores = [];
         });  
         $('#btnImportExcel').click(function () {
             ExportCompetenceScore();
-        });  
-
-
+        });   
         LoadCompetence(parseInt(analytic_id)); 
     })
 })(jQuery);
 
-function validate(evt) {
-    var theEvent = evt || window.event;
-
+function validate(control, evt) {
+    var theEvent = evt || window.event; 
     // Handle paste
     if (theEvent.type === 'paste') {
         key = event.clipboardData.getData('text/plain');
@@ -38,8 +35,9 @@ function validate(evt) {
     if (!regex.test(key)) {
         theEvent.returnValue = false;
         if (theEvent.preventDefault) theEvent.preventDefault();
-    }
+    } 
 }
+
 function RenderChart() {
     var AnalyticCategories = [];
     var Analyticseries = [];
@@ -197,6 +195,16 @@ function LoadCompetence(analytic_id) {
             $("input[type=number]").focus(function () {
                 $(this).select();
             });
+            $("input[type=number]").change(function () {
+                var max = parseInt($(this).attr('max'));
+                var min = parseInt($(this).attr('min'));
+                if ($(this).val() > max) {
+                    $(this).val(max);
+                }
+                else if ($(this).val() < min) {
+                    $(this).val(min);
+                }
+            });      
             RenderChart(); 
         },
         failure: function (response) {
@@ -262,7 +270,7 @@ function BuildTable() {
         tdExpectatoin.className = "tdScore";
         tdExpectatoin.style = "width:50px;";
         tr_tpoic.appendChild(tdExpectatoin); 
-        $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min='0'  max='5' value='" + item.Expectatoin + "'  />").appendTo(tdExpectatoin);        
+        $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(this,event)' class='quantity'   min='0'  max='5' value='" + item.Expectatoin + "'  />").appendTo(tdExpectatoin);        
         employees.forEach(emp => {
             var score_value = 0;
             var minScore = 0;
@@ -279,7 +287,7 @@ function BuildTable() {
             td.className = "tdScore";
             td.style = "width:50px;";
             tr_tpoic.appendChild(td);
-            $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min='" + minScore + "'  max='" + maxScore +"' value='" + score_value + "' />").appendTo(td);
+            $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(this,event)' class='quantity'   min='" + minScore + "'  max='" + maxScore +"' value='" + score_value + "' />").appendTo(td);
             
         });
         tbody.appendChild(tr_tpoic);
