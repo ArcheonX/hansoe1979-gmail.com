@@ -77,30 +77,9 @@ function LoadCompetence(analytic_id) {
             $("#txtExpectatoin2").val(response.Data.Criteria2);
             $("#txtExpectatoin1").val(response.Data.Criteria1);
             $("#selectLevel").val(response.Data.ID_JobGrade).trigger('change');
-        },
-        failure: function (response) {
-            if (JSON.parse(response.responseText).Errors.length > 0) {
-                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-            } else {
-                MessageController.Error(response.responseText, "Error");
-            }
-        },
-        error: function (response) {
-            if (JSON.parse(response.responseText).Errors.length > 0) {
-                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-            } else {
-                MessageController.Error(response.responseText, "Error");
-            }
-        }
-    });
 
-    $.ajax({
-        type: "GET",
-        url: "/Competence/Topics",
-        data: { "competenceId": analytic_id },
-        success: function (response) {
             var index = 1;
-            $.each(response.Data, function () {
+            $.each(response.Data.Topics, function () {
                 topics.push({
                     Index: index,
                     ID_CompetenceAnalytic: this.ID_CompetenceAnalytic,
@@ -111,6 +90,17 @@ function LoadCompetence(analytic_id) {
                 });
                 index++;
             });
+            index = 1;
+            $.each(response.Data.Employees, function () {
+                employees.push({
+                    Index: index,
+                    EmployeeId: this.EmployeeID,
+                    EmployeeName: this.LDMS_M_User.FullName,
+                    Action: "",
+                });
+                index++;
+            });
+            RefreshExployees(); 
             RefreshTopic(); 
         },
         failure: function (response) {
@@ -127,40 +117,7 @@ function LoadCompetence(analytic_id) {
                 MessageController.Error(response.responseText, "Error");
             }
         }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/Competence/Employees",
-        data: { "competenceId": analytic_id },
-        success: function (response) {
-            var index = 1; 
-            $.each(response.Data, function () {
-                employees.push({
-                    Index: index,
-                    EmployeeId: this.EmployeeID,
-                    EmployeeName: this.LDMS_M_User.FullName,
-                    Action: "",
-                });
-                index++;
-            });
-            RefreshExployees();
-        },
-        failure: function (response) {
-            if (JSON.parse(response.responseText).Errors.length > 0) {
-                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-            } else {
-                MessageController.Error(response.responseText, "Error");
-            }
-        },
-        error: function (response) {
-            if (JSON.parse(response.responseText).Errors.length > 0) {
-                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-            } else {
-                MessageController.Error(response.responseText, "Error");
-            }
-        }
-    });
+    }); 
 }
 
 function CreateEmployeePopup() {
@@ -574,6 +531,7 @@ function SearchEmployee() {
                     {
                         "mData": "EmployeeId",
                         "mRender": function (data, type, row) {
+                            debugger;
                             var isSelect = employees.any((item) => {
                                 return data.trim() == item.EmployeeId.trim();
                             }); 
