@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LDMS.WEB.Controllers
 {
-    public class IDPController : Controller
+    public class MyTeamIDPController : Controller
     {
         public IActionResult Index()
         {
