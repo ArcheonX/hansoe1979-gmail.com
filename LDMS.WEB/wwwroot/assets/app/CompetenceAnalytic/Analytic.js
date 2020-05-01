@@ -42,9 +42,9 @@ function RenderChart() {
     var AnalyticCategories = [];
     var Analyticseries = []; 
 
-    if (topics.length >= 6 && employees.length >= 10) {
-        return;
-    }
+    //if (topics.length >= 6 && employees.length >= 10) {
+    //    return;
+    //}
     var topicScore = [];
 
     topics.forEach(tp => {
@@ -127,7 +127,7 @@ function RenderChart() {
 }
 
 function LoadCompetence(analytic_id) { 
-    MessageController.BlockUI({ boxed: false, target: '#pn-Analytic' });
+    MessageController.BlockUI({ boxed: true, textOnly: true, target: '#pn-Analytic' });
     topics = [];
     employees = [];
     scores = [];

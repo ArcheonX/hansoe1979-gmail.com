@@ -69,4 +69,6 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="http://json.schemastore.org/bundleconfig" /></VisualStudio></ProjectExtensions>
+
 </Project>
