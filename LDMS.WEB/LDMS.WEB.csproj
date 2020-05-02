@@ -6,10 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\ClassRegister\**" />
     <Compile Remove="wwwroot\assets\plugins\sweetalert2\**" />
+    <Content Remove="Views\ClassRegister\**" />
     <Content Remove="wwwroot\assets\plugins\sweetalert2\**" />
+    <EmbeddedResource Remove="Views\ClassRegister\**" />
     <EmbeddedResource Remove="wwwroot\assets\plugins\sweetalert2\**" />
+    <None Remove="Views\ClassRegister\**" />
     <None Remove="wwwroot\assets\plugins\sweetalert2\**" />
+    <TypeScriptCompile Remove="Views\ClassRegister\**" />
     <TypeScriptCompile Remove="wwwroot\assets\plugins\sweetalert2\**" />
   </ItemGroup>
 
@@ -50,7 +55,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\ClassRegister\" />
     <Folder Include="wwwroot\Uploads\Instructor\" />
   </ItemGroup>
 

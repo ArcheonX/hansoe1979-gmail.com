@@ -1,5 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Http;
 
+<style>
+    .modal-dialog {
+        -webkit-transform: translate(0,-50%);
+        -o-transform: translate(0,-50%);
+        transform: translate(0,-50%);
+        top: 30%;
+        margin: 0 auto;
+    }
+</style>
 
 <div id="divEmpLookup" class="input-group">
     <input id="txtEmp_Search" type="text" class="form-control" placeholder="Employee Name">
@@ -11,8 +20,8 @@
     <input type="hidden" id="hdEmp_DeptID" />
 </div>
 
-<div class="modal" id="modEmp_Ref" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg">
+<div class="modal" id="modEmp_Ref" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="false" data-keyboard="false">
+    <div class="modal-dialog modal-lg" style="display:table;height: 100%;width: 100%;">
         <div class="modal-content">
             <div class="modal-header card-header col-12">
                 <h4 class="modal-title col-10" id="lblMATitle">Search Employee</h4>
@@ -74,7 +83,7 @@
     function Emp_Search() {
             $.ajax({
             type: 'GET',
-                url: '@Url.Action("SearchEmployeeName", "Account")',
+                url: '@Url.Action("SearchEmployeeName", "Instructor")',
                 data: { "EmployeeName": $("#txtEmp_MName").val().trim() },
                 success: function (e) {
                     $("#tbEmp tbody > tr").remove();

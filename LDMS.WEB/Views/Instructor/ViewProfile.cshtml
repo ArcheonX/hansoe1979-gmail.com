@@ -5,7 +5,21 @@
 }
 @using LDMS.ViewModels;
 @model LDMS_M_Instructor
- 
+
+@section Header{
+    <style>
+        .ui-widget-header {
+            border-color: transparent !important;
+            background-color: transparent !important;
+            background-image: none !important;
+        }
+
+        .btn-command {
+            width: 140px;
+        }
+    </style>
+}
+
 <div style="width:100%">
     <div class="card">
         <div class="form-group m-2 row">
@@ -218,7 +232,8 @@
                             else
                                 row.append($("<td  class='text-center'> <img src='@Url.Content("~/assets/images/svg/icon-cross.svg")' class='light-logo' /> </td>"));
 
-                            row.append($("<td><a href=\" \"><img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class='light-logo' /></a> </td>"));
+                            var url = "@Url.Content("~/Courses/Detail/")"+ e[i].ID_Course;
+                            row.append($("<td><a href='"+url+"' target='_blank'><img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class='light-logo' /></a> </td>"));
 
                         }
                     }
