@@ -50,9 +50,7 @@
 
     function SelectMenu(menuId) {
         var doc = document.getElementById("collapse_" + menuId);
-        localStorage.menuId = menuId;
-
-        debugger;
+        localStorage.menuId = menuId; 
         doc.classList.toggle('collapse');
         var ico = document.getElementById("icon-" + menuId);
         if (ico != null) {
