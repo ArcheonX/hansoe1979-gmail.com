@@ -142,7 +142,7 @@
 
                 <div class="table-responsive m-t-40">
                     <table class="display dataTable" width="100%" id="dtSubplatform">
-                        <thead style="background-color:#1e88e5;color:#ffffff">
+                        <thead>
                             <tr>
                                 <th style="text-align:center">No</th>
                                 <th style="text-align:center">Sub Platform Name EN</th>
@@ -261,11 +261,27 @@
     function LoadSubPlatformList( ID ) {
             //alert('LoadSubPlatformList');
              dtData = $('#dtSubplatform').DataTable({
-                'processing': true,
-                'serverSide': true,
-                'paging': true,
-                "pagingType": "full_numbers",
-                'searching': false,
+               'processing': true,
+                  'serverSide': true,
+                  'paging': true,
+                  "ordering": false,
+                  "searching": false,
+                  "lengthChange": false,
+                  "bAutoWidth": false,
+                  "Filter": false,
+                  "info": false,
+                  "bPaginate": false,
+                  "bLengthChange": false,
+                  //"language": {
+                  //    "lengthMenu": "Display _MENU_ records per page",
+                  //    "zeroRecords": "    Nothing found - sorry",
+                  //    "info": "    page _PAGE_ of _PAGES_",
+                  //    "infoEmpty": "    No records available",
+                  //    "infoFiltered": "(filtered from _MAX_ total records)"
+                  //},
+                  "bJQueryUI": true, //Enable smooth theme
+                  "sPaginationType": "full_numbers", //Enable smooth theme
+                  "sDom": 'lfrtip',
                  //retrieve: true,
                  destroy: true,
                 'ajax': {
