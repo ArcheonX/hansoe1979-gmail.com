@@ -27,25 +27,13 @@ header {
     left: 0px;
     right: 0px;
     overflow: no-content;
-}
-footer {
-    flex-shrink: 0;
-    position: absolute;
-    bottom: 0px;
-    height: 50px;
-    left: 0px;
-    right: 0px;
-    overflow: no-content;
-}
- 
+} 
 .navbar-brand {
     width: 25%;
-}
-
+} 
 .logo-img {
     width: 25%;
-}
-
+} 
 .ldms-logo {
     width: 100%;
     margin-top: -10px;

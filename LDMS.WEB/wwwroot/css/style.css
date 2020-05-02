@@ -1170,20 +1170,7 @@ form label{font-weight:400}
     /*max-width: 1300px;*/
     margin: 0 auto;
     /*  box-shadow:0 0 60px rgba(0,0,0,0.1)*/
-}
-.boxed #main-wrapper  
-    .boxed #main-wrapper
-    .footer {
-        display: none;
-        width: 100%;
-        /*max-width: 1300px;*/
-        margin: 0 auto;
-        background: #ffffff;
-    }
-
-.container-fluid {
-    padding: 0 30px 25px 150px
-}
+}  
 .topbar {
     position: fixed;
     z-index: 50;
@@ -1199,28 +1186,7 @@ form label{font-weight:400}
     background-size: 150% 150%;
     height: 75px;
     box-shadow: 5px 0px 10px rgba(0,0,0,0.5);
-}
-/*.sidebar {
-    width: 100%;
-    background: #1F77D0;
-    background: -moz-linear-gradient(top, #1F77D0 0%, #533ce1 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1F77D0), color-stop(100%, #533ce1));
-    background: -webkit-linear-gradient(top, #1F77D0 0%, #533ce1 100%);
-    background: -o-linear-gradient(top, #1F77D0 0%, #533ce1 100%);
-    background: -ms-linear-gradient(top, #1F77D0 0%, #533ce1 100%);
-    background: linear-gradient(to bottom, #1F77D0 0%, #533ce1 100%);
-    background-size: 150% 150%;
-}*/
-/*.topbar .top-navbar{min-height:70px;padding:0px 15px 0 0}
-.topbar .top-navbar .dropdown-toggle::after{display:none}
-.topbar .top-navbar .navbar-header{line-height:65px;text-align:center}
-.topbar .top-navbar .navbar-header .navbar-brand{margin-right:0px;padding-bottom:0px;padding-top:0px}
-.topbar .top-navbar .navbar-header .navbar-brand .light-logo{display:none}
-.topbar .top-navbar .navbar-header .navbar-brand b{line-height:70px;display:inline-block}
-.topbar .top-navbar .navbar-nav>.nav-item>.nav-link{padding-left:.75rem;padding-right:.75rem;font-size:19px;line-height:50px}
-.topbar .top-navbar .navbar-nav>.nav-item.show{background:rgba(0,0,0,0.05)}
-.topbar .profile-pic{width:30px;border-radius:100%}*/
-/*.mini-sidebar .top-navbar .navbar-header{width:60px;text-align:center}*/
+} 
 .logo-center .top-navbar .navbar-header {
     position: absolute;
     left: 0;
@@ -1255,18 +1221,7 @@ form label{font-weight:400}
     /*padding: 10px;*/
     /*box-shadow: 1px 0 5px rgba(0,0,0,0.1);*/
     width: 100%; 
-} 
-.footer {
-    bottom: 0;
-    color: #67757c;
-    left: 0px;
-    padding: 17px 15px;
-    position: fixed;
-    right: 0;
-    border-top: 1px solid rgba(120,130,140,0.13);
-    background: #ffffff;
-    padding-left: calc(35%);
-}
+}  
 .page-titles h3 {
     margin-bottom: 0px;
     margin-top: 8px; 

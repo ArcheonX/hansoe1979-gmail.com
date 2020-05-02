@@ -330,8 +330,7 @@ body>.navbar-collapse {
     font-weight: 200;
     background-size: cover;
     background-position: center center;
-}
-
+} 
 .sidebar .sidebar-wrapper,
 body>.navbar-collapse .sidebar-wrapper {
     position: relative;
@@ -672,10 +671,9 @@ body>.navbar-collapse[data-color="purple"]:after {
     float: right;
     width: calc(100% - 350px);
     min-height: 100%;
-}
-
-.main-panel>.content { 
-    /*padding: 30px 15px;*/
+    overflow: auto;
+} 
+.main-panel>.content {  
     min-height: calc(100% - 123px);
 }
 

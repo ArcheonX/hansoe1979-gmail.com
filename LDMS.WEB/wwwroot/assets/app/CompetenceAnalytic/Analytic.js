@@ -122,21 +122,7 @@ function RenderChart() {
         credits: {
             enabled: false,
         },
-        series: Analyticseries,
-        responsive: {
-            rules: [{
-                chartOptions: {
-                    legend: {
-                        align: 'center',
-                        verticalAlign: 'bottom',
-                        layout: 'horizontal'
-                    },
-                    pane: {
-                        size: '80%'
-                    }
-                }
-            }]
-        }
+        series: Analyticseries 
     });
 }
 
