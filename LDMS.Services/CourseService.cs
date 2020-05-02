@@ -486,5 +486,27 @@ namespace LDMS.Services
                 }
             }
         }
+
+
+        public ViewModels.LDMS_T_ClassCapacity GetClassRemain(string ID_Course, string ID_Plant, 
+                                                              string ID_Center, string ID_Division,
+                                                              string ID_Department, string ID_Section)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@paramCourseId", ID_Course);
+                p.Add("@paramPlantId", ID_Plant);
+                p.Add("@paramCenterId", ID_Center);
+                p.Add("@paramDivisionId", ID_Division);
+                p.Add("@paramDepartmentId", ID_Department);
+                p.Add("@paramSectionId", ID_Section);
+
+                ViewModels.LDMS_T_ClassCapacity ret = conn.Query<ViewModels.LDMS_T_ClassCapacity>(_schema + ".[sp_T_CourseTargetRemain]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                return ret;
+            }
+        }
+       
     }
 }

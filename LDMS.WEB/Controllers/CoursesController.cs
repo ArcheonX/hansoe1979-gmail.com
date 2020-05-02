@@ -36,7 +36,7 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses/Add")]
-        [AutoValidateAntiforgeryToken]
+        //[AutoValidateAntiforgeryToken]
         public IActionResult Detail()
         {
             return View("/Views/Courses/Detail.cshtml");
@@ -45,7 +45,7 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.All)]
         [HttpGet]
         [Route("Courses/ClassDetail")]
-        [AutoValidateAntiforgeryToken]
+        //[AutoValidateAntiforgeryToken]
         public IActionResult ClassDetail()
         {
             return View("/Views/Courses/ClassDetail.cshtml");
@@ -145,7 +145,7 @@ namespace LDMS.WEB.Controllers
 
         [HttpPost]
         [Route("Courses/Search")]
-        [AutoValidateAntiforgeryToken]
+        //[AutoValidateAntiforgeryToken]
         public IActionResult Search(string CourseID, string CourseName, string CourseStatus, string LearnMethod)
         {
 
@@ -230,7 +230,7 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("Courses/InstructorSearch")]
-        [AutoValidateAntiforgeryToken]
+        //[AutoValidateAntiforgeryToken]
         public IActionResult InstructorSearch(string InstructorID, string InstructorName, string Type, string Organization, string Experience )
         {
             LDMS_M_Instructor_Search criteria = new LDMS_M_Instructor_Search();
@@ -290,7 +290,7 @@ namespace LDMS.WEB.Controllers
 
         [HttpPost]
         [Route("Courses/InsertClass")]
-        [AutoValidateAntiforgeryToken]
+        //[AutoValidateAntiforgeryToken]
         public IActionResult InsertClass( string ID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
                                             string LearnDateStart, string LearnTimeStart, string LearnDateEnd, string LearnTimeEnd,
                                             string RegisterDateStart, string RegisterDateEnd, string ID_PlantVenue,
@@ -347,6 +347,19 @@ namespace LDMS.WEB.Controllers
         public IActionResult BacktoCourse(string ID)
         {
             return Json(ID);
+        }
+
+
+        [HttpGet]
+        [Route("Courses/GetClassRemain")]
+        public IActionResult GetClassRemain(string ID_Course, string ID_Plant,
+                                              string ID_Center, string ID_Division,
+                                              string ID_Department, string ID_Section)
+        {
+            var cap = _CourseService.GetClassRemain(ID_Course, ID_Plant, ID_Center, 
+                                                    ID_Division, ID_Department, ID_Section);
+
+            return Json(cap);
         }
     }
 }
