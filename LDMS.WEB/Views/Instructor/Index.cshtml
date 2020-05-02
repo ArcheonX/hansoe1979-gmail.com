@@ -5,12 +5,26 @@
 }
 
 @model LDMS.ViewModels.LDMS_M_Instructor_Search
- 
-<div class="panel-body" style="width:100%;">
+
+@section Header{
+    <style>
+        .ui-widget-header {
+            border-color:transparent !important;
+            background-color:transparent !important;
+            background-image:none !important;
+        }
+        .btn-command
+        {
+            width:140px;
+        }
+    </style>
+}
+
+<div class="panel-body" style="width: 100%;">
     <form method="post">
         @Html.AntiForgeryToken()
         <div class="form-group m-2 row">
-            <label class="col-2 col-form-label" style="text-align:right">Instructor ID</label>
+            <label class="col-2 col-form-label" style="text-align: right">Instructor ID</label>
             <div class="col-4">
                 <input class="form-control" type="text" id="txtInsID" placeholder="Instructor ID" maxlength="10">
             </div>

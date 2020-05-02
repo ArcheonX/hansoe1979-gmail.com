@@ -6,6 +6,8 @@ using Dapper;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using LDMS.Daos;
+using System.Threading.Tasks;
+using System;
 
 namespace LDMS.Services
 {
@@ -179,6 +181,79 @@ namespace LDMS.Services
                 List<dynamic> ret = conn.Query<dynamic>("[dbo].[sp_M_Course_SelectByInstructor]", p, commandType: System.Data.CommandType.StoredProcedure).ToList();
 
                 return ret;
+            }
+        }
+
+        public async Task<ServiceResult> GetAll(
+             string employeeId = null,
+             string employeeName = null,
+             List<int> departments = null,
+             List<int> sectionIds = null,
+             List<int> jobgrades = null,
+             List<int> jobtitles = null)
+        {
+            try
+            {
+                var roles = await All<LDMS_M_Role>("Role");
+                var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
+                using (System.Data.IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<LDMS_M_User, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_Section, LDMS_M_User>
+                    (_schema + ".[usp_User_READ_ALL] @paramEmployeeId,@paramEmployeeName,@paramdepartments,@paramsections,@paramjobgrades,@paramjobtitles",
+                      map: (user, plant, center, division, depart, section) =>
+                      {
+                          if (plant != null)
+                          {
+                              user.LDMS_M_Plant = plant;
+                              user.ID_Plant = plant.ID_Plant;
+                          }
+                          if (center != null)
+                          {
+                              user.LDMS_M_Center = center;
+                              user.ID_Center = center.ID_Center;
+                          }
+                          if (division != null)
+                          {
+                              user.LDMS_M_Division = division;
+                              user.ID_Division = division.ID_Division;
+                          }
+                          if (depart != null)
+                          {
+                              user.LDMS_M_Department = depart;
+                              user.ID_Department = depart.ID_Department;
+                          }
+                          if (section != null)
+                          {
+                              user.LDMS_M_Section = section;
+                              user.ID_Section = section.ID_Department;
+                          }
+                          return user;
+                      },
+                      splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section",
+                      param: new
+                      {
+                          @paramEmployeeId = employeeId,
+                          @paramEmployeeName = employeeName,
+                          @paramdepartments = departments != null ? string.Join(",", departments) : "",
+                          @paramsections = sectionIds != null ? string.Join(",", sectionIds) : "",
+                          @paramjobgrades = jobgrades != null ? string.Join(",", jobgrades) : "",
+                          @paramjobtitles = jobtitles != null ? string.Join(",", jobtitles) : "",
+                      });
+                    var users = items.ToList();
+                    users.ForEach(user =>
+                    {
+                        user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
+                        user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                    });
+                    return new ServiceResult(users);
+                }
+            }
+            catch (Exception x)
+            {
+                //_logger.LogError(x.Message);
+                return new ServiceResult(x);
             }
         }
 
