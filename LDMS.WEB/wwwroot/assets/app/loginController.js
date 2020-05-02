@@ -40,7 +40,7 @@ function OnAuthentication() {
         //});
         return;
     }
-    MessageController.BlockUI({ boxed: true, target: '#pn-login' });
+    MessageController.BlockUI({ boxed: true, target: '#frm-login' });
     $.ajax({
         type: "POST",
         url: "/Account/Login",
@@ -57,15 +57,15 @@ function OnAuthentication() {
                     localStorage.pass = "";
                     localStorage.RememberMe = false;
                 }
-                MessageController.UnblockUI('#pn-login');
+                MessageController.UnblockUI('#frm-login');
                 window.location.href = response.Data;
             } else { 
-                MessageController.UnblockUI('#pn-login');
+                MessageController.UnblockUI('#frm-login');
                 MessageController.Error("Pleas Enter 'Password'", 'Login Faild'); 
             }
         },
         failure: function (response) { 
-            MessageController.UnblockUI('#pn-login');
+            MessageController.UnblockUI('#frm-login');
             if (response.responseJSON != null && response.responseJSON != undefined && response.responseJSON.Errors.length > 0) {
                 MessageController.Error(response.responseJSON.Errors[0], "Login Faild"); 
             } else {
@@ -73,7 +73,7 @@ function OnAuthentication() {
             }
         },
         error: function (response) { 
-            MessageController.UnblockUI('#pn-login');
+            MessageController.UnblockUI('#frm-login');
             MessageController.Error(response.responseJSON.Errors[0], "Login Faild"); 
         }
     });  
