@@ -39,9 +39,9 @@ File: scss
   background: #07426b;
 }*/
 
-.topbar .navbar-header {
+/*.topbar .navbar-header {
   background: rgba(0, 0, 0, 0.05);
-}
+}*/
 
 .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
   display: none;

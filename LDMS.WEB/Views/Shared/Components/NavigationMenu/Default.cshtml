@@ -1,65 +1,78 @@
 ﻿@model List<LDMS.ViewModels.Menu.NavigationMenu>
-<div class="card-no-border" style="overflow-y:scroll;margin-left:-15px;margin-top:-15px;margin-right:-15px;">
-    @foreach (var item in Model)
-    {
-        <div class="card-header">
-            <a data-toggle="collapse" class="toggle" href="#" id="@item.MenuID" style="color:#000000;">@item.MenuName &nbsp;&nbsp;<i id="icon-@item.MenuID" class="fas fa-angle-double-up"></i></a>
-        </div>
-        <ul class="list-group list-group-flush" style="padding-left:10px;" id="collapse_@item.MenuID">
-            @foreach (var itm in item.SubMenus)
-            {
-                <li style="padding-left:25px">
-                    <a class="waves-effect waves-dark" asp-controller="@itm.ControllerName" asp-action="@itm.ActionName" aria-expanded="false">
-                        <i class="mdi mdi-gauge"></i><span class="hide-menu" style="color:#000000">@itm.MenuName</span>
-                    </a>
-                </li>
-            }
-        </ul>
-    }
-</div>
+    <div class="card-no-border" style="overflow-y:scroll;margin-left:-15px;margin-top:-15px;margin-right:-15px;">
+        @foreach (var item in Model)
+        { 
+                <div class="card-header">
+                    <a data-toggle="collapse" class="toggle" href="#" id="@item.MenuID" style="color:#000000;">@item.MenuName &nbsp;&nbsp;<i id="icon-@item.MenuID" class="fas fa-angle-double-down"></i></a>
+                </div>
+                <ul class="list-group list-group-flush collapse" style="padding-left:10px;" id="collapse_@item.MenuID">
+                    @foreach (var itm in item.SubMenus)
+                    {
+                        <li style="padding-left:25px">
+                            <a class="waves-effect waves-dark" asp-controller="@itm.ControllerName" asp-action="@itm.ActionName" aria-expanded="false">
+                                <i class="mdi mdi-gauge"></i><span class="hide-menu" style="color:#000000">@itm.MenuName</span>
+                            </a>
+                        </li>
+                    }
+                </ul> 
+        }
+    </div>
 <script>
     (function ($) {
         "use strict";
         $(document).ready(function () {
-            if (localStorage.menuId != null && localStorage.menuId != undefined) {
-                $(".toggle").each(function () {
-                    var cdoc = document.getElementById("collapse_" + this.id);
-                    if (cdoc.classList.length <= 0 && this.id != localStorage.menuId) {
-                        cdoc.classList.toggle('collapse');
-                        var ico = document.getElementById("icon-" + this.id);
-                        ico.setAttribute("class", "fas fa-angle-double-down");
-                    }
-                });
-                var doc = document.getElementById("collapse_" + localStorage.menuId);
-                if (doc.classList.length >= 1) {
-                    doc.classList.toggle('collapse');
-                    var ico = document.getElementById("icon-" + localStorage.menuId);
-                    if (ico) {
-
-                        ico.setAttribute("class", "fas fa-angle-double-up");
-                    }
-                }
-            }
+            ReLoadMenu();
             $('.toggle').click(function () {
-                debugger;
-                var doc = document.getElementById("collapse_" + this.id);
-                doc.classList.toggle('collapse');
-                localStorage.menuId = this.id;
-                var ico = document.getElementById("icon-" + this.id);
-                if (ico) {
-                    ico.setAttribute("class", "fas fa-angle-double-up");
-                }
-                $(".toggle").each(function () {
-                    var cdoc = document.getElementById("collapse_" + this.id);
-                    if (cdoc.classList.length <= 0 && this.id != localStorage.menuId) {
-                        cdoc.classList.toggle('collapse');
-                        var ico = document.getElementById("icon-" + this.id);
-                        if (ico) {
-                            ico.setAttribute("class", "fas fa-angle-double-down");
-                        }
-                    }
-                });
+                SelectMenu(this.id);
             });
         })
     })(jQuery);
+
+    function ReLoadMenu() {
+        $(".toggle").each(function () {
+            if (localStorage.menuId != null && localStorage.menuId != undefined) {
+                localStorage.menuId = this.id;
+            }
+            debugger;
+            var cdoc = document.getElementById("collapse_" + this.id);
+            if (cdoc.classList.length <= 0 && this.id != localStorage.menuId) {
+                cdoc.classList.toggle('collapse');
+                var ico = document.getElementById("icon-" + this.id);
+                ico.setAttribute("class", "fas fa-angle-double-down");
+            }
+        });
+        var doc = document.getElementById("collapse_" + localStorage.menuId);
+
+        debugger;
+        if (doc.classList.length >= 1) {
+            doc.classList.toggle('collapse');
+            var ico = document.getElementById("icon-" + localStorage.menuId);
+            if (ico) {
+
+                ico.setAttribute("class", "fas fa-angle-double-up");
+            }
+        }
+    }
+
+    function SelectMenu(menuId) {
+        var doc = document.getElementById("collapse_" + menuId);
+        localStorage.menuId = menuId;
+
+        debugger;
+        doc.classList.toggle('collapse');
+        var ico = document.getElementById("icon-" + this.id);
+        if (ico) {
+            ico.setAttribute("class", "fas fa-angle-double-up");
+        }
+        $(".toggle").each(function () {
+            var cdoc = document.getElementById("collapse_" + this.id);
+            if (cdoc.classList.length <= 0 && this.id != localStorage.menuId) {
+                cdoc.classList.toggle('collapse');
+                var ico = document.getElementById("icon-" + this.id);
+                if (ico) {
+                    ico.setAttribute("class", "fas fa-angle-double-down");
+                }
+            }
+        });
+    }
 </script>
