@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Analytic";
+    ViewData["Title"] = "My Team Competence Analytic";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -82,11 +82,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-8 col-md-8" style="margin-top:-30px;"> 
+            <div class="col-sm-8 col-md-8" style="margin-top:-30px;">
                 <figure class="highcharts-figure">
-                    <div id="container"></div> 
+                    <div id="container"></div>
                 </figure>
             </div>
+            @*<div class="col-sm-8 col-md-8" style="margin-top:-30px;">
+                <figure class="highcharts-figure">
+                    <div class="highcharts-container" id="chartCompetence"></div>
+                </figure>
+            </div>*@
         </div>
 
         <div class="row" style="overflow:auto;padding-top:75px;margin-left:-35px;">
@@ -150,39 +155,40 @@
         white-space: nowrap;
         width: 150px; 
     }
-    .quantity::-webkit-inner-spin-button,
-    .quantity::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
 
     .highcharts-figure, .highcharts-data-table table {
-        width:100%;
-        height:100%;
+        width: 100%;
+        height: 100%;
         margin: 1em auto;
     }
-    .highcharts-data-table table { 
+
+    .highcharts-data-table table {
         border-collapse: collapse;
         border: 1px solid #EBEBEB;
         margin: 10px auto;
         text-align: center;
-        width: 100%; 
+        width: 100%;
     }
+
     .highcharts-data-table caption {
         padding: 1em 0;
         font-size: 1.2em;
         color: #555;
     }
+
     .highcharts-data-table th {
         font-weight: 600;
         padding: 0.5em;
     }
+
     .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
         padding: 0.5em;
     }
+
     .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
         background: #f8f8f8;
     }
+
     .highcharts-data-table tr:hover {
         background: #f1f7ff;
     }

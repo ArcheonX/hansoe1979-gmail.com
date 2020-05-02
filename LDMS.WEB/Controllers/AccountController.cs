@@ -36,7 +36,12 @@ namespace LDMS.WEB.Controllers
             {
                 return View(userModel);
             }
-            var user = (await UserService.Authenticattion(userModel.Username, userModel.Password)).Data as LDMS_M_User;
+            var result = (await UserService.Authenticattion(userModel.Username, userModel.Password));
+            if (!result.IsOk)
+            {
+                return Response(result);
+            } 
+            var user = result.Data as LDMS_M_User; 
             if (user != null && !string.IsNullOrEmpty(user.Token))
             {
                 var page = HttpContext.Request.Get("REDIRECTPAGE");

@@ -20,13 +20,13 @@ namespace LDMS.ViewModels
         public List<TCompetenceAnalyticTopic> Topics { get; set; }
         public List<TCompetenceAnalyticScore> Scores { get; set; }
 
-        public List<ViewModels.TCompetenceAnalyticExpectatoin> Expectatoins { get; set; }
+        //public List<ViewModels.TCompetenceAnalyticExpectatoin> Expectatoins { get; set; }
         public TCompetenceAnalytic()
         {
             Employees = new List<TCompetenceAnalyticEmployee>();
             Topics = new List<TCompetenceAnalyticTopic>();
             Scores = new List<TCompetenceAnalyticScore>();
-            Expectatoins = new List<TCompetenceAnalyticExpectatoin>();
+            //Expectatoins = new List<TCompetenceAnalyticExpectatoin>();
         }
     }
 }

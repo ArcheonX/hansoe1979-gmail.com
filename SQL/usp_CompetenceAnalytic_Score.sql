@@ -29,8 +29,7 @@ exec [dbo].[usp_CompetenceAnalytic_Score] @AnalyticId=2,@CreateBy=N'STT00001',@S
 CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalytic_Score]
 	@AnalyticId INT, 
 	@CreateBy  nvarchar(50), 
-	@Scores CompetenceScore readonly,
-	@Expectatoins CompetenceExpectatoin readonly
+	@Scores CompetenceScore readonly
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -44,9 +43,7 @@ BEGIN
 		  ,[UpdateDate] = getdate()
 		FROM [dbo].[LDMS_T_CompetenceAnalytic_Score]
 		JOIN @Scores SC 
-			ON [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceKnowledgeTopic = sc.ID_CompetenceKnowledgeTopic AND [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceEmployee = sc.ID_CompetenceEmployee
-		--JOIN LDMS_T_CompetenceAnalytic_KnwldTopic TP 
-		--	ON TP.ID_CompetenceAnalytic = [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceAnalytic AND TP.ID = [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceKnowledgeTopic AND ISNULL(TP.ID_Course,0) = 0
+			ON [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceKnowledgeTopic = sc.ID_CompetenceKnowledgeTopic AND [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceEmployee = sc.ID_CompetenceEmployee 
 		WHERE [LDMS_T_CompetenceAnalytic_Score].ID_CompetenceAnalytic = @AnalyticId;
 
 		INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Score] ([ID_CompetenceAnalytic] ,[ID_CompetenceKnowledgeTopic] ,[ID_CompetenceEmployee] ,[Score] ,[CreateBy] ,[CreateDate]           ,[UpdateDate])
@@ -55,24 +52,7 @@ BEGIN
 		WHERE NOT EXISTS (SELECT * FROM [dbo].[LDMS_T_CompetenceAnalytic_Score] sm 
 							where sm.ID_CompetenceAnalytic = @AnalyticId
 							AND sm.ID_CompetenceKnowledgeTopic = SC.ID_CompetenceKnowledgeTopic
-							AND sm.ID_CompetenceEmployee = SC.ID_CompetenceEmployee); 
-	    
-		UPDATE [dbo].[LDMS_T_CompetenceAnalytic_Expectatoin]
-		SET  
-		   [Score] = SC.Score
-		  ,[UpdateDate] = getdate()
-		FROM [dbo].[LDMS_T_CompetenceAnalytic_Expectatoin]
-		JOIN @Expectatoins SC 
-		ON [LDMS_T_CompetenceAnalytic_Expectatoin].ID_CompetenceKnowledgeTopic = sc.ID_CompetenceKnowledgeTopic 
-		WHERE [LDMS_T_CompetenceAnalytic_Expectatoin].ID_CompetenceAnalytic = @AnalyticId;
-
-		INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Expectatoin] ([ID_CompetenceAnalytic] ,[ID_CompetenceKnowledgeTopic] ,[Score] ,[CreateBy] ,[CreateDate],[UpdateDate])
-		SELECT @AnalyticId ,sc.ID_CompetenceKnowledgeTopic,sc.Score,@CreateBy ,getdate() ,getdate()
-		FROM @Expectatoins sc 
-		WHERE NOT EXISTS (SELECT * FROM [dbo].[LDMS_T_CompetenceAnalytic_Expectatoin] sm 
-							where sm.ID_CompetenceAnalytic = @AnalyticId
-							AND sm.ID_CompetenceKnowledgeTopic = SC.ID_CompetenceKnowledgeTopic); 
-
+							AND sm.ID_CompetenceEmployee = SC.ID_CompetenceEmployee);  
 
 	COMMIT TRANSACTION;	
 	END TRY

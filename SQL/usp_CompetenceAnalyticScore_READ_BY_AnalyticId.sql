@@ -30,27 +30,41 @@ BEGIN
 		score.ID_CompetenceAnalytic, 
 		score.ID_CompetenceKnowledgeTopic,
 		score.ID_CompetenceEmployee,
-		score.Score
+		score.Score,
+		CAST(0 AS INT) as MinScore,
+		CAST(5 AS INT) as MaxScore
 		FROM LDMS_T_CompetenceAnalytic_Score score WITH (NOLOCK) 
-		LEFT JOIN LDMS_T_CompetenceAnalytic_Employee emp WITH (NOLOCK)  on score.ID_CompetenceEmployee = emp.EmployeeID and emp.Is_Active =1 and emp.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic
-		LEFT JOIN LDMS_T_CompetenceAnalytic_KnwldTopic topc WITH (NOLOCK)  on score.ID_CompetenceKnowledgeTopic = topc.ID and emp.Is_Active =1 and topc.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic and topc.Is_Active =1 
-		where score.ID_CompetenceAnalytic = @AnalyticId AND ISNULL(topc.ID_Course,0)= 0
+		LEFT OUTER JOIN LDMS_T_CompetenceAnalytic_Employee emp WITH (NOLOCK)  on score.ID_CompetenceEmployee = emp.EmployeeID and emp.Is_Active =1 and emp.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic
+		LEFT OUTER JOIN LDMS_T_CompetenceAnalytic_KnwldTopic topc WITH (NOLOCK)  on score.ID_CompetenceKnowledgeTopic = topc.ID and emp.Is_Active =1 and topc.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic and topc.Is_Active =1 
+		where score.ID_CompetenceAnalytic = @AnalyticId AND ISNULL(topc.ID_Course,0) = 0
 		UNION ALL
 		SELECT
 		0 AS ID,
 		emp.ID_CompetenceAnalytic, 
 		topc.ID AS ID_CompetenceKnowledgeTopic,
 		emp.EmployeeID AS ID_CompetenceEmployee,
-		(CASE WHEN ISNULL(res.SkillScore,0) < 20 THEN 1
-			 WHEN ISNULL(res.SkillScore,0) < 40 THEN 2
-			 WHEN ISNULL(res.SkillScore,0) < 60 THEN 3
-			 WHEN ISNULL(res.SkillScore,0) < 80 THEN 4
-			 ELSE 5 END) AS Score
+
+		(CASE WHEN score.Score IS NOT NULL THEN score.Score
+		      WHEN res.LearningResult = 99 OR res.LearningResult = 30 THEN 0
+			 WHEN res.LearningResult = 70 THEN 3
+			 ELSE 0 END) Score,
+		(CASE WHEN res.LearningResult = 99 OR res.LearningResult = 30 THEN 0
+			 WHEN res.LearningResult = 70 THEN 3
+			 ELSE 0 END) AS MinScore,
+
+		(CASE WHEN res.LearningResult = 99 OR res.LearningResult = 30 THEN 2
+			 WHEN res.LearningResult = 70 THEN 5
+			 ELSE 0 END) AS MaxScore 
 		FROM LDMS_T_CompetenceAnalytic_Employee emp WITH (NOLOCK)
-		LEFT JOIN LDMS_T_CompetenceAnalytic_KnwldTopic topc WITH (NOLOCK)  on  topc.ID_CompetenceAnalytic = emp.ID_CompetenceAnalytic and topc.Is_Active =1 
-		LEFT JOIN LDMS_T_ClassAttendAndResult res WITH (NOLOCK) on topc.ID_Course = res.ID_Course and emp.EmployeeID = res.EmployeeID
+		LEFT OUTER JOIN LDMS_T_CompetenceAnalytic_KnwldTopic topc WITH (NOLOCK)  on  topc.ID_CompetenceAnalytic = emp.ID_CompetenceAnalytic and topc.Is_Active =1 
+		LEFT OUTER JOIN LDMS_T_ClassAttendAndResult res WITH (NOLOCK) on topc.ID_Course = res.ID_Course and emp.EmployeeID = res.EmployeeID
+		LEFT OUTER JOIN LDMS_T_CompetenceAnalytic_Score score WITH (NOLOCK) on score.ID_CompetenceEmployee = emp.EmployeeID and emp.Is_Active =1 and emp.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic
 		where emp.ID_CompetenceAnalytic = @AnalyticId AND ISNULL(topc.ID_Course,0)<> 0 and emp.Is_Active =1 
 	) TB
+	
+	--if pass default = 3 can changes 3,4,5
+	--if not pass default = 0 can change 0,1,2
+	--if no result fixed  = 0
 END
 GO
 

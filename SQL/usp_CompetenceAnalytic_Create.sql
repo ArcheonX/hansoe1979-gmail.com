@@ -31,7 +31,7 @@ CREATE OR ALTER PROCEDURE [dbo].[usp_CompetenceAnalytic_Create]
 	@ID_EmployeeManager  nvarchar(50),
 	@CreateBy  nvarchar(50),
 	@EmployeeTable EmployeeIdList readonly,
-	@Topics TopicList readonly
+	@Topics TopicList readonly 
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -51,11 +51,14 @@ BEGIN
 			SELECT @ID_CompetenceAnalytic ,EmployeeId ,@CreateBy ,GETDATE(), 1 FROM @EmployeeTable;
 
 			INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_KnwldTopic] 
-			([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE],[MinScore],[MaxScore])
-			SELECT @ID_CompetenceAnalytic ,ID_Course,TopicName,@CreateBy ,GETDATE(), 1,
-			CASE WHEN ID_Course>0 THEN NULL ELSE 0 END,
-			CASE WHEN ID_Course>0 THEN NULL ELSE 3 END
-			FROM @Topics; 
+			([ID_CompetenceAnalytic] ,[ID_Course] ,[KnowledgeTopicName] ,[CreateBy] ,[CreateDate],[IS_ACTIVE],[Expectatoin])
+			SELECT @ID_CompetenceAnalytic ,ID_Course,TopicName,@CreateBy ,GETDATE(), 1,Expectatoin  FROM @Topics;
+
+			--INSERT INTO [dbo].[LDMS_T_CompetenceAnalytic_Expectatoin] ([ID_CompetenceAnalytic] ,[ID_CompetenceKnowledgeTopic] ,[Score] ,[CreateBy] ,[CreateDate],[UpdateDate])
+			--SELECT @ID_CompetenceAnalytic ,sc.ID_CompetenceKnowledgeTopic,sc.Score,@CreateBy ,getdate() ,getdate()
+			--FROM @Expectatoins sc 
+
+
 	COMMIT TRANSACTION;	
 	END TRY
 	BEGIN CATCH

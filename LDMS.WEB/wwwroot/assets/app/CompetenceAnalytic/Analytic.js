@@ -1,8 +1,6 @@
 ﻿var topics = [];
 var employees = [];
-var scores = [];
-var expectatoins = [];
-
+var scores = []; 
 (function ($) {
     "use strict";
     $(document).ready(function () {
@@ -16,13 +14,15 @@ var expectatoins = [];
         $('#btnSaveCompetence').click(function () {
             SaveCompetenceScore();
         });  
+        $('#btnImportExcel').click(function () {
+            ExportCompetenceScore();
+        });   
         LoadCompetence(parseInt(analytic_id)); 
     })
 })(jQuery);
 
-function validate(evt) {
-    var theEvent = evt || window.event;
-
+function validate(control, evt) {
+    var theEvent = evt || window.event; 
     // Handle paste
     if (theEvent.type === 'paste') {
         key = event.clipboardData.getData('text/plain');
@@ -35,20 +35,21 @@ function validate(evt) {
     if (!regex.test(key)) {
         theEvent.returnValue = false;
         if (theEvent.preventDefault) theEvent.preventDefault();
-    }
+    } 
 }
 
-function RenderChart() { 
+function RenderChart() {
     var AnalyticCategories = [];
-    var Analyticseries = []; 
+    var Analyticseries = [];
 
     //if (topics.length >= 6 && employees.length >= 10) {
     //    return;
     //}
     var topicScore = [];
 
-    topics.forEach(tp => {
-        AnalyticCategories.push(tp.Topic); 
+    topics.forEach(tp => { 
+        AnalyticCategories.push(tp.Topic);
+
         var score = scores.where((sc) => {
             return sc.ID_CompetenceKnowledgeTopic == tp.TopicId;
         });
@@ -57,16 +58,16 @@ function RenderChart() {
                 EmployeeId: scr.ID_CompetenceEmployee,
                 Score: scr.Score
             });
-        }); 
-    }); 
+        });
+    });
     employees.forEach(emp => {
-        var AnalyticScores = []; 
+        var AnalyticScores = [];
         var eScores = topicScore.where((sc) => {
-            return sc.EmployeeId== emp.EmployeeId;
+            return sc.EmployeeId == emp.EmployeeId;
         });
         eScores.forEach(scr => {
             AnalyticScores.push(scr.Score);
-        }); 
+        });
         Analyticseries.push(
             {
                 name: emp.EmployeeName,
@@ -77,33 +78,46 @@ function RenderChart() {
     Highcharts.chart('container', {
         chart: {
             polar: true,
-            type: 'line'
-        }, 
+            type: 'line' 
+        },
+        exporting: {
+            enabled: false,
+            buttons: {
+                enabled: false
+            }
+        },
         title: {
-            text: $("#txtCompetenceName").val() + ' Competence Analytic',
-            //x: -80
+            text: $("#txtCompetenceName").val() + ' Competence Analytic', 
+            x: -80
         },
         pane: {
-            size: '100%'
+            size: '80%'
         },
         xAxis: {
             categories: AnalyticCategories,
             tickmarkPlacement: 'on',
-            lineWidth: 0
-        }, 
+            lineWidth: 0,
+            labels: {
+                align: 'center', 
+            }
+        },
         yAxis: {
             gridLineInterpolation: 'polygon',
             lineWidth: 0,
-            min: 0
+            min: 0,
+            tickPositions: [0,1, 2, 3,4, 5]
         },
-        //tooltip: {
-        //    shared: true,
-        //    pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.x:,.0f}</b><br/>'
-        //}, 
+        tooltip: {
+            shared: true,
+            headerFormat: '<span style="font-size: 12px">{point.key}:</span>&nbsp;&nbsp;<b>{point.y:,.2f}</b>',
+            pointFormat: '',
+            useHTML: true
+        },
         legend: {
+            layout: 'vertical',
             align: 'right',
             verticalAlign: 'middle',
-            layout: 'vertical'
+            borderWidth: 0
         },
         credits: {
             enabled: false,
@@ -118,11 +132,11 @@ function RenderChart() {
                         layout: 'horizontal'
                     },
                     pane: {
-                        size: '100%'
+                        size: '80%'
                     }
                 }
             }]
-        } 
+        }
     });
 }
 
@@ -151,7 +165,8 @@ function LoadCompetence(analytic_id) {
                     ID_CompetenceAnalytic: this.ID_CompetenceAnalytic,
                     Topic: this.KnowledgeTopicName,
                     IsSpecial: this.ID_Course > 0 ? false : true,
-                    ID_Course: this.ID_Course
+                    ID_Course: this.ID_Course,
+                    Expectatoin: this.Expectatoin
                 }); 
             });  
             $.each(response.Data.Employees, function () {
@@ -171,28 +186,25 @@ function LoadCompetence(analytic_id) {
                     ID_CompetenceKnowledgeTopic: this.ID_CompetenceKnowledgeTopic,
                     ID_CompetenceEmployee: this.ID_CompetenceEmployee,
                     Score: this.Score,
+                    MinScore: this.MinScore,
+                    MaxScore: this.MaxScore
                 }); 
-            });
-
-            expectatoins.push({
-                ID_CompetenceKnowledgeTopic: 0,
-                ID_CompetenceAnalytic: 0,
-                Score: 0,
-            });
-            expectatoins.pop();
-            $.each(response.Data.Expectatoins, function () {
-                expectatoins.push({
-                    ID_CompetenceKnowledgeTopic: this.ID_CompetenceKnowledgeTopic,
-                    ID_CompetenceAnalytic: this.ID_CompetenceAnalytic,
-                    Score: this.Score,
-                });
-            });
-
+            }); 
             BuildTable(); 
             MessageController.UnblockUI('#pn-Analytic');
             $("input[type=number]").focus(function () {
                 $(this).select();
             });
+            $("input[type=number]").change(function () {
+                var max = parseInt($(this).attr('max'));
+                var min = parseInt($(this).attr('min'));
+                if ($(this).val() > max) {
+                    $(this).val(max);
+                }
+                else if ($(this).val() < min) {
+                    $(this).val(min);
+                }
+            });      
             RenderChart(); 
         },
         failure: function (response) {
@@ -257,38 +269,26 @@ function BuildTable() {
         var tdExpectatoin = document.createElement('td');
         tdExpectatoin.className = "tdScore";
         tdExpectatoin.style = "width:50px;";
-        tr_tpoic.appendChild(tdExpectatoin);
-        var exp_val = 0;
-        var any_exp = expectatoins.where((sc) => {
-            return sc.ID_CompetenceKnowledgeTopic == item.TopicId;
-        });
-        if (any_exp && any_exp.length > 0) {
-            exp_val = any_exp[0].Score;
-        }
-        if (item.IsSpecial == true) {
-            $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + exp_val + "'  />").appendTo(tdExpectatoin);
-        }
-        else {
-            $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + exp_val + "' />").appendTo(tdExpectatoin);
-        }
+        tr_tpoic.appendChild(tdExpectatoin); 
+        $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Expectatoin' style='width:100%;text-align:center' onkeypress='validate(this,event)' class='quantity'   min='0'  max='5' value='" + item.Expectatoin + "'  />").appendTo(tdExpectatoin);        
         employees.forEach(emp => {
             var score_value = 0;
+            var minScore = 0;
+            var maxScore = 0;
             var any_score = scores.where((sc) => {
                 return sc.ID_CompetenceKnowledgeTopic == item.TopicId && sc.ID_CompetenceEmployee == emp.EmployeeId;
             });
             if (any_score && any_score.length > 0) {
                 score_value = any_score[0].Score;
+                minScore = any_score[0].MinScore;
+                maxScore = any_score[0].MaxScore;
             }
             var td = document.createElement('td');
             td.className = "tdScore";
             td.style = "width:50px;";
             tr_tpoic.appendChild(td);
-            if (item.IsSpecial == true) {
-                $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + score_value + "' />").appendTo(td);
-            }
-            else {
-                $("<input type='number' disabled id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(event)' class='quantity'   min=0  max=5 value='" + score_value + "' />").appendTo(td);                
-            }
+            $("<input type='number' id='txtScore_topic_" + item.TopicId + "_Employee_" + emp.EmployeeId + "' style='width:100%;text-align:center' onkeypress='validate(this,event)' class='quantity'   min='" + minScore + "'  max='" + maxScore +"' value='" + score_value + "' />").appendTo(td);
+            
         });
         tbody.appendChild(tr_tpoic);
     });
@@ -353,4 +353,15 @@ function SaveCompetenceScore() {
             }
         }
     });
+}
+
+function ExportCompetenceScore() {
+    var chartSelector = jThis.data("chartCompetence");
+    var chart = $(chartSelector).highcharts();
+
+    if (Highcharts.exporting.supports("image/jpeg")) {
+        chart.exportChartLocal({
+            type: "image/jpeg"
+        });
+    }
 }
