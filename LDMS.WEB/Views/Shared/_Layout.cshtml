@@ -56,6 +56,14 @@
     <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/assets/app/LDMSUtility.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+
+    <script type="text/javascript" src="~/lib/crypto-js/core.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/cipher-core.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/enc-base64.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/enc-utf16.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/aes.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/pbkdf2.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+
     @*<script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     @*<script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     @*<script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
@@ -78,7 +86,7 @@
     <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
     <link href="~/lib/magnific-popup/dist/magnific-popup.css?v=bd93153bf9375d66780f086cda347bfb" type="text/css" rel="stylesheet">
 
-    <link href="~/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" /> 
+    <link href="~/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
 
     @RenderSection("Scripts", required: false)
     @RenderSection("Header", required: false)
@@ -120,7 +128,7 @@
                         </div>
                     </li>
                     <li>
-                        <nav class="sidebar-nav" style="overflow:auto;">
+                        <nav class="sidebar-nav">
                             @await Component.InvokeAsync("NavigationMenu")
                         </nav>
                     </li>
@@ -148,7 +156,7 @@
             <footer class="footer">
                 <div class="container-fluid">
                     <nav>
-                        <p class="copyright text-center">
+                        <p class="copyright text-right">
                             ลิขสิทธิ์ ©
                             <script>document.write(new Date().getFullYear())</script>
                             <a href="http://www.creative-tim.com">SONY TECHNOLOGY (THAILAND) CO., LTD.</a>, สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
