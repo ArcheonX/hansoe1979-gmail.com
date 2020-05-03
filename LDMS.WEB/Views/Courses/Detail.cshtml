@@ -422,7 +422,7 @@
 
     <div class="modal" id="modSearhEmployee" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg" style="background-color:white;border-radius:2%;width:150%">
-            <div class="modal-content" style="margin-top:100px;width:120%">
+            <div class="modal-content" style="margin-top:0px;width:120%">
                 <div class="modal-header card-header">
                     <h4 class="modal-title" id="lblMATiltle">Search Employee</h4>
                 </div>
@@ -1277,6 +1277,7 @@
              };
 
             alert(JSON.stringify(searchmodel));*/
+            MessageController.BlockUI({ boxed: true, target: '#dtEmployee' });
             $.ajax({
                 url: "/Courses/EmployeeSearch",
                 type: "Post",
@@ -1291,6 +1292,7 @@
                 },
                 success: function (e) {
                     RendorEmplooyee(e);
+                    MessageController.UnblockUI('#dtEmployee');
                 }
             })
         }
@@ -1336,12 +1338,14 @@
 
         function LoadJobGradeList() {
             //alert('LoadJobGradeList');
+            MessageController.BlockUI({ boxed: true, target: '#dtJobGrade' });
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllJobGrades",
                 success: function (response) {
                     //alert(JSON.stringify(response));
                     RenderJobGrade(response);
+                    MessageController.UnblockUI('#dtJobGrade');
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -1388,12 +1392,14 @@
 
         function LoadJobTitleList() {
              //alert('LoadJobTitleList');
+            MessageController.BlockUI({ boxed: true, target: '#dtJobTitle' });
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllJobTitles",
                 success: function (response) {
                     //alert(JSON.stringify(response));
                     RenderJobTitle(response);
+                    MessageController.UnblockUI('#dtJobTitle');
                 },
                 failure: function (response) {
                     MessageController.Error(response.responseText, "Error");
@@ -1447,6 +1453,7 @@
 
         function SaveCourse() {
             //alert('Save Click Outline : ' + $('#txtOutLine').val());
+            MessageController.BlockUI({ boxed: true, target: '#frmCourseDetailEditor' });
             $.ajax({
                     url: "/Courses/InsertCourse",
                     type: "POST",
@@ -1474,10 +1481,11 @@
                 },
                 success: function (e) {
                     //debugger;
-                        alert('Save Complete');
                         $('#hID').val(e.ID);
                         $('#txtCourseID').val(e.CourseID);
                         $('#divClass').attr("style", "display:block");
+                        MessageController.UnblockUI('#frmCourseDetailEditor');
+                        alert('Save Complete');
                 },
                 }
             )
@@ -1579,7 +1587,7 @@
                     ID_Section: @HttpContextAccessor.HttpContext.Request.Cookies["SECTIONTID"],
                 },
                 success: function (e) {
-                    alert(JSON.stringify(e));
+                    //alert(JSON.stringify(e));
                     $("#txtTotal").val(e.Total);
                     $("#txtRemain").val(e.Remain);
                 }

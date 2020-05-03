@@ -189,7 +189,7 @@ namespace LDMS.Services
                 p.Add("@paramID_SectionTarget", ID_SectionTarget);
                 p.Add("@paramJobGradeTargetID", CreateData(JobGradeTargetID, "ID_JobGrade"), DbType.Object);
                 p.Add("@paramJobTitleTargetID", CreateData(JobTitleTargetID, "ID_JobTitle"), DbType.Object);
-                p.Add("@paramID_DepartmentCreate", 1); // JwtManager.Instance.GetDepartmentId(HttpContext.Request) //Example
+                p.Add("@paramID_DepartmentCreate", JwtManager.Instance.GetFromToken(HttpContext.Request, "DEPARTMENTID")); // JwtManager.Instance.GetDepartmentId(HttpContext.Request) //Example
                 p.Add("@paramCreateBy", CurrentUserId); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
                 p.Add("@@paramIsActive", IsActive);
 

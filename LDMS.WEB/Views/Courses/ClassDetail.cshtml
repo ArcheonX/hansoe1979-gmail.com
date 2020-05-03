@@ -7,7 +7,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @model LDMS.ViewModels.LDMS_T_Class;
 <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
-    <form id="frmCourseDetailEditor">
+    <form id="frmClassDetailEditor">
         <div class="panel-body" style="width:100%;">
             <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
                 <div class="row form-group">
@@ -810,7 +810,8 @@
                     options1.append($("<option />").val(this.key).text(this.value));
                 });
 
-                $('#selectTimeFrom').find('option:selected').text($('#hID_LearnTimeStart').val());
+                //$('#selectTimeFrom').find('option:selected').text($('#hID_LearnTimeStart').val());
+                $('select[name="selectTimeFrom"]').val($('#hID_LearnTimeStart').val());
                 $('select[name="selectTimeTo"]').val($('#hID_LearnTimeEnd').val());
 
        });
@@ -956,7 +957,8 @@
 
 
     function SaveClass() {
-        alert('SaveClass');
+        //alert('SaveClass');
+        MessageController.BlockUI({ boxed: true, target: '#frmClassDetailEditor' });
         //debugger;
          $.ajax({
                     url: "/Courses/InsertClass",
@@ -994,8 +996,9 @@
                 },
                 success: function (e) {
                     //debugger;
-                        alert('Save Complete : ID_Course ' + e.ID_Course);
+                        //alert('Save Complete : ID_Course ' + e.ID_Course);
                         $('#hID').val(e.ID);
+                        MessageController.BlockUI({ boxed: true, target: '#frmClassDetailEditor' });
                         window.location.href = '@Url.Content("~/Courses/Detail/")' + e.ID_Course;
 
                         //$('#txtCourseID').val(e.CourseID);
