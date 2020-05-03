@@ -70,6 +70,42 @@ namespace LDMS.WEB.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure to Approve this?.
+        /// </summary>
+        public static string e_CourseRegister_ConfirmApprove {
+            get {
+                return ResourceManager.GetString("e_CourseRegister_ConfirmApprove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure to Close this class? (Waiting record will be reject from this class.).
+        /// </summary>
+        public static string e_CourseRegister_ConfirmClose {
+            get {
+                return ResourceManager.GetString("e_CourseRegister_ConfirmClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure to Reject this?.
+        /// </summary>
+        public static string e_CourseRegister_ConfirmReject {
+            get {
+                return ResourceManager.GetString("e_CourseRegister_ConfirmReject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm save result?.
+        /// </summary>
+        public static string e_CourseRegister_ConfirmSave {
+            get {
+                return ResourceManager.GetString("e_CourseRegister_ConfirmSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please fill at least 4 character..
         /// </summary>
         public static string e_Input4 {

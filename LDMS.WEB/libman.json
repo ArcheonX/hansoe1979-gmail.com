@@ -118,6 +118,10 @@
     {
       "library": "linq.js@2.2.0.2",
       "destination": "wwwroot/lib/linq.js/"
-    } 
+    },
+    {
+      "library": "crypto-js@4.0.0",
+      "destination": "wwwroot/lib/crypto-js/"
+    }
   ]
 }

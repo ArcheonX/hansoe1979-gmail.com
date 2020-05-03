@@ -4,6 +4,7 @@
     ViewData["MainTitle"] = "I-Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @model LDMS.ViewModels.LDMS_M_Course;
 <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
     <form id="frmCourseDetailEditor">
@@ -32,7 +33,7 @@
                         <label class="LabelCaption">Course ID</label>
                     </span>
                 </div>
-                @Html.AntiForgeryToken()
+
                 @if (Model != null)
                 {
                     <input type="hidden" id="hID" name="hID" value=@Model.ID />
@@ -643,6 +644,8 @@
 
             LoadData($('#hID').val());
 
+            GetClassRemain($('#hID').val());
+
             validation();
 
              $("#selectPlant").change(function() {
@@ -684,6 +687,11 @@
         function LoadClassEdit(ID) {
              //alert('LoadClassEdit : ' + ID )
              window.location.href = '@Url.Content("~/Courses/ClassDetail/")' + ID;
+        }
+
+         function LoadClassRegister(ID_Class) {
+             alert('go to => ~/CourseRegister/Index/' + $('#hID').val() + '/' + ID_Class);
+             window.location.href = '@Url.Content("~/CourseRegister/Index/")' + $('#hID').val() + '/' + ID_Class;
         }
 
         function checkJobTitleAll(e) {
@@ -1011,7 +1019,7 @@
                 });
 
 
-                
+
             }
         }
 
@@ -1497,14 +1505,33 @@
                 row.append('<td style="text-align:center">' + e[i].Capacity + '</td>');
                 row.append('<td style="text-align:center">' + e[i].RoomName_EN + '</td>');
                 row.append('<td style="text-align:center">' + e[i].ClassStatus + '</td>');
-                row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-check-cycle.svg") width="28" height="28"></img></a></td>');
+                row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-check-cycle.svg") width="28" height="28" onclick="LoadClassRegister('+ e[i].ID + ')" ></img></a></td>');
                 row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-edit-blue.svg") width="28" height="28" onclick="LoadClassEdit('+ e[i].ID +')" ></a></td>');
                 row.append('<td class="text-center"><img src=@Url.Content("~/assets/images/svg/icon-delete-red.svg") class="btn"></img></td>');
                 row.append('<input type="hidden" id="hdSelect_ID_' + i + '" name="hdSelect_ID_' + i + '" value="' + e[i].ID + '" />');
             }
         }
 
-
+        function GetClassRemain(ID) {
+            alert('GetClassRemain');
+            $.ajax({
+                url: "/Courses/GetClassRemain",
+                type: "GET",
+                data: {
+                    ID_Course: ID,
+                    ID_Plant: @HttpContextAccessor.HttpContext.Request.Cookies["PLANTID"],
+                    ID_Center: @HttpContextAccessor.HttpContext.Request.Cookies["CENTERID"],
+                    ID_Division: @HttpContextAccessor.HttpContext.Request.Cookies["DIVISIONID"],
+                    ID_Department: @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENTID"],
+                    ID_Section: @HttpContextAccessor.HttpContext.Request.Cookies["SECTIONTID"],
+                },
+                success: function (e) {
+                    alert(JSON.stringify(e));
+                    $("#txtTotal").val(e.Total);
+                    $("#txtRemain").val(e.Remain);
+                }
+            });
+        }
 
     </script>
 }

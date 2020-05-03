@@ -50,17 +50,29 @@
     <script src="~/lib/highchart/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script src="~/lib/highchart/modules/export-data.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script src="~/lib/highchart/modules/accessibility.js?v=bd93153bf9375d66780f086cda347bfb"></script>
-    <script src="~/lib/highchart/modules/offline-exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
+    <script src="~/lib/highchart/modules/offline-exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <!--- JS App-->
     <script type="text/javascript" src="~/assets/app/MessageController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/assets/app/LDMSUtility.js?v=bd93153bf9375d66780f086cda347bfb"></script>
     <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+
+    <script type="text/javascript" src="~/lib/crypto-js/core.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/cipher-core.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/enc-base64.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/enc-utf16.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/aes.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/crypto-js/pbkdf2.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+
     @*<script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     @*<script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     @*<script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
     <!--- CSS-->
     <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/fontawesome.min.css" />
+
     <link rel="stylesheet" type="text/css" href="~/css/vendor/animate/animate.css">
     <link rel="stylesheet" type="text/css" href="~/css/vendor/css-hamburgers/hamburgers.min.css">
     <link href="~/css/style.css" type="text/css" rel="stylesheet">
@@ -73,65 +85,118 @@
     <link href="~/lib/selecttwo/css/select2-bootstrap.min.css" type="text/css" rel="stylesheet" />
     <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
     <link href="~/lib/magnific-popup/dist/magnific-popup.css?v=bd93153bf9375d66780f086cda347bfb" type="text/css" rel="stylesheet">
+
+    <link href="~/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+
     @RenderSection("Scripts", required: false)
     @RenderSection("Header", required: false)
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 </head>
-<body style="background:linear-gradient(bottom, #fff, #00c6fb);">
-    <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:auto;">
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
-                        <b>
-                            <img src="~/assets/images/logo-light-icon.png" class="light-logo" alt="homepage" />
-                            <img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
-                        </b>
-                    </a>
-                </div>
-                <div class="head-title"><h1>Learning and Development Management System</h1></div>
-                <div class="logo-img"><span class="pull-right"><img class="ldms-logo" src="~/assets/images/svg/STT.svg" alt="homepage" /></span></div>
-            </nav>
-        </header>
-    </div>
-    <div id="content" style="position:absolute; top:0; bottom:0; left:0px; right:0px;overflow:auto;">
-        <aside class="left-sidebar" style="height:70%;">
-            <div class="user-profile">
-                <div class="profile-img">
-                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
-                </div>
-                <div class="profile-text">
-                    <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
-                    <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
-                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
-                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
-                    <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
-                </div>
-            </div>
-            <div class="scroll-sidebar" id="scroll-sidebar">
-                <nav class="sidebar-nav">
-                    @await Component.InvokeAsync("NavigationMenu")
+<body>
+    <div class="wrapper">
+        <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:no-content;width:100%;">
+            <header class="topbar">
+                <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="index.html">
+                            <b>
+                                <img src="~/assets/images/logo-light-icon.png" class="light-logo" alt="homepage" />
+                                <img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                            </b>
+                        </a>
+                    </div>
+                    <div class="head-title"><h1>Learning and Development Management System</h1></div>
+                    <div class="logo-img"><span class="pull-right"><img class="ldms-logo" src="~/assets/images/svg/STT.svg" alt="homepage" /></span></div>
                 </nav>
+            </header>
+        </div>
+        <div class="sidebar" data-toggle="collapse" data-color="blue" data-image="../assets/images/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li>
+                        <div class="user-profile" style="margin-top:75px;">
+                            <div class="profile-img">
+                                <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
+                            </div>
+                            <div class="profile-text">
+                                <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                                <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                                <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                                <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                                <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <nav class="sidebar-nav">
+                            @await Component.InvokeAsync("NavigationMenu")
+                        </nav>
+                    </li>
+                </ul>
             </div>
-        </aside>
-        <aside class="right-sidebar" style="height:100%;overflow:auto;">
-            <div class="page-wrapper">
-                <div class="page-titles">
-                    <div class="col-md-5 col-8 align-self-center" style="margin-top:75px;">
-                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
-                        <ol class="breadcrumb" style="margin-top:10px;">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
-                        </ol>
+        </div>
+        <div class="main-panel" id="pnAreaAction">
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="page-titles">
+                        <div class="col-md-5 col-8 align-self-center" style="margin-top:25px;">
+                            <h3 class="text-themecolor m-b-0 m-t-0">
+                                <i class="fas fa-angle-double-left" id="arrowSlideLeft" onclick="ToggleMenu(this)" style="cursor:pointer"></i>
+                                <span>@ViewData["MainTitle"]</span>
+                            </h3>
+                            <ol class="breadcrumb" style="margin-top:10px;">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="page-body">
+                        <div style="overflow:auto;padding-top:15px;padding-left:5px;padding-right:5px;">
+                            @RenderBody()
+                        </div>
                     </div>
                 </div>
-                <div class="page-body">
-                    <div style="margin-top:15px;">
-                        @RenderBody()
-                    </div>
-                </div>
-                <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
             </div>
-        </aside>
+            <footer class="footer" style="margin-top:10px;">
+                <div class="container-fluid">
+                    <nav>
+                        <p class="copyright text-right" style="padding-top:10px;">
+                            ลิขสิทธิ์ ©
+                            <script>document.write(new Date().getFullYear())</script> <a href="#">SONY TECHNOLOGY (THAILAND) CO., LTD.</a>, สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
+                        </p>
+                    </nav>
+                </div>
+            </footer>
+        </div>
     </div>
 </body>
 </html> 
+<script>
+    (function ($) {
+        "use strict";
+        $(document).ready(function () {
+            if (localStorage.MenuStage != null && localStorage.MenuStage != undefined) {
+                if (localStorage.MenuStage == "hide") {
+                    $(".sidebar").hide();
+                    $("#pnAreaAction").attr("style", "width:100%;"); 
+                    $("#arrowSlideLeft")[0].classList.remove('fa-angle-double-left');
+                    $("#arrowSlideLeft")[0].classList.add('fa-angle-double-right');                  
+                }
+            }
+        })
+    })(jQuery);
+    function ToggleMenu(mn) {
+        if (mn.classList.contains("fa-angle-double-left")) {
+            $(".sidebar").hide();
+            mn.classList.remove('fa-angle-double-left');
+            mn.classList.add('fa-angle-double-right');  
+            $("#pnAreaAction").attr("style", "width:100%;");
+            localStorage.MenuStage = "hide";
+        } else {
+            $(".sidebar").show();
+            mn.classList.remove('fa-angle-double-right');
+            mn.classList.add('fa-angle-double-left'); 
+            $("#pnAreaAction").removeAttr("style");
+            localStorage.MenuStage = "show";
+        } 
+    }
+</script>

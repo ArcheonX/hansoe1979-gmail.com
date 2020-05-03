@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LDMS.ViewModels
 {
@@ -12,5 +13,6 @@ namespace LDMS.ViewModels
         public DateTime CreateDate { get; set; }
         public string UpdateBy { get; set; }
         public DateTime UpdateDate { get; set; }
+        public List<LDMS_T_IDP_SubTopic> listSubTopic { get; set; }
     }
 }
