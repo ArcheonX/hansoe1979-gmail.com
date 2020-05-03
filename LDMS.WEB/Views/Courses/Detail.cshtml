@@ -4,6 +4,7 @@
     ViewData["MainTitle"] = "I-Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @model LDMS.ViewModels.LDMS_M_Course;
 <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
     <form id="frmCourseDetailEditor">
@@ -32,7 +33,7 @@
                         <label class="LabelCaption">Course ID</label>
                     </span>
                 </div>
-                @Html.AntiForgeryToken()
+
                 @if (Model != null)
                 {
                     <input type="hidden" id="hID" name="hID" value=@Model.ID />
@@ -375,8 +376,11 @@
         <div id="divClass" class="form-horizontal" style="display:none">
             <div class="panel-body" style="width:100%;">
                 <div class="row form-group" style="margin-top:20px;">
-                    <div class="col-sm-1 col-md-2 offset-10">
+                    <div class="col-sm-1 col-md-2 offset-8">
                         <a id="btnAddClass" class="btn btn-primary waves-effect waves-light" onclick="AddClass();" style="width:80%; color:white">Add Class</a>
+                    </div>
+                    <div class="col-sm-1 col-md-2">
+                        <a id="btnDelClass" class="btn btn-danger waves-effect waves-light" onclick="DeleteClass();" style="width:80%; color:white">Delete</a>
                     </div>
                 </div>
                 <div class="table-responsive m-t-40">
@@ -394,7 +398,13 @@
                                 <th style="text-align:center;width:150px">Status</th>
                                 <th style="text-align: center;width:50px">Register</th>
                                 <th style="text-align: center;width:50px">Edit</th>
-                                <th style="text-align:center;width:50px">Delete</th>
+                                <th style="text-align:center;width:50px">
+                                    <input type='checkbox'
+                                           name='selectClass_all'
+                                           value='selectClass_all'
+                                           id="selectClass_all" style="color:white;"
+                                           onclick="checkClassAll(this)" /><label for="selectClass_all" style="top:5px"> </label>
+                                </th>
 
                             </tr>
                         </thead>
@@ -643,6 +653,8 @@
 
             LoadData($('#hID').val());
 
+            GetClassRemain($('#hID').val());
+
             validation();
 
              $("#selectPlant").change(function() {
@@ -686,6 +698,11 @@
              window.location.href = '@Url.Content("~/Courses/ClassDetail/")' + ID;
         }
 
+         function LoadClassRegister(ID_Class) {
+             alert('go to => ~/CourseRegister/Index/' + $('#hID').val() + '/' + ID_Class);
+             window.location.href = '@Url.Content("~/CourseRegister/Index/")' + $('#hID').val() + '/' + ID_Class;
+        }
+
         function checkJobTitleAll(e) {
              if (e.checked) {
                 $(".chkSingleTitle").each(function () {
@@ -720,6 +737,19 @@
             }
             else {
                 $(".chkSingle").each(function () {
+                    if (this.checked) { this.checked = false; }
+                });
+            }
+        }
+
+        function checkClassAll(e) {
+            if (e.checked) {
+                $(".chkSingleClass").each(function () {
+                    if (!this.checked) { this.checked = true; }
+                });
+            }
+            else {
+                $(".chkSingleClass").each(function () {
                     if (this.checked) { this.checked = false; }
                 });
             }
@@ -1011,7 +1041,7 @@
                 });
 
 
-                
+
             }
         }
 
@@ -1497,14 +1527,64 @@
                 row.append('<td style="text-align:center">' + e[i].Capacity + '</td>');
                 row.append('<td style="text-align:center">' + e[i].RoomName_EN + '</td>');
                 row.append('<td style="text-align:center">' + e[i].ClassStatus + '</td>');
-                row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-check-cycle.svg") width="28" height="28"></img></a></td>');
+                row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-check-cycle.svg") width="28" height="28" onclick="LoadClassRegister('+ e[i].ID + ')" ></img></a></td>');
                 row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-edit-blue.svg") width="28" height="28" onclick="LoadClassEdit('+ e[i].ID +')" ></a></td>');
-                row.append('<td class="text-center"><img src=@Url.Content("~/assets/images/svg/icon-delete-red.svg") class="btn"></img></td>');
+                //row.append('<td class="text-center"><img src=@Url.Content("~/assets/images/svg/icon-delete-red.svg") class="btn"></img></td>');
+                row.append('<td style="text-align:center"><input type="checkbox" class="chkSingleClass" style="text-align:center; name="selectClass_' + i + '" value="selectClass_' + i + '" id="selectClass_' + i + '"/><label for="selectClass_'+ i +'"> </label> </td>');
                 row.append('<input type="hidden" id="hdSelect_ID_' + i + '" name="hdSelect_ID_' + i + '" value="' + e[i].ID + '" />');
             }
         }
 
+        function DeleteClass() {
+            alert('DeleteClass');
+            var classList = '';
+            var i = 0;
 
+            while ($("#selectClass_" + i).val() === ("selectClass_" + i)) {
+                if ($("#selectClass_" + i).prop("checked")) {
+
+                    classList += $("#hdSelect_ID_" + i).val() + ',';
+                }
+                i++;
+            }
+
+            alert(classList);
+
+            $.ajax({
+                url: "/Courses/DeleteClass",
+                type: "POST",
+                data: {
+                    ID_Class: classList,
+                   
+                },
+                success: function (e) {
+                    alert('Delete Complete');
+                    window.location.href = '@Url.Content("~/Courses/Detail/")' + $('#hID').val();
+                }
+            });
+            
+        }
+
+        function GetClassRemain(ID) {
+            //alert('GetClassRemain');
+            $.ajax({
+                url: "/Courses/GetClassRemain",
+                type: "GET",
+                data: {
+                    ID_Course: ID,
+                    ID_Plant: @HttpContextAccessor.HttpContext.Request.Cookies["PLANTID"],
+                    ID_Center: @HttpContextAccessor.HttpContext.Request.Cookies["CENTERID"],
+                    ID_Division: @HttpContextAccessor.HttpContext.Request.Cookies["DIVISIONID"],
+                    ID_Department: @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENTID"],
+                    ID_Section: @HttpContextAccessor.HttpContext.Request.Cookies["SECTIONTID"],
+                },
+                success: function (e) {
+                    alert(JSON.stringify(e));
+                    $("#txtTotal").val(e.Total);
+                    $("#txtRemain").val(e.Remain);
+                }
+            });
+        }
 
     </script>
 }

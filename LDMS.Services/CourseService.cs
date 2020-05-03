@@ -486,5 +486,48 @@ namespace LDMS.Services
                 }
             }
         }
+
+
+        public ViewModels.LDMS_T_ClassCapacity GetClassRemain(string ID_Course, string ID_Plant, 
+                                                              string ID_Center, string ID_Division,
+                                                              string ID_Department, string ID_Section)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                var p = new DynamicParameters();
+                p.Add("@paramCourseId", ID_Course);
+                p.Add("@paramPlantId", ID_Plant);
+                p.Add("@paramCenterId", ID_Center);
+                p.Add("@paramDivisionId", ID_Division);
+                p.Add("@paramDepartmentId", ID_Department);
+                p.Add("@paramSectionId", ID_Section);
+
+                ViewModels.LDMS_T_ClassCapacity ret = conn.Query<ViewModels.LDMS_T_ClassCapacity>(_schema + ".[sp_T_CourseTargetRemain]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                return ret;
+            }
+        }
+
+        public int DeleteClass(string ID_Class)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                try
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Class_ID", ID_Class);
+                    p.Add("@UpdateBy", CurrentUserId);
+
+                    int ret = conn.Query<int>(_schema + ".[sp_T_Class_Delete]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
+
+                    return ret;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+        }
+
     }
 }

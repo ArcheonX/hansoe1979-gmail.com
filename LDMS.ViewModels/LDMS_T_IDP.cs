@@ -16,5 +16,9 @@ namespace LDMS.ViewModels
         public string UpdateBy { get; set; }
         public DateTime UpdateDate { get; set; }
         public int ID_Department { get; set; }
+        public string EmployeeName { get; set; }
+        public string IDP_StatusName { get; set; }
+        public string Position { get; set; }
+        public string ID_SubTopic { get; set; }
     }
 }
