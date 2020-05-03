@@ -924,7 +924,10 @@ function SearchEmployee() {
     var searmodel = {
         EmployeeId: $("#txtFilterEmployeeID").val(),
         EmployeeName: $("#txtFilterEmployeeName").val(),
-        Departments: deps != null && deps != undefined ? deps.join(",") : null
+        Departments: deps != null && deps != undefined ? deps.join(",") : null,
+        Sections: null,
+        JobGrades: null,
+        JobTitles: null 
     }; 
     $.ajax({
         type: "GET",
