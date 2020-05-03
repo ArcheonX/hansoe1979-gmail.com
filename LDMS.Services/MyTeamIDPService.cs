@@ -25,6 +25,26 @@ namespace LDMS.Services
             _logger = logger;
         }
 
-        //public ViewModels.
+        public ViewModels.LDMS_T_IDP_Master GetMy_Team_IDP() {
+
+            using (IDbConnection conn = Connection)
+            {
+                try
+                {
+                    var p = new DynamicParameters();
+                    //if (ID_Employee != null) p.Add("@ID_Employee", ID_Employee);
+
+                    p.Add("@ID_Assigner_Employee", "5088888887"); //CurrentUserId
+
+                    var myTeamIDP = conn.Query<ViewModels.LDMS_T_IDP_Master>(_schema + ".[sp_T_IDP_Master_Select_Paging]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                    return myTeamIDP;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+        }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace LDMS.ViewModels
 {
-    public class LDMS_T_IDP
+    public class LDMS_T_IDP_Master
     {
         public int ID { get; set; }
         public int ID_Employee { get; set; }
