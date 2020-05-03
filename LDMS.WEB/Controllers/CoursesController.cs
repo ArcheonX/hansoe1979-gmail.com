@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LDMS.WEB.Controllers
@@ -361,5 +362,23 @@ namespace LDMS.WEB.Controllers
 
             return Json(cap);
         }
+
+        [HttpPost]
+        [Route("Courses/DeleteClass")]
+        public IActionResult DeleteClass(string ID_Class)
+        {
+            /*StringBuilder sb = new StringBuilder();
+            string[] list = ID_Class.Split(',');
+            foreach (var r in list)
+            {
+                sb.Append(r + ",");
+            }
+
+            string classID = sb.ToString();
+            classID = classID.TrimEnd(new char[] { ',' });*/
+
+            return Json(_CourseService.DeleteClass(ID_Class));
+        }
+
     }
 }

@@ -507,6 +507,27 @@ namespace LDMS.Services
                 return ret;
             }
         }
-       
+
+        public int DeleteClass(string ID_Class)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                try
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Class_ID", ID_Class);
+                    p.Add("@UpdateBy", CurrentUserId);
+
+                    int ret = conn.Query<int>(_schema + ".[sp_T_Class_Delete]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
+
+                    return ret;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+        }
+
     }
 }
