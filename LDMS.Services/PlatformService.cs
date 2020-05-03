@@ -37,7 +37,7 @@ namespace LDMS.Services
                 p.Add("@PlatformDescription", PlatformDescription);
                 p.Add("@ID_Department_Create", ID_Department_Create);
                 p.Add("@PlatformStatus", PlatformStatus);
-                p.Add("@CreateBy", 1); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@CreateBy", CurrentUserId); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
 
                 int ret = conn.Query<int>(_schema + ".[sp_M_Platform_Insert]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
 
@@ -59,7 +59,7 @@ namespace LDMS.Services
                 p.Add("@PlatformDescription", PlatformDescription);
                 p.Add("@ID_Department_Create", ID_Department_Create);
                 p.Add("@PlatformStatus", PlatformStatus);
-                p.Add("@UpdateBy", 1); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@UpdateBy", CurrentUserId); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
 
                 int ret = conn.Query<int>(_schema + ".[sp_M_Platform_Update]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
 
@@ -222,7 +222,7 @@ namespace LDMS.Services
                 p.Add("@ID_Platform ", ID_Platform);
                 p.Add("@SubPlatformName_EN", SubPlatformName_EN);
                 p.Add("@SubPlatformName_TH", SubPlatformName_TH);
-                p.Add("@CreateBy", 1); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@CreateBy", CurrentUserId); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
 
                 int ret = conn.Query<int>( _schema + ".[sp_M_SubPlatform_Insert]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
   
@@ -238,7 +238,7 @@ namespace LDMS.Services
                 p.Add("@ID_SubPlatform ", ID_SubPlatform);
                 p.Add("@SubPlatformName_EN", SubPlatformName_EN);
                 p.Add("@SubPlatformName_TH", SubPlatformName_TH);
-                p.Add("@UpdateBy", 1); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@UpdateBy", CurrentUserId); // JwtManager.Instance.GetUserId(HttpContext.Request) //Example
 
                 int ret = conn.Query<int>(_schema + ".[sp_M_SubPlatform_Update]", p, commandType: System.Data.CommandType.StoredProcedure).Single();
 
