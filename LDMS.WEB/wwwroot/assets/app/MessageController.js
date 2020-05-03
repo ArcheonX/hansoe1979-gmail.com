@@ -1,9 +1,8 @@
 ﻿
 var MessageController = function () {
-    var blockUI = function (options) {
+    var blockUI = function (options, baseUrl) {
         options = $.extend(true, {}, options);
-        var html = ''; 
-        var baseUrl = '@Url.Content("~/")';
+        var html = '';  
         var image = baseUrl + '/assets/images/gif/loading-spinner-grey.gif';
         if (options.animate) {
             html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
@@ -200,8 +199,12 @@ var MessageController = function () {
     }
 
 return {
-    BlockUI: function (options) {
-        return blockUI(options);
+    BlockUI: function (options) { 
+        var protocol = location.protocol;
+        var slashes = protocol.concat("//");
+        var host = slashes.concat(window.location.hostname);
+        let path = host + (window.location.port != null && window.location.port != undefined && window.location.port != '' ? ':' + window.location.port : ''); 
+        return blockUI(options, path);
     },
     UnblockUI: function (options) {
         return unblockUI(options);
