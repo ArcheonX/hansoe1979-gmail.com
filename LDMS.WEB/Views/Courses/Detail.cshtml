@@ -255,7 +255,8 @@
                                   rows="5" style="width:100%"></textarea>
                     </div>
                     <div class="col-sm-1 col-md-1 pull-left">
-                        <a id="btnSearchEmployee" class="btn btn-group" style="width:90%; color:midnightblue" onclick="OpenEmployee()"><img src='@Url.Content("~/assets/images/svg/icon-user.svg")' width="34" height="34" class='light-logo' alt='homepage' title="Find" /></a>
+                        <a id="btnSearchEmployee" class="btn btn-group" style="width:90%; color:midnightblue" onclick="OpenEmployee()">
+                        <img src='@Url.Content("~/assets/images/svg/icon-user.svg")' width="34" height="34" class='light-logo' alt='homepage' title="Find" /></a>
                     </div>
                 </div>
             </div>
@@ -420,10 +421,10 @@
     </form>
 
 
-    <div class="modal" id="modSearhEmployee" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+    <div class="modal" id="modSearhEmployee" style="padding-top:-25px;" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg" style="background-color:white;border-radius:2%;width:150%">
             <div class="modal-content" style="margin-top:100px;width:120%">
-                <div class="modal-header card-header">
+                <div class="modal-header card-header" style="padding-top:0px;">
                     <h4 class="modal-title" id="lblMATiltle">Search Employee</h4>
                 </div>
                 <div class="modal-body" style="min-height:20px">
@@ -512,8 +513,8 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive" style="overflow-y:auto; height:300px">
-                        <table class="table table-striped table-hover table-fixed" id="dtEmployee" style="padding-top:5px">
-                            <thead style="background-color:#1e88e5;color:#ffffff" class="sticky-top">
+                        <table class="display dataTable" id="dtEmployee" style="padding-top:5px">
+                            <thead class="sticky-top">
                                 <tr>
                                     <!--<th style="text-align:center;width:100px">No</th>-->
                                     <th style="text-align:center;width:100px">EMP ID</th>
@@ -549,16 +550,16 @@
     </div>
 
 
-    <div class="modal" id="modJobGrade" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+    <div class="modal" id="modJobGrade" style="padding-top:-25px;" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg" style="background-color:white;border-radius:2%;width:150%">
             <div class="modal-content" style="margin-top:100px;width:120%">
-                <div class="modal-header card-header">
+                <div class="modal-header card-header"  style="padding-top:0px;">
                     <h4 class="modal-title" id="lblMATiltle">Job Grade</h4>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive" style="overflow-y:auto; height:550px">
-                        <table class="table table-striped table-hover table-fixed" id="dtJobGrade" style="padding-top:5px">
-                            <thead style="background-color:#1e88e5;color:#ffffff" class="sticky-top">
+                        <table class="display dataTable" id="dtJobGrade" style="padding-top:5px">
+                            <thead class="sticky-top">
                                 <tr>
                                     <!--<th style="text-align:center;width:100px">No</th>-->
                                     <th style="text-align:center">Job Grade ID</th>
@@ -590,16 +591,16 @@
     </div>
 
 
-    <div class="modal" id="modJobTitle" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+    <div class="modal" id="modJobTitle" style="padding-top:-25px;" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg" style="background-color:white;border-radius:2%;width:150%">
             <div class="modal-content" style="margin-top:100px;width:120%">
-                <div class="modal-header card-header">
+                <div class="modal-header card-header"  style="padding-top:0px;">
                     <h4 class="modal-title" id="lblMATiltle">Job Title</h4>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive" style="overflow-y:auto; height:550px">
-                        <table class="table table-striped table-hover table-fixed" id="dtJobTitle" style="padding-top:5px">
-                            <thead style="background-color:#1e88e5;color:#ffffff" class="sticky-top">
+                        <table class="display dataTable" id="dtJobTitle" style="padding-top:5px">
+                            <thead  class="sticky-top">
                                 <tr>
                                     <!--<th style="text-align:center;width:100px">No</th>-->
                                     <th style="text-align:center">Job Title ID</th>
@@ -686,7 +687,8 @@
                     ID_Course : $('#hID').val()
                 },
                 success: function (e) {
-                    alert('AddClass Success : ' + e);
+                   // alert('AddClass Success : ' + e);
+                    MessageController.Success("AddClass Completed.", "Success");
                     window.location.href = '@Url.Content("~/Courses/AddClass/")' + e;
                 },
             }
@@ -765,10 +767,7 @@
              document.getElementById("txtRefreshmentPeriod").disabled = false;
              document.getElementById("selectRefreshmentUnit").disabled = false;
           }*/
-        };
-
-
-
+        }; 
         function changePlant(sel) {
             //alert('changePlant');
             $('#selectDivision').empty();
@@ -800,8 +799,7 @@
 
             var departmentId = sel.value;
             ReloadSection($, departmentId, null);
-        }
-
+        } 
 
         function validation() {
             $("#selRefresh").change( function(){
@@ -820,6 +818,7 @@
         function openModalJobTitle() {
             LoadJobTitleList();
             $('#modJobTitle').modal('toggle');
+            SetDataTableModal('#dtJobTitle');
         }
 
         function CloseModalJobTitle() {
@@ -831,6 +830,7 @@
         function openModalJobGrade() {
             LoadJobGradeList();
             $('#modJobGrade').modal('toggle');
+            SetDataTableModal('#dtJobGrade');
         }
 
         function CloseModalJobGrade() {
@@ -842,6 +842,7 @@
             LoadEmpJobGrade();
             LoadEmpJobTitle();
             $('#modSearhEmployee').modal('toggle');
+            SetDataTableModal('#dtEmployee');
         }
 
         function ClosedEmployee() {
@@ -1277,6 +1278,7 @@
              };
 
             alert(JSON.stringify(searchmodel));*/
+            MessageController.BlockUI({ boxed: true, textOnly: true, target: '#modSearhEmployee' });
             $.ajax({
                 url: "/Courses/EmployeeSearch",
                 type: "Post",
@@ -1290,12 +1292,13 @@
                      "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
                 },
                 success: function (e) {
-                    RendorEmplooyee(e);
+                    RenderEmplooyee(e);
+                    MessageController.UnblockUI('#modSearhEmployee');
                 }
             })
         }
 
-        function RendorEmplooyee(e) {
+        function RenderEmplooyee(e) {
             //alert('RendorEmployee');
             $("#dtEmployee tbody > tr").remove();
                 for (i = 0; i < e.length; i++) {
@@ -1311,6 +1314,11 @@
                     row.append('<input type="hidden" id="hdSelect_EmployeeID_' + i + '" name="hdSelect_EmployeeID_' + i + '" value="' + e[i].EmployeeID + '" />');
                     row.append('<td style="text-align:center"><input type="checkbox" class="chkSingle" style="text-align:center; name="selectEmployee_' + i + '" value="selectEmployee_' + i + '" id="selectEmployee_' + i + '"/><label for="selectEmployee_'+ i +'"> </label> </td>');
             }
+            if ($.fn.dataTable.isDataTable('#dtEmployee')) {
+                var table = $('#dtEmployee').DataTable();
+                table.destroy();
+            }
+            SetDataTableModal('#dtEmployee');
         }
 
         function SelectEmployee() {
@@ -1364,8 +1372,31 @@
                     row.append('<td style="text-align:center"><input type="checkbox" class="chkSingleJob" style="text-align:center; name="selectJobGrade_' + i + '" value="selectJobGrade_' + i + '" id="selectJobGrade_' + i + '"/><label for="selectJobGrade_'+ i +'"> </label> </td>');
                 i++;
             });
+            SetDataTableModal('#dtJobGrade');
         }
-
+        function SetDataTableModal(tableId) {
+            if ($.fn.dataTable.isDataTable(tableId)) {
+                var table = $(tableId).DataTable();
+                table.destroy();
+            }
+            $(tableId).DataTable({
+                'processing': true,
+                'paging': true,
+                "ordering": false,
+                "searching": false,
+                "lengthChange": false,
+                "bAutoWidth": false,
+                "Filter": false,
+                "info": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "pageLength": 5,
+                "bJQueryUI": true, //Enable smooth theme
+                "sPaginationType": "full_numbers", //Enable smooth theme
+                "sDom": 'lfrtip'
+            });
+            $('.dataTables_length').addClass('bs-select');
+        }
         function SelectJobGrade() {
             var jobGradelist = '';
             var i = 0;
@@ -1416,6 +1447,7 @@
                     row.append('<td style="text-align:center"><input type="checkbox" class="chkSingleTitle" style="text-align:center; name="selectJobTitle_' + i + '" value="selectJobTitle_' + i + '" id="selectJobTitle_' + i + '"/><label for="selectJobTitle_'+ i +'"> </label> </td>');
                 i++;
             });
+            SetDataTableModal('#dtJobTitle');
         }
 
         function SelectJobTitle() {
