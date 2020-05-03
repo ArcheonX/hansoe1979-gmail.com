@@ -1,16 +1,17 @@
 ﻿
 var MessageController = function () {
-    var blockUI = function (options) {
+    var blockUI = function (options, baseUrl) {
         options = $.extend(true, {}, options);
-        var html = '';
+        var html = '';  
+        var image = baseUrl + '/assets/images/gif/loading-spinner-grey.gif';
         if (options.animate) {
             html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
         } else if (options.iconOnly) {
-            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="../assets/images/gif/loading-spinner-grey.gif" align=""></div>';
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src=' + image+' align=""></div>';
         } else if (options.textOnly) {
             html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><span>  ' + (options.message ? options.message : 'LOADING...') + '</span></div>';
         } else {
-            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="../assets/images/gif/loading-spinner-grey.gif" align=""><span>  ' + (options.message ? options.message : 'LOADING...') + '</span></div>';
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src=' + image +' align=""><span>  ' + (options.message ? options.message : 'LOADING...') + '</span></div>';
         }
         if (options.target) { // element blocking
             var el = $(options.target);
@@ -198,8 +199,12 @@ var MessageController = function () {
     }
 
 return {
-    BlockUI: function (options) {
-        return blockUI(options);
+    BlockUI: function (options) { 
+        var protocol = location.protocol;
+        var slashes = protocol.concat("//");
+        var host = slashes.concat(window.location.hostname);
+        let path = host + (window.location.port != null && window.location.port != undefined && window.location.port != '' ? ':' + window.location.port : ''); 
+        return blockUI(options, path);
     },
     UnblockUI: function (options) {
         return unblockUI(options);

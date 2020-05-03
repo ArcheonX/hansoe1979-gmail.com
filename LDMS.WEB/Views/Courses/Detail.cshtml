@@ -1280,7 +1280,7 @@
              };
 
             alert(JSON.stringify(searchmodel));*/
-            MessageController.BlockUI({ boxed: true, textOnly : true, target: '#dtEmployee' });
+            MessageController.BlockUI({ boxed: true, target: '#dtEmployee' });
             $.ajax({
                 url: "/Courses/EmployeeSearch",
                 type: "Post",
@@ -1302,7 +1302,7 @@
 
         function RenderEmplooyee(e) { 
             if ($.fn.dataTable.isDataTable('#dtEmployee')) {
-                var table = $(tableId).DataTable();
+                var table = $('#dtEmployee').DataTable();
                 table.destroy();
             }
             $("#dtEmployee tbody > tr").remove();
@@ -1361,7 +1361,7 @@
 
         function LoadJobGradeList() {
             //alert('LoadJobGradeList');
-            MessageController.BlockUI({ boxed: true, textOnly: true,target: '#dtJobGrade' });
+            MessageController.BlockUI({ boxed: true,target: '#dtJobGrade' });
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllJobGrades",
@@ -1381,7 +1381,7 @@
 
         function RenderJobGrade(e) {
             if ($.fn.dataTable.isDataTable('#dtJobGrade')) {
-                var table = $(tableId).DataTable();
+                var table = $('#dtJobGrade').DataTable();
                 table.destroy();
             }
             $("#dtJobGrade tbody > tr").remove();
@@ -1436,7 +1436,7 @@
 
         function LoadJobTitleList() {
              //alert('LoadJobTitleList');
-            MessageController.BlockUI({ boxed: true, textOnly: true,target: '#dtJobTitle' });
+            MessageController.BlockUI({ boxed: true,target: '#dtJobTitle' });
             $.ajax({
                 type: "GET",
                 url: "/Master/GetAllJobTitles",
@@ -1456,7 +1456,7 @@
 
         function RenderJobTitle(e) {
             if ($.fn.dataTable.isDataTable('#dtJobTitle')) {
-                var table = $(tableId).DataTable();
+                var table = $('#dtJobTitle').DataTable();
                 table.destroy();
             }
             $("#dtJobTitle tbody > tr").remove();
