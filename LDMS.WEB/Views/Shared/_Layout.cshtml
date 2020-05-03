@@ -177,9 +177,9 @@
             if (localStorage.MenuStage != null && localStorage.MenuStage != undefined) {
                 if (localStorage.MenuStage == "hide") {
                     $(".sidebar").hide();
-                    $("#pnAreaAction").attr("style", "width:100%;"); 
+                    $("#pnAreaAction").attr("style", "width:100%;");
                     $("#arrowSlideLeft")[0].classList.remove('fa-angle-double-left');
-                    $("#arrowSlideLeft")[0].classList.add('fa-angle-double-right');                  
+                    $("#arrowSlideLeft")[0].classList.add('fa-angle-double-right');
                 }
             }
         })
@@ -188,15 +188,15 @@
         if (mn.classList.contains("fa-angle-double-left")) {
             $(".sidebar").hide();
             mn.classList.remove('fa-angle-double-left');
-            mn.classList.add('fa-angle-double-right');  
+            mn.classList.add('fa-angle-double-right');
             $("#pnAreaAction").attr("style", "width:100%;");
             localStorage.MenuStage = "hide";
         } else {
             $(".sidebar").show();
             mn.classList.remove('fa-angle-double-right');
-            mn.classList.add('fa-angle-double-left'); 
+            mn.classList.add('fa-angle-double-left');
             $("#pnAreaAction").removeAttr("style");
             localStorage.MenuStage = "show";
-        } 
+        }
     }
 </script>

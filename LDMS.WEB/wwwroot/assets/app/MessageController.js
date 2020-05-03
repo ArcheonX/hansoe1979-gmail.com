@@ -2,15 +2,17 @@
 var MessageController = function () {
     var blockUI = function (options) {
         options = $.extend(true, {}, options);
-        var html = '';
+        var html = ''; 
+        var baseUrl = '@Url.Content("~/")';
+        var image = baseUrl + '/assets/images/gif/loading-spinner-grey.gif';
         if (options.animate) {
             html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
         } else if (options.iconOnly) {
-            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="../assets/images/gif/loading-spinner-grey.gif" align=""></div>';
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src=' + image+' align=""></div>';
         } else if (options.textOnly) {
             html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><span>  ' + (options.message ? options.message : 'LOADING...') + '</span></div>';
         } else {
-            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="../assets/images/gif/loading-spinner-grey.gif" align=""><span>  ' + (options.message ? options.message : 'LOADING...') + '</span></div>';
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src=' + image +' align=""><span>  ' + (options.message ? options.message : 'LOADING...') + '</span></div>';
         }
         if (options.target) { // element blocking
             var el = $(options.target);
