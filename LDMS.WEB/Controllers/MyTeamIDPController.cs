@@ -1,4 +1,5 @@
 ﻿using LDMS.Core;
+using LDMS.Identity;
 using LDMS.Services;
 using LDMS.ViewModels;
 using LDMS.WEB.Filters;
@@ -49,9 +50,9 @@ namespace LDMS.WEB.Controllers
             criteria.ID_Department = ID_Department;
             criteria.ID_Status = ID_Status;
             criteria.EmployeeID = ID_Employee;
-            
+            criteria.ID_Manager = JwtManager.Instance.GetUserId(HttpContext.Request);
 
-            var myTeamIDP = _MyTeamIDPService.GetMy_Team_IDP();
+            var myTeamIDP = _MyTeamIDPService.GetMy_Team_IDP(criteria);
 
             return Json(myTeamIDP);
         }

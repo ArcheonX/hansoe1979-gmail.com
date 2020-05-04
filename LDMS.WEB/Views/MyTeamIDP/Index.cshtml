@@ -145,7 +145,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                @*<tr>
 
                                     <td class="w-25">
                                         <img src="~/assets/images/users/virgil.jpg" class="img-fluid img-thumbnail" alt="virgil">
@@ -187,7 +187,7 @@
                                         Update Date: 01 May 2020 14:50:30
                                     </td>
 
-                                </tr>
+                                </tr>*@
                             </tbody>
                         </table>
                     </div>
@@ -438,8 +438,8 @@
                         data: null,
                         "mRender": function (data, type, row) {
                             return "<strong>Objective</strong> <br><textarea rows='4' cols='50' readonly>" + row.Objective + 
-                                "</textarea > <br> <strong>Total Review: </strong>" + row.TotalReview + "<br> <strong> IDP Status:</strong >" +
-                                row.statename + "<br> Update Date: " + row.UpdateDate
+                                "</textarea > <br> <strong>Total Review: </strong>" + row.TotalReview + "<br> <strong> IDP Status: </strong >" +
+                                row.statename + "<br> <strong>Update Date: </strong>" + row.UpdateDate
                         }
                     
                     }],
