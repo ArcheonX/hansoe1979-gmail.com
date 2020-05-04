@@ -35,20 +35,19 @@ namespace LDMS.WEB.Controllers
 
             string sortColumn = "";
             if (sortIndex != "0") sortColumn = Request.Form["columns[" + sortIndex + "][data]"].ToString();
-            LDMS_T_CoachingSearch criteria = new LDMS_T_CoachingSearch();
-            criteria.PageNum = int.Parse(Request.Form["start"]) / int.Parse(Request.Form["length"]) + 1;
-            criteria.PageSize = int.Parse(Request.Form["length"]);
+            LDMS_T_IDP_Master criteria = new LDMS_T_IDP_Master();
+            
             criteria.ID_Plant = ID_Plant;
             criteria.ID_Center = ID_Center;
             criteria.ID_Division = ID_Division;
             criteria.ID_Department = ID_Department;
             criteria.ID_Status = ID_Status;
-            criteria.ID_Employee = ID_Employee;
-            criteria.ID_Platform = ID_Platform;
+            criteria.EmployeeID = ID_Employee;
+            
 
-            var coaching = _CoachingService.GetCoaching(criteria, IS_Employee);
+            var myTeamIDP = _MyTeamIDPService.GetMy_Team_IDP();
 
-            return Json(coaching);
+            return Json(myTeamIDP);
         }
     }
 }

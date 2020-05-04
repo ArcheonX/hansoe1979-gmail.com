@@ -106,28 +106,94 @@
                 </form>
             </div>
         </div>
-        <div class="table-responsive m-t-40">
+        @*<div class="table-responsive m-t-40">*@
             @* Result Panel *@
-            <table class="display dataTable" width="100%" id="dtCourseList">
+            @*<table class="display dataTable" width="100%" id="dtCourseList">
                 <thead>
                     <tr>
                         <th style="text-align:center;width:100px">Name:</th>
-                        <th style="text-align:center;width:150px">Position:</th>
-                        <th style="text-align:center;width:150px">Service(Year):</th>
-                        <th style="text-align:center;width:150px">IDP Time Line:</th>
-                        <th style="text-align:center;width:150px">IDP Start:</th>
-                        <th style="text-align: center;width:50px">IDP End:</th>
-                        <th style="text-align:center;width:50px">IDP Objective</th>
-                        <th style="text-align:center;width:50px">Total Review</th>
-                        <th style="text-align:center;width:50px">IDP Status</th>
-                        <th style="text-align:center;width:50px">Update Date</th>
-                        <th style="text-align:center;width:50px">Update Time</th>
+        <th style="text-align:center;width:150px">Position:</th>
+        <th style="text-align:center;width:150px">Service(Year):</th>
+        <th style="text-align:center;width:150px">IDP Time Line:</th>
+        <th style="text-align:center;width:150px">IDP Start:</th>
+        <th style="text-align: center;width:50px">IDP End:</th>
+        <th style="text-align:center;width:50px">IDP Objective</th>
+        <th style="text-align:center;width:50px">Total Review</th>
+        <th style="text-align:center;width:50px">IDP Status</th>
+        <th style="text-align:center;width:50px">Update Date</th>
+        <th style="text-align:center;width:50px">Update Time</th>
+                        <th style="text-align:center;width:100px">image</th>
+                        <th style="text-align:center;width:200px">IDP Team Member</th>
+                        <th style="text-align:center;width:200px">Objective</th>
                     </tr>
+
                 </thead>
                 <tbody>
                 </tbody>
-            </table>
-        </div>
+            </table>*@
+            <div class="container">
+                <div class="row">
+                    <div class="col-24">
+                        <table class="table table-image">
+                            <thead>
+                                <tr>
+                                    
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Employee Info</th>
+                                    <th scope="col">IDP</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    
+                                    <td class="w-25">
+                                        <img src="~/assets/images/users/virgil.jpg" class="img-fluid img-thumbnail" alt="virgil">
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <strong>Mr. Virgil van Dijk</strong> </br>
+                                        <strong>Position :</strong> Attacking Midfield </br>
+                                        <strong>Service  :</strong> 2 Years </br>
+                                        <strong>IDP Start:</strong> 1 June 2020 </br>
+                                        <strong>IDP End  :</strong> 31 May 2021 </br>
+                                    </td>
+                                    <td class="col-md-4">
+                                        <strong>Objective</strong> <br>
+                                        <textarea rows="4" cols="50" readonly>At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
+                                        </textarea><br>
+                                        <strong>Total Review:</strong> 10 <br>
+                                        <strong>IDP Status:</strong> On Progress <br>
+                                        Update Date: 01 May 2020 14:50:30
+                                    </td>
+                                 </tr>
+                                <tr>
+
+                                    <td class="w-25">
+                                        <img src="~/assets/images/users/Sarah.jpg" class="img-fluid img-thumbnail" alt="Sheep">
+                                    </td>
+                                    <td class="col-sm-3">
+                                        <strong>Mr. Mohamed Salah</strong> </br>
+                                        <strong>Position :</strong> Center Back </br>
+                                        <strong>Service  :</strong> 3 Years </br>
+                                        <strong>IDP Start:</strong> 1 May 2020 </br>
+                                        <strong>IDP End  :</strong> 30 April 2021 </br>
+                                    </td>
+                                    <td class="col-md-4">
+                                        <strong>Objective</strong> <br>
+                                        <textarea rows="4" cols="50" readonly>At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
+                                        </textarea><br>
+                                        <strong>Total Review:</strong> 5 <br>
+                                        <strong>IDP Status:</strong> On Progress <br>
+                                        Update Date: 01 May 2020 14:50:30
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @*</div>*@
         @section Scripts{
             <style type="text/css">
                 .form-group {
