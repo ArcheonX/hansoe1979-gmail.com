@@ -191,7 +191,7 @@ namespace LDMS.WEB.Controllers
             }
             else
             {
-                _CourseService.UpdateCourse(ID_Course, CourseID, CourseName, ID_LearnMethod, ID_CourseType, Objective, Description, OutLine,
+                course = _CourseService.UpdateCourse(ID_Course, CourseID, CourseName, ID_LearnMethod, ID_CourseType, Objective, Description, OutLine,
                                                   IsRefreshment, RefreshmentPeriod, RefreshmentUnit, TargetEmployeeID, ID_PlantTarget,
                                                   ID_CenterTarget, ID_DivisionTarget, ID_DepartmentTarget, ID_SectionTarget, JobGradeTargetID,
                                                   JobTitleTargetID, IsActive);
