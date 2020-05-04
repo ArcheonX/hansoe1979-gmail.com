@@ -78,7 +78,7 @@
                                 </span>
                             </div>
                             <div class="col-4">
-                                <select id="selectCourseStatus" name="selectCourseStatus" class="form-control" style="width: 100%">
+                                <select id="selectIDPStatus" name="selectIDPStatus" class="form-control" style="width: 100%">
                                     <option value="0">-- Select All --</option>
                                     <option value="10">Not Start</option>
                                     <option value="30">On Progress</option>
@@ -133,20 +133,20 @@
             </table>*@
             <div class="container">
                 <div class="row">
-                    <div class="col-24">
-                        <table class="table table-image">
+                    <div class="Col-sm-12">
+                        <table class="display dataTable table table-image" width="100%" id="dtMyTeamIDPList">
                             <thead>
                                 <tr>
-                                    
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Employee Info</th>
-                                    <th scope="col">IDP</th>
-                                   
+
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    
+
                                     <td class="w-25">
                                         <img src="~/assets/images/users/virgil.jpg" class="img-fluid img-thumbnail" alt="virgil">
                                     </td>
@@ -165,7 +165,7 @@
                                         <strong>IDP Status:</strong> On Progress <br>
                                         Update Date: 01 May 2020 14:50:30
                                     </td>
-                                 </tr>
+                                </tr>
                                 <tr>
 
                                     <td class="w-25">
@@ -213,7 +213,7 @@
             loadPlant();
             //loadPlatform();
             //LoadCourseLearnMethod();
-            //Search();
+            Search();
 
 
             $('select[name="selectPlant"]').on('change', function () {
@@ -380,6 +380,77 @@
                     }
                 });
             }
+                }
+        function Search() {
+            var icon = '@Url.Content("~/assets/images/svg/icon-edit.svg")';
+            dtData = $('#dtMyTeamIDPList').DataTable({
+                'processing': true,
+                'serverSide': true,
+                'paging': true,
+                "ordering": false,
+                "searching": false,
+                "lengthChange": false,
+                "bAutoWidth": false,
+                "Filter": false,
+                "info": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bJQueryUI": true, //Enable smooth theme
+                "sPaginationType": "full_numbers", //Enable smooth theme
+                "sDom": 'lfrtip',
+                destroy: true,
+                'ajax': {
+                    'url': '@Url.Action("Search", "MyTeamIDP")',
+                    'type': 'POST',
+                    'data': {
+                        ID_Plant: $('#selectPlant').val(),
+                        ID_Center: $('#selectCenter').val(),
+                        ID_Division: $('#selectDivision').val(),
+                        ID_Department: $('#selectDepartment').val(),
+                        ID_Status: $('#selectIDPStatus').val(),
+                        ID_Employee: $('#txtEmployeeID').val(),
+
+                       
+                        "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
+                    },
+                },
+                'columns': [
+                    {
+                        data: "ProfilePath",
+                        "mRender": function (data, type, row) {
+                            return "<img src='" + data + "' class='img-fluid img-thumbnail' alt='virgil'>"
+                        }
+                    },
+                    {
+                        data: null,
+                        "mRender": function (data, type, row) {
+                            return "<strong>" + row.EmployeeName + "</strong> </br>" +
+                                "<strong>Position : </strong>" + row.JobTitleName_EN + "</br>" +
+                                "<strong>Service  :</strong>" + row.Service_TimeLine + "</br>" +
+                                "<strong>IDP Start:</strong> " + row.IDP_StartDate + "</br>" +
+                                "<strong>IDP End  :</strong> " + row.IDP_EndDate + "</br>"
+
+                        }
+
+
+                    },
+                    {
+                        data: null,
+                        "mRender": function (data, type, row) {
+                            return "<strong>Objective</strong> <br><textarea rows='4' cols='50' readonly>" + row.Objective + 
+                                "</textarea > <br> <strong>Total Review: </strong>" + row.TotalReview + "<br> <strong> IDP Status:</strong >" +
+                                row.statename + "<br> Update Date: " + row.UpdateDate
+                        }
+                    
+                    }],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0, "className": "text-center", "width": "4%" },
+                    { "orderable": false, "targets": 1, "className": "text-Left" },
+                    { "orderable": false, "targets": 2, "className": "text-Left" },
+                 
+
+                ]
+            });
         }
             </script>
     }

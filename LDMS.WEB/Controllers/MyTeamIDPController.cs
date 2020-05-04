@@ -21,7 +21,13 @@ namespace LDMS.WEB.Controllers
     {
         private readonly MyTeamIDPService _MyTeamIDPService;
         private IWebHostEnvironment _hostingEnvironment;
-        private readonly ILogger<IDPController> _logger;
+        private readonly ILogger<MyTeamIDPController> _logger;
+        public MyTeamIDPController(ILogger<MyTeamIDPController> logger, MyTeamIDPService MyTeamIDPService, IWebHostEnvironment environment)
+        {
+            _logger = logger;
+            _MyTeamIDPService = MyTeamIDPService;
+            _hostingEnvironment = environment;
+        }
         public IActionResult Index()
         {
            // var MyTeamIDP = MyTeamIDPService.GetMy_Team_IDP();
@@ -29,7 +35,7 @@ namespace LDMS.WEB.Controllers
         }
         public IActionResult Search(string ID_Plant, string ID_Center, string ID_Division, string ID_Department, string ID_Status, string ID_Employee)
         {
-
+            ViewModels.Paging_Result ret = new ViewModels.Paging_Result();
             string sortOrder = Request.Form["order[0][dir]"];
             string sortIndex = Request.Form["order[0][column]"];
 
