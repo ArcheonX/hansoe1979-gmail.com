@@ -170,8 +170,8 @@
     </div>
 </body>
 </html> 
-<script> 
-    (function ($) {
+<script>
+    jQuery(function () {
         "use strict";
         $(document).ready(function () {
             if (localStorage.MenuStage != null && localStorage.MenuStage != undefined) {
@@ -183,7 +183,7 @@
                 }
             }
         })
-    })(jQuery);
+    });
     function ToggleMenu(mn) {
         if (mn.classList.contains("fa-angle-double-left")) {
             $(".sidebar").hide();
