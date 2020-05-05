@@ -587,7 +587,7 @@
         LoadTime();
         loadPlant();
         LoadClass();
-        //validation();
+        validation();
         /*$('select').select2({
             allowClear: true,
             closeOnSelect: true,
@@ -622,7 +622,7 @@
 
     function validation() {
 
-        $('#dteLearningDateTo').change(function () {
+        /*$('#dteLearningDateTo').change(function () {
 
             if (!endAfterStart($('#dteLearningDateFrm').val(), $('#dteLearningDateTo').val())) {
                 alert('กรุณาเลือกช่วงวันที่เรียนให้ถูกต้อง');
@@ -649,9 +649,7 @@
             if (!endAfterStart($('#dteRegisterDateFrm').val(), $('#dteRegisterDateTo').val())) {
                 alert('กรุณาเลือกช่วงวันที่ลงทะเบียนให้ถูกต้อง');
             }
-        });
-
-
+        });*/
 
        $("#chkAttend").change( function(){
            if( $(this).is(':checked') ) {
