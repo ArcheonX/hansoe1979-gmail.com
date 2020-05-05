@@ -98,11 +98,15 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-sm-1 col-md-1 offset-10">
-                        <a id="btnSavePlatform" class="btn btn-success waves-effect waves-light" style="width:90%; color:white">Save</a>
+                    <div class="col-sm-2 col-md-2 offset-8">
+                        <a id="btnSavePlatform" class="btn btn-outline-success waves-effect waves-light" style="width:90%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/save.svg" />&nbsp;&nbsp;Save
+                        </a>
                     </div>
-                    <div class="col-sm-1 col-md-1" style="margin-left:-25px">
-                        <a id="btnBack" onclick="window.location.href = '@Url.Action("Index", "Platform")';" class="btn btn-danger inactive waves-effect waves-light" style="width:90%; color:white">Back</a>
+                    <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                        <a id="btnBack" onclick="window.location.href = '@Url.Action("Index", "Platform")';" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:90%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                        </a>
                     </div>
                 </div>
             </div>
@@ -119,7 +123,9 @@
                 <div class="col-sm-4 col-md-4">
                     <input type="text" id="txtSubPlatform" placeholder="Please Input Sub Platform" class="form-control input-sm" />
                 </div>
-                <a id="btnAddSubPlatform" class="btn btn-success waves-effect waves-light" style="width:5%; color:white">Add</a>
+                <a id="btnAddSubPlatform" class="btn btn-outline-success waves-effect waves-light" style="width:15%;">
+                    <img style="width:25px;height:20px" src="~/assets/images/svg/add-button-circle.svg" />&nbsp;&nbsp;Add SubPlatform
+                </a>
             </div>
 
             <div id="divSubPlatform" style="border-width:thin; border-style:solid; display:block; margin-left:45px; margin-top: 20px; margin-bottom:20px; width:95%;display:block">
