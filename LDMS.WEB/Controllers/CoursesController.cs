@@ -158,6 +158,8 @@ namespace LDMS.WEB.Controllers
             LDMS_M_Course_Search criteria = new LDMS_M_Course_Search();
             criteria.PageNum = int.Parse(Request.Form["start"]) / int.Parse(Request.Form["length"]) + 1;
             criteria.PageSize = int.Parse(Request.Form["length"]);
+            criteria.SortField = sortColumn;
+            criteria.SortOrder = sortOrder;
             criteria.CourseID = CourseID;
             criteria.CourseName = CourseName;
             criteria.CourseStatus = CourseStatus;
