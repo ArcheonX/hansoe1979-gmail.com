@@ -92,7 +92,7 @@
     @RenderSection("Header", required: false)
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 </head>
-<body>
+<body id="pnBody">
     <div class="wrapper">
         <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:no-content;width:100%;">
             <header class="topbar">
@@ -110,7 +110,7 @@
                 </nav>
             </header>
         </div>
-        <div class="sidebar" data-toggle="collapse" data-color="blue" data-image="../assets/images/sidebar-5.jpg">
+        <div class="sidebar" data-toggle="collapse"  style="overflow-y:scroll;" data-color="blue" data-image="../assets/images/sidebar-5.jpg">
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li>
