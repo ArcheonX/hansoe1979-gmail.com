@@ -17,6 +17,9 @@
         .btn-command {
             width: 140px;
         }
+        thead th {
+            text-align: center !important;
+        }
     </style>
 }
 
@@ -173,8 +176,8 @@
                 <div class="card">
                     <div class="card-block">
                         <div class="col-6"> <h4 class="card-title">Courses</h4> </div>
-                        <div class="table-responsive m-t-40">
-                            <table id="tdClass" class="display nowrap table table-hover table-striped table-bordered color-table info-table" cellspacing="0" width="100%">
+                        <div class="table-responsive m-t-40" style="padding-left:10px;">
+                            <table id="tdClass" class="table table-hover table-striped table-bordered color-table info-table" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -184,7 +187,7 @@
                                         <th>AVG.Score</th>
                                         <th>Lasted</th>
                                         <th>Status</th>
-                                        <th></th>
+                                        <th>View</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -233,7 +236,7 @@
                                 row.append($("<td  class='text-center'> <img src='@Url.Content("~/assets/images/svg/icon-cross.svg")' class='light-logo' /> </td>"));
 
                             var url = "@Url.Content("~/Courses/Detail/")"+ e[i].ID_Course;
-                            row.append($("<td><a href='"+url+"' target='_blank'><img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class='light-logo' /></a> </td>"));
+                            row.append($("<td class='text-center'><a href='"+url+"' target='_blank'><img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class='light-logo' /></a> </td>"));
 
                         }
                     }

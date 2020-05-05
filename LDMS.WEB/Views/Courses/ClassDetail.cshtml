@@ -534,8 +534,8 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive" style="overflow-y:auto; height:300px">
-                        <table class="table table-striped table-hover table-fixed" id="dtInstructor" style="padding-top:5px">
-                            <thead style="background-color:#1e88e5;color:#ffffff" class="sticky-top">
+                        <table class="display dataTable" id="dtInstructor" style="padding-top:5px">
+                            <thead class="sticky-top">
                                 <tr>
                                     <!--<th style="text-align:center;width:100px">No</th>-->
                                     <th style="text-align:center">Instructor ID</th>
@@ -587,7 +587,7 @@
         LoadTime();
         loadPlant();
         LoadClass();
-        validation();
+        //validation();
         /*$('select').select2({
             allowClear: true,
             closeOnSelect: true,
@@ -785,6 +785,7 @@
 
     function OpenModalInstructor() {
         $('#modSearhInstructor').modal('toggle');
+        SearchInstructor();
 
     }
 
@@ -908,6 +909,11 @@
     function RendorInstructor(e) {
 
         //alert('RendorEmployee');
+        if ($.fn.dataTable.isDataTable('#dtInstructor')) {
+                var table = $('#dtInstructor').DataTable();
+                table.destroy();
+            }
+
             $("#dtInstructor tbody > tr").remove();
                 for (i = 0; i < e.length; i++) {
                     var row = $("<tr />");
@@ -921,7 +927,24 @@
                     row.append('<input type="hidden" id="hdSelect_ID_' + i + '" name="hdSelect_ID_' + i + '" value="' + e[i].ID + '" />');
                     row.append('<input type="hidden" id="hdSelect_InstructorName_' + i + '" name="hdSelect_InstructorName_' + i + '" value="' + e[i].Instructor_Name + '" />');
                     row.append('<td style="text-align:center"><input type="checkbox" class="chkSingle" style="text-align:center; name="selectInstructor_' + i + '" value="selectInstructor_' + i + '" id="selectInstructor_' + i + '"/><label for="selectInstructor_'+ i +'"> </label> </td>');
-            }
+        }
+        $('#dtInstructor').DataTable({
+                'processing': true,
+                'paging': true,
+                "ordering": false,
+                "searching": false,
+                "lengthChange": false,
+                "bAutoWidth": false,
+                "Filter": false,
+                "info": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "pageLength": 8,
+                "bJQueryUI": true, //Enable smooth theme
+                "sPaginationType": "full_numbers", //Enable smooth theme
+                "sDom": 'lfrtip'
+            });
+            $('.dataTables_length').addClass('bs-select');
 
     }
 

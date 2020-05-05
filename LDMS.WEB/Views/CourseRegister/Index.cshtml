@@ -18,7 +18,7 @@
         }
 
         .btn-command {
-            width: 130px;
+            width: 130px !important;
         }
 
         .chk {
@@ -33,7 +33,6 @@
             -webkit-transform: translate(0,-50%);
             -o-transform: translate(0,-50%);
             transform: translate(0,-50%);
-            top: 30%;
             margin: 0 auto;
         }
 
@@ -131,7 +130,7 @@
             </div>
 
             <div class="table-responsive m-t-40">
-                <table id="tbCourse" class="display nowrap table table-hover table-striped table-bordered color-table info-table" cellspacing="0" width="100%">
+                <table id="tbCourse" class="table table-hover table-bordered color-table info-table" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <td class="hide-cell"></td>
@@ -167,7 +166,7 @@
                             <th>%</th>
                             <th>Coaching</th>
                             <th style="width:120px;">Certificate</th>
-                            <th>Status</th>
+                            <th style="min-height:53px;min-width:96px;">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -179,7 +178,7 @@
     </form>
 </div>
 
-<div class="modal" id="modEmp_Close" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="false" data-keyboard="false">
+<div class="modal" id="modEmp_Close" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false"  data-keyboard="false">
     <div class="modal-dialog modal-lg" style="display:table;height: 100%;width: 1200px !important;">
         <div class="modal-content">
             <div class="modal-header card-header col-12">
@@ -213,7 +212,7 @@
                         <button type="button" id="btnBackR" class="btn btn-secondary btn-command" formnovalidate data-dismiss="modal">Close</button>
                     </div>
                     <div class="col-3">
-                        <button type="button" id="btnCloseRS" class="btn btn-primary btn-command">Close Register</button>
+                        <button type="button" id="btnCloseRS" class="btn btn-primary">Close Register</button>
                     </div>
                 </div>
             </div>
@@ -221,7 +220,7 @@
     </div>
 </div>
 
-<div class="modal" id="modCert" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="false" data-keyboard="false">
+<div class="modal" id="modCert" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false"  data-keyboard="false">
     <div class="modal-dialog modal-lg" style="display:table;height: 100%;">
         <div class="modal-content">
             <div class="modal-header card-header col-12">
@@ -249,7 +248,7 @@
                         <input type="hidden" id="hdCertEmp" name="employeeID" />
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="padding-top:20px;">
                     <div class="col-12 row">
                         <input type="submit" id="btnCertSave" class="btn btn-info btn-command" value="Save" />&nbsp;&nbsp;
                         <button type="button" id="btnCertBack" class="btn btn-secondary btn-command" formnovalidate data-dismiss="modal">Close</button>
@@ -362,7 +361,7 @@
         });
 
 
-        $("#btnClose").click(function(){
+        $("#btnClose").click(function () {
             $('#modEmp_Close').modal('toggle');
             SearchEmpForClose();
         });
@@ -626,11 +625,11 @@
                             {
                                 if(e[i].ExpireDate)
                                     row.append("<td class='text-right'> <a id='aCert"+e[i].EmployeeID+
-                                        "' href=\"javascript:OpenAttCert('"+e[i].EmployeeID+"', '"+ e[i].Certificate_Path+"', '"+e[i].ExpireDate_S+"');\"  class='text-success'> <small>"+
+                                        "' href=\"javascript:OpenAttCert('"+e[i].EmployeeID+"', '"+ e[i].Certificate_Path+"', '"+e[i].ExpireDate_S+"');\"  class='text-info'> <small>"+
                                         e[i].ExpireDate+"</small> <i class='icon-paper-clip'></i> </a> </td>");
                                 else
                                      row.append("<td class='text-right'> <a id='aCert"+e[i].EmployeeID+
-                                        "' href=\"javascript:OpenAttCert('"+e[i].EmployeeID+"');\" class='text-success'> <i class='icon-paper-clip'></i> </a> </td>");
+                                         "' href=\"javascript:OpenAttCert('" + e[i].EmployeeID +"');\" class='text-info'> <i class='icon-paper-clip'></i> </a> </td>");
                             }
 
                             if($("#hdStatus").val() != "70")

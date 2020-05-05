@@ -199,7 +199,7 @@ namespace LDMS.Services
             }
         }
 
-        public bool UpdateCourse(string ID_Course, string CourseID, string CourseName, string ID_LearnMethod,
+        public ViewModels.LDMS_M_Course UpdateCourse(string ID_Course, string CourseID, string CourseName, string ID_LearnMethod,
                                             string ID_CourseType, string Objective, string Description, string OutLine,
                                             string IsRefreshment, string RefreshmentPeriod, string RefreshmentUnit,
                                             string TargetEmployeeID, string ID_PlantTarget, string ID_CenterTarget,
@@ -228,13 +228,13 @@ namespace LDMS.Services
                 p.Add("@paramID_SectionTarget", ID_SectionTarget);
                 p.Add("@paramJobGradeTargetID", CreateData(JobGradeTargetID, "ID_JobGrade"), DbType.Object);
                 p.Add("@paramJobTitleTargetID", CreateData(JobTitleTargetID, "ID_JobTitle"), DbType.Object);
-                p.Add("@paramID_DepartmentCreate", 1 ); // JwtManager.Instance.GetDepartmentId(HttpContext.Request) //Example
+                p.Add("@paramID_DepartmentCreate", JwtManager.Instance.GetFromToken(HttpContext.Request, "DEPARTMENTID")); // JwtManager.Instance.GetDepartmentId(HttpContext.Request) //Example
                 p.Add("@paramUpdateBy", CurrentUserId); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
                 p.Add("@paramIsActive", isActive);
 
-                int ret = conn.Query<int>(_schema + ".[sp_M_Course_Update]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                ViewModels.LDMS_M_Course ret = conn.Query<ViewModels.LDMS_M_Course>(_schema + ".[sp_M_Course_Update]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-                return true;
+                return ret;
             }
         }
 

@@ -234,7 +234,7 @@
                 <div class="col-sm-1 col-md-1 offset-3">
                 </div>
                 <div class="col-sm-1 col-md-1" style="margin-left:-25px">
-                    <a href="#divTargetAudience" id="btnTargetAudience" onclick="VisiblePanel()" data-toggle="collapse" style="padding-left:40px;" class="fa fa-plus-square"></a>
+                    <a href="#divTargetAudience" id="btnTargetAudience" onclick="VisiblePanel()" data-toggle="collapse" style="padding-left:40px;font-size:36px;" class="fa fa-plus-square"></a>
                 </div>
             </div>
         </div>
@@ -688,7 +688,7 @@
                 },
                 success: function (e) {
                    // alert('AddClass Success : ' + e);
-                    MessageController.Success("AddClass Completed.", "Success");
+                    //MessageController.Success("AddClass Completed.", "Success");
                     window.location.href = '@Url.Content("~/Courses/AddClass/")' + e;
                 },
             }
@@ -1547,6 +1547,7 @@
                 },
                 success: function (e) {
                     //debugger;
+                        alert('ID : ' + $('#hID').val());
                         $('#hID').val(e.ID);
                         $('#txtCourseID').val(e.CourseID);
                         $('#divClass').attr("style", "display:block");

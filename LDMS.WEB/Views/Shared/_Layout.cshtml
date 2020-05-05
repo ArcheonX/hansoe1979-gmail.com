@@ -88,7 +88,6 @@
 
     <link href="~/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
 
-    @RenderSection("Scripts", required: false)
     @RenderSection("Header", required: false)
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 </head>
@@ -165,8 +164,9 @@
         </div> 
     </div>
 </body>
-</html> 
-<script> 
+</html>
+@RenderSection("Scripts", required: false)
+<script>
     (function ($) {
         "use strict";
         $(document).ready(function () { 
@@ -181,19 +181,19 @@
             //$("#pnMenu").attr("style", "height:350px; overflow-y:scroll;");
         })
     })(jQuery);
-    function ToggleMenu(mn) {
-        if (mn.classList.contains("fa-angle-double-left")) {
-            $(".sidebar").hide();
-            mn.classList.remove('fa-angle-double-left');
-            mn.classList.add('fa-angle-double-right');
-            $("#pnAreaAction").attr("style", "width:100%;");
-            localStorage.MenuStage = "hide";
-        } else {
-            $(".sidebar").show();
-            mn.classList.remove('fa-angle-double-right');
-            mn.classList.add('fa-angle-double-left');
-            $("#pnAreaAction").removeAttr("style");
-            localStorage.MenuStage = "show";
-        }
+function ToggleMenu(mn) {
+    if (mn.classList.contains("fa-angle-double-left")) {
+        $(".sidebar").hide();
+        mn.classList.remove('fa-angle-double-left');
+        mn.classList.add('fa-angle-double-right');
+        $("#pnAreaAction").attr("style", "width:100%;");
+        localStorage.MenuStage = "hide";
+    } else {
+        $(".sidebar").show();
+        mn.classList.remove('fa-angle-double-right');
+        mn.classList.add('fa-angle-double-left');
+        $("#pnAreaAction").removeAttr("style");
+        localStorage.MenuStage = "show";
     }
+}
 </script>
