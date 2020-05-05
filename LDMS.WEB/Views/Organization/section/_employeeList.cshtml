@@ -2,13 +2,13 @@
 <table class="display dataTable" id="dtListEmployee">
     <thead>
         <tr>
-            <th style="text-align:center;width:100px">#</th>
-            <th style="text-align:center">Employee ID</th>
-            <th style="text-align:center">Employee Name</th>
-            <th style="text-align:center;width:200px">Job Grade</th>
-            <th style="text-align:center;width:200px">Job Title</th>
-            <th style="text-align:center;width:150px">Section Head</th>
-            <th style="text-align:center;width:300px">Section</th>
+            <th style="text-align:center;width:10%">#</th>
+            <th style="text-align:center;width:20%">Employee ID</th>
+            <th style="text-align:center;width:20%">Employee Name</th>
+            <th style="text-align:center;width:10%">Job Grade</th>
+            <th style="text-align:center;width:10%">Job Title</th>
+            @*<th style="text-align:center;width:10%;display:none">Section Head</th>*@
+            <th style="text-align:center;width:30%">Section</th>
         </tr>
     </thead>
     <tbody>
@@ -22,7 +22,7 @@
                     <td style="text-align:center">@std.Name @std.Surname</td>
                     <td style="text-align:center;">@std.JobGrade</td>
                     <td style="text-align:center;">@std.JobTitle</td>
-                    <td style="text-align:right;">
+                    @*<td style="text-align:right;display:none">
                         @if (@std.IsSectionHead)
                         {
                             <input type="checkbox" name="selectSectionHead_@std.EmployeeID"
@@ -34,7 +34,7 @@
                             <input type="checkbox" name="selectSectionHead_@std.EmployeeID"
                                    id="selectSectionHead_@std.EmployeeID" style="width:100%;margin-left:100px;" /><label style="width:75px;" for="selectSectionHead_@std.EmployeeID"></label>
                         }
-                    </td>
+                    </td>*@
                     <td style="text-align:left;">
                         <select id="selectSection_@std.EmployeeID"
                                 name="selectSection_@std.EmployeeID"

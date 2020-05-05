@@ -775,7 +775,6 @@ function ClearEditor() {
     }); 
 }
  
-
 function CreateEditor() {
     ClearEditor();
     $("#userEditMode").val("false");
@@ -966,7 +965,7 @@ function CreateDataTablePaging() {
     $('#dtUserList').DataTable({
         'processing': true,
         'paging': true,
-        "ordering": false,
+        "ordering": true,
         "searching": false,
         "lengthChange": false,
         "bAutoWidth": false,
@@ -974,14 +973,7 @@ function CreateDataTablePaging() {
         "info": false,
         "bPaginate": false,
         "bLengthChange": false,
-        "pageLength": 10,
-        //"language": {
-        //    "lengthMenu": "Display _MENU_ records per page",
-        //    "zeroRecords": "    Nothing found - sorry",
-        //    "info": "    page _PAGE_ of _PAGES_",
-        //    "infoEmpty": "    No records available",
-        //    "infoFiltered": "(filtered from _MAX_ total records)"
-        //},
+        "pageLength": 10, 
         "bJQueryUI": true, //Enable smooth theme
         "sPaginationType": "full_numbers", //Enable smooth theme
         "sDom": 'lfrtip'

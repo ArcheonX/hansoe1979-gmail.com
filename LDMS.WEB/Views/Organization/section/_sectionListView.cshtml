@@ -2,10 +2,10 @@
     <table class="display dataTable" id="dtSectionRows">
         <thead>
             <tr>
-                <th style="text-align:center;width:100px">#</th>
-                <th style="text-align:center;">Section abbreviation</th>
-                <th style="text-align:center">Section Name</th>
-                <th style="text-align:center;width:150px">Action</th>
+                <th style="text-align:center;width:10%;">#</th>
+                <th style="text-align:center;width:40%;">Section abbreviation</th>
+                <th style="text-align:center;width:40%;">Section Name</th>
+                <th style="text-align:center;width:10%;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -14,7 +14,7 @@
                 @foreach (var std in Model) /*ViewData["Users"] as IList<LDMS.ViewModels.LDMS_M_User>)*/
                 {
                     <tr>
-                        <th style="text-align:center;width:100px">@std.RowIndex</th>
+                        <th style="text-align: center; width: 100px">@std.RowIndex</th>
                         <th style="text-align:center;">@std.SectionID</th>
                         <th style="text-align:center">@std.SectionName_EN</th>
                         <th style="text-align:center;width:100px">

@@ -3,7 +3,7 @@
         @foreach (var item in Model)
         { 
                 <div class="card-header">
-                    <a data-toggle="collapse" class="toggle" href="#" id="@item.MenuID" style="color:#000000;cursor:pointer">@item.MenuName &nbsp;&nbsp;<i id="icon-@item.MenuID" class="fas fa-angle-double-down"></i></a>
+                    <a data-toggle="collapse" class="toggle" href="#" id="@item.MenuID" style="color:#000000;cursor:pointer">@item.MenuName &nbsp;&nbsp;<span class="pull-right"> <i id="icon-@item.MenuID" class="fas fa-angle-down"></i></span></a>
                 </div>
                 <ul class="list-group list-group-flush collapse" style="padding-left:10px;" id="collapse_@item.MenuID">
                     @foreach (var itm in item.SubMenus)
@@ -42,8 +42,8 @@
         cdoc.classList.toggle('collapse');
         var ico = document.getElementById("icon-" + localStorage.menuId);
         if (ico != null) {
-            ico.classList.remove('fa-angle-double-down');
-            ico.classList.add('fa-angle-double-up');
+            ico.classList.remove('fa-angle-down');
+            ico.classList.add('fa-angle-up');
         }
         //ico.setAttribute("class", "fas fa-angle-double-up"); 
     }
@@ -54,12 +54,12 @@
         doc.classList.toggle('collapse');
         var ico = document.getElementById("icon-" + menuId);
         if (ico != null) {
-            if (ico.classList.contains('fa-angle-double-up')) {
-                ico.classList.remove('fa-angle-double-up');
-                ico.classList.add('fa-angle-double-down');
+            if (ico.classList.contains('fa-angle-up')) {
+                ico.classList.remove('fa-angle-up');
+                ico.classList.add('fa-angle-down');
             } else {
-                ico.classList.remove('fa-angle-double-down');
-                ico.classList.add('fa-angle-double-up');
+                ico.classList.remove('fa-angle-down');
+                ico.classList.add('fa-angle-up');
             } 
         }
         $(".toggle").each(function () {
@@ -70,9 +70,9 @@
                 };
                 var ico = document.getElementById("icon-" + this.id);
                 if (ico != null) {
-                    if (ico.classList.contains('fa-angle-double-up')) {
-                        ico.classList.remove('fa-angle-double-up');
-                        ico.classList.add('fa-angle-double-down');
+                    if (ico.classList.contains('fa-angle-up')) {
+                        ico.classList.remove('fa-angle-up');
+                        ico.classList.add('fa-angle-down');
                     }
                 }
             }
