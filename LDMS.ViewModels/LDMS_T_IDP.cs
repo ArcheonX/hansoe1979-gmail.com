@@ -20,5 +20,6 @@ namespace LDMS.ViewModels
         public string IDP_StatusName { get; set; }
         public string Position { get; set; }
         public string ID_SubTopic { get; set; }
+        public int Total_Review { get; set; }
     }
 }
