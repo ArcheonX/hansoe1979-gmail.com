@@ -169,7 +169,8 @@ namespace LDMS.Services
                         var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
                         user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
                         user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
-                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);                        
+
                     }
                     return new ServiceResult(user);
                 }
