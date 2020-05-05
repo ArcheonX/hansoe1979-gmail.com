@@ -647,28 +647,7 @@ function EditEmployee(employeeId) {
                                 table.append(row);
                             }
 
-                        });
-
-                        if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
-                            var table = $('#dtUserRoleList').DataTable();
-                            table.destroy();
-                        }
-                        $('#dtUserRoleList').DataTable({
-                            'processing': true,
-                            'paging': false,
-                            "ordering": true,
-                            "searching": false,
-                            "lengthChange": false,
-                            "bAutoWidth": false,
-                            "Filter": false,
-                            "info": false,
-                            "bPaginate": false,
-                            "bLengthChange": false,
-                            "bJQueryUI": true, //Enable smooth theme
-                            "sPaginationType": "full_numbers", //Enable smooth theme
-                            "sDom": 'lfrtip'
-                        });
-                        $('.dataTables_length').addClass('bs-select');
+                        }); 
                     } 
                 });
 
@@ -765,6 +744,26 @@ function EditEmployee(employeeId) {
             }
         });
     }
+    if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
+        var table = $('#dtUserRoleList').DataTable();
+        table.destroy();
+    }
+    $('#dtUserRoleList').DataTable({
+        'processing': true,
+        'paging': false,
+        "ordering": true,
+        "searching": false,
+        "lengthChange": false,
+        "bAutoWidth": false,
+        "Filter": false,
+        "info": false,
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bJQueryUI": true, //Enable smooth theme
+        "sPaginationType": "full_numbers", //Enable smooth theme
+        "sDom": 'lfrtip'
+    });
+    $('.dataTables_length').addClass('bs-select');
 }
 
 function ClearEditor() {
@@ -918,28 +917,7 @@ function CreateEditor() {
                         '<td style="text-align:center;width:100px"><input type="radio" name="selectUserRole"  value="' + this.ID_Role + '"  id="selectRole_' + this.ID_Role + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.ID_Role + '"> </label> </td >' +
                         '</tr>';
                     table.append(row);
-                }
-
-                if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
-                    var table = $('#dtUserRoleList').DataTable();
-                    table.destroy();
-                }
-                $('#dtUserRoleList').DataTable({
-                    'processing': true,
-                    'paging': false,
-                    "ordering": true,
-                    "searching": false,
-                    "lengthChange": false,
-                    "bAutoWidth": false,
-                    "Filter": false,
-                    "info": false,
-                    "bPaginate": false,
-                    "bLengthChange": false,
-                    "bJQueryUI": true, //Enable smooth theme
-                    "sPaginationType": "full_numbers", //Enable smooth theme
-                    "sDom": 'lfrtip'
-                });
-                $('.dataTables_length').addClass('bs-select');
+                } 
             });
         },
         failure: function (response) {
