@@ -648,6 +648,27 @@ function EditEmployee(employeeId) {
                             }
 
                         });
+
+                        if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
+                            var table = $('#dtUserRoleList').DataTable();
+                            table.destroy();
+                        }
+                        $('#dtUserRoleList').DataTable({
+                            'processing': true,
+                            'paging': false,
+                            "ordering": true,
+                            "searching": false,
+                            "lengthChange": false,
+                            "bAutoWidth": false,
+                            "Filter": false,
+                            "info": false,
+                            "bPaginate": false,
+                            "bLengthChange": false,
+                            "bJQueryUI": true, //Enable smooth theme
+                            "sPaginationType": "full_numbers", //Enable smooth theme
+                            "sDom": 'lfrtip'
+                        });
+                        $('.dataTables_length').addClass('bs-select');
                     } 
                 });
 
@@ -898,6 +919,27 @@ function CreateEditor() {
                         '</tr>';
                     table.append(row);
                 }
+
+                if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
+                    var table = $('#dtUserRoleList').DataTable();
+                    table.destroy();
+                }
+                $('#dtUserRoleList').DataTable({
+                    'processing': true,
+                    'paging': false,
+                    "ordering": true,
+                    "searching": false,
+                    "lengthChange": false,
+                    "bAutoWidth": false,
+                    "Filter": false,
+                    "info": false,
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bJQueryUI": true, //Enable smooth theme
+                    "sPaginationType": "full_numbers", //Enable smooth theme
+                    "sDom": 'lfrtip'
+                });
+                $('.dataTables_length').addClass('bs-select');
             });
         },
         failure: function (response) {
