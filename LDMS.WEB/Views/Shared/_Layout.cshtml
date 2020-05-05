@@ -110,29 +110,27 @@
                 </nav>
             </header>
         </div>
-        <div class="sidebar" data-toggle="collapse"  style="overflow-y:scroll;" data-color="blue" data-image="../assets/images/sidebar-5.jpg">
+        <div class="sidebar" data-toggle="collapse" data-color="blue" data-image="../assets/images/sidebar-5.jpg">
             <div class="sidebar-wrapper">
-                <ul class="nav">
-                    <li>
-                        <div class="user-profile" style="margin-top:75px;">
-                            <div class="profile-img">
-                                <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
-                            </div>
-                            <div class="profile-text">
-                                <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
-                                <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
-                                <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
-                                <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
-                                <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
-                            </div>
+                <div class="row" style="width:350px;margin-right:-25px;margin-left: 0px;">
+                    <div class="user-profile" style="margin-top:75px;">
+                        <div class="profile-img">
+                            <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
                         </div>
-                    </li>
-                    <li>
-                        <nav class="sidebar-nav">
-                            @await Component.InvokeAsync("NavigationMenu")
-                        </nav>
-                    </li>
-                </ul>
+                        <div class="profile-text">
+                            <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                            <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                            <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                            <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                            <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:350px;margin-right:-25px;margin-left: 0px;overflow-y:scroll;">
+                    <nav class="sidebar-nav" id="pnMenu">
+                        @await Component.InvokeAsync("NavigationMenu")
+                    </nav>
+                </div>
             </div>
         </div>
         <div class="main-panel" id="pnAreaAction">
@@ -156,24 +154,22 @@
                     </div>
                 </div>
             </div>
-            <footer class="footer" style="margin-top:10px;">
-                <div class="container-fluid">
-                    <nav>
-                        <p class="copyright text-right" style="padding-top:10px;">
-                            ลิขสิทธิ์ ©
-                            <script>document.write(new Date().getFullYear())</script> <a href="#">SONY TECHNOLOGY (THAILAND) CO., LTD.</a>, สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
-                        </p>
-                    </nav>
-                </div>
+            <footer class="footer">
+                <nav>
+                    <p class="copyright text-right" style="padding-top:10px;">
+                        ลิขสิทธิ์ ©
+                        <script>document.write(new Date().getFullYear())</script> <a href="#">SONY TECHNOLOGY (THAILAND) CO., LTD.</a>, สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล
+                    </p>
+                </nav>
             </footer>
-        </div>
+        </div> 
     </div>
 </body>
 </html> 
 <script> 
     (function ($) {
         "use strict";
-        $(document).ready(function () {
+        $(document).ready(function () { 
             if (localStorage.MenuStage != null && localStorage.MenuStage != undefined) {
                 if (localStorage.MenuStage == "hide") {
                     $(".sidebar").hide();
@@ -182,6 +178,7 @@
                     $("#arrowSlideLeft")[0].classList.add('fa-angle-double-right');
                 }
             }
+            //$("#pnMenu").attr("style", "height:350px; overflow-y:scroll;");
         })
     })(jQuery);
     function ToggleMenu(mn) {
