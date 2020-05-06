@@ -60,23 +60,35 @@
                     <input type="hidden" id="hID" name="hID" value=null />
                     <input type="hidden" id="hInstructorID" name="hInstructorID" value=null />
                 }
-                <div class="row form-group">
-                    <div class="col-sm-2 col-md-2">
-                        <span class="pull-right">
-                            <label class="LabelCaption">Class ID</label>
-                        </span>
-                    </div>
-                    <div class="col-sm-4 col-md-4">
-                        <input type="text"
-                               title="Auto Gen"
-                               id="txtClassID"
-                               value="Auto Genarate"
-                               asp-for="ClassID"
-                               disabled="disabled"
-                               style="width: 100%"
-                               class="form-control input-sm" />
-                    </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Class ID</label>
+                    </span>
                 </div>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text"
+                           title="Auto Gen"
+                           id="txtClassID"
+                           value="Auto Genarate"
+                           asp-for="ClassID"
+                           disabled="disabled"
+                           style="width: 100%"
+                           class="form-control input-sm" />
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">LDMS/PACD Course ID</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text"
+                           title="Auto Gen"
+                           id="txtLDMSCourseID"
+                           style="width: 100%"
+                           class="form-control input-sm" />
+                </div>
+            </div>
                 <div class="row form-group">
                     <div class="col-sm-2 col-md-2">
                         <span class="pull-right">
@@ -606,13 +618,31 @@
         loadPlant();
         LoadClass();
         validation();
-        /*$('select').select2({
-            allowClear: true,
-            closeOnSelect: true,
-            theme: "bootstrap"
-        });*/
+       
 
         GetClassRemain($('#hID').val());
+
+
+        if ($('#hID_ClassStatus').val() === '30') {
+            
+            document.getElementById("chkAttend").disabled = true;
+            document.getElementById("chkTest").disabled = true;
+            document.getElementById("chkSkill").disabled = true;
+            document.getElementById("chkCoaching").disabled = true;
+            document.getElementById("chkCert").disabled = true;
+            document.getElementById("txtAttendNum").disabled = true;
+            document.getElementById("txtTestFullScore").disabled = true;
+            document.getElementById("txtPercentTestPass").disabled = true;
+            document.getElementById("txtSkillFullScore").disabled = true;
+            document.getElementById("txtPercentSkillPass").disabled = true;
+            document.getElementById("txtCertification").disabled = true;
+            document.getElementById("chkCertification").disabled = true;
+            document.getElementById("txtAttendNum").disabled = true;
+            document.getElementById("txtReDuratioin").disabled = true;
+            
+        }
+
+
 
         $('#txtCapacity').keyup(function() {
             $('#txtFeePerson').val($('#txtClassFee').val() / $('#txtCapacity').val());
