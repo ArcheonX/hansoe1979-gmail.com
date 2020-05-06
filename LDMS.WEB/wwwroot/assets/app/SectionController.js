@@ -191,7 +191,7 @@ function LoadSection() {
                 $('#dtSectionRows').DataTable({
                     'processing': true,
                     'paging': true,
-                    "ordering": false,
+                    "ordering": true,
                     "searching": false,
                     "lengthChange": false,
                     "bAutoWidth": false,
@@ -250,7 +250,7 @@ function LoadEmployees() {
                 $('#dtListEmployee').DataTable({
                     'processing': true,
                     'paging': true,
-                    "ordering": false,
+                    "ordering": true,
                     "searching": false,
                     "lengthChange": false,
                     "bAutoWidth": false,
