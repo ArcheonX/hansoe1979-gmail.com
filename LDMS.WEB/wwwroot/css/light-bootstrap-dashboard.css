@@ -1707,7 +1707,7 @@ fieldset[disabled] .form-control {
     background-color: #FFFFFF;
 }
 
-.footer .footer-menu {
+/*.footer .footer-menu {
     height: 41px;
 }
 
@@ -1751,15 +1751,18 @@ fieldset[disabled] .form-control {
 .footer .social-area>a:not(.btn):hover,
 .footer .social-area>a:not(.btn):focus {
     color: #777777;
-}
+}*/
 
-.footer .copyright {
-    color: #777777; 
-    padding-bottom:15px; 
-    line-height: 20px;
-    font-size: 14px;
-    margin-right:15px; 
-}
+    .footer .copyright {
+        position: relative;
+        color: #777777;
+        /*padding-bottom: -25px;*/
+        line-height: 20px;
+        font-size: 14px;
+        margin-right: 15px;
+        bottom: 0;
+        text-align: right;
+    }
 
 .footer hr {
     border-color: #DDDDDD;

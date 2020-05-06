@@ -91,7 +91,7 @@
     @RenderSection("Header", required: false)
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 </head>
-<body>
+<body id="pnBody">
     <div class="wrapper">
         <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:no-content;width:100%;">
             <header class="topbar">
@@ -109,7 +109,7 @@
                 </nav>
             </header>
         </div>
-        <div class="sidebar" data-toggle="collapse" data-color="blue" data-image="../assets/images/sidebar-5.jpg">
+        <div class="sidebar" data-toggle="collapse"  style="overflow-y:scroll;" data-color="blue" data-image="../assets/images/sidebar-5.jpg">
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li>
@@ -171,7 +171,7 @@
 </html>
 @RenderSection("Scripts", required: false)
 <script>
-    jQuery(function () {
+    (function ($) {
         "use strict";
         $(document).ready(function () {
             if (localStorage.MenuStage != null && localStorage.MenuStage != undefined) {
@@ -183,19 +183,20 @@
                 }
             }
         })
-    });
-    function ToggleMenu(mn) {
-        if (mn.classList.contains("fa-angle-double-left")) {
-            $(".sidebar").hide();
-            mn.classList.remove('fa-angle-double-left');
-            mn.classList.add('fa-angle-double-right');
-            $("#pnAreaAction").attr("style", "width:100%;");
-            localStorage.MenuStage = "hide";
-        } else {
-            $(".sidebar").show();
-            mn.classList.remove('fa-angle-double-right');
-            mn.classList.add('fa-angle-double-left');
-            $("#pnAreaAction").removeAttr("style");
-            localStorage.MenuStage = "show";
-        }
+    })(jQuery);
+function ToggleMenu(mn) {
+    if (mn.classList.contains("fa-angle-double-left")) {
+        $(".sidebar").hide();
+        mn.classList.remove('fa-angle-double-left');
+        mn.classList.add('fa-angle-double-right');
+        $("#pnAreaAction").attr("style", "width:100%;");
+        localStorage.MenuStage = "hide";
+    } else {
+        $(".sidebar").show();
+        mn.classList.remove('fa-angle-double-right');
+        mn.classList.add('fa-angle-double-left');
+        $("#pnAreaAction").removeAttr("style");
+        localStorage.MenuStage = "show";
+    }
+}
 </script>
