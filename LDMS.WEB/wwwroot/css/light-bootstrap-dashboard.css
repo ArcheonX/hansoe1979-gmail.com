@@ -567,11 +567,12 @@ body>.navbar-collapse:before {
 
     .sidebar:after,
     body > .navbar-collapse:after {
-        background: #07426b; 
+        /*background: #07426b;*/
+        background: #fff;
         background-size: 150% 150%;
         z-index: 3;
         opacity: 1;
-        overflow:no-content;
+        overflow: no-content;
     }
 
 .sidebar[data-image]:after,
@@ -664,14 +665,23 @@ body>.navbar-collapse[data-color="purple"]:after {
     background: linear-gradient(to bottom, #9368E9 0%, #943bea 100%);
     background-size: 150% 150%;
 }
-
+ 
 .main-panel {
     background: rgba(203, 203, 210, 0.15);
     position: relative;
     float: right;
     width: calc(100% - 350px);
     min-height: 100%;
-    overflow: auto;
+    overflow: auto; 
+    max-height: 100%;
+    height: 100%;
+    -webkit-transition-property: top, bottom;
+    transition-property: top, bottom;
+    -webkit-transition-duration: .2s, .2s;
+    transition-duration: .2s, .2s;
+    -webkit-transition-timing-function: linear, linear;
+    transition-timing-function: linear, linear;
+    -webkit-overflow-scrolling: touch;
 } 
 .main-panel>.content {  
     min-height: calc(100% - 123px);
@@ -696,20 +706,7 @@ body>.navbar-collapse[data-color="purple"]:after {
     -webkit-transition-timing-function: linear, linear;
     transition-timing-function: linear, linear;
     -webkit-overflow-scrolling: touch;
-}
-.main-panel {
-    overflow: auto;
-    max-height: 100%;
-    height: 100%;
-    -webkit-transition-property: top, bottom;
-    transition-property: top, bottom;
-    -webkit-transition-duration: .2s, .2s;
-    transition-duration: .2s, .2s;
-    -webkit-transition-timing-function: linear, linear;
-    transition-timing-function: linear, linear;
-    -webkit-overflow-scrolling: touch;
-}
-
+} 
 .fixed-plugin .dropdown .dropdown-menu {
     -webkit-transform: translate3d(0, -5%, 0) !important;
     -moz-transform: translate3d(0, -5%, 0) !important;

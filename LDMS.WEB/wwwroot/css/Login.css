@@ -10,7 +10,7 @@
     height: 100%;
     align-content: center;
 }
-.topbar {
+/*.topbar {
     position: fixed;
     z-index: 50;
     box-shadow: 5px 0px 10px rgba(0,0,0,0.5);
@@ -24,7 +24,7 @@
     background: linear-gradient(to bottom, #1F77D0 0%, #533ce1 100%);
     background-size: 150% 150%;
     height: 75px;
-}
+}*/
 .card {
     height: 370px;
     margin-top: auto;

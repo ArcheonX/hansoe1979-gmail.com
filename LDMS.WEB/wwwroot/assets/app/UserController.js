@@ -647,7 +647,7 @@ function EditEmployee(employeeId) {
                                 table.append(row);
                             }
 
-                        });
+                        }); 
                     } 
                 });
 
@@ -744,6 +744,26 @@ function EditEmployee(employeeId) {
             }
         });
     }
+    if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
+        var table = $('#dtUserRoleList').DataTable();
+        table.destroy();
+    }
+    $('#dtUserRoleList').DataTable({
+        'processing': true,
+        'paging': false,
+        "ordering": true,
+        "searching": false,
+        "lengthChange": false,
+        "bAutoWidth": false,
+        "Filter": false,
+        "info": false,
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bJQueryUI": true, //Enable smooth theme
+        "sPaginationType": "full_numbers", //Enable smooth theme
+        "sDom": 'lfrtip'
+    });
+    $('.dataTables_length').addClass('bs-select');
 }
 
 function ClearEditor() {
@@ -775,7 +795,6 @@ function ClearEditor() {
     }); 
 }
  
-
 function CreateEditor() {
     ClearEditor();
     $("#userEditMode").val("false");
@@ -898,7 +917,7 @@ function CreateEditor() {
                         '<td style="text-align:center;width:100px"><input type="radio" name="selectUserRole"  value="' + this.ID_Role + '"  id="selectRole_' + this.ID_Role + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.ID_Role + '"> </label> </td >' +
                         '</tr>';
                     table.append(row);
-                }
+                } 
             });
         },
         failure: function (response) {
@@ -966,7 +985,7 @@ function CreateDataTablePaging() {
     $('#dtUserList').DataTable({
         'processing': true,
         'paging': true,
-        "ordering": false,
+        "ordering": true,
         "searching": false,
         "lengthChange": false,
         "bAutoWidth": false,
@@ -974,14 +993,7 @@ function CreateDataTablePaging() {
         "info": false,
         "bPaginate": false,
         "bLengthChange": false,
-        "pageLength": 10,
-        //"language": {
-        //    "lengthMenu": "Display _MENU_ records per page",
-        //    "zeroRecords": "    Nothing found - sorry",
-        //    "info": "    page _PAGE_ of _PAGES_",
-        //    "infoEmpty": "    No records available",
-        //    "infoFiltered": "(filtered from _MAX_ total records)"
-        //},
+        "pageLength": 10, 
         "bJQueryUI": true, //Enable smooth theme
         "sPaginationType": "full_numbers", //Enable smooth theme
         "sDom": 'lfrtip'

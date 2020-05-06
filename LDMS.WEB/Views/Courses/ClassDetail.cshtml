@@ -14,11 +14,15 @@
                     <div class="col-sm-1 col-md-3">
                         <h4><span class="pull-right">Class Infomation</span></h4>
                     </div>
-                    <div class="col-sm-1 col-md-1 offset-7">
-                        <a id="btnSaveClass" onclick="SaveClass();" class="btn btn-success waves-effect waves-light" style="width:90%; color:white">Save</a>
+                    <div class="col-sm-2 col-md-2 offset-5">
+                        <a id="btnSaveClass" onclick="SaveClass();" class="btn btn-outline-success waves-effect waves-light" style="width:90%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/save.svg" />&nbsp;&nbsp;Save
+                        </a>
                     </div>
-                    <div class="col-sm-1 col-md-1" style="margin-left:-25px">
-                        <a id="btnBack" onclick="BacktoCourse(@Model.ID_Course)" class="btn btn-danger inactive waves-effect waves-light" style="width:90%; color:white">Back</a>
+                    <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                        <a id="btnBack" onclick="BacktoCourse(@Model.ID_Course)" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:90%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                        </a>
                     </div>
                 </div>
             </div>
@@ -160,8 +164,8 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input id="dteLearningDateFrm" asp-for="LearnDateStart_Show" type="datetime" class="form-control" style="width: 100%" />
-                    </div>
+                        <input id="dteLearningDateFrm" asp-for="LearnDateStart_Show" type="datetime" autocomplete="off" class="form-control" style="width: 100%" />
+                    </div>&nbsp;&nbsp;
                     <div class="col-sm-2 col-md-2">
                         <select id="selectTimeFrom"
                                 name="selectTimeFrom"
@@ -177,7 +181,7 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input id="dteLearningDateTo" asp-for="LearnDateEnd_Show" type="datetime" class="form-control" style="width: 100%" />
+                        <input id="dteLearningDateTo" asp-for="LearnDateEnd_Show" type="datetime" autocomplete="off" class="form-control" style="width: 100%" />
                     </div>
                     <div class="col-sm-2 col-md-2">
                         <select id="selectTimeTo"
@@ -196,11 +200,11 @@
                         </span>
                     </div>
                     <div class="col-sm-2 col-md-2">
-                        <input id="dteRegisterDateFrm" asp-for="RegisterDateStart_Show" type="datetime" class="form-control" style="width: 100%" />
-                    </div>
+                        <input id="dteRegisterDateFrm" asp-for="RegisterDateStart_Show" type="datetime" autocomplete="off" class="form-control" style="width: 100%" />
+                    </div>To
 
                     <div class="col-sm-2 col-md-2">
-                        <input id="dteRegisterDateTo" asp-for="RegisterDateEnd_Show" type="datetime" class="form-control" style="width: 100%" />
+                        <input id="dteRegisterDateTo" asp-for="RegisterDateEnd_Show" type="datetime" autocomplete="off" class="form-control" style="width: 100%" />
                     </div>
 
                 </div>
@@ -526,8 +530,10 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-sm-1 col-md-2 offset-10" style="margin-left:25rem; margin-top:20px">
-                                <a id="btnSearch" class="btn btn-sm btn-primary waves-effect waves-light" style="width:100%; color:white" onclick="SearchInstructor();"> Search </a>
+                            <div class="col-sm-3 col-md-3" style="margin-left:25rem; margin-top:20px">
+                                <a id="btnSearch" class="btn btn-outline-secondary waves-effect waves-light" style="width:70%" onclick="SearchInstructor();">
+                                    <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" />&nbsp;&nbsp;Search
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -559,10 +565,14 @@
                 </div>
                 <div class="row form-group" style="align-items:center">
                     <div class="col-sm-1 col-md-2 offset-10" style="margin-left:20rem; margin-top:20px">
-                        <a id="btnSave" class="btn btn-sm btn-success waves-effect waves-light" style="width:100%; color:white" onclick="return SelectInstructor();"> Select </a>
+                        <a id="btnSave" class="btn btn-outline-primary waves-effect waves-light" style="width:100%" onclick="return SelectInstructor();">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/right.svg" />&nbsp;&nbsp;Select
+                        </a>
                     </div>
                     <div class="col-sm-1 col-md-2" style="margin-top:20px">
-                        <a id="btnClose" class="btn btn-sm btn-danger inactive waves-effect waves-light" style="width:90%; color:white" onclick="CloseModalInstructor()">Close</a>
+                        <a id="btnClose" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:100%" onclick="CloseModalInstructor()">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                        </a>
                     </div>
                 </div>
             </div>
@@ -584,10 +594,18 @@
     //alert('document');
     $(document).ready(function () {
         $("input[type='datetime']").datepicker();
+
+       /*$("#dteLearningDateFrm([readonly])").datepicker()
+            .focus(function() {
+                $(this).prop("autocomplete", "off");
+                //              return false;
+            });*/
+
+
         LoadTime();
         loadPlant();
         LoadClass();
-        //validation();
+        validation();
         /*$('select').select2({
             allowClear: true,
             closeOnSelect: true,
@@ -622,7 +640,7 @@
 
     function validation() {
 
-        $('#dteLearningDateTo').change(function () {
+        /*$('#dteLearningDateTo').change(function () {
 
             if (!endAfterStart($('#dteLearningDateFrm').val(), $('#dteLearningDateTo').val())) {
                 alert('กรุณาเลือกช่วงวันที่เรียนให้ถูกต้อง');
@@ -649,9 +667,7 @@
             if (!endAfterStart($('#dteRegisterDateFrm').val(), $('#dteRegisterDateTo').val())) {
                 alert('กรุณาเลือกช่วงวันที่ลงทะเบียนให้ถูกต้อง');
             }
-        });
-
-
+        });*/
 
        $("#chkAttend").change( function(){
            if( $(this).is(':checked') ) {

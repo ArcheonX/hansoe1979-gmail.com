@@ -110,6 +110,19 @@ namespace LDMS.Services
                         user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
                         user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
                         user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+
+                        if (user.LDMS_M_Role == null || user.LDMS_M_Role.ID_Role == 0)
+                        {
+                            if (user.LDMS_M_JobTitle.ID_JobTitle == 13)
+                            {
+                                user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == 3);
+                            }
+                            else if ((user.LDMS_M_JobTitle.ID_JobTitle == 17 || user.LDMS_M_JobTitle.ID_JobTitle == 24) &&
+                                (user.LDMS_M_JobGrade.ID_JobGrade == 7 || user.LDMS_M_JobGrade.ID_JobGrade == 8))
+                            {
+                                user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == 4);
+                            }
+                        }
                     });
                     return new ServiceResult(users);
                 }
@@ -169,7 +182,19 @@ namespace LDMS.Services
                         var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
                         user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
                         user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
-                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+                        user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);   
+                        if(user.LDMS_M_Role==null || user.LDMS_M_Role.ID_Role == 0)
+                        {
+                            if(user.LDMS_M_JobTitle.ID_JobTitle== 13)
+                            {
+                                user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == 3);
+                            }
+                            else if ((user.LDMS_M_JobTitle.ID_JobTitle == 17 || user.LDMS_M_JobTitle.ID_JobTitle==24) &&
+                                (user.LDMS_M_JobGrade.ID_JobGrade== 7 || user.LDMS_M_JobGrade.ID_JobGrade == 8))
+                            {
+                                user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == 4);
+                            }
+                        }
                     }
                     return new ServiceResult(user);
                 }
@@ -276,6 +301,19 @@ namespace LDMS.Services
                         user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
                         user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
                         user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+
+                        if (user.LDMS_M_Role == null || user.LDMS_M_Role.ID_Role == 0)
+                        {
+                            if (user.LDMS_M_JobTitle.ID_JobTitle == 13)
+                            {
+                                user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == 3);
+                            }
+                            else if ((user.LDMS_M_JobTitle.ID_JobTitle == 17 || user.LDMS_M_JobTitle.ID_JobTitle == 24) &&
+                                (user.LDMS_M_JobGrade.ID_JobGrade == 7 || user.LDMS_M_JobGrade.ID_JobGrade == 8))
+                            {
+                                user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == 4);
+                            }
+                        }
                     });
                     return new ServiceResult(users);
                 }
@@ -335,6 +373,19 @@ namespace LDMS.Services
                         user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == user.ID_Role);
                         user.LDMS_M_JobGrade = jobGrades.FirstOrDefault(e => e.ID_JobGrade == user.ID_JobGrade);
                         user.LDMS_M_JobTitle = jobTitles.FirstOrDefault(e => e.ID_JobTitle == user.ID_JobTitle);
+
+                        if (user.LDMS_M_Role == null || user.LDMS_M_Role.ID_Role == 0)
+                        {
+                            if (user.LDMS_M_JobTitle.ID_JobTitle == 13)
+                            {
+                                user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == 3);
+                            }
+                            else if ((user.LDMS_M_JobTitle.ID_JobTitle == 17 || user.LDMS_M_JobTitle.ID_JobTitle == 24) &&
+                                (user.LDMS_M_JobGrade.ID_JobGrade == 7 || user.LDMS_M_JobGrade.ID_JobGrade == 8))
+                            {
+                                user.LDMS_M_Role = roles.FirstOrDefault(e => e.ID_Role == 4);
+                            }
+                        }
                     });
                     return new ServiceResult(users);
                 }
