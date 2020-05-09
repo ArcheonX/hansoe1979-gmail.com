@@ -16,6 +16,8 @@ namespace LDMS.WEB.Controllers
         {
             CourseService = courseService;
         }
+        [AuthorizeRole(UserRole.All)]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
