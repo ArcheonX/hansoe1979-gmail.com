@@ -97,10 +97,16 @@
                         </div>
 
                         <div class="row form-group">
-                            <div class="col-sm-2 col-md-2 offset-9">
-                                <a id="btnSeacrh" class="btn btn-info waves-effect waves-light" style="width:100%; color:white;" onclick="Search()"> Search </a>
+                            <div class="col-sm-2 col-md-2 offset-8">
+                                <button id="btnSeacrh" class="btn btn-outline-secondary waves-effect waves-light" style="width:70%">
+                                    <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" /><br/>Search
+                                </button>
                             </div>
-
+                            <div class="col-sm-2 col-md-2" style="margin-left:-55px">
+                                <a id="btnAdd" onclick="window.location.href = '@Url.Action("Add Topic", "Topic")';" class="btn btn-outline-success waves-effect waves-light" style="width:80%;">
+                                    <img style="width:25px;height:20px" src="~/assets/images/svg/add-button-circle.svg" /><br/>Add Topic
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </form>
