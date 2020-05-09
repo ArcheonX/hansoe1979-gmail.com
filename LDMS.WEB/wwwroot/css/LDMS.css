@@ -1092,3 +1092,8 @@ collapse-chevron .icon-barshow {
     .documentation .dropdown .dropdown-menu.show {
         transform: translate3d(0, 39px, 0) !important;
     }
+
+table.dataTable thead .sorting:after {
+    content: none !important;
+    margin-left: 0px !important;
+}
