@@ -135,8 +135,8 @@ namespace LDMS.Services
 
             return dt;
         }
-         
-        public async Task<List<ViewModels.LDMS_M_Course>> GetAll(string courseID, string courseName, string courseStatus,string LearnMethod)
+
+        public async Task<List<ViewModels.LDMS_M_Course>> GetAll(string courseID, string courseName, string courseStatus, string LearnMethod)
         {
             using (IDbConnection conn = Connection)
             {
@@ -160,12 +160,12 @@ namespace LDMS.Services
             }
         }
 
-        public ViewModels.LDMS_M_Course CreateCourse(  string CourseID, string CourseName, string ID_LearnMethod,
+        public ViewModels.LDMS_M_Course CreateCourse(string CourseID, string CourseName, string ID_LearnMethod,
                                     string ID_CourseType, string Objective, string Description, string OutLine,
                                     string IsRefreshment, string RefreshmentPeriod, string RefreshmentUnit,
                                     string TargetEmployeeID, string ID_PlantTarget, string ID_CenterTarget,
                                     string ID_DivisionTarget, string ID_DepartmentTarget, string ID_SectionTarget,
-                                    string JobGradeTargetID, string JobTitleTargetID, string IsActive )
+                                    string JobGradeTargetID, string JobTitleTargetID, string IsActive)
         {
 
             using (IDbConnection conn = Connection)
@@ -311,7 +311,7 @@ namespace LDMS.Services
             }
         }
 
-       
+
         public async Task<List<ViewModels.LDMS_M_VenueRoom>> GetVenuRoom()
         {
             using (IDbConnection conn = Connection)
@@ -337,7 +337,7 @@ namespace LDMS.Services
                 try
                 {
                     var p = new DynamicParameters();
-                   
+
                     p.Add("@ID_Plant", ID_Plant);
 
                     List<ViewModels.LDMS_M_VenueRoom> ret = conn.Query<ViewModels.LDMS_M_VenueRoom>(_schema + ".[sp_M_VanueRoomByPlantID_Select]", p, commandType: CommandType.StoredProcedure).ToList();
@@ -358,7 +358,7 @@ namespace LDMS.Services
                                             string IsAttend, string AttendNum, string IsTest,
                                             string TestFullScore, string TestPercentage, string IsSkill, string SkillFullScore,
                                             string SkillPercentage, string IsCoaching, string IsCertificate, string IsAttachCert,
-                                            string CertificationRemark, string ReminderDurationDay, string IsActive )
+                                            string CertificationRemark, string ReminderDurationDay, string IsActive)
         {
 
             using (IDbConnection conn = Connection)
@@ -401,7 +401,7 @@ namespace LDMS.Services
             }
         }
 
-        public ViewModels.LDMS_T_Class UpdateClass( string ID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
+        public ViewModels.LDMS_T_Class UpdateClass(string ID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
                                             string LearnDateStart, string LearnTimeStart, string LearnDateEnd, string LearnTimeEnd,
                                             string RegisterDateStart, string RegisterDateEnd, string ID_PlantVenue,
                                             string ID_VenueRoom, string PlaceAndLocation, string ClassStatus,
@@ -443,7 +443,7 @@ namespace LDMS.Services
                 p.Add("@paramIsAttachCert", IsAttachCert);
                 p.Add("@paramCertificationRemark", CertificationRemark);
                 p.Add("@paramReminderDurationDay", ReminderDurationDay);
-                p.Add("@paramUpdateBy",CurrentUserId); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
+                p.Add("@paramUpdateBy", CurrentUserId); //// JwtManager.Instance.GetUserId(HttpContext.Request) //Example
                 p.Add("@paramIsActive", IsActive);
 
                 ViewModels.LDMS_T_Class ret = conn.Query<ViewModels.LDMS_T_Class>(_schema + ".[sp_T_Class_Update]", p, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -488,7 +488,7 @@ namespace LDMS.Services
         }
 
 
-        public ViewModels.LDMS_T_ClassCapacity GetClassRemain(string ID_Course, string ID_Plant, 
+        public ViewModels.LDMS_T_ClassCapacity GetClassRemain(string ID_Course, string ID_Plant,
                                                               string ID_Center, string ID_Division,
                                                               string ID_Department, string ID_Section)
         {
@@ -529,5 +529,33 @@ namespace LDMS.Services
             }
         }
 
+
+        public async Task<ServiceResult> GetPlanAndProgress(string employeeId, int ficialYear, int[] quater)
+        {
+            var startDate = new DateTime(ficialYear, 4, 1);
+            var endDate = new DateTime(ficialYear + 1, 3, 31);
+            if (quater != null && quater.Length > 0)
+            {
+
+            }
+
+            using (IDbConnection conn = Connection)
+            {
+                try
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@employeeId", employeeId);
+                    p.Add("@startDate", startDate);
+                    p.Add("@endDate", endDate);
+                    var items = conn.Query<PlanAndProgressModel>("[dbo].[usp_GetPlanAndProgress_By_Employee]", p, commandType: CommandType.StoredProcedure);
+
+                    return new ServiceResult(items);
+                }
+                catch (Exception e)
+                {
+                    return new ServiceResult(e);
+                }
+            }
+        }
     }
 }

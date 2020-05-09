@@ -9,17 +9,18 @@
         <div class="form-horizontal" style="margin-top:15px;width:98%;">
             <div class="row form-group">
                 <div class="col-sm-6 offset-5">
-                    <span class="pull-right">
-                        <input type='radio' name='FixicalYear' checked="checked" value='FY2018' id="FY2018" /><label for="FY2018">FY2018</label>
-                        <input type='radio' name='FixicalYear' checked="checked" value='FY2019' id="FY2019" /><label for="FY2019">FY2019</label>
-                        <input type='radio' name='Quater' value='Q1' id="Q1" /><label for="Q1">Q1</label>
-                        <input type='radio' name='Quater' value='Q2' id="Q2" /><label for="Q2">Q2</label>
-                        <input type='radio' name='Quater' value='Q3' id="Q3" /><label for="Q3">Q3</label>
-                        <input type='radio' name='Quater' value='Q4' id="Q4" /><label for="Q4">Q4</label>
+                    <span class="pull-right"> 
+                        <input type='radio' name='FixicalYear' class="FixicalYear" value='2017' id="FY2017" /><label for="FY2017">FY2017</label>
+                        <input type='radio' name='FixicalYear' class="FixicalYear"  value='2018' id="FY2018" /><label for="FY2018">FY2018</label>
+                        <input type='radio' name='FixicalYear' class="FixicalYear" checked="checked" value='2019' id="FY2019" /><label for="FY2019">FY2019</label>
+                        <input type='checkbox' name='Quater' value='1' id="Quater1" /><label for="Quater1">Q1</label>
+                        <input type='checkbox' name='Quater' value='2' id="Quater2" /><label for="Quater2">Q2</label>
+                        <input type='checkbox' name='Quater' value='3' id="Quater3" /><label for="Quater3">Q3</label>
+                        <input type='checkbox' name='Quater' value='4' id="Quater4" /><label for="Quater4">Q4</label>
                     </span>
                 </div>
                 <div class="col-sm-1">
-                    <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
+                    <button id="btnQueryProgress" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
                         <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" />
                     </button>
                 </div>
@@ -27,12 +28,12 @@
         </div>
     </div>
 </div> 
-<div class="panel panel-primary" style="margin-top:15px;width:100%;">
+<div class="panel panel-primary" style="margin-top:15px;width:100%;" id="pn-result">
     <div class="panel-body">
-        <div class="form-horizontal" style="margin-top:15px;width:100%;"> 
+        <div class="form-horizontal" style="margin-top:15px;width:100%;">
             <div class="row form-group" style="width:100%;">
                 <div class="col-sm-6">
-                    <span class="pull-left">Learning Progress</span>
+                    <span class="pull-left">Overall My Learning Progress</span>
                 </div>
                 <div class="col-sm-6">
                     <span class="pull-left">By Platform</span>
@@ -65,249 +66,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-warning waves-effect waves-light" style="width:100%">
-                            On Progress
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
-                            Not Start
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-danger waves-effect waves-light" style="width:100%">
-                            Over Due
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button class="btn btn-outline-success waves-effect waves-light" style="width:100%">
-                            Completed
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-warning waves-effect waves-light" style="width:100%">
-                            On Progress
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
-                            Not Start
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-danger waves-effect waves-light" style="width:100%">
-                            Over Due
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button class="btn btn-outline-success waves-effect waves-light" style="width:100%">
-                            Completed
-                        </button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-warning waves-effect waves-light" style="width:100%">
-                            On Progress
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
-                            Not Start
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-danger waves-effect waves-light" style="width:100%">
-                            Over Due
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button class="btn btn-outline-success waves-effect waves-light" style="width:100%">
-                            Completed
-                        </button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-warning waves-effect waves-light" style="width:100%">
-                            On Progress
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
-                            Not Start
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-danger waves-effect waves-light" style="width:100%">
-                            Over Due
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button class="btn btn-outline-success waves-effect waves-light" style="width:100%">
-                            Completed
-                        </button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-warning waves-effect waves-light" style="width:100%">
-                            On Progress
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
-                            Not Start
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button id="btnSearchEmployee" class="btn btn-outline-danger waves-effect waves-light" style="width:100%">
-                            Over Due
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Legal and Compliance</td>
-                    <td>Safety office for supervisor</td>
-                    <td>Class room</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">N/A</td>
-                    <td style="text-align:center;">
-                        <button class="btn btn-outline-success waves-effect waves-light" style="width:100%">
-                            Completed
-                        </button>
-                    </td>
-                </tr>
+                
             </tbody>
         </table>
     </div>
