@@ -23,6 +23,20 @@ namespace LDMS.ViewModels
 
         public DateTime? TargetDate { get; set; }
         public int RemainDay { get; set; }
-        public string CourseStatus { get; set; }
+        public string CourseStatus { get; set; } 
+        public string CourseObjective { get; set; }
+
+        public string CourseDescription { get; set; }
+        public string CourseOutLine { get; set; }
+
+        public DateTime LearnDateStart { get; set; }
+        public string LearnTimeStart { get; set; }
+        public DateTime LearnDateEnd { get; set; }
+        public string LearnTimeEnd { get; set; }
+
+        public string VenueRoomID { get; set; }
+        public string RoomName_EN { get; set; }
+
+
     }
 }

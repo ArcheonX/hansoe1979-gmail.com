@@ -29,7 +29,6 @@ function SearchPlanAndProgress() {
     $('input[type=checkbox][name=Quater]:checked').each(function () {
         quater.push(this.value);
     });
-    debugger;
     $.ajax({
         type: "GET",
         url: "/Course/PlanProgress",
@@ -62,17 +61,15 @@ function SearchPlanAndProgress() {
                         "bSortable": false,
                         "mRender": function (data, type, row) {
                             if (data == "COMPLETED") {
-                                return ' <button class="btn btn-outline-success waves-effect waves-light" style="width:100%"> Completed </button >'
+                                return '<a class="btn btn-outline-success waves-effect waves-light popup-modal open-course-modal" href="#open-course-modal" data-var1="' + row.ID_Platform + '"  data-var2="' + row.ID_Course + '" style="width:100%"> Completed </a >'
                             } else if (data == "OVER DUE") {
-                                return ' <button class="btn btn-outline-danger waves-effect waves-light" style="width:100%"> Over due </button >'
+                                return '<a class="btn btn-outline-danger waves-effect waves-light popup-modal open-course-modal" href="#open-course-modal" data-var1="' + row.ID_Platform + '"  data-var2="' + row.ID_Course + '" style="width:100%"> Over due </a >'
                             } else if (data == "ON PROGRESS") {
-                                return ' <button class="btn btn-outline-warning waves-effect waves-light" style="width:100%"> On Progress </button >'
-                            } else if (data == "NOT START") {
-                                return ' <button class="btn btn-outline-secondary waves-effect waves-light" style="width:100%"> Not Start </button >'
-                            } else{
-                                return ' <button class="btn btn-outline-secondary waves-effect waves-light" style="width:100%"> Not Start </button >'
-                            } 
-                        } 
+                                return '<a class="btn btn-outline-warning waves-effect waves-light popup-modal open-course-modal" href="#open-course-modal" data-var1="' + row.ID_Platform + '"  data-var2="' + row.ID_Course + '" style="width:100%"> On Progress </a >'
+                            } else {
+                                return '<a class="btn btn-outline-secondary waves-effect waves-light" onclick="OnClassRegister(' + row.ID_Platform + ',' + row.ID_Course + ')" style="width:100%"> Not Start </a >'
+                            }
+                        }
                     }
                 ],
                 "columnDefs": [  
@@ -101,6 +98,7 @@ function SearchPlanAndProgress() {
                 }
             });
             $('.dataTables_length').addClass('bs-select');
+            CreateOpenCourse();
             MessageController.UnblockUI('#pn-result'); 
         },
         failure: function (response) {
@@ -330,3 +328,92 @@ function CreateChartDonut(data) {
         }]
     });
 }
+
+function CreateOpenCourse() {
+    $('.open-course-modal').magnificPopup({
+        type: 'inline',
+        preloader: false,
+        modal: true,
+        callbacks: {
+            beforeOpen: function () {
+                var mp = this.st;
+                if (mp) {
+                    var datatset = mp.el[0].dataset;
+                    var table = $('#dtProgress').DataTable();
+                    var data = table.rows().data();
+                    var item = null;
+                    data.each(function (value, index) { 
+                        if (value.ID_Platform == datatset.var1 && value.ID_Course == datatset.var2) {
+                            item = value;
+                            return;
+                        }
+                    }); 
+                }
+                if (item) {
+                    $("#txtPlatform").text(item.PlatformName_EN);
+                    $("#txtCourse").text(item.CourseName);
+
+                    $("#txtDateStart").text(moment(item.LearnDateStart).format("DD/MM/YYYY"));
+                    $("#txtTimeStart").text(item.LearnTimeStart);
+
+                    $("#txtDateEnd").text(moment(item.LearnDateEnd).format("DD/MM/YYYY"));
+                    $("#txtTimeEnd").text(item.LearnTimeEnd);
+
+                    $("#txtVenue").val(item.RoomName_EN);
+                    $("#txtDescription").val(item.CourseDescription);
+                    $("#txtObjective").val(item.CourseObjective);
+                    $("#txtOutline").val(item.CourseOutLine);
+                } 
+            },
+            afterClose: function () {
+                $("#txtPlatform").text(null);
+                $("#txtCourse").text(null);
+
+                $("#txtDateStart").text(null);
+                $("#txtTimeStart").text(null);
+
+                $("#txtDateEnd").text(null);
+                $("#txtTimeEnd").text(null);
+
+                $("#txtVenue").val(null);
+                $("#txtDescription").val(null);
+                $("#txtObjective").val(null);
+                $("#txtOutline").val(null);
+            }
+        }
+    });
+    $(document).on('click', '.popup-modal-dismiss', function (e) {
+        e.preventDefault();
+        $.magnificPopup.close();
+    });
+    //  MessageController.Success(item.CourseStatus,"Test"); 
+}
+
+function OnClassRegister(platform, course) {
+    $.ajax({
+        type: "GET",
+        url: "/Master/RedirectMenu",
+        data:
+        {
+            "submenuId": "MD01-02"
+        },
+        success: function (response) {
+            debugger;
+            window.location.href = response;
+        },
+        failure: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+} 

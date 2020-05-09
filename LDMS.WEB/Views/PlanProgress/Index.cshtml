@@ -66,9 +66,133 @@
                 </tr>
             </thead>
             <tbody>
-                
             </tbody>
         </table>
+    </div>
+    <div id="open-course-modal" class="white-popup-block mfp-hide" style="width:1024px;background-color:#ffffff;margin-left:25%;border:thin;">
+        <div class="panel panel-primary" style="width:100%;">
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="row form-group" style="padding-top:25px;">
+                        <div class="col-sm-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption" style="font:bold">Platform :</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-10">
+                            <span class="pull-left" style="vertical-align:middle">
+                                <label id="txtPlatform">xxxxxxxxx</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption" style="font:bold">Course :</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-10">
+                            <span class="pull-left" style="vertical-align:middle">
+                                <label id="txtCourse">xxxxxxxxx</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption" style="font:bold">Start Date :</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="LabelCaption" id="txtDateStart">20/05/2020</label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label class="LabelCaption">Time :</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="pull-left" style="vertical-align:middle">
+                                <label class="LabelCaption" id="txtTimeStart">12:00</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption" style="font:bold">End Date :</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="LabelCaption" id="txtDateEnd">20/05/2020</label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label class="LabelCaption">Time :</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="pull-left" style="vertical-align:middle">
+                                <label class="LabelCaption" id="txtTimeEnd">12:00</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption" style="font:bold">Venue :</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-10">
+                            <span class="pull-left" style="vertical-align:middle">
+                                <label id="txtVenue"></label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption" style="font:bold">Description :</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-10 offset-1">
+                            <textarea rows="5" id="txtDescription" style="width:100%;resize: none;"></textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption" style="font:bold">Objective :</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-10 offset-1">
+                            <textarea rows="5" id="txtObjective" style="width:100%;resize: none;"></textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <label class="LabelCaption" style="font:bold">Outline :</label>
+                            </span>
+                        </div>
+                    </div> 
+                    <div class="row form-group">
+                        <div class="col-sm-10 offset-1"> 
+                            <textarea rows="5" id="txtOutline" style="width:100%;resize: none;"></textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group" style="margin-top:25px;padding-bottom:25px;">
+                        <div class="col-sm-2 offset-9">
+                            <span class="pull-right" style="vertical-align:middle">
+                                <button id="btnBack" class="btn btn-outline-danger inactive waves-effect waves-light popup-modal-dismiss" style="width:100%">
+                                    <img style="width:25px;height:20px" src="~/assets/images/svg/icon-cross-red-2.svg" />&nbsp;&nbsp;Close
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div> 
 <script src="~/assets/app/PlanAndProgress.js"></script>

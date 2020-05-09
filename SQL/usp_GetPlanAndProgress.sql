@@ -46,12 +46,21 @@ select
         plat.PlatformID, plat.PlatformName_EN, plat.PlatformName_TH,
 		subplat.SubPlatformName_EN,subplat.SubPlatformName_TH,
 		course.CourseID,course.CourseName,
+		course.Objective as CourseObjective,
+		course.[Description] as CourseDescription,
+		course.OutLine as CourseOutLine,
 		method.Course_LearnMethodName_EN,method.Course_LearnMethodName_TH,
 		class.LearnDateStart,
+		class.LearnTimeStart,
 		class.LearnDateEnd,
-		class.LearnDateEnd As TargetDate,
+		class.LearnTimeEnd,
+		class.LearnDateEnd As TargetDate, 
 		class.RegisterDateStart,
 		class.RegisterDateEnd,
+
+		VenueRoom.VenueRoomID,
+		VenueRoom.RoomName_EN,
+
 		CASE WHEN class.LearnDateEnd > getdate() THEN datediff(day,getdate(),class.LearnDateEnd) ELSE 0 END AS RemainDay,
 
 		CASE WHEN result.EmployeeID IS NOT NULL AND result.LearningResult = 70 AND result.ClassState = 70 THEN 'COMPLETED' 
@@ -66,9 +75,12 @@ select
 		INNER JOIN  LDMS_M_Course course on  course.ID = subplatcourse.ID_Course
 		INNER JOIN LDMS_M_CourseLearnMethod method on course.ID_LearnMethod = method.ID
 		INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course		
+		INNER JOIN LDMS_M_VenueRoom VenueRoom on class.ID_VenueRoom = VenueRoom.ID
+		
 		INNER JOIN LDMS_T_CourseEmployee targetEmp on course.ID = targetEmp.ID_Course
 		LEFT OUTER JOIN LDMS_T_ClassRegistration register on class.ID = register.ID_Class
 		LEFT OUTER JOIN LDMS_T_ClassAttendAndResult result on class.ID = result.ID_Class and targetEmp.EmployeeID = result.EmployeeID
+		
 		WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate
 		and course.IsActive = 1
 		and targetEmp.EmployeeID = @employeeId; 
