@@ -181,6 +181,7 @@ function LoadSection() {
             'departmentId': CookiesController.getCookie("DEPARTMENTID")
         },
         success: function (response) {
+            debugger;
             $('#dtSectionRows').empty();
             $('#dtSectionRows').html(response);
             try {
@@ -299,22 +300,22 @@ function LoadDepartmentSection() {
             var options = $('#selectSection');
             options.empty();
             options.append($("<option />").val(null).text("---All---"));
-            $.each(response.Data, function () {
+            $.each(response.Data, function () { 
                 options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN));
             });
             Array.prototype.slice.call(document.querySelectorAll('select[id*="selectSection"]'))
                 .forEach(function (element) { 
-                    var selectValue = element.value;
-                    var options = $("#" + element.id);
-                    options.empty();
                     if (element.id != 'selectSection') {
-                        options.append($("<option />").val(null).text("---None---"));
+                        var selectValue = element.value;
+                        var options2 = $("#" + element.id);
+                        options2.empty();
+                        options2.append($("<option />").val(null).text("---None---"));
                         $.each(response.Data, function () {
-                            options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN));
+                            options2.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN));
                         });
                         $("#" + element.id).val(selectValue).trigger('change');
-                    }   
-                });
+                    }
+                }); 
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
