@@ -180,8 +180,7 @@ function LoadSection() {
         data: {
             'departmentId': CookiesController.getCookie("DEPARTMENTID")
         },
-        success: function (response) {
-            debugger;
+        success: function (response) { 
             $('#dtSectionRows').empty();
             $('#dtSectionRows').html(response);
             try {

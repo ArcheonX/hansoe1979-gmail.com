@@ -531,25 +531,43 @@ namespace LDMS.Services
 
 
         public async Task<ServiceResult> GetPlanAndProgress(string employeeId, int ficialYear, int[] quater)
-        {
-            var startDate = new DateTime(ficialYear, 4, 1);
-            var endDate = new DateTime(ficialYear + 1, 3, 31);
-            if (quater != null && quater.Length > 0)
-            {
-
-            }
-
+        { 
             using (IDbConnection conn = Connection)
             {
                 try
                 {
                     var p = new DynamicParameters();
                     p.Add("@employeeId", employeeId);
-                    p.Add("@startDate", startDate);
-                    p.Add("@endDate", endDate);
+                    p.Add("@ficialYear", ficialYear);
+                    p.Add("@IsSelectQ1", quater.Contains(1));
+                    p.Add("@IsSelectQ2", quater.Contains(2));
+                    p.Add("@IsSelectQ3", quater.Contains(3));
+                    p.Add("@IsSelectQ4", quater.Contains(4));
                     var items = conn.Query<PlanAndProgressModel>("[dbo].[usp_GetPlanAndProgress_By_Employee]", p, commandType: CommandType.StoredProcedure);
+                    var platFromGroup = items.GroupBy(e => e.PlatformID);
 
-                    return new ServiceResult(items);
+                    var byPlatfrom = (from t in platFromGroup
+                                      select new
+                                      {
+                                          PlatformName = t.FirstOrDefault().PlatformName_EN,
+                                          Overdue = t.Count(e => e.CourseStatus == "OVER DUE"),
+                                          Completed = t.Count(e => e.CourseStatus == "COMPLETED"),
+                                          OnProgress = t.Count(e => e.CourseStatus == "ON PROGRESS"),
+                                          NotStart = t.Count(e => e.CourseStatus == "NOT START")
+                                      }).ToList();
+                    var byProgress = new
+                    {
+                        Overdue = items.Count(e => e.CourseStatus == "OVER DUE"),
+                        Completed = items.Count(e => e.CourseStatus == "COMPLETED"),
+                        OnProgress = items.Count(e => e.CourseStatus == "ON PROGRESS"),
+                        NotStart = items.Count(e => e.CourseStatus == "NOT START")
+                    };
+                    return new ServiceResult(new
+                    {
+                        List = items,
+                        PlatForms = byPlatfrom,
+                        Progress = byProgress
+                    });
                 }
                 catch (Exception e)
                 {

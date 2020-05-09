@@ -17,13 +17,16 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- [dbo].[usp_GetPlanAndProgress_By_Employee] @employeeId ='STT00001' ,@startDate ='2020-04-01' ,@endDate ='2021-03-31'
+-- [dbo].[usp_GetPlanAndProgress_By_Employee] @employeeId ='STT00001' ,@ficialYear =2020,@IsSelectQ1 =1,@IsSelectQ2=0,@IsSelectQ3 =1,@IsSelectQ4= 0
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_GetPlanAndProgress_By_Employee]
 	-- Add the parameters for the stored procedure here
 	@employeeId nvarchar(50),
-	@startDate Datetime,
-	@endDate Datetime
+	@ficialYear INT,
+	@IsSelectQ1 BIT =0,
+	@IsSelectQ2 BIT =0,
+	@IsSelectQ3 BIT =0,
+	@IsSelectQ4 BIT =0
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -32,18 +35,23 @@ BEGIN
 IF OBJECT_ID('tempdb..#ProgressResult') IS NOT NULL
     DROP TABLE #ProgressResult
 
-    -- Insert statements for procedure here
+DECLARE @startDate DATETIME;
+DECLARE @endDate DATETIME;
+SET @startDate =DATEFROMPARTS(@ficialYear,4,1);
+SET @endDate = DATEFROMPARTS(@ficialYear+1,3,31);
+
 select 
 		plat.ID AS ID_Platform,
 		course.ID AS ID_Course,
         plat.PlatformID, plat.PlatformName_EN, plat.PlatformName_TH,
 		subplat.SubPlatformName_EN,subplat.SubPlatformName_TH,
-		course.CourseID,course.CourseName,--course.ID_LearnMethod,
+		course.CourseID,course.CourseName,
 		method.Course_LearnMethodName_EN,method.Course_LearnMethodName_TH,
-		--class.ClassID,class.LearnDateStart,class.LearnDateEnd,
-		--targetEmp.EmployeeID,register.RegisterDate,register.RegisterStatus,
-		--result.ClassState, result.CertificateStatus, result.LearningResult,
+		class.LearnDateStart,
+		class.LearnDateEnd,
 		class.LearnDateEnd As TargetDate,
+		class.RegisterDateStart,
+		class.RegisterDateEnd,
 		CASE WHEN class.LearnDateEnd > getdate() THEN datediff(day,getdate(),class.LearnDateEnd) ELSE 0 END AS RemainDay,
 
 		CASE WHEN result.EmployeeID IS NOT NULL AND result.LearningResult = 70 AND result.ClassState = 70 THEN 'COMPLETED' 
@@ -65,7 +73,35 @@ select
 		and course.IsActive = 1
 		and targetEmp.EmployeeID = @employeeId; 
 
-		select * from #ProgressResult;
+IF @IsSelectQ1 = 0 AND @IsSelectQ2 =0 AND @IsSelectQ3 =0 AND @IsSelectQ4 = 0
+BEGIN
+	SELECT * FROM #ProgressResult;
+END
+ELSE
+BEGIN
+	SELECT * FROM #ProgressResult 
+	WHERE LearnDateStart >= @startDate AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,6,30)
+	and @IsSelectQ1 = 1
+
+	UNION ALL
+
+	SELECT * FROM #ProgressResult 
+	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,7,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,9,30)
+	and @IsSelectQ1 = 2
+
+	UNION ALL
+
+	SELECT * FROM #ProgressResult 
+	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,10,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,12,31)
+	and @IsSelectQ1 = 3
+
+	UNION ALL
+
+	SELECT * FROM #ProgressResult 
+	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,1,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,3,31)
+	and @IsSelectQ1 = 4 
+END    -- Insert statements for procedure here
+
 
 END
 GO

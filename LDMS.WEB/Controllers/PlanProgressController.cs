@@ -24,9 +24,14 @@ namespace LDMS.WEB.Controllers
         [HttpGet]
         [AuthorizeRole(UserRole.All)]
         [Route("Course/PlanProgress")]
-        public async Task<IActionResult> ReadCompetence(string employeeId, int ficialYear, int[] quater)
+        public async Task<IActionResult> GetPlanAndProgress(string employeeId, int ficialYear, string quater)
         {
-            return Response(await CourseService.GetPlanAndProgress(employeeId, ficialYear, quater));
+            int[] mquatuer = new int[0];
+            if (quater != null && quater!="")
+            {
+                mquatuer = quater.Split(",").Select(int.Parse).ToArray();
+            }
+            return Response(await CourseService.GetPlanAndProgress(employeeId, ficialYear, mquatuer));
         }
 
     }

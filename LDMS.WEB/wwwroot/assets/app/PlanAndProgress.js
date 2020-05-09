@@ -1,49 +1,34 @@
 ﻿(function ($) {
     "use strict";
     $(document).ready(function () { 
+
+        var year = new Date().getFullYear();
+        $("#FY3").val(year);
+        $("#FY2").val(year-1);
+        $("#FY1").val(year - 2);
+        $("#lblFY3").text("FY" + year);
+        $("#lblFY2").text("FY" + (year-1));
+        $("#lblFY1").text("FY" + (year-2));
+
         $('#btnQueryProgress').click(function () {
             SearchPlanAndProgress();
         });
-        CreateChartStack();
-        CreateChartDonut();
-
-        if ($.fn.dataTable.isDataTable('#dtProgress')) {
-            var table = $('#dtProgress').DataTable();
-            table.destroy();
-        }
-        $('#dtProgress').DataTable({
-            'processing': true,
-            'paging': true,
-            "ordering": true,
-            "searching": false,
-            "lengthChange": false,
-            "bAutoWidth": false,
-            "Filter": false,
-            "info": false,
-            "bPaginate": false,
-            "bLengthChange": false,
-            "pageLength": 10,
-            "bJQueryUI": true, //Enable smooth theme
-            "sPaginationType": "full_numbers", //Enable smooth theme
-            "sDom": 'lfrtip'
-        });
-        $('.dataTables_length').addClass('bs-select');
+        SearchPlanAndProgress(); 
     })
 })(jQuery);
+
 function SearchPlanAndProgress() {
     MessageController.BlockUI({ boxed: true, textOnly: true, target: '#pn-result' });
 
     if ($.fn.dataTable.isDataTable('#dtProgress')) {
         var table = $('#dtProgress').DataTable();
         table.destroy();
-    }
-    debugger;
+    } 
     var fyear = $("input[type=radio][name=FixicalYear]:checked").val();//$("input[type='radio']:checked").val();
     var quater = [];
-    $('input[name="Quater"]:checked').each(function () {
+    $('input[type=checkbox][name=Quater]:checked').each(function () {
         quater.push(this.value);
     });
-
     debugger;
     $.ajax({
         type: "GET",
@@ -52,16 +37,25 @@ function SearchPlanAndProgress() {
         {
             "employeeId": CookiesController.getCookie("EMPLOYEEID"),
             "ficialYear": fyear,
-            "quater": quater
+            "quater": quater.join(",") 
         },
         success: function (response) { 
+            CreateChartDonut(response.Data);
+            CreateChartStack(response.Data);
             $('#dtProgress').DataTable({
-                'data': response.Data,
+                'data': response.Data.List,
                 'columns': [ 
                     { "data": 'PlatformName_EN', title: 'Platform' },
                     { "data": 'CourseName', title: 'Course Name' },
                     { "data": 'Course_LearnMethodName_EN', title: 'Learn Method' },
-                    { "data": "TargetDate", type: 'date-dd-mmm-yyyy', targets: 0, title: 'Target Date' },  
+                    {
+                        "mData": "TargetDate",
+                        "bSortable": true,
+                        "title": 'Target Date',
+                        "mRender": function (data, type, row) {
+                            return moment(data).format("DD/MM/YYYY");
+                        }
+                    },
                     { "data": 'RemainDay', title: 'Remain Day' }, 
                     {
                         "mData": "CourseStatus",
@@ -81,18 +75,16 @@ function SearchPlanAndProgress() {
                         } 
                     }
                 ],
-                //"columnDefs": [ 
-                //    { "orderable": false, "targets": 1, "className": "text-center" },
-                //    { "orderable": false, "targets": 2, "className": "text-center" },
-                //    { "orderable": false, "targets": 3, "className": "text-center" },
-                //    { "orderable": false, "targets": 4, "className": "text-center" },
-                //    { "orderable": false, "targets": 5, "className": "text-center" },
-                //    { "orderable": false, "targets": 6, "className": "text-center" }
-
-                //],
+                "columnDefs": [  
+                    { "orderable": true, "targets": 1, "className": "text-center" },
+                    { "orderable": true, "targets": 2, "className": "text-center" },
+                    { "orderable": true, "targets": 3, "className": "text-center" },
+                    { "orderable": true, "targets": 4, "className": "text-center" },
+                    { "orderable": true, "targets": 5, "className": "text-center" } 
+                ],
                 'processing': true,
                 'paging': true,
-                "ordering": false,
+                "ordering": true,
                 "searching": false,
                 "lengthChange": false,
                 "bAutoWidth": false,
@@ -129,7 +121,23 @@ function SearchPlanAndProgress() {
         }
     }); 
 }
-function CreateChartStack() {
+
+function CreateChartStack(data) {
+    var cates = [];
+    var overdue = [];
+    var notstart = [];
+    var onprogress = [];
+    var completed = [];
+
+    if (data != null && data.PlatForms.length > 0) {
+        $.each(data.PlatForms, function () {  
+            cates.push(this.PlatformName);
+            overdue.push(this.Overdue);
+            notstart.push(this.NotStart);
+            onprogress.push(this.OnProgress);
+            completed.push(this.Completed);
+        }); 
+    } 
     Highcharts.chart('container2', {
         credits: {
             enabled: false,
@@ -147,7 +155,7 @@ function CreateChartStack() {
             text: ''
         },
         xAxis: {
-            categories: ['Effective Meeting', 'Human Relation', 'Problem Solving', 'Analytics', 'TWI-JI']
+            categories: cates
         },
         yAxis: { 
             title: {
@@ -182,7 +190,7 @@ function CreateChartStack() {
 
                         }
                     },
-                    data: [30, 40, 20, 50, 10]
+                    data: overdue
                 },
                 {
                     name: 'Not Start',
@@ -198,7 +206,7 @@ function CreateChartStack() {
 
                         }
                     },
-                    data: [20,30, 50, 70, 10]
+                    data: notstart
                 },
                 {
                     name: 'On Progress',
@@ -214,7 +222,7 @@ function CreateChartStack() {
 
                         }
                     },
-                    data: [20, 50, 60, 40, 30]
+                    data: onprogress
                 }, {
                     name: 'Completed',
                     dataLabels: {
@@ -229,12 +237,25 @@ function CreateChartStack() {
 
                         }
                     },
-                    data: [10, 40, 70, 30, 30]
+                    data: completed
                 }]
     });
 }
 
-function CreateChartDonut() {
+function CreateChartDonut(data) { 
+    var overdue = 0;
+    var notstart = 0;
+    var onprogress = 0;
+    var completed = 0;
+    var completedPct = 0;
+    if (data != null && data.Progress != null) {
+        overdue = data.Progress.Overdue;
+        notstart = data.Progress.NotStart;
+        onprogress = data.Progress.OnProgress;
+        completed = data.Progress.Completed;
+        completedPct = (completed / data.List.length) * 100;
+    }
+   
     Highcharts.chart('container', {
         credits: {
             enabled: false,
@@ -252,7 +273,7 @@ function CreateChartDonut() {
             }
         },
         title: {
-            text: '10%',
+            text: completedPct + '%',
             align: 'center',
             verticalAlign: 'middle',
             y: 60
@@ -281,13 +302,14 @@ function CreateChartDonut() {
                 startAngle: -90,
                 endAngle: 90,
                 center: ['50%', '75%'],
+                borderWidth: 0,
                 size: '100%'
             }
         },
         colors: ['#F20D0D', '#EEEEEE', '#F0F20D', '#8BBC21'],
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: 'Overall My Learning Progress',
             dataLabels: {
                 color: 'black',
                 shadow: false,
@@ -300,10 +322,10 @@ function CreateChartDonut() {
             },
             innerSize: '60%',
             data: [
-                ['Over Due',30],
-                ['Not Start', 20],
-                ['On Progress', 40],
-                ['Completed', 10] 
+                ['Over Due', overdue],
+                ['Not Start', notstart],
+                ['On Progress', onprogress],
+                ['Completed', completed] 
             ]
         }]
     });
