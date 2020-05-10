@@ -76,6 +76,33 @@ BEGIN
 		INNER JOIN LDMS_T_CompetenceAnalytic_Score score WITH (NOLOCK) on score.ID_CompetenceEmployee = emp.EmployeeID and emp.Is_Active =1 and emp.ID_CompetenceAnalytic = score.ID_CompetenceAnalytic and score.ID_CompetenceKnowledgeTopic = topc.ID
 		LEFT OUTER JOIN LDMS_T_ClassAttendAndResult res WITH (NOLOCK) on topc.ID_Course = res.ID_Course and emp.EmployeeID = res.EmployeeID
 		where emp.ID_CompetenceAnalytic = @AnalyticId AND ISNULL(topc.ID_Course,0)<> 0 and emp.Is_Active =1 
+
+		UNION ALL
+
+		SELECT
+		emp.ID_CompetenceAnalytic, 
+		topc.ID AS ID_CompetenceKnowledgeTopic,
+		emp.EmployeeID AS ID_CompetenceEmployee,
+
+		(CASE WHEN res.LearningResult = 99 OR res.LearningResult = 30 THEN 0
+			 WHEN res.LearningResult = 70 THEN 3
+			 ELSE 0 END) Score,
+
+		(CASE WHEN res.LearningResult = 99 OR res.LearningResult = 30 THEN 0
+			 WHEN res.LearningResult = 70 THEN 3
+			 ELSE 0 END) AS MinScore,
+
+		(CASE WHEN res.LearningResult = 99 OR res.LearningResult = 30 THEN 2
+			 WHEN res.LearningResult = 70 THEN 5
+			 ELSE 0 END) AS MaxScore 
+
+		FROM LDMS_T_CompetenceAnalytic_Employee emp WITH (NOLOCK)
+		INNER JOIN LDMS_T_CompetenceAnalytic_KnwldTopic topc WITH (NOLOCK) on  topc.ID_CompetenceAnalytic = emp.ID_CompetenceAnalytic and topc.Is_Active =1  
+		LEFT OUTER JOIN LDMS_T_ClassAttendAndResult res WITH (NOLOCK) on topc.ID_Course = res.ID_Course and emp.EmployeeID = res.EmployeeID
+		where emp.ID_CompetenceAnalytic = @AnalyticId AND ISNULL(topc.ID_Course,0)<> 0 and emp.Is_Active =1 
+		and not exists (select * from LDMS_T_CompetenceAnalytic_Score score WITH (NOLOCK) where score.ID_CompetenceAnalytic = @AnalyticId and score.ID_CompetenceEmployee = emp.EmployeeID and score.ID_CompetenceKnowledgeTopic=topc.ID)
+
+
 	) TB ORDER BY TB.ID_CompetenceKnowledgeTopic,TB.ID_CompetenceEmployee
 	
 	--if pass default = 3 can changes 3,4,5
