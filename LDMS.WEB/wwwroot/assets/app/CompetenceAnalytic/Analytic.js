@@ -41,10 +41,9 @@ function validate(control, evt) {
 function RenderChart() {
     var AnalyticCategories = [];
     var Analyticseries = [];
-
-    //if (topics.length >= 6 && employees.length >= 10) {
-    //    return;
-    //}
+    if (topics.length >= 6 && employees.length >= 6) {
+        return;
+    }
     var topicScore = []; 
     topics.forEach(tp => { 
         AnalyticCategories.push(tp.Topic);
