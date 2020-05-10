@@ -642,12 +642,22 @@ namespace LDMS.Services
 
                     var byMonth = (from t in months
                                    select new
-                                   { 
+                                   {
                                        MonthName = new DateTime(DateTime.Now.Year, t, 1).ToString("MMM", CultureInfo.InvariantCulture),
                                        Invest = items.Where(e => e.TargetMonth == t).Sum(e => e.ClassFeePerPerson),
                                        Qualifiled = items.Where(e => e.TargetMonth == t && e.CourseStatus == "COMPLETED").Sum(e => (e.ClassFeePerPerson)),
                                        Lost = items.Where(e => e.TargetMonth == t && (e.CourseStatus == "OVER DUE" || e.CourseStatus == "ON PROGRESS" || e.CourseStatus == "NOT START")).Sum(e => (e.ClassFeePerPerson))
                                    }).ToList();
+
+                    var groupCourse = items.GroupBy(e => e.CourseID);
+                    List<string> targetGroupJobGrade = new List<string>();
+                    List<string> targetGroupJobTitle = new List<string>();
+                    List<string> targetGroupEmp = new List<string>();
+                    foreach (var item in groupCourse)
+                    {
+                        await ListTargetGroup(targetGroupJobGrade, targetGroupJobTitle, targetGroupEmp, item);
+                    }
+
                     return new ServiceResult(new
                     {
                         List = items,
@@ -656,13 +666,41 @@ namespace LDMS.Services
                         Sections = bysection,
                         Levels = byLevel,
                         Costs = byMonth,
-                        TotalCourse = items.GroupBy(e => e.CourseID).Count(),
-                        TotalTarget = items.GroupBy(e => e.TargetEmployeeID).Count()
-                    });
+                        TotalCourse = groupCourse.Count(),
+                        TotalTarget = targetGroupJobGrade.Distinct().Count() + targetGroupJobTitle.Distinct().Count() + targetGroupEmp.Distinct().Count()
+                    }); ;
                 }
                 catch (Exception e)
                 {
                     return new ServiceResult(e);
+                }
+            }
+        }
+
+        private async Task ListTargetGroup(List<string> targetGroupJobGrade, List<string> targetGroupJobTitle, List<string> targetGroupEmp, IGrouping<string, TeamLearningPerformance> item)
+        {
+            foreach (var ch in item)
+            {
+                if (!string.IsNullOrEmpty(ch.TargetJobGrade))
+                {
+                    if (!targetGroupJobGrade.Contains(ch.TargetJobGrade))
+                    {
+                        targetGroupJobGrade.Add(ch.TargetJobGrade);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(ch.TargetJobTitle))
+                {
+                    if (!targetGroupJobTitle.Contains(ch.TargetJobTitle))
+                    {
+                        targetGroupJobTitle.Add(ch.TargetJobTitle);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(ch.TargetEmployeeID))
+                {
+                    if (!targetGroupEmp.Contains(ch.TargetEmployeeID))
+                    {
+                        targetGroupEmp.Add(ch.TargetEmployeeID);
+                    }
                 }
             }
         }

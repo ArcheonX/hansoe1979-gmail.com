@@ -76,8 +76,8 @@ namespace LDMS.ViewModels
         public string SectionName_EN { get; set; }
         public string SectionName_TH { get; set; }
 
-        public int TargetJobGrade { get; set; }
-        public int TargetJobTitle { get; set; }
+        public string TargetJobGrade { get; set; }
+        public string TargetJobTitle { get; set; }
         public string TargetEmployeeID { get; set; }
     }
 }
