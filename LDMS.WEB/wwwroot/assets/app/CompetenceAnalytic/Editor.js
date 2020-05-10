@@ -253,20 +253,20 @@ function RefreshTopic() {
                 title: 'Special',
                 "mRender": function (data, type, row) {
                     if (data == true) {
-                        return '<a style="cursor: none" ><img src="/assets/images/svg/icon-check-green.svg" class="light-logo" alt="homepage" /> </a>';
+                        return '<a style="cursor: none" ><span style="display: flex; flex-flow: row nowrap; justify-content: center;"><img src="/assets/images/svg/icon-check-green.svg" class="light-logo" alt="homepage" /></span> </a>';
                     }
                     else {
-                        return '<a style="cursor: none"><img src="/assets/images/svg/icon-cross.svg" class="light-logo" alt="homepage" /> </a>';
+                        return '<a style="cursor: none"><span style="display: flex; flex-flow: row nowrap; justify-content: center;"><img src="/assets/images/svg/icon-cross.svg" class="light-logo" alt="homepage" /></span> </a>';
                     }
                 }
             },
             {
-                "mData": "Index",
+                "mData": "Index", 
                 "mRender": function(data, type, row) {
-                    return '<a onclick="DeleteTopic(' + data + ')" style="cursor: pointer" style="padding-left:15px;" id="btnDeleteTopic"><img src="/assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /> </a>';
+                    return '<a onclick="DeleteTopic(' + data + ')" style="cursor: pointer" style="padding-left:15px;" id="btnDeleteTopic"><span style="display: flex; flex-flow: row nowrap; justify-content: center;"><img src="/assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /></span> </a>';
                 }
             }
-       ], 
+       ],
         'processing': true,
         'paging': true,
         "ordering": false,
@@ -342,7 +342,7 @@ function RefreshExployees() {
             {
                 "mData": "Index",
                 "mRender": function (data, type, row) {
-                    return '<a onclick="DeleteEmployee(' + data + ')" style="cursor: pointer" id="btnDeleteEmployee"><img src="/assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /> </a>';
+                    return '<a onclick="DeleteEmployee(' + data + ')" style="cursor: pointer" id="btnDeleteEmployee"><span style="display: flex; flex-flow: row nowrap; justify-content: center;"><img src="/assets/images/svg/icon-delete-red.svg" class="light-logo" alt="homepage" /></span> </a>';
                 }
             }
         ], 
