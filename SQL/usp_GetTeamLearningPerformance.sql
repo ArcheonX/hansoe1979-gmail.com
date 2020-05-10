@@ -77,7 +77,6 @@ select
 		     WHEN result.EmployeeID IS NOT NULL AND result.LearningResult = 30 THEN 'ON PROGRESS'			
 			 WHEN result.EmployeeID IS NOT NULL AND result.LearningResult = 30 AND  getdate()> class.LearnDateEnd  THEN 'OVER DUE'
 			ELSE 'NOT START' END AS CourseStatus,
-		targetEmp.EmployeeID,
         JobGrade.ID as ID_JobGrade,
 		JobGrade.JobGradeID,
 		JobGrade.JobGradeName_EN,
@@ -111,8 +110,12 @@ select
 		isnull(section.ID,0) as ID_Section,
 		isnull(section.SectionID,'') as SectionID,
 		isnull(section.SectionName_EN,'') as SectionName_EN,
-		isnull(section.SectionName_TH,'') as SectionName_TH
+		isnull(section.SectionName_TH,'') as SectionName_TH,
 	    
+		targetLevel.ID_JobGrade as TargetJobGrade ,
+		targetPos.ID_JobTitle as TargetJobTitle,		
+		targetEmp.EmployeeID as TargetEmployeeID
+
 		INTO #PerformanceResult
 		FROM LDMS_M_Platform plat
 		INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
@@ -121,6 +124,9 @@ select
 		INNER JOIN LDMS_M_CourseLearnMethod method on course.ID_LearnMethod = method.ID
 		INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course		
 		INNER JOIN LDMS_T_CourseEmployee targetEmp on course.ID = targetEmp.ID_Course	
+		INNER JOIN LDMS_T_CourseJobGrade targetLevel on course.ID = targetLevel.ID_Course	
+		INNER JOIN LDMS_T_CourseJobTitle targetPos on course.ID = targetPos.ID_Course	
+
 		INNER JOIN LDMS_M_User Usr on targetEmp.EmployeeID = Usr.EmployeeID
 
 		LEFT OUTER JOIN LDMS_M_VenueRoom VenueRoom on class.ID_VenueRoom = VenueRoom.ID			
@@ -145,31 +151,52 @@ select
 
 IF @IsSelectQ1 = 0 AND @IsSelectQ2 =0 AND @IsSelectQ3 =0 AND @IsSelectQ4 = 0
 BEGIN
-	SELECT * FROM #PerformanceResult;
+	SELECT  * FROM #PerformanceResult 
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,TargetMonth,TargetYear,RegisterDateStart,RegisterDateEnd,ClassCapacity,ClassFee,ClassFeePerPerson,VenueRoomID,RoomName_EN,
+	RemainDay,CourseStatus,ID_JobGrade,JobGradeID,JobGradeName_EN,JobGradeName_TH,ID_JobTitle,JobTitleID,JobTitleName_EN,JobTitleName_TH,ID_Plant,PlantID,PlantName_EN,PlantName_TH,ID_Center,CenterID,CenterName_EN,
+	CenterName_TH,ID_Division,DivisionID,DivisionName_EN,DivisionName_TH,ID_Department,DepartmentID,DepartmentName_EN,DepartmentName_TH,ID_Section,SectionID,SectionName_EN,SectionName_TH,TargetJobGrade,TargetJobTitle,TargetEmployeeID
+
 END
 ELSE
 BEGIN
 	SELECT * FROM #PerformanceResult 
 	WHERE LearnDateStart >= @startDate AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,6,30)
 	and @IsSelectQ1 = 1
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,TargetMonth,TargetYear,RegisterDateStart,RegisterDateEnd,ClassCapacity,ClassFee,ClassFeePerPerson,VenueRoomID,RoomName_EN,
+	RemainDay,CourseStatus,ID_JobGrade,JobGradeID,JobGradeName_EN,JobGradeName_TH,ID_JobTitle,JobTitleID,JobTitleName_EN,JobTitleName_TH,ID_Plant,PlantID,PlantName_EN,PlantName_TH,ID_Center,CenterID,CenterName_EN,
+	CenterName_TH,ID_Division,DivisionID,DivisionName_EN,DivisionName_TH,ID_Department,DepartmentID,DepartmentName_EN,DepartmentName_TH,ID_Section,SectionID,SectionName_EN,SectionName_TH,TargetJobGrade,TargetJobTitle,TargetEmployeeID
 
 	UNION ALL
 
 	SELECT * FROM #PerformanceResult 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,7,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,9,30)
 	and @IsSelectQ1 = 2
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,TargetMonth,TargetYear,RegisterDateStart,RegisterDateEnd,ClassCapacity,ClassFee,ClassFeePerPerson,VenueRoomID,RoomName_EN,
+	RemainDay,CourseStatus,ID_JobGrade,JobGradeID,JobGradeName_EN,JobGradeName_TH,ID_JobTitle,JobTitleID,JobTitleName_EN,JobTitleName_TH,ID_Plant,PlantID,PlantName_EN,PlantName_TH,ID_Center,CenterID,CenterName_EN,
+	CenterName_TH,ID_Division,DivisionID,DivisionName_EN,DivisionName_TH,ID_Department,DepartmentID,DepartmentName_EN,DepartmentName_TH,ID_Section,SectionID,SectionName_EN,SectionName_TH,TargetJobGrade,TargetJobTitle,TargetEmployeeID
 
 	UNION ALL
 
 	SELECT * FROM #PerformanceResult 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,10,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,12,31)
 	and @IsSelectQ1 = 3
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,TargetMonth,TargetYear,RegisterDateStart,RegisterDateEnd,ClassCapacity,ClassFee,ClassFeePerPerson,VenueRoomID,RoomName_EN,
+	RemainDay,CourseStatus,ID_JobGrade,JobGradeID,JobGradeName_EN,JobGradeName_TH,ID_JobTitle,JobTitleID,JobTitleName_EN,JobTitleName_TH,ID_Plant,PlantID,PlantName_EN,PlantName_TH,ID_Center,CenterID,CenterName_EN,
+	CenterName_TH,ID_Division,DivisionID,DivisionName_EN,DivisionName_TH,ID_Department,DepartmentID,DepartmentName_EN,DepartmentName_TH,ID_Section,SectionID,SectionName_EN,SectionName_TH,TargetJobGrade,TargetJobTitle,TargetEmployeeID
 
 	UNION ALL
 
 	SELECT * FROM #PerformanceResult 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,1,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,3,31)
-	and @IsSelectQ1 = 4 
+	and @IsSelectQ1 = 4
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,TargetMonth,TargetYear,RegisterDateStart,RegisterDateEnd,ClassCapacity,ClassFee,ClassFeePerPerson,VenueRoomID,RoomName_EN,
+	RemainDay,CourseStatus,ID_JobGrade,JobGradeID,JobGradeName_EN,JobGradeName_TH,ID_JobTitle,JobTitleID,JobTitleName_EN,JobTitleName_TH,ID_Plant,PlantID,PlantName_EN,PlantName_TH,ID_Center,CenterID,CenterName_EN,
+	CenterName_TH,ID_Division,DivisionID,DivisionName_EN,DivisionName_TH,ID_Department,DepartmentID,DepartmentName_EN,DepartmentName_TH,ID_Section,SectionID,SectionName_EN,SectionName_TH,TargetJobGrade,TargetJobTitle,TargetEmployeeID
 END    -- Insert statements for procedure here
 
 

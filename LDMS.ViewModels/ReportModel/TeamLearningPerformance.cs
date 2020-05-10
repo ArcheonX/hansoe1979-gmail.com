@@ -18,9 +18,7 @@ namespace LDMS.ViewModels
         public string CourseName { get; set; }
 
         public string Course_LearnMethodName_EN { get; set; }
-        public string Course_LearnMethodName_TH { get; set; }
-
-        public string EmployeeID { get; set; }
+        public string Course_LearnMethodName_TH { get; set; } 
         public DateTime? TargetDate { get; set; }
         public int TargetMonth { get; set; }
         public int TargetYear { get; set; }
@@ -77,5 +75,9 @@ namespace LDMS.ViewModels
         public string SectionID { get; set; } 
         public string SectionName_EN { get; set; }
         public string SectionName_TH { get; set; }
+
+        public int TargetJobGrade { get; set; }
+        public int TargetJobTitle { get; set; }
+        public string TargetEmployeeID { get; set; }
     }
 }

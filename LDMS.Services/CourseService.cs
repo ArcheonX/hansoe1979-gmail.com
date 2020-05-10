@@ -657,7 +657,7 @@ namespace LDMS.Services
                         Levels = byLevel,
                         Costs = byMonth,
                         TotalCourse = items.GroupBy(e => e.CourseID).Count(),
-                        TotalTarget = items.GroupBy(e => e.EmployeeID).Count()
+                        TotalTarget = items.GroupBy(e => e.TargetEmployeeID).Count()
                     });
                 }
                 catch (Exception e)
