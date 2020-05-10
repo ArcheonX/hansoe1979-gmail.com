@@ -45,11 +45,9 @@ function RenderChart() {
     //if (topics.length >= 6 && employees.length >= 10) {
     //    return;
     //}
-    var topicScore = [];
-
+    var topicScore = []; 
     topics.forEach(tp => { 
         AnalyticCategories.push(tp.Topic);
-
         var score = scores.where((sc) => {
             return sc.ID_CompetenceKnowledgeTopic == tp.TopicId;
         });
@@ -74,7 +72,7 @@ function RenderChart() {
                 data: AnalyticScores,
                 pointPlacement: 'on'
             });
-    });
+    }); 
     Highcharts.chart('container', {
         chart: {
             polar: true,
@@ -105,7 +103,7 @@ function RenderChart() {
             gridLineInterpolation: 'polygon',
             lineWidth: 0,
             min: 0,
-            tickPositions: [0,1, 2, 3,4, 5]
+            tickPositions: [0, 1, 2, 3, 4, 5]
         },
         tooltip: {
             shared: true,
