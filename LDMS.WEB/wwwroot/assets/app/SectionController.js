@@ -343,7 +343,7 @@ function DeleteSection(id, code, name) {
     MessageController.WarningCallback("Are you sure you want to delete Section '" + code + ' ' + name + "'?", "Confirm Delete!", function (res) {
         if (res) { 
             $.ajax({
-                type: "Delete",
+                type: "POST",
                 url: '/Organization/DeleteSection',
                 data: { 'sectionId': id },
                 success: function (response) {
