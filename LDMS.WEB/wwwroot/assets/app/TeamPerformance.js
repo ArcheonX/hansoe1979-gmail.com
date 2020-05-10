@@ -7,32 +7,7 @@
             allowClear: true,
             placeholder: 'All' 
         }); 
-        $.ajax({
-            type: "GET",
-            url: "/Master/GetAllPlants",
-            success: function (response) {
-                var options = $('#selectPlant'); 
-                options.append($("<option />").val(null).text("---All---")); 
-                $.each(response.Data, function () {
-                    options.append($("<option />").val(this.ID_Plant).text('(' + this.PlantID + ') ' + this.PlantName_EN)); 
-                }); 
-                $('select[name="selectPlant"]').val(null).trigger('change');
-            },
-            failure: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            },
-            error: function (response) {
-                if (JSON.parse(response.responseText).Errors.length > 0) {
-                    MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
-                } else {
-                    MessageController.Error(response.responseText, "Error");
-                }
-            }
-        }); 
+        LoadPlant();
         $('select[name="selectPlant"]').on('change', function () {
             var plantId = $(this).val();
             LoadCenter(plantId);
@@ -50,13 +25,50 @@
             LoadSection(departmentId);
         });
 
-        RenderChartProgress();
-        RenderChartBySection();
-        RenderChartByPlatform();
-        RenderChartByJobLevel();
-        RenderChartCostSpending();
+        var year = new Date().getFullYear();
+        $("#FY3").val(year);
+        $("#FY2").val(year - 1);
+        $("#FY1").val(year - 2);
+        $("#lblFY3").text("FY" + year);
+        $("#lblFY2").text("FY" + (year - 1));
+        $("#lblFY1").text("FY" + (year - 2));
+
+        $('#btnQueryProgress').click(function () {
+            SearchTeamPerformance();
+        });
+        SearchTeamPerformance(); 
     })
 })(jQuery);
+
+function LoadPlant() {
+    $.ajax({
+        type: "GET",
+        url: "/Master/GetAllPlants",
+        success: function (response) {
+            var options = $('#selectPlant');
+            options.append($("<option />").val(null).text("---All---"));
+            $.each(response.Data, function () {
+                options.append($("<option />").val(this.ID_Plant).text('(' + this.PlantID + ') ' + this.PlantName_EN));
+            });
+            $('select[name="selectPlant"]').val(null).trigger('change');
+        },
+        failure: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    }); 
+}
+
 function LoadCenter(plantId) {
     var options = $('#selectCenter');
     options.empty();
@@ -87,6 +99,7 @@ function LoadCenter(plantId) {
         }
     });
 }
+
 function LoadDivision(centerId) {
     var options = $('#selectDivision');
     options.empty();
@@ -187,15 +200,38 @@ function LoadSection(departmentId) {
     });
 }
 
-function RenderChartProgress() {
+function RenderChartProgress(data) {
+    var overdue = 0;
+    var notstart = 0;
+    var onprogress = 0;
+    var completed = 0;
+    var completedPct = 0;
+    if (data != null && data.Progress != null) {
+        overdue = data.Progress.Overdue;
+        notstart = data.Progress.NotStart;
+        onprogress = data.Progress.OnProgress;
+        completed = data.Progress.Completed;
+        completedPct = Math.round((completed / data.List.length) * 100);
+    }
+
     Highcharts.chart('learningProgressContainer', {
+        credits: {
+            enabled: false,
+        },
         chart: {
             plotBackgroundColor: null,
-            plotBorderWidth: 0,
-            plotShadow: false
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        exporting: {
+            enabled: false,
+            buttons: {
+                enabled: false
+            }
         },
         title: {
-            text: 'Browser<br>shares<br>2017',
+            text: completedPct + '%',
             align: 'center',
             verticalAlign: 'middle',
             y: 60
@@ -210,157 +246,343 @@ function RenderChartProgress() {
         },
         plotOptions: {
             pie: {
+                shadow: false,
                 dataLabels: {
                     enabled: true,
                     distance: -50,
                     style: {
-                        fontWeight: 'bold',
-                        color: 'white'
+                        color: 'black',
+                        textShadow: false,
+                        textOutline: false
                     }
                 },
+                showInLegend: true,
                 startAngle: -90,
                 endAngle: 90,
                 center: ['50%', '75%'],
-                size: '110%'
+                borderWidth: 0,
+                size: '100%'
             }
         },
+        colors: ['#E50000', '#EEEEEE', '#F0F20D', '#8BBC21'],
         series: [{
             type: 'pie',
-            name: 'Browser share',
-            innerSize: '50%',
-            data: [
-                ['Chrome', 58.9],
-                ['Firefox', 13.29],
-                ['Internet Explorer', 13],
-                ['Edge', 3.78],
-                ['Safari', 3.42],
-                {
-                    name: 'Other',
-                    y: 7.61,
-                    dataLabels: {
-                        enabled: false
-                    }
+            name: 'Overall My Learning Progress',
+            dataLabels: {
+                color: 'black',
+                shadow: false,
+                borderWidth: 0,
+                distance: -30,
+                formatter: function () {
+                    if (this.percentage != 0) return Math.round(this.percentage);
+
                 }
+            },
+            innerSize: '60%',
+            data: [
+                ['Over Due', overdue],
+                ['Not Start', notstart],
+                ['On Progress', onprogress],
+                ['Completed', completed]
             ]
         }]
-    });
-
+    }); 
 }
 
-function RenderChartBySection() {
+function RenderChartBySection(data) {
+    var cates = [];
+    var overdue = [];
+    var notstart = [];
+    var onprogress = [];
+    var completed = [];
+
+    if (data != null && data.Sections.length > 0) {
+        $.each(data.Sections, function () {
+            cates.push(this.SectionName);
+            overdue.push(this.Overdue);
+            notstart.push(this.NotStart);
+            onprogress.push(this.OnProgress);
+            completed.push(this.Completed);
+        });
+    }
     Highcharts.chart('BySectionContainer', {
+        credits: {
+            enabled: false,
+        },
         chart: {
             type: 'bar'
         },
+        exporting: {
+            enabled: false,
+            buttons: {
+                enabled: false
+            }
+        },
         title: {
-            text: 'Stacked bar chart'
+            text: ''
         },
         xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+            categories: cates
         },
         yAxis: {
-            min: 0,
             title: {
-                text: 'Total fruit consumption'
+                text: ''
+            },
+            labels: {
+                enabled: false
             }
         },
-        legend: {
-            reversed: true
-        },
+        //legend: {
+        //    reversed: true
+        //},
         plotOptions: {
-            series: {
-                stacking: 'normal'
+            bar: {
+                stacking: 'percent'
             }
         },
-        series: [{
-            name: 'John',
-            data: [5, 3, 4, 7, 2]
-        }, {
-            name: 'Jane',
-            data: [2, 2, 3, 2, 1]
-        }, {
-            name: 'Joe',
-            data: [3, 4, 4, 2, 5]
-        }]
-    });
+        colors: ['#E50000', '#EEEEEE', '#F0F20D', '#8BBC21'],
+        series:
+            [
+                {
+                    name: 'Over Due',
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: false,
+                            textOutline: false
+                        },
+                        color: 'black',
+                        formatter: function () {
+                            if (this.percentage != 0) return Math.round(this.percentage);
+
+                        }
+                    },
+                    data: overdue
+                },
+                {
+                    name: 'Not Start',
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: false,
+                            textOutline: false
+                        },
+                        color: 'black',
+                        formatter: function () {
+                            if (this.percentage != 0) return Math.round(this.percentage);
+
+                        }
+                    },
+                    data: notstart
+                },
+                {
+                    name: 'On Progress',
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: false,
+                            textOutline: false
+                        },
+                        color: 'black',
+                        formatter: function () {
+                            if (this.percentage != 0) return Math.round(this.percentage);
+
+                        }
+                    },
+                    data: onprogress
+                }, {
+                    name: 'Completed',
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: false,
+                            textOutline: false
+                        },
+                        color: 'black',
+                        formatter: function () {
+                            if (this.percentage != 0) return Math.round(this.percentage);
+
+                        }
+                    },
+                    data: completed
+                }]
+    }); 
 }
 
+function RenderChartByPlatform(data) {
+    var cates = [];
+    var overdue = [];
+    var notstart = [];
+    var onprogress = [];
+    var completed = [];
 
-function RenderChartByPlatform() {
+    if (data != null && data.PlatForms.length > 0) {
+        $.each(data.PlatForms, function () {
+            cates.push(this.PlatformName);
+            overdue.push(this.Overdue);
+            notstart.push(this.NotStart);
+            onprogress.push(this.OnProgress);
+            completed.push(this.Completed);
+        });
+    }
     Highcharts.chart('ByPlatformContainer', {
+        credits: {
+            enabled: false,
+        },
         chart: {
             type: 'bar'
         },
+        exporting: {
+            enabled: false,
+            buttons: {
+                enabled: false
+            }
+        },
         title: {
-            text: 'Stacked bar chart'
+            text: ''
         },
         xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+            categories: cates
         },
         yAxis: {
-            min: 0,
             title: {
-                text: 'Total fruit consumption'
+                text: ''
+            },
+            labels: {
+                enabled: false
             }
         },
-        legend: {
-            reversed: true
-        },
+        //legend: {
+        //    reversed: true
+        //},
         plotOptions: {
-            series: {
-                stacking: 'normal'
+            bar: {
+                stacking: 'percent'
             }
         },
-        series: [{
-            name: 'John',
-            data: [5, 3, 4, 7, 2]
-        }, {
-            name: 'Jane',
-            data: [2, 2, 3, 2, 1]
-        }, {
-            name: 'Joe',
-            data: [3, 4, 4, 2, 5]
-        }]
+        colors: ['#E50000', '#EEEEEE', '#F0F20D', '#8BBC21'],
+        series:
+            [
+                {
+                    name: 'Over Due',
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: false,
+                            textOutline: false
+                        },
+                        color: 'black',
+                        formatter: function () {
+                            if (this.percentage != 0) return Math.round(this.percentage);
+
+                        }
+                    },
+                    data: overdue
+                },
+                {
+                    name: 'Not Start',
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: false,
+                            textOutline: false
+                        },
+                        color: 'black',
+                        formatter: function () {
+                            if (this.percentage != 0) return Math.round(this.percentage);
+
+                        }
+                    },
+                    data: notstart
+                },
+                {
+                    name: 'On Progress',
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: false,
+                            textOutline: false
+                        },
+                        color: 'black',
+                        formatter: function () {
+                            if (this.percentage != 0) return Math.round(this.percentage);
+
+                        }
+                    },
+                    data: onprogress
+                }, {
+                    name: 'Completed',
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: false,
+                            textOutline: false
+                        },
+                        color: 'black',
+                        formatter: function () {
+                            if (this.percentage != 0) return Math.round(this.percentage);
+
+                        }
+                    },
+                    data: completed
+                }]
     });
 }
 
-function RenderChartByJobLevel() {
+function RenderChartByJobLevel(data) {
+
+    var cates = [];
+    var overdue = [];
+    var notstart = [];
+    var onprogress = [];
+    var completed = [];
+
+    if (data != null && data.Levels.length > 0) {
+        $.each(data.Levels, function () {
+            cates.push(this.LevelName);
+            overdue.push(this.Overdue);
+            notstart.push(this.NotStart);
+            onprogress.push(this.OnProgress);
+            completed.push(this.Completed);
+        });
+    } 
     Highcharts.chart('ByJobLevelContainer', {
         chart: {
             type: 'column'
         },
+        credits: {
+            enabled: false,
+        },
+        exporting: {
+            enabled: false,
+            buttons: {
+                enabled: false
+            }
+        },
         title: {
-            text: 'Stacked column chart'
+            text: ''
         },
         xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+            categories: cates
         },
         yAxis: {
             min: 0,
             title: {
-                text: 'Total fruit consumption'
+                text: ''
             },
             stackLabels: {
-                enabled: true,
+                enabled: false,
                 style: {
                     fontWeight: 'bold',
-                    color: ( // theme
-                        Highcharts.defaultOptions.title.style &&
-                        Highcharts.defaultOptions.title.style.color
-                    ) || 'gray'
+                    color:'black'
                 }
             }
         },
         legend: {
-            align: 'right',
-            x: -30,
-            verticalAlign: 'top',
+            align: 'center', 
+            verticalAlign: 'bottom',
             y: 25,
-            floating: true,
-            backgroundColor:
-                Highcharts.defaultOptions.legend.backgroundColor || 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
+            floating: true,  
             shadow: false
         },
         tooltip: {
@@ -369,42 +591,118 @@ function RenderChartByJobLevel() {
         },
         plotOptions: {
             column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true
-                }
+                stacking: 'percent' 
             }
         },
         series: [{
-            name: 'John',
-            data: [5, 3, 4, 7, 2]
+            name: 'Not Start',
+            color: '#EEEEEE',
+            data: notstart,
+            dataLabels: {
+                enabled: true,
+                style: {
+                    textShadow: false,
+                    textOutline: false
+                },
+                color: 'black',
+                formatter: function () {
+                    if (this.percentage != 0) return Math.round(this.percentage);
+
+                }
+            }
         }, {
-            name: 'Jane',
-            data: [2, 2, 3, 2, 1]
-        }, {
-            name: 'Joe',
-            data: [3, 4, 4, 2, 5]
-        }]
-    });
+                name: 'On Progress',
+                color: '#f2f411',
+                data: onprogress,
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: false,
+                        textOutline: false
+                    },
+                    color: 'black',
+                    formatter: function () {
+                        if (this.percentage != 0) return Math.round(this.percentage);
+
+                    }
+                }
+            }, {
+            name: 'Completed',
+                color: '#8BBC21',
+                data: completed,
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: false,
+                        textOutline: false
+                    },
+                    color: 'black',
+                    formatter: function () {
+                        if (this.percentage != 0) return Math.round(this.percentage);
+
+                    }
+                }
+        }
+            , {
+                name: 'Over Due',
+                color: '#E50000',
+                data: overdue,
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: false,
+                        textOutline: false
+                    },
+                    color: 'black',
+                    formatter: function () {
+                        if (this.percentage != 0) return Math.round(this.percentage);
+
+                    }
+                }
+            }]
+    }); 
 }
 
-function RenderChartCostSpending() {
+function RenderChartCostSpending(data) {
+
+    var cates = [];
+    var invest = [];
+    var qualifiled = [];
+    var lost = [];
+    
+    if (data != null && data.Costs.length > 0) {
+        $.each(data.Costs, function () {
+            cates.push(this.MonthName);
+            invest.push(roundToTwo(this.Invest / 1000));
+            qualifiled.push(roundToTwo(this.Qualifiled / 1000));
+            lost.push(roundToTwo(this.Lost / 1000));
+        });
+    } 
     Highcharts.chart('LearningCostSpendingContainer', {
         chart: {
             type: 'line'
         },
+        credits: {
+            enabled: false,
+        },
+        exporting: {
+            enabled: false,
+            buttons: {
+                enabled: false
+            }
+        },
         title: {
-            text: 'Monthly Average Temperature'
+            text: ''
         },
         subtitle: {
-            text: 'Source: WorldClimate.com'
+            text: ''
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            categories: cates
         },
         yAxis: {
             title: {
-                text: 'Temperature (°C)'
+                text: ''
             }
         },
         plotOptions: {
@@ -414,13 +712,74 @@ function RenderChartCostSpending() {
                 },
                 enableMouseTracking: false
             }
-        },
+        }, 
         series: [{
-            name: 'Tokyo',
-            data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            name: 'Invest(K Bath)',
+            color: '#171BF4',
+            data: invest
         }, {
-            name: 'London',
-            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                name: 'Qualifiled(K Bath)',
+            color: '#78ff48',
+            data: qualifiled
+        }, {
+                name: 'Lost(K Bath)',
+            color: '#E50000',
+            data: lost
         }]
     });
 }
+
+function SearchTeamPerformance() {
+    MessageController.BlockUI({ boxed: true, textOnly: true, target: '#pn-result' }); 
+    var fyear = $("input[type=radio][name=FixicalYear]:checked").val();//$("input[type='radio']:checked").val();
+    var quater = [];
+    $('input[type=checkbox][name=Quater]:checked').each(function () {
+        quater.push(this.value);
+    });
+    $.ajax({
+        type: "GET",
+        url: "/Course/TeamPerformance",
+        data:
+        { 
+            "ficialYear": fyear,
+            "quater": quater.join(","),
+            "plantId": $('select[name="selectPlant"]').val(),
+            "centerId": $('select[name="selectCenter"]').val(),
+            "divisionId": $('select[name="selectDivision"]').val(),
+            "departmentId": $('select[name="selectDepartment"]').val(),
+            "sectionId": $('select[name="selectSection"]').val()
+        },
+        success: function (response) {
+            RenderChartProgress(response.Data);
+            RenderChartBySection(response.Data);
+            RenderChartByPlatform(response.Data);
+            RenderChartByJobLevel(response.Data);
+            RenderChartCostSpending(response.Data);
+
+            $("#txtTotalCourse").text(response.Data.TotalCourse);
+            $("#txtTarget").text(response.Data.TotalTarget);
+            MessageController.UnblockUI('#pn-result');
+        },
+        failure: function (response) {
+            MessageController.UnblockUI('#pn-result');
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        },
+        error: function (response) {
+            MessageController.UnblockUI('#pn-result');
+            if (JSON.parse(response.responseText).Errors.length > 0) {
+                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+            } else {
+                MessageController.Error(response.responseText, "Error");
+            }
+        }
+    });
+}
+
+function roundToTwo(num) {
+    return +(Math.round(num + "e+2") + "e-2");
+}
+

@@ -171,7 +171,7 @@ function CreateChartStack(data) {
                 stacking: 'percent'
             }
         },
-        colors: ['#F20D0D', '#EEEEEE', '#F0F20D', '#8BBC21'],
+        colors: ['#E50000', '#EEEEEE', '#F0F20D', '#8BBC21'],
         series:
             [
                 {
@@ -184,7 +184,7 @@ function CreateChartStack(data) {
                         },
                         color: 'black',
                         formatter: function () {
-                            if (this.percentage != 0) return Math.round(this.percentage) + '%';
+                            if (this.percentage != 0) return Math.round(this.percentage);
 
                         }
                     },
@@ -200,7 +200,7 @@ function CreateChartStack(data) {
                         },
                         color: 'black',
                         formatter: function () {
-                            if (this.percentage != 0) return Math.round(this.percentage) + '%';
+                            if (this.percentage != 0) return Math.round(this.percentage);
 
                         }
                     },
@@ -216,7 +216,7 @@ function CreateChartStack(data) {
                         },
                         color: 'black',
                         formatter: function () {
-                            if (this.percentage != 0) return Math.round(this.percentage) + '%';
+                            if (this.percentage != 0) return Math.round(this.percentage);
 
                         }
                     },
@@ -231,7 +231,7 @@ function CreateChartStack(data) {
                         },
                         color: 'black',
                         formatter: function () {
-                            if (this.percentage != 0) return Math.round(this.percentage) + '%';
+                            if (this.percentage != 0) return Math.round(this.percentage);
 
                         }
                     },
@@ -304,7 +304,7 @@ function CreateChartDonut(data) {
                 size: '100%'
             }
         },
-        colors: ['#F20D0D', '#EEEEEE', '#F0F20D', '#8BBC21'],
+        colors: ['#E50000', '#EEEEEE', '#F0F20D', '#8BBC21'],
         series: [{
             type: 'pie',
             name: 'Overall My Learning Progress',
@@ -314,7 +314,7 @@ function CreateChartDonut(data) {
                 borderWidth: 0,
                 distance: -30,
                 formatter: function () {
-                    if (this.percentage != 0) return Math.round(this.percentage) + '%';
+                    if (this.percentage != 0) return Math.round(this.percentage);
 
                 }
             },

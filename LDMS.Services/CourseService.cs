@@ -12,6 +12,8 @@ using Newtonsoft.Json.Linq;
 using System.Data;
 using LDMS.Daos;
 using LDMS.ViewModels;
+using System.Globalization;
+using NPOI.HSSF.Record.Chart;
 
 namespace LDMS.Services
 {
@@ -531,7 +533,7 @@ namespace LDMS.Services
 
 
         public async Task<ServiceResult> GetPlanAndProgress(string employeeId, int ficialYear, int[] quater)
-        { 
+        {
             using (IDbConnection conn = Connection)
             {
                 try
@@ -567,6 +569,95 @@ namespace LDMS.Services
                         List = items,
                         PlatForms = byPlatfrom,
                         Progress = byProgress
+                    });
+                }
+                catch (Exception e)
+                {
+                    return new ServiceResult(e);
+                }
+            }
+        }
+
+
+        public async Task<ServiceResult> GetTeamLearningPerformance(int ficialYear, int[] quater, int plantId = 0, int centerId = 0, int divisionId = 0, int departmentId = 0, int sectionId = 0)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                try
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@plantId", plantId);
+                    p.Add("@centerId", centerId);
+                    p.Add("@divisionId", divisionId);
+                    p.Add("@departmentId", departmentId);
+                    p.Add("@sectionId", sectionId);
+                    p.Add("@ficialYear", ficialYear);
+                    p.Add("@IsSelectQ1", quater.Contains(1));
+                    p.Add("@IsSelectQ2", quater.Contains(2));
+                    p.Add("@IsSelectQ3", quater.Contains(3));
+                    p.Add("@IsSelectQ4", quater.Contains(4));
+                    var items = conn.Query<TeamLearningPerformance>("[dbo].[usp_GetTeamLearningPerformance]", p, commandType: CommandType.StoredProcedure);
+                    var platFromGroup = items.GroupBy(e => e.PlatformID);
+                    var sectionGroup = items.GroupBy(e => e.ID_Section);
+                    var gradeGroup = items.GroupBy(e => e.ID_JobGrade);
+                    var monthGroup = items.GroupBy(e => e.TargetMonth);
+
+                    var byPlatfrom = (from t in platFromGroup
+                                      select new
+                                      {
+                                          PlatformName = t.FirstOrDefault().PlatformName_EN,
+                                          Overdue = t.Count(e => e.CourseStatus == "OVER DUE"),
+                                          Completed = t.Count(e => e.CourseStatus == "COMPLETED"),
+                                          OnProgress = t.Count(e => e.CourseStatus == "ON PROGRESS"),
+                                          NotStart = t.Count(e => e.CourseStatus == "NOT START")
+                                      }).ToList();
+                    var byProgress = new
+                    {
+                        Overdue = items.Count(e => e.CourseStatus == "OVER DUE"),
+                        Completed = items.Count(e => e.CourseStatus == "COMPLETED"),
+                        OnProgress = items.Count(e => e.CourseStatus == "ON PROGRESS"),
+                        NotStart = items.Count(e => e.CourseStatus == "NOT START")
+                    };
+
+                    var bysection = (from t in sectionGroup
+                                     select new
+                                     {
+                                         SectionName = t.FirstOrDefault().SectionName_EN,
+                                         Overdue = t.Count(e => e.CourseStatus == "OVER DUE"),
+                                         Completed = t.Count(e => e.CourseStatus == "COMPLETED"),
+                                         OnProgress = t.Count(e => e.CourseStatus == "ON PROGRESS"),
+                                         NotStart = t.Count(e => e.CourseStatus == "NOT START")
+                                     }).ToList();
+
+                    var byLevel = (from t in gradeGroup
+                                   select new
+                                   {
+                                       LevelName = t.FirstOrDefault().JobGradeName_EN,
+                                       Overdue = t.Count(e => e.CourseStatus == "OVER DUE"),
+                                       Completed = t.Count(e => e.CourseStatus == "COMPLETED"),
+                                       OnProgress = t.Count(e => e.CourseStatus == "ON PROGRESS"),
+                                       NotStart = t.Count(e => e.CourseStatus == "NOT START")
+                                   }).ToList();
+                    int[] months = new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3 };
+
+                    var byMonth = (from t in months
+                                   select new
+                                   { 
+                                       MonthName = new DateTime(DateTime.Now.Year, t, 1).ToString("MMM", CultureInfo.InvariantCulture),
+                                       Invest = items.Where(e => e.TargetMonth == t).Sum(e => e.ClassFeePerPerson),
+                                       Qualifiled = items.Where(e => e.TargetMonth == t && e.CourseStatus == "COMPLETED").Sum(e => (e.ClassFeePerPerson)),
+                                       Lost = items.Where(e => e.TargetMonth == t && (e.CourseStatus == "OVER DUE" || e.CourseStatus == "ON PROGRESS" || e.CourseStatus == "NOT START")).Sum(e => (e.ClassFeePerPerson))
+                                   }).ToList();
+                    return new ServiceResult(new
+                    {
+                        List = items,
+                        PlatForms = byPlatfrom,
+                        Progress = byProgress,
+                        Sections = bysection,
+                        Levels = byLevel,
+                        Costs = byMonth,
+                        TotalCourse = items.GroupBy(e => e.CourseID).Count(),
+                        TotalTarget = items.GroupBy(e => e.EmployeeID).Count()
                     });
                 }
                 catch (Exception e)
