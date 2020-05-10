@@ -340,7 +340,7 @@ function EditSection(id, code, name) {
 }
 
 function DeleteSection(id, code, name) {
-    MessageController.WarningCallback("Are you sure you want to delete Section '" + code + ' ' + name + "'?", "Confirm Delete!", function (res) {
+    MessageController.ConfirmCallback("Are you sure you want to delete Section '" + code + ' ' + name + "'?", "Confirm Delete!", function (res) {
         if (res) { 
             $.ajax({
                 type: "POST",
