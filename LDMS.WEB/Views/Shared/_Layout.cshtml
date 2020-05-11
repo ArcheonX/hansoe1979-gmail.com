@@ -112,7 +112,7 @@
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li>
-                        <div class="user-profile" style="margin-top:75px;">
+                        <div class="user-profile" style="margin-top:75px;height: 300px;">
                             <div class="profile-img">
                                 <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
                             </div>
@@ -121,8 +121,10 @@
                                 <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
                                 <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
                                 <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
-                                <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
                             </div>
+                            <span class="pull-right" style="padding-right:25px;">
+                                <a href="/Account/Logout" style="color:#ffffff" aria-expanded="false">Sign Out</a>
+                            </span>                          
                         </div>
                     </li>
                     <li>
