@@ -191,7 +191,7 @@ BEGIN
 	UNION ALL
 
 	SELECT * FROM #PerformanceResult 
-	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,1,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,3,31)
+	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,1,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear+1,3,31)
 	and @IsSelectQ1 = 4
 	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
 	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,TargetMonth,TargetYear,RegisterDateStart,RegisterDateEnd,ClassCapacity,ClassFee,ClassFeePerPerson,VenueRoomID,RoomName_EN,
