@@ -47,10 +47,10 @@ SET @endDate = DATEFROMPARTS(@ficialYear+1,3,31);
 WITH    targetPlant AS
         (
 			SELECT  
-				usr.EmployeeId,
-				usr.ID_plant 
-				FROM LDMS_M_User usr  
-				where 1 = 1 
+			usr.EmployeeId,
+			usr.ID_plant 
+			FROM LDMS_M_User usr  
+			where usr.isActive = 1
 				and (1 = case when @plantId >0 then (case when usr.ID_plant = @plantId then 1 else 0 end) else 1 end)
 				and (1 = case when @centerId >0 then (case when usr.ID_center = @centerId then 1 else 0 end) else 1 end)
 				and (1 = case when @divisionId >0 then (case when usr.ID_division = @divisionId then 1 else 0 end) else 1 end)
@@ -62,7 +62,7 @@ WITH    targetPlant AS
 			usr.EmployeeId,
 			usr.ID_center 
 			FROM LDMS_M_User usr  
-			where 1 = 1 
+			where usr.isActive = 1
 			and (1 = case when @plantId >0 then (case when usr.ID_plant = @plantId then 1 else 0 end) else 1 end)
 			and (1 = case when @centerId >0 then (case when usr.ID_center = @centerId then 1 else 0 end) else 1 end)
 			and (1 = case when @divisionId >0 then (case when usr.ID_division = @divisionId then 1 else 0 end) else 1 end)
@@ -74,7 +74,7 @@ WITH    targetPlant AS
 			usr.EmployeeId,
 			usr.ID_division 
 			FROM LDMS_M_User usr  
-			where 1 = 1 
+			where usr.isActive = 1 
 			and (1 = case when @plantId >0 then (case when usr.ID_plant = @plantId then 1 else 0 end) else 1 end)
 			and (1 = case when @centerId >0 then (case when usr.ID_center = @centerId then 1 else 0 end) else 1 end)
 			and (1 = case when @divisionId >0 then (case when usr.ID_division = @divisionId then 1 else 0 end) else 1 end)
@@ -86,7 +86,7 @@ WITH    targetPlant AS
 				usr.EmployeeId,
 				usr.ID_Department 
 				FROM LDMS_M_User usr  
-				where 1 = 1 
+				where usr.isActive = 1
 				and (1 = case when @plantId >0 then (case when usr.ID_plant = @plantId then 1 else 0 end) else 1 end)
 				and (1 = case when @centerId >0 then (case when usr.ID_center = @centerId then 1 else 0 end) else 1 end)
 				and (1 = case when @divisionId >0 then (case when usr.ID_division = @divisionId then 1 else 0 end) else 1 end)
@@ -99,7 +99,7 @@ WITH    targetPlant AS
 			usr.EmployeeId,
 			usr.ID_Section 
 			FROM LDMS_M_User usr  
-			where 1 = 1 
+			where usr.isActive = 1
 			and (1 = case when @plantId >0 then (case when usr.ID_plant = @plantId then 1 else 0 end) else 1 end)
 			and (1 = case when @centerId >0 then (case when usr.ID_center = @centerId then 1 else 0 end) else 1 end)
 			and (1 = case when @divisionId >0 then (case when usr.ID_division = @divisionId then 1 else 0 end) else 1 end)
@@ -116,7 +116,8 @@ WITH    targetPlant AS
 			FROM LDMS_M_User usr 
 			JOIN LDMS_M_JobGrade JobGrade on JobGrade.ID = Usr.ID_JobGrade
 			INNER JOIN LDMS_T_CourseJobGrade targetLevel on JobGrade.JobGradeID= targetLevel.ID_JobGrade
-			where targetLevel.ID_Course>0
+			where targetLevel.ID_Course>0 
+			and usr.isActive = 1
 			and (1 = case when @plantId >0 then (case when usr.ID_plant = @plantId then 1 else 0 end) else 1 end)
 			and (1 = case when @centerId >0 then (case when usr.ID_center = @centerId then 1 else 0 end) else 1 end)
 			and (1 = case when @divisionId >0 then (case when usr.ID_division = @divisionId then 1 else 0 end) else 1 end)
@@ -133,6 +134,7 @@ WITH    targetPlant AS
 			JOIN LDMS_M_JobTitle JobTitle on JobTitle.ID = Usr.ID_JobTitle
 			INNER JOIN LDMS_T_CourseJobTitle targetPos on JobTitle.JobTitleID= targetPos.ID_JobTitle
 			where targetPos.ID_Course>0
+			and usr.isActive = 1
 			and (1 = case when @plantId >0 then (case when usr.ID_plant = @plantId then 1 else 0 end) else 1 end)
 			and (1 = case when @centerId >0 then (case when usr.ID_center = @centerId then 1 else 0 end) else 1 end)
 			and (1 = case when @divisionId >0 then (case when usr.ID_division = @divisionId then 1 else 0 end) else 1 end)
@@ -146,47 +148,199 @@ WITH    targetPlant AS
 			targetEmp.ID_Course
 			FROM LDMS_M_User usr  
 			INNER JOIN LDMS_T_CourseEmployee targetEmp on usr.EmployeeId = targetEmp.EmployeeId
-			where 1 = 1 
+			where usr.isActive = 1 
 			and (1 = case when @plantId >0 then (case when usr.ID_plant = @plantId then 1 else 0 end) else 1 end)
 			and (1 = case when @centerId >0 then (case when usr.ID_center = @centerId then 1 else 0 end) else 1 end)
 			and (1 = case when @divisionId >0 then (case when usr.ID_division = @divisionId then 1 else 0 end) else 1 end)
 			and (1 = case when @departmentId >0 then (case when usr.ID_Department = @departmentId then 1 else 0 end) else 1 end)
 			and (1 = case when @sectionId >0 then (case when usr.ID_Section = @sectionId then 1 else 0 end) else 1 end) 
 		)  
-select 
-		plat.ID AS ID_Platform,
-		course.ID AS ID_Course,
-        plat.PlatformID, 
-		course.CourseID, 
-		class.LearnDateStart,
-		class.LearnTimeStart,
-		class.LearnDateEnd,
-		class.LearnTimeEnd,
-		class.LearnDateEnd As TargetDate, 
-		class.RegisterDateStart,
-		class.RegisterDateEnd 
+SELECT * INTO #PerformanceResultTarget
+FROM
+(
+			select 
+			plat.ID AS ID_Platform,
+			course.ID AS ID_Course,
+			plat.PlatformID, 
+			course.CourseID, 
+			targetPlant.EmployeeId, 
+			class.RegisterDateStart,
+			class.RegisterDateEnd  
+			FROM LDMS_M_Platform plat
+			INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
+			INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
+			INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
+			INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
+			LEFT OUTER JOIN targetPlant on targetPlant.ID_plant = course.ID_PlantTarget 
+			WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
+			and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
+			and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
+			and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
+			and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
+			and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
 
-		INTO #PerformanceResultTarget
-		FROM LDMS_M_Platform plat
-		INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
-		INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
-		INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
-		INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
-		LEFT OUTER JOIN targetPlant on targetPlant.ID_plant = course.ID_PlantTarget
-		LEFT OUTER JOIN targetCenter on targetCenter.ID_center = course.ID_CenterTarget
-		LEFT OUTER JOIN targetDivision  on targetDivision.ID_division = course.ID_DivisionTarget 
-		LEFT OUTER JOIN targetDepartment on targetDepartment.ID_Department = course.ID_DepartmentTarget 
-		LEFT OUTER JOIN targetSection on targetSection.ID_Section = course.ID_SectionTarget
-		LEFT OUTER JOIN targetLevel on course.ID = targetLevel.ID_Course 
-		LEFT OUTER JOIN targetEmp on targetEmp.ID_Course = course.ID  
-		LEFT OUTER JOIN targetPos on course.ID = targetPos.ID_Course 
-		 
-		WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
-		and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
-		and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
-		and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
-		and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
-		and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
+			UNION ALL
+
+			select 
+			plat.ID AS ID_Platform,
+			course.ID AS ID_Course,
+			plat.PlatformID, 
+			course.CourseID, 
+			targetCenter.EmployeeId, 
+			class.RegisterDateStart,
+			class.RegisterDateEnd  
+			FROM LDMS_M_Platform plat
+			INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
+			INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
+			INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
+			INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
+			LEFT OUTER JOIN targetCenter on targetCenter.ID_center = course.ID_CenterTarget
+			WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
+			and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
+			and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
+			and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
+			and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
+			and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
+
+			UNION ALL
+
+			select 
+			plat.ID AS ID_Platform,
+			course.ID AS ID_Course,
+			plat.PlatformID, 
+			course.CourseID, 
+			targetDivision.EmployeeId, 
+			class.RegisterDateStart,
+			class.RegisterDateEnd  
+			FROM LDMS_M_Platform plat
+			INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
+			INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
+			INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
+			INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
+			LEFT OUTER JOIN targetDivision  on targetDivision.ID_division = course.ID_DivisionTarget 
+			WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
+			and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
+			and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
+			and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
+			and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
+			and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
+
+			UNION ALL
+
+			select 
+			plat.ID AS ID_Platform,
+			course.ID AS ID_Course,
+			plat.PlatformID, 
+			course.CourseID, 
+			targetDepartment.EmployeeId, 
+			class.RegisterDateStart,
+			class.RegisterDateEnd  
+			FROM LDMS_M_Platform plat
+			INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
+			INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
+			INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
+			INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
+			LEFT OUTER JOIN targetDepartment on targetDepartment.ID_Department = course.ID_DepartmentTarget 
+			WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
+			and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
+			and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
+			and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
+			and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
+			and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
+
+			UNION ALL
+
+			select 
+			plat.ID AS ID_Platform,
+			course.ID AS ID_Course,
+			plat.PlatformID, 
+			course.CourseID, 
+			targetSection.EmployeeId, 
+			class.RegisterDateStart,
+			class.RegisterDateEnd  
+			FROM LDMS_M_Platform plat
+			INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
+			INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
+			INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
+			INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
+			LEFT OUTER JOIN targetSection on targetSection.ID_Section = course.ID_SectionTarget
+			WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
+			and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
+			and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
+			and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
+			and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
+			and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
+
+			UNION ALL
+
+			select 
+			plat.ID AS ID_Platform,
+			course.ID AS ID_Course,
+			plat.PlatformID, 
+			course.CourseID, 
+			targetLevel.EmployeeId, 
+			class.RegisterDateStart,
+			class.RegisterDateEnd  
+			FROM LDMS_M_Platform plat
+			INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
+			INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
+			INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
+			INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
+			LEFT OUTER JOIN targetLevel on course.ID = targetLevel.ID_Course 
+			WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
+			and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
+			and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
+			and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
+			and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
+			and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
+
+			UNION ALL
+
+			select 
+			plat.ID AS ID_Platform,
+			course.ID AS ID_Course,
+			plat.PlatformID, 
+			course.CourseID, 
+			targetEmp.EmployeeId, 
+			class.RegisterDateStart,
+			class.RegisterDateEnd  
+			FROM LDMS_M_Platform plat
+			INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
+			INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
+			INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
+			INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
+			LEFT OUTER JOIN targetEmp on targetEmp.ID_Course = course.ID 
+			WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
+			and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
+			and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
+			and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
+			and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
+			and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
+
+			UNION ALL
+
+			select 
+			plat.ID AS ID_Platform,
+			course.ID AS ID_Course,
+			plat.PlatformID, 
+			course.CourseID, 
+			targetPos.EmployeeId, 
+			class.RegisterDateStart,
+			class.RegisterDateEnd  
+			FROM LDMS_M_Platform plat
+			INNER JOIN LDMS_M_SubPlatform subplat on subplat.ID_Platform = plat.ID
+			INNER JOIN LDMS_M_SubPlatformCourse subplatcourse on subplatcourse.ID_SubPlatform = subplat.ID
+			INNER JOIN LDMS_M_Course course on  course.ID = subplatcourse.ID_Course 
+			INNER JOIN LDMS_T_Class class on course.ID = class.ID_Course	  
+			LEFT OUTER JOIN targetPos on course.ID = targetPos.ID_Course 
+			WHERE class.RegisterDateStart>= @startDate AND class.RegisterDateEnd <= @endDate and course.IsActive = 1
+			and (1 = case when @plantId >0 then (case when course.ID_PlantTarget = @plantId then 1 else 0 end) else 1 end)
+			and (1 = case when @centerId >0 then (case when course.ID_CenterTarget = @centerId then 1 else 0 end) else 1 end)
+			and (1 = case when @divisionId >0 then (case when course.ID_DivisionTarget = @divisionId then 1 else 0 end) else 1 end)
+			and (1 = case when @departmentId >0 then (case when course.ID_DepartmentTarget = @departmentId then 1 else 0 end) else 1 end)
+			and (1 = case when @sectionId >0 then (case when course.ID_SectionTarget = @sectionId then 1 else 0 end) else 1 end) 
+ )TBG
+
 
 IF @IsSelectQ1 = 0 AND @IsSelectQ2 =0 AND @IsSelectQ3 =0 AND @IsSelectQ4 = 0
 BEGIN
