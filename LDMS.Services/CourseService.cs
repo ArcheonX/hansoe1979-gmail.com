@@ -351,7 +351,7 @@ namespace LDMS.Services
             }
         }
 
-        public ViewModels.LDMS_T_Class CreateClass(string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
+        public ViewModels.LDMS_T_Class CreateClass(string LMS_PACD_courseID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
                                             string LearnDateStart, string LearnTimeStart, string LearnDateEnd, string LearnTimeEnd,
                                             string RegisterDateStart, string RegisterDateEnd, string ID_PlantVenue,
                                             string ID_VenueRoom, string PlaceAndLocation, string ClassStatus,
@@ -364,7 +364,7 @@ namespace LDMS.Services
             using (IDbConnection conn = Connection)
             {
                 var p = new DynamicParameters();
-                //p.Add("@paramCourseID ", CourseID);
+                p.Add("@paramLMS_PACD_courseID", LMS_PACD_courseID);
                 p.Add("@paramID_Course", ID_Course);
                 p.Add("@paramID_Instructor", ID_Instructor);
                 p.Add("@paramClassCapacity", ClassCapacity);
@@ -401,7 +401,7 @@ namespace LDMS.Services
             }
         }
 
-        public ViewModels.LDMS_T_Class UpdateClass( string ID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
+        public ViewModels.LDMS_T_Class UpdateClass( string ID, string LMS_PACD_courseID, string ID_Course, string ID_Instructor, string ClassCapacity, string ClassFee,
                                             string LearnDateStart, string LearnTimeStart, string LearnDateEnd, string LearnTimeEnd,
                                             string RegisterDateStart, string RegisterDateEnd, string ID_PlantVenue,
                                             string ID_VenueRoom, string PlaceAndLocation, string ClassStatus,
@@ -415,7 +415,7 @@ namespace LDMS.Services
             {
                 var p = new DynamicParameters();
                 p.Add("@paramIDCLass", ID);
-                //p.Add("@paramClassID", "");
+                p.Add("@paramLMS_PACD_courseID", LMS_PACD_courseID);
                 p.Add("@paramID_Course", ID_Course);
                 p.Add("@paramID_Instructor", ID_Instructor);
                 p.Add("@paramClassCapacity", ClassCapacity);
