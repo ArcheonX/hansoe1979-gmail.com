@@ -344,29 +344,29 @@ FROM
 
 IF @IsSelectQ1 = 0 AND @IsSelectQ2 =0 AND @IsSelectQ3 =0 AND @IsSelectQ4 = 0
 BEGIN
-	SELECT  trim(EmployeeId) FROM #PerformanceResultTarget where EmployeeId is not null GROUP BY trim(EmployeeId)
+	SELECT  ltrim(rtrim(EmployeeId)) FROM #PerformanceResultTarget where EmployeeId is not null GROUP BY EmployeeId
 END
 ELSE
 BEGIN
-	SELECT trim(EmployeeId) FROM #PerformanceResultTarget 
+	SELECT ltrim(rtrim(EmployeeId)) FROM #PerformanceResultTarget 
 	WHERE LearnDateStart >= @startDate AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,6,30) and @IsSelectQ1 = 1
 	and EmployeeId is not null
-	GROUP BY trim(EmployeeId)	
+	GROUP BY EmployeeId
 	UNION ALL
-	SELECT trim(EmployeeId) FROM #PerformanceResultTarget 
+	SELECT ltrim(rtrim(EmployeeId)) FROM #PerformanceResultTarget 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,7,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,9,30) and @IsSelectQ1 = 2
 	and EmployeeId is not null
-	GROUP BY trim(EmployeeId)	
+	GROUP BY EmployeeId	
 	UNION ALL
-	SELECT trim(EmployeeId) FROM #PerformanceResultTarget 
+	SELECT ltrim(rtrim(EmployeeId)) FROM #PerformanceResultTarget 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,10,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,12,31) and @IsSelectQ1 = 3
 	and EmployeeId is not null
-	GROUP BY trim(EmployeeId)
+	GROUP BY EmployeeId
 	UNION ALL
-	SELECT trim(EmployeeId) FROM #PerformanceResultTarget 
+	SELECT ltrim(rtrim(EmployeeId)) FROM #PerformanceResultTarget 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,1,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear+1,3,31) and @IsSelectQ1 = 4	
 	and EmployeeId is not null
-	GROUP BY trim(EmployeeId)
+	GROUP BY EmployeeId
 END    -- Insert statements for procedure here 
 END
 GO
