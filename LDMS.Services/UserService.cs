@@ -510,10 +510,10 @@ namespace LDMS.Services
             {
                 HttpContext.Response.Set("REDIRECTPAGE", "/Account/ForceChange", 120);
             }
-            else if (!user.IsAllowGPP&& !user.IsAD)
-            {
-                HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
-            }
+            //else if (!user.IsAllowGPP&& !user.IsAD)
+            //{
+            //    HttpContext.Response.Set("REDIRECTPAGE", "/Account/Privacy", 120);
+            //}
             else
             {
                 HttpContext.Response.Set("REDIRECTPAGE", "/Home/Index", 120);
