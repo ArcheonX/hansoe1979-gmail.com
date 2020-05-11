@@ -83,6 +83,7 @@ function DeleteEmployee(rowindex) {
 }
 
 function LoadCompetence(analytic_id) {
+    MessageController.BlockUI({ boxed: true, textOnly: true, target: '#pn-Analytic' });
     $.ajax({
         type: "GET",
         url: "/Competence/Competence",
@@ -122,8 +123,10 @@ function LoadCompetence(analytic_id) {
             });
             RefreshExployees();
             RefreshTopic();
+            MessageController.UnblockUI('#pn-Analytic');
         },
         failure: function (response) {
+            MessageController.UnblockUI('#pn-Analytic');
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {
@@ -131,6 +134,7 @@ function LoadCompetence(analytic_id) {
             }
         },
         error: function (response) {
+            MessageController.UnblockUI('#pn-Analytic');
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {
@@ -409,7 +413,18 @@ function LoadDepartment() {
             $.each(response.Data, function () {
                 options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
             });
-            options.val(null).trigger('change');
+            var departmentId = CookiesController.getCookie("DEPARTMENTID");
+            var isfound = response.Data.any((item) => {
+                return item.ID_Department == departmentId;
+            });
+            if (isfound) {
+                $('select[name="selectDepartment"]').val(departmentId).trigger('change');
+                $('select[name="selectDepartment"]').attr('disabled', 'disabled');
+            } else {
+                $('select[name="selectDepartment"]').val(null).trigger('change');
+            }
+
+            //options.val(null).trigger('change');
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {

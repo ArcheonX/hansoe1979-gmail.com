@@ -87,31 +87,41 @@ select
 
 IF @IsSelectQ1 = 0 AND @IsSelectQ2 =0 AND @IsSelectQ3 =0 AND @IsSelectQ4 = 0
 BEGIN
-	SELECT * FROM #ProgressResult;
+	SELECT * FROM #ProgressResult
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,RegisterDateStart,RegisterDateEnd,VenueRoomID,RoomName_EN,RemainDay,CourseStatus 
 END
 ELSE
 BEGIN
 	SELECT * FROM #ProgressResult 
 	WHERE LearnDateStart >= @startDate AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,6,30)
 	and @IsSelectQ1 = 1
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,RegisterDateStart,RegisterDateEnd,VenueRoomID,RoomName_EN,RemainDay,CourseStatus 
 
 	UNION ALL
 
 	SELECT * FROM #ProgressResult 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,7,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,9,30)
 	and @IsSelectQ1 = 2
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,RegisterDateStart,RegisterDateEnd,VenueRoomID,RoomName_EN,RemainDay,CourseStatus 
 
 	UNION ALL
 
 	SELECT * FROM #ProgressResult 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,10,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,12,31)
 	and @IsSelectQ1 = 3
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,RegisterDateStart,RegisterDateEnd,VenueRoomID,RoomName_EN,RemainDay,CourseStatus 
 
 	UNION ALL
 
 	SELECT * FROM #ProgressResult 
 	WHERE LearnDateStart >= DATEFROMPARTS(@ficialYear,1,1) AND RegisterDateEnd <= DATEFROMPARTS(@ficialYear,3,31)
-	and @IsSelectQ1 = 4 
+	and @IsSelectQ1 = 4
+	GROUP BY ID_Platform,ID_Course,PlatformID,PlatformName_EN,PlatformName_TH,SubPlatformName_EN,SubPlatformName_TH,CourseID,CourseName,CourseObjective,CourseDescription,CourseOutLine,Course_LearnMethodName_EN,
+	Course_LearnMethodName_TH,LearnDateStart,LearnTimeStart,LearnDateEnd,LearnTimeEnd,TargetDate,RegisterDateStart,RegisterDateEnd,VenueRoomID,RoomName_EN,RemainDay,CourseStatus 
 END    -- Insert statements for procedure here
 
 

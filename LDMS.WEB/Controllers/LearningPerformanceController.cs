@@ -18,6 +18,7 @@ namespace LDMS.WEB.Controllers
         }
         [AuthorizeRole(UserRole.All)]
         [HttpGet]
+        [Route("LearningPerformance/TeamPerformance")]
         public IActionResult TeamPerformance()
         {
             return View();

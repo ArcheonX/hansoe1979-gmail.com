@@ -21,7 +21,7 @@
             LoadDepartment(divisionId);
         });
         $('select[name="selectDepartment"]').on('change', function () {
-            var departmentId = $(this).val();
+            var departmentId = $(this).val(); 
             LoadSection(departmentId);
         });
 
@@ -50,7 +50,17 @@ function LoadPlant() {
             $.each(response.Data, function () {
                 options.append($("<option />").val(this.ID_Plant).text('(' + this.PlantID + ') ' + this.PlantName_EN));
             });
-            $('select[name="selectPlant"]').val(null).trigger('change');
+
+            var plantId = CookiesController.getCookie("PLANTID");
+            var isfound = response.Data.any((item) => {
+                return item.ID_Plant == plantId;
+            });
+            if (isfound) {
+                $('select[name="selectPlant"]').val(plantId).trigger('change');
+                $('select[name="selectPlant"]').attr('disabled', 'disabled');
+            } else {
+                $('select[name="selectPlant"]').val(null).trigger('change');
+            }
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -66,7 +76,7 @@ function LoadPlant() {
                 MessageController.Error(response.responseText, "Error");
             }
         }
-    }); 
+    });
 }
 
 function LoadCenter(plantId) {
@@ -77,11 +87,21 @@ function LoadCenter(plantId) {
         url: "/Master/GetAllCentersByPlant",
         data: { 'plantId': plantId },
         success: function (response) {
-            options.append($("<option />").val(null).text("Please select"));
+            options.append($("<option />").val(null).text("--All--"));
             $.each(response.Data, function () {
                 options.append($("<option />").val(this.ID_Center).text('(' + this.CenterID + ') ' + this.CenterName_EN));
             }); 
-            $('select[name="selectCenter"]').val(null).trigger('change');
+
+            var centerId = CookiesController.getCookie("CENTERID");
+            var isfound = response.Data.any((item) => {
+                return item.ID_Center == centerId;
+            }); 
+            if (isfound) {
+                $('select[name="selectCenter"]').val(centerId).trigger('change');
+                $('select[name="selectCenter"]').attr('disabled', 'disabled');
+            } else {
+                $('select[name="selectCenter"]').val(null).trigger('change');
+            } 
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -110,11 +130,20 @@ function LoadDivision(centerId) {
             'centerId': centerId
         },
         success: function (response) {
-            options.append($("<option />").val(null).text("Please select"));
+            options.append($("<option />").val(null).text("--All--"));
             $.each(response.Data, function () {
                 options.append($("<option />").val(this.ID_Division).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
             }); 
-            $('select[name="selectDivision"]').val(null).trigger('change');
+            var divisionId = CookiesController.getCookie("DIVISIONID");
+            var isfound = response.Data.any((item) => {
+                return item.ID_Division == divisionId;
+            });  
+            if (isfound) {
+                $('select[name="selectDivision"]').val(divisionId).trigger('change');
+                $('select[name="selectDivision"]').attr('disabled', 'disabled');
+            } else {
+                $('select[name="selectDivision"]').val(null).trigger('change');
+            }
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -144,11 +173,21 @@ function LoadDepartment(divisionId) {
         },
         success: function (response) {
 
-            options.append($("<option />").val(null).text("Please select"));
+            options.append($("<option />").val(null).text("--All--"));
             $.each(response.Data, function () {
                 options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
             });
-            $('select[name="selectDepartment"]').val(null).trigger('change');
+
+            var departmentId = CookiesController.getCookie("DEPARTMENTID");
+            var isfound = response.Data.any((item) => {
+                return item.ID_Department == departmentId;
+            }); 
+            if (isfound) {
+                $('select[name="selectDepartment"]').val(departmentId).trigger('change');
+                $('select[name="selectDepartment"]').attr('disabled', 'disabled');
+            } else {
+                $('select[name="selectDepartment"]').val(null).trigger('change');
+            }
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
@@ -169,6 +208,11 @@ function LoadDepartment(divisionId) {
 
 function LoadSection(departmentId) {
     var options = $('#selectSection');
+    if (departmentId == null || departmentId == undefined) {
+        $('select[name="selectSection"]').attr('disabled', 'disabled');
+    } else{
+        $('select[name="selectSection"]').removeAttr('disabled', 'disabled');
+    }
     options.empty();
     $.ajax({
         type: "GET",
@@ -181,6 +225,7 @@ function LoadSection(departmentId) {
             $.each(response.Data, function () {
                 options.append($("<option />").val(this.ID_Section).text('(' + this.SectionID + ') ' + this.SectionName_EN));
             });
+        
             $('select[name="selectSection"]').val(null).trigger('change');
         },
         failure: function (response) {
