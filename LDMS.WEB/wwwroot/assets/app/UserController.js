@@ -37,8 +37,7 @@
             url: "/Master/GetAllDepartments",
             success: function (response) {
                 var options = $('#selectFilterDepartment');
-                optionsreport.append($("<option />").val(null).text("---All---"));
-
+                options.append($("<option />").val(null).text("---All---")); 
                 $.each(response.Data, function () {
                     options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
                 });

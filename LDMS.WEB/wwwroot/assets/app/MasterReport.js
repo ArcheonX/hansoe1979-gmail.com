@@ -17,10 +17,11 @@
             type: "GET",
             url: "/Master/GetAllDepartments",
             success: function (response) { 
-                var optionsreport = $('#selectMasterReportDepartment'); 
-                optionsreport.append($("<option />").val(null).text("---All---"));
+                var options = $('#selectMasterReportDepartment'); 
+                options.empty();
+                //optionsreport.append($("<option />").val(null).text("---All---"));
                 $.each(response.Data, function () { 
-                    optionsreport.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
+                    options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
                 });
                 $('select[name="selectMasterReportDepartment"]').val(null).trigger('change'); 
             },
@@ -46,7 +47,7 @@
             success: function (response) {
                 var options = $('#selectPlatform');
                 options.empty();
-                options.append($("<option />").val(null).text("---All---"));
+                //options.append($("<option />").val(null).text("---All---"));
                 $.each(response.Data, function () {
                     options.append($("<option />").val(this.ID).text('(' + this.PlatformID + ') ' + this.PlatformName_EN));
                 });
@@ -74,7 +75,7 @@
             success: function (response) {
                 var options = $('#selectCourse');
                 options.empty();
-                options.append($("<option />").val(null).text("---All---"));
+                //options.append($("<option />").val(null).text("---All---"));
                 $.each(response.Data, function () {
                     options.append($("<option />").val(this.ID).text('(' + this.CourseID + ') ' + this.CourseName));
                 });
@@ -101,7 +102,7 @@
             url: "/Master/GetAllJobGrades",
             success: function (response) {
                 var options = $('#selectMasterReportJobGrade');
-                options.append($("<option />").val(null).text("---All---"));
+                //options.append($("<option />").val(null).text("---All---"));
                 $.each(response.Data, function () {
                     options.append($("<option />").val(this.ID_JobGrade).text(this.JobGradeName_EN));
                 });

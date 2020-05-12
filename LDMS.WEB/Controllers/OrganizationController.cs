@@ -6,6 +6,7 @@ using LDMS.Services;
 using LDMS.WEB.Filters;
 using LDMS.WEB.Models.Employee;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LDMS.WEB.Controllers
@@ -124,5 +125,16 @@ namespace LDMS.WEB.Controllers
             }).ToList();
             return Response(await UserService.UpdateUserSection(userRoles));
         }
+
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("Organization/ImportSection")]
+        [AuthorizeRole(UserRole.AdminHR, UserRole.SuperAdmin)]
+        public IActionResult ImportProjects(IFormFile file)
+        {
+            int.TryParse(Request.Form.FirstOrDefault(x => x.Key == "divisionId").Value, out int divisionId);
+            int.TryParse(Request.Form.FirstOrDefault(x => x.Key == "departmentId").Value, out int departmentId);
+            return Response(UserService.ImportEmployeeSection(file, divisionId, departmentId).Result);
+        }
+
     }
 }

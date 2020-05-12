@@ -53,7 +53,7 @@ BEGIN
     -- Insert statements for procedure here
 	DECLARE @PlantId INT; 
 	SELECT @PlantId = ID_Plant FROM LDMS_M_Center  WHERE ID = @CenterId;
-	IF NOT EXISTS (SELECT * FROM LDMS_M_User WHERE EmployeeID = @EmployeeId)
+	IF NOT EXISTS (SELECT * FROM LDMS_M_User WHERE EmployeeID = @EmployeeId AND ID_User<> @ID_Employee)
 		RAISERROR (101,-1,-1, 'An Employee ID doen''t exists');  
 
 BEGIN TRANSACTION;
@@ -90,7 +90,7 @@ BEGIN TRY
       ,[IsLocked] =0 
       ,[UpdateBy] =@UpdateBy
       ,[UpdateDate] = GETDATE()
-	WHERE [EmployeeID]  = @EmployeeId; 
+	WHERE ID_User  = @ID_Employee; 
 	 
 		COMMIT TRANSACTION;
 	END TRY
