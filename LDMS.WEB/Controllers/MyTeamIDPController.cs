@@ -34,6 +34,32 @@ namespace LDMS.WEB.Controllers
            // var MyTeamIDP = MyTeamIDPService.GetMy_Team_IDP();
             return View();
         }
+        [AuthorizeRole(UserRole.All)]
+        [HttpPost]
+        [Route("MyTeamIDP/EmployeeSearch")]
+        //[AutoValidateAntiforgeryToken]
+        public IActionResult EmployeeSearch(string EmployeeID, string EmployeeName, string DepartmentID, string DivisionID, string CenterID, string PlantID)
+        {
+
+            //string sortOrder = Request.Form["order[0][dir]"];
+            //string sortIndex = Request.Form["order[0][column]"];
+
+            //string sortColumn = "";
+            //if (sortIndex != "0") sortColumn = Request.Form["columns[" + sortIndex + "][data]"].ToString();
+            ViewModels.SearchModel.LDMS_M_IDP_Employee_Search criteria = new ViewModels.SearchModel.LDMS_M_IDP_Employee_Search();
+            //criteria.PageNum = int.Parse(Request.Form["start"]) / int.Parse(Request.Form["length"]) + 1;
+            //criteria.PageSize = int.Parse(Request.Form["length"]);
+            criteria.EmployeeID = EmployeeID;
+            criteria.EmployeeName = EmployeeName;
+            criteria.DepartmentID = DepartmentID;
+            criteria.DivisionID = DivisionID;
+            criteria.CenterID = CenterID;
+            criteria.PlantID = PlantID;
+
+            var employees = _MyTeamIDPService.GetEmployee(criteria);
+            //ViewData["Instructor"] = instructor.Results;
+            return Json(employees);
+        }
         public IActionResult _EmployeeSearch()
         {
             // var MyTeamIDP = MyTeamIDPService.GetMy_Team_IDP();
