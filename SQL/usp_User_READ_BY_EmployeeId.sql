@@ -12,7 +12,7 @@ GO
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
--- EXEC [dbo].[usp_User_READ_BY_EmployeeId] 'STT00001'
+-- EXEC [dbo].[usp_User_READ_BY_EmployeeId] @employeeId ='SR0001'
 -- =============================================
 CREATE OR ALTER PROCEDURE [dbo].[usp_User_READ_BY_EmployeeId]
 	-- Add the parameters for the stored procedure here
@@ -24,7 +24,7 @@ BEGIN
 	SET NOCOUNT ON; 
 
 	SELECT  
-		ROW_NUMBER() OVER(ORDER BY muser.ID_User ASC)  as RowIndex,
+	ROW_NUMBER() OVER(ORDER BY muser.ID_User ASC)  as RowIndex,
 	muser.ID_User,
 	muser.DateOfBirth,muser.DriverLicenseID,muser.email,muser.EmployeeID,muser.Gender,muser.IDCardNumber,
 	isnull(muser.IsAD,0) AS IsAD  , 

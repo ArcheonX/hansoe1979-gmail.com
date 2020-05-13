@@ -393,7 +393,10 @@ namespace LDMS.Services
                              }
                              return user;
                          },
-                      splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section", param: parameter);
+                      splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section",
+                      param: parameter,
+                      commandType: CommandType.StoredProcedure,
+                      commandTimeout: 0);
 
                     var user = items.FirstOrDefault();
                     if (user != null)
@@ -480,11 +483,14 @@ namespace LDMS.Services
             {
                 var roles = await All<LDMS_M_Role>("Role");
                 var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
+                var parameters = new DynamicParameters();
+                parameters.Add("@param_DepartmentId", departmentId);
+
                 var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
                     var items = Connection.Query<LDMS_M_User, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_Section, LDMS_M_User>
-                      (_schema + ".[usp_User_READ_BY_DepartmentId] @param_DepartmentId",
+                      (_schema + ".[usp_User_READ_BY_DepartmentId]",
                       map: (user, plant, center, division, depart, section) =>
                       {
                           if (plant != null)
@@ -515,7 +521,7 @@ namespace LDMS.Services
                           return user;
                       },
                       splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section",
-                           param: new { @param_DepartmentId = departmentId });
+                      param: parameters, commandType: CommandType.StoredProcedure, commandTimeout: 0);
                     var users = items.ToList();
                     users.ForEach(user =>
                     {
@@ -552,11 +558,13 @@ namespace LDMS.Services
                 var roles = await All<LDMS_M_Role>("Role");
                 var jobGrades = await All<LDMS_M_JobGrade>("JobGrade");
                 var jobTitles = await All<LDMS_M_JobTitle>("JobTitle");
+                var parameters = new DynamicParameters();
+                parameters.Add("@param_SectionId", sectionId);
 
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
                     var items = Connection.Query<LDMS_M_User, LDMS_M_Plant, LDMS_M_Center, LDMS_M_Division, LDMS_M_Department, LDMS_M_Section, LDMS_M_User>
-                   (_schema + ".[usp_User_READ_BY_SectionId] @param_SectionId",
+                   (_schema + ".[usp_User_READ_BY_SectionId]",
                           map: (user, plant, center, division, depart, section) =>
                           {
                               if (plant != null)
@@ -587,7 +595,9 @@ namespace LDMS.Services
                               return user;
                           },
                       splitOn: "ID_Plant,ID_Center,ID_Division,ID_Department,ID_Section",
-                           param: new { @param_SectionId = sectionId });
+                      param: parameters,
+                      commandType: CommandType.StoredProcedure,
+                      commandTimeout: 0);
                     var users = items.ToList();
                     users.ForEach(user =>
                     {
@@ -821,27 +831,49 @@ namespace LDMS.Services
         {
             try
             {
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
-                        new
-                        {
-                            @paramEmployeeId = employeeId,
-                            @paramUpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                        });
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@paramEmployeeId", employeeId);
+                    parameter.Add("@paramUpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request)); 
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete]", param: parameter, commandType: CommandType.StoredProcedure, commandTimeout: 0);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
                     CreateDataLog(DataLogType.DeleteAccount, employeeId, string.Format("Delete {0}", employeeId));
-                    return new ServiceResult();
                 }
+                return new ServiceResult();
+
             }
             catch (Exception x)
             {
                 _logger.LogError(x.Message);
                 return new ServiceResult(x);
             }
+            //try
+            //{
+            //    using (IDbConnection conn = Connection)
+            //    {
+            //        var items = Connection.Query<SQLError>(_schema + ".[usp_User_Delete] @paramEmployeeId,@paramUpdateBy",
+            //            new
+            //            {
+            //                @paramEmployeeId = employeeId,
+            //                @paramUpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+            //            });
+            //        if (items != null && items.Any())
+            //        {
+            //            return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+            //        }
+            //        CreateDataLog(DataLogType.DeleteAccount, employeeId, string.Format("Delete {0}", employeeId));
+            //        return new ServiceResult();
+            //    }
+            //}
+            //catch (Exception x)
+            //{
+            //    _logger.LogError(x.Message);
+            //    return new ServiceResult(x);
+            //}
         }
 
         public async Task<ServiceResult> ResetPassword(string employeeId)
@@ -850,36 +882,62 @@ namespace LDMS.Services
             {
                 var passsalt = PasswordHelper.CreateSalt();
                 var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword] @EmployeeId,@Password,@PasswordSalt,@UpdateBy",
-                        new
-                        {
-                            @EmployeeId = employeeId,
-                            @Password = newHaspass,
-                            @PasswordSalt = passsalt,
-                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                        });
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@EmployeeId", employeeId);
+                    parameter.Add("@Password", newHaspass);
+                    parameter.Add("@PasswordSalt", passsalt);
+                    parameter.Add("@UpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request));
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword]", param: parameter, commandType: CommandType.StoredProcedure, commandTimeout: 0);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
                     CreateDataLog(DataLogType.ResetPassword, employeeId, "Reset password.");
-                    return new ServiceResult();
                 }
+                return new ServiceResult();
+
             }
             catch (Exception x)
             {
                 _logger.LogError(x.Message);
                 return new ServiceResult(x);
             }
+            //try
+            //{
+            //    var passsalt = PasswordHelper.CreateSalt();
+            //    var newHaspass = PasswordHelper.GenerateSaltedHash(employeeId, passsalt);
+            //    using (System.Data.IDbConnection conn = Connection)
+            //    {
+            //        var items = Connection.Query<SQLError>(_schema + ".[usp_User_ResetPassword] @EmployeeId,@Password,@PasswordSalt,@UpdateBy",
+            //            new
+            //            {
+            //                @EmployeeId = employeeId,
+            //                @Password = newHaspass,
+            //                @PasswordSalt = passsalt,
+            //                @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
+            //            });
+            //        if (items != null && items.Any())
+            //        {
+            //            return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+            //        }
+            //        CreateDataLog(DataLogType.ResetPassword, employeeId, "Reset password.");
+            //        return new ServiceResult();
+            //    }
+            //}
+            //catch (Exception x)
+            //{
+            //    _logger.LogError(x.Message);
+            //    return new ServiceResult(x);
+            //}
         }
 
         public async Task<ServiceResult> CreateUser(LDMS_M_User user)
         {
             try
             {
-                using (System.Data.IDbConnection conn = Connection)
+                using (IDbConnection conn = Connection)
                 {
                     var passsalt = PasswordHelper.CreateSalt();
                     DynamicParameters parameter = new DynamicParameters();
@@ -892,23 +950,23 @@ namespace LDMS.Services
                     parameter.Add("@DivisionId", user.ID_Division);
                     parameter.Add("@DepartmentId", user.ID_Department);
                     parameter.Add("@SectionId", user.ID_Section);
-                    parameter.Add("@RoleId", user.ID_Role);
+                    parameter.Add("@RoleId", user.ID_Role > 0 ? user.ID_Role : 1);
                     parameter.Add("@IsInstructer", user.IsInstructor);
                     parameter.Add("@IsSectionHead", user.IsSectionHead);
                     parameter.Add("@Nationality", user.Nationality); 
                     parameter.Add("@Gender", user.Gender);
                     parameter.Add("@Password", PasswordHelper.GenerateSaltedHash(user.EmployeeID, passsalt));
                     parameter.Add("@PasswordSalt", passsalt);
-                    parameter.Add("@Remark", user.Remark, System.Data.DbType.AnsiString);
+                    parameter.Add("@Remark", user.Remark, DbType.AnsiString);
                     parameter.Add("@PhoneNumber", user.PhoneNumber);
-                    parameter.Add("@Email", user.Email, System.Data.DbType.AnsiString);
+                    parameter.Add("@Email", user.Email, DbType.AnsiString);
                     parameter.Add("@CreateBy", JwtManager.Instance.GetUserId(HttpContext.Request));
                     parameter.Add("@IDCardNumber", user.IDCardNumber);
                     parameter.Add("@JoinDate", user.JoinDate);
                     parameter.Add("@OutDate", user.OutDate);
                     parameter.Add("@DateOfBirth", user.DateOfBirth);
                     parameter.Add("@ProfilePath",user.ProfilePath);
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Create]", param: parameter);
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Create]", param: parameter, commandType: CommandType.StoredProcedure, commandTimeout: 0);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
@@ -940,7 +998,7 @@ namespace LDMS.Services
                     parameter.Add("@DivisionId", user.ID_Division);
                     parameter.Add("@DepartmentId", user.ID_Department);
                     parameter.Add("@SectionId", user.ID_Section);
-                    parameter.Add("@RoleId", user.ID_Role);
+                    parameter.Add("@RoleId", user.ID_Role>0? user.ID_Role:1);
                     parameter.Add("@IsInstructer", user.IsInstructor);
                     parameter.Add("@IsSectionHead", user.IsSectionHead);
                     parameter.Add("@Nationality", user.Nationality);
@@ -954,7 +1012,7 @@ namespace LDMS.Services
                     parameter.Add("@OutDate", user.OutDate);
                     parameter.Add("@DateOfBirth", user.DateOfBirth);
                     parameter.Add("@ProfilePath", user.ProfilePath);
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Update]", param: parameter);
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_Update]", param: parameter ,commandType: CommandType.StoredProcedure,commandTimeout: 0);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
@@ -976,42 +1034,36 @@ namespace LDMS.Services
             try
             {
                 var emp = await GetUserByEmployeeId(employeeId);
-
-                using (System.Data.IDbConnection conn = Connection)
+                var passsalt = PasswordHelper.CreateSalt();
+                var newHaspass = PasswordHelper.GenerateSaltedHash(newpassword, passsalt);
+                var oldPasshash = PasswordHelper.GenerateSaltedHash(currentPassword, (emp.Data as LDMS_M_User).PasswordSalt);
+                using (IDbConnection conn = Connection)
                 {
-                    var passsalt = PasswordHelper.CreateSalt();
-                    var newHaspass = PasswordHelper.GenerateSaltedHash(newpassword, passsalt);
-                    var oldPasshash = PasswordHelper.GenerateSaltedHash(currentPassword, (emp.Data as LDMS_M_User).PasswordSalt);
-
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ChangePassword] @EmployeeId, @OldPassword, @Password,@PasswordSalt,@UpdateBy",
-                        new
-                        {
-                            @EmployeeId = employeeId,
-                            @OldPassword = oldPasshash,
-                            @Password = newHaspass,
-                            @PasswordSalt = passsalt,
-                            @UpdateBy = JwtManager.Instance.GetUserId(HttpContext.Request)
-                        });
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@EmployeeId", employeeId);
+                    parameter.Add("@OldPassword", newHaspass);
+                    parameter.Add("@Password", newHaspass);
+                    parameter.Add("@PasswordSalt", passsalt);
+                    parameter.Add("@UpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request));
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_ChangePassword]", param: parameter, commandType: CommandType.StoredProcedure, commandTimeout: 0);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
                     }
-                    emp = await GetUserByEmployeeId(employeeId);
-
                     var user = emp.Data as LDMS_M_User;
 
                     HttpContext.Response.Set("FORCECHANGEPASS", user.IsForceChangePass.ToString(), 120);
-                    HttpContext.Response.Set("ALLOWGPP", user.IsAllowGPP.ToString(), 120); 
+                    HttpContext.Response.Set("ALLOWGPP", user.IsAllowGPP.ToString(), 120);
                     CheckRedirectPage(emp.Data as LDMS_M_User);
                     CreateDataLog(DataLogType.ChangePassword, employeeId, "Change Password.");
                     return emp;
-                }
+                } 
             }
             catch (Exception x)
             {
                 _logger.LogError(x.Message);
                 return new ServiceResult(x);
-            }
+            } 
         }
 
         public async Task<ServiceResult> AllowGPP(string employeeId, bool isAllow)
@@ -1023,11 +1075,11 @@ namespace LDMS.Services
                 using (System.Data.IDbConnection conn = Connection)
                 {
                     DynamicParameters parameter = new DynamicParameters();
-                    parameter.Add("@EmployeeId", employeeId, System.Data.DbType.String);
-                    parameter.Add("@IsAllow", isAllow?1:0, System.Data.DbType.Int32);
-                    parameter.Add("@UpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request), System.Data.DbType.String);
+                    parameter.Add("@EmployeeId", employeeId,DbType.String);
+                    parameter.Add("@IsAllow", isAllow?1:0,DbType.Int32);
+                    parameter.Add("@UpdateBy", JwtManager.Instance.GetUserId(HttpContext.Request),DbType.String);
 
-                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_AllowGPP]", param: parameter, commandType: System.Data.CommandType.StoredProcedure);
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_User_AllowGPP]", param: parameter, commandType:CommandType.StoredProcedure);
                     if (items != null && items.Any())
                     {
                         return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));

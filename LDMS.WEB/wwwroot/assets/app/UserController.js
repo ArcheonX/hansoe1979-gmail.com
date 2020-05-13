@@ -164,9 +164,10 @@
             var roleId = 0;
             $('#dtUserRoleList > tbody  > tr').each(function () {
                 var self = $(this);
-                var isSelected = self.find("td").eq(4).find("input[type='radio']").prop("checked");
-                if (isSelected) {
-                    var value = self.find("td").eq(1).text();
+                var isSelected = self.find("td").eq(3).find("input[type='radio']:checked");
+                if (isSelected && isSelected.prop('checked')) {
+                    debugger;
+                    var value = isSelected.val();
                     roleId = parseInt(value);
                 }
             });
@@ -187,7 +188,6 @@
                     JobGradeId: parseInt($("#selectJobGrade").val()),
                     JobTitleId: parseInt($("#selectJObTitle").val()),
                     Gender: $("#selectGender").val(),
-
                     IsEditMode: $("#userEditMode").val() == "true",
                     EmployeeId: $("#txtEmployeeId").val(),
                     EmployeeName: $("#txtEmployeeName").val(),
@@ -199,7 +199,8 @@
                     Remark: $("#txtRemark").val(),
                     RoleId: roleId,
                     IsInstructer: $("#isInstructer").val() == "true",
-                    IsSectionHead: $("#isSectionHead").val() == "true"
+                    IsSectionHead: $("#isSectionHead").val() == "true",
+                    Id_Employee: $("#Id_Employee").val() 
                 }; 
                 if ($("#userEditMode").val() == "true") {
                     UpdateEmployee(empModel);
@@ -443,6 +444,8 @@ function EditEmployee(employeeId) {
     $("#btnResetPassword").attr("style", "display:none;width:100%");
     $("#isInstructer").prop("checked", false);
     $("#isSectionHead").prop("checked", false);
+    $("#Id_Employee").val(0);
+
     if (employeeId != undefined && employeeId != "") {
         MessageController.BlockUI({ boxed: true, target: '#UserEditor' });
 
@@ -457,6 +460,9 @@ function EditEmployee(employeeId) {
                 $("#userDivisionId").val(user.DivisionId);
                 $("#userDepartmentId").val(user.DepartmentId);
                 $("#userSectionId").val(user.SectionId);
+                $("#Id_Employee").val(user.Id_Employee);
+
+
                 if (user.IsAD == false) {
                     $("#btnResetPassword").attr("style", "display:block;width:100%");
                 }
@@ -497,31 +503,52 @@ function EditEmployee(employeeId) {
                     type: "GET",
                     url: "/Master/GetAllRoles",
                     success: function (response) {
-                        var tbody = $('#dtUserRoleList').children('tbody');
-                        var table = tbody.length ? tbody : $('#dtUserRoleList');
-                        table.empty();
-                        $.each(response.Data, function () { 
-                            if (this.ID_Role == user.RoleId) {
-                                var row = '<tr>' +
-                                    '<td style="text-align:center">' + this.RowIndex + '</td>' +
-                                    '<td style="text-align:center;display:none">' + this.ID_Role + '</td>' +
-                                    '<td style="text-align:left">' + this.RoleName_EN + '</td>' +
-                                    '<td style="text-align:left">' + this.RoleDescription + '</td>' +
-                                    '<td style="text-align:center;width:100px"><input type="radio" name="selectUserRole" checked="checked" value="' + this.ID_Role + '"  id="selectRole_' + this.ID_Role + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.ID_Role + '"> </label> </td >' +
-                                    '</tr>';
-                                table.append(row);
-                            } else {
-                                var row = '<tr>' +
-                                    '<td style="text-align:center">' + this.RowIndex + '</td>' +
-                                    '<td style="text-align:center;display:none">' + this.ID_Role + '</td>' +
-                                    '<td style="text-align:left">' + this.RoleName_EN + '</td>' +
-                                    '<td style="text-align:left">' + this.RoleDescription + '</td>' +
-                                    '<td style="text-align:center;width:100px"><input type="radio" name="selectUserRole"  value="' + this.ID_Role + '"  id="selectRole_' + this.ID_Role + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.ID_Role + '"> </label> </td >' +
-                                    '</tr>';
-                                table.append(row);
+                        if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
+                            var table = $('#dtUserRoleList').DataTable();
+                            table.destroy();
+                        }
+                        $('#dtUserRoleList').DataTable({
+                            'data': response.Data,
+                            'columns': [
+                                { "data": 'RowIndex', title: '#' },
+                                { "data": 'RoleName_EN', title: 'Role Name' },
+                                { "data": 'RoleDescription', title: 'Description' },
+                                {
+                                    "mData": "ID_Role",
+                                    "bSortable": false,
+                                    "mRender": function (data, type, row) { 
+                                        if (data == user.RoleId) {
+                                            return '<input type="radio" name="selectUserRole" checked="checked" value="' + data + '"  id="selectRole_' + data + '" /><label for="selectRole_' + data + '"> </label>'
+                                        } else {
+                                            return '<input type="radio" name="selectUserRole"  value="' + data + '"  id="selectRole_' + data + '" /><label for="selectRole_' + data + '"> </label>'
+                                        }
+                                    }
+                                }
+                            ],
+                            "columnDefs": [
+                                { "orderable": true, "targets": 0, "className": "text-center" },
+                                { "orderable": true, "targets": 1, "className": "text-left" },
+                                { "orderable": true, "targets": 2, "className": "text-left" },
+                                { "orderable": true, "targets": 3, "className": "text-center" }
+                            ],
+                            'processing': true,
+                            'paging': false,
+                            "ordering": true,
+                            "searching": false,
+                            "lengthChange": false,
+                            "bAutoWidth": false,
+                            "Filter": false,
+                            "info": false,
+                            "bPaginate": false,
+                            "bLengthChange": false,
+                            "bJQueryUI": true, //Enable smooth theme
+                            "sPaginationType": "full_numbers", //Enable smooth theme
+                            "sDom": 'lfrtip',
+                            "language": {
+                                "zeroRecords": "No Role"
                             }
-
-                        }); 
+                        });
+                        $('.dataTables_length').addClass('bs-select');  
                     } 
                 });
 
@@ -617,27 +644,7 @@ function EditEmployee(employeeId) {
                 }
             }
         });
-    }
-    if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
-        var table = $('#dtUserRoleList').DataTable();
-        table.destroy();
-    }
-    $('#dtUserRoleList').DataTable({
-        'processing': true,
-        'paging': false,
-        "ordering": true,
-        "searching": false,
-        "lengthChange": false,
-        "bAutoWidth": false,
-        "Filter": false,
-        "info": false,
-        "bPaginate": false,
-        "bLengthChange": false,
-        "bJQueryUI": true, //Enable smooth theme
-        "sPaginationType": "full_numbers", //Enable smooth theme
-        "sDom": 'lfrtip'
-    });
-    $('.dataTables_length').addClass('bs-select');
+    } 
 }
 
 function ClearEditor() {
@@ -683,7 +690,7 @@ function CreateEditor() {
     $("#btnResetPassword").attr("style", "display:none;width:100%");
     $("#isInstructer").prop("checked", false);
     $("#isSectionHead").prop("checked", false);
-
+    $("#Id_Employee").val(0);
     $.ajax({
         type: "GET",
         url: "/Master/GetAllJobGrades",
@@ -769,30 +776,52 @@ function CreateEditor() {
         type: "GET",
         url: "/Master/GetAllRoles",
         success: function (response) {
-            var tbody = $('#dtUserRoleList').children('tbody');
-            var table = tbody.length ? tbody : $('#dtUserRoleList');
-            table.empty();
-            $.each(response.Data, function () {
-                if (this.ID_Role == 1) {
-                    var row = '<tr>' +
-                        '<td style="text-align:center">' + this.RowIndex + '</td>' +
-                        '<td style="text-align:center;display:none">' + this.ID_Role + '</td>' +
-                        '<td style="text-align:left">' + this.RoleName_EN + '</td>' +
-                        '<td style="text-align:left">' + this.RoleDescription + '</td>' +
-                        '<td style="text-align:center;width:100px"><input type="radio" name="selectUserRole" checked="checked" value="' + this.ID_Role + '"  id="selectRole_' + this.ID_Role + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.ID_Role + '"> </label> </td >' +
-                        '</tr>';
-                    table.append(row);
-                } else {
-                    var row = '<tr>' +
-                        '<td style="text-align:center">' + this.RowIndex + '</td>' +
-                        '<td style="text-align:center;display:none">' + this.ID_Role + '</td>' +
-                        '<td style="text-align:left">' + this.RoleName_EN + '</td>' +
-                        '<td style="text-align:left">' + this.RoleDescription + '</td>' +
-                        '<td style="text-align:center;width:100px"><input type="radio" name="selectUserRole"  value="' + this.ID_Role + '"  id="selectRole_' + this.ID_Role + '"  onclick="checkboxonlyOne(this)" /><label for="selectRole_' + this.ID_Role + '"> </label> </td >' +
-                        '</tr>';
-                    table.append(row);
-                } 
+            if ($.fn.dataTable.isDataTable('#dtUserRoleList')) {
+                var table = $('#dtUserRoleList').DataTable();
+                table.destroy();
+            }
+            $('#dtUserRoleList').DataTable({
+                'data': response.Data,
+                'columns': [
+                    { "data": 'RowIndex', title: '#' },
+                    { "data": 'RoleName_EN', title: 'Role Name' },
+                    { "data": 'RoleDescription', title: 'Description' },  
+                    {
+                        "mData": "ID_Role",
+                        "bSortable": false,
+                        "mRender": function (data, type, row) {
+                            if (data == 1) {
+                                return '<input type="radio" name="selectUserRole" checked="checked" value="' + data + '"  id="selectRole_' + data + '"  /><label for="selectRole_' + data + '"> </label>'
+                            } else {
+                                return '<input type="radio" name="selectUserRole"  value="' + data + '"  id="selectRole_' + data + '"   /><label for="selectRole_' + data + '"> </label>'
+                            }
+                        }
+                    }
+                ],
+                "columnDefs": [
+                    { "orderable": true, "targets": 0, "className": "text-center" },
+                    { "orderable": true, "targets": 1, "className": "text-left" },
+                    { "orderable": true, "targets": 2, "className": "text-left" },
+                    { "orderable": true, "targets": 3, "className": "text-center" }
+                ],
+                'processing': true,
+                'paging': false,
+                "ordering": true,
+                "searching": false,
+                "lengthChange": false,
+                "bAutoWidth": false,
+                "Filter": false,
+                "info": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bJQueryUI": true, //Enable smooth theme
+                "sPaginationType": "full_numbers", //Enable smooth theme
+                "sDom": 'lfrtip', 
+                "language": {
+                    "zeroRecords": "No Role"
+                }
             });
+            $('.dataTables_length').addClass('bs-select'); 
         },
         failure: function (response) {
             if (JSON.parse(response.responseText).Errors.length > 0) {
