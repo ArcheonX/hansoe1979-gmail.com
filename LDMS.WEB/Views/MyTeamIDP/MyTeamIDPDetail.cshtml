@@ -1,12 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "My Team IDP";
-    ViewData["MainTitle"] = "My Team IDP - Create";
+    ViewData["Title"] = "MyTeamIDP-Topic";
+    ViewData["MainTitle"] = "MyTeamIDP";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @model LDMS.ViewModels.LDMS_T_IDP
-<script src="~/assets/app/CompetenceAnalytic/Editor.js"></script>
 <div class="panel panel-primary" style="margin-top:-15px;width:100%;">
     <div class="panel panel-default" style="width:100%;border-width:thin;border-style:solid;">
         <div class="panel-body" style="width:100%;">
@@ -279,7 +278,7 @@
                  "sDom": 'lfrtip',
                  destroy: true,
                 'ajax': {
-                    'url': '@Url.Action("Topisc", "IDP")',
+                    'url': '@Url.Action("Topisc", "MyTeamIDPIDP")',
                     'type': 'POST',
                     'data': {
                         ID_IDP: $('#hID').val(),
@@ -320,7 +319,7 @@
                     {
                         "mData": "ID_SubTopic",
                         "mRender": function (data, type, row) {
-                            var url = '@Url.Content("~/IDP/Detail/")'+data;
+                            var url = '@Url.Content("~/MyTeamIDP/MyTeamIDPDetail/")'+data;
                             //var icon = '@Url.Content("~/assets/images/svg/icon-edit-blue.svg")';
                             return "<a href='"+url+"'><img src='"+icon+"' class='light-logo' width='32' height='32' alt='homepage' /></a>";
                         }
@@ -428,7 +427,7 @@
                                     icon = '@Url.Content("~/assets/images/svg/icon-edit-blue.svg")';
                                 }
 
-                               var url = '@Url.Content("~/IDP/Detail/")' + e[i].listSubTopic[j].ID;
+                               var url = '@Url.Content("~/MyTeamIDP/MyTeamIDPDetail/")' + e[i].listSubTopic[j].ID;
                                html += '<tr>'+
                                         '<td>' + e[i].listSubTopic[j].HowToDevelopment + '</td>'+
                                         '<td>' + e[i].listSubTopic[j].ExpectedOutcom + '</td>'+

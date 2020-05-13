@@ -3,24 +3,21 @@ using LDMS.Identity;
 using LDMS.Services;
 using LDMS.ViewModels;
 using LDMS.WEB.Filters;
-using LDMS.WEB.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace LDMS.WEB.Controllers
 {
-    public class MyTeamIDPController : Controller
+    public class MyTeamIDPController : BaseController
     {
         private readonly MyTeamIDPService _MyTeamIDPService;
+        private readonly IDPService _IDPService;
         private IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger<MyTeamIDPController> _logger;
         public MyTeamIDPController(ILogger<MyTeamIDPController> logger, MyTeamIDPService MyTeamIDPService, IWebHostEnvironment environment)
@@ -29,6 +26,13 @@ namespace LDMS.WEB.Controllers
             _MyTeamIDPService = MyTeamIDPService;
             _hostingEnvironment = environment;
         }
+        //public MyTeamIDPController(ILogger<MyTeamIDPController> logger, MyTeamIDPService MyTeamIDPService, IWebHostEnvironment environment, IDPService iDPService)
+        //{
+        //    _logger = logger;
+        //    _MyTeamIDPService = MyTeamIDPService;
+        //    _hostingEnvironment = environment;
+        //    _IDPService = iDPService;
+        //}
         public IActionResult Index()
         {
            // var MyTeamIDP = MyTeamIDPService.GetMy_Team_IDP();
@@ -37,7 +41,7 @@ namespace LDMS.WEB.Controllers
         [AuthorizeRole(UserRole.All)]
         [HttpPost]
         [Route("MyTeamIDP/EmployeeSearch")]
-        //[AutoValidateAntiforgeryToken]
+        [AutoValidateAntiforgeryToken]
         public IActionResult EmployeeSearch(string EmployeeID, string EmployeeName, string DepartmentID, string DivisionID, string CenterID, string PlantID)
         {
 
@@ -60,6 +64,18 @@ namespace LDMS.WEB.Controllers
             //ViewData["Instructor"] = instructor.Results;
             return Json(employees);
         }
+        //[AuthorizeRole(UserRole.All)]
+        //[HttpGet]
+        //[Route("MyTeamIDP/MyTeamDetail/{i?}")]
+        //// [AutoValidateAntiforgeryToken]
+        //public IActionResult MyTeamIDPDetail(string ID_Employee)
+        //{
+
+        //  //  var myIDP = _MyTeamIDPService.GetMyIDP();
+
+        //    return View("/Views/MyTeamIDP/MyTeamIDPDetail.cshtml");
+
+        //}
         public IActionResult _EmployeeSearch()
         {
             // var MyTeamIDP = MyTeamIDPService.GetMy_Team_IDP();
@@ -88,4 +104,8 @@ namespace LDMS.WEB.Controllers
             return Json(myTeamIDP);
         }
     }
+    
+
+       
+
 }

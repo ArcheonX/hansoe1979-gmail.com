@@ -698,7 +698,7 @@
                             "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
                         },
                         success: function (e) {
-                 //           alert(JSON.stringify(e));
+                 //          alert(JSON.stringify(e));
                             RenderEmplooyee(e);
                           //  alert("pass");
                             MessageController.UnblockUI('#dtEmployee');
@@ -706,19 +706,19 @@
                         }
                     })
                 }
-                function RenderEmplooyee(e) {
+               function RenderEmplooyee(e) {
                     if ($.fn.dataTable.isDataTable('#dtEmployee')) {
                         var table = $('#dtEmployee').DataTable();
                         table.destroy();
                     }
                     $("#dtEmployee tbody > tr").remove();
-           // alert(e.length);
+            //alert(e.length);
             for (i = 0; i < e.length; i++) {
              //  alert(i);
                         var row = $("<tr />");
                       //  var url = '@Url.Content("~/MyTemaIDP/Detail")';
                         //var icon = '@Url.Content("~/assets/images/svg/icon-select-L.svg")';
-                      //  $("#dtEmployeeEmp tbody").append(row);
+                        $("#dtEmployee tbody").append(row);
                         ////row.append('<td style="text-align:center">' + e[i].rownumber +'</td>');
                         row.append('<td style="text-align:center">' + e[i].EmployeeID + '</td>');
                         row.append('<td style="text-align:center">' + e[i].EmployeeName + '</td>');
