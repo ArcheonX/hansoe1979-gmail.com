@@ -341,17 +341,20 @@ function ReloadSection($, departmentId, callback) {
 }
 
 function UpdateEmployee(empModel) {
+    $('#btnSaveEmployee').attr("disabled", "disabled");
     $.ajax({
         type: "POST",
         url: '/Employee/UpdateEmployee',
         data: empModel,
         success: function (response) {
+            $('#btnSaveEmployee').removeAttr("disabled");
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
             $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
             $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%"); 
             SearchEmployee(); 
         },
         failure: function (response) {
+            $('#btnSaveEmployee').removeAttr("disabled");
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {
@@ -359,6 +362,7 @@ function UpdateEmployee(empModel) {
             }
         },
         error: function (response) {
+            $('#btnSaveEmployee').removeAttr("disabled");
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {
@@ -369,17 +373,20 @@ function UpdateEmployee(empModel) {
 }
 
 function CreateEmployee(empModel) {
+    $('#btnSaveEmployee').attr("disabled", "disabled");
     $.ajax({
         type: "POST",
         url: '/Employee/CreateEmployee',
         data: empModel,
         success: function (response) {
+            $('#btnSaveEmployee').removeAttr("disabled");
             $('#viewAllUser').attr("style", "border-width:thin;border-style:solid;display:block;width:100%");
             $('#UserEditor').attr("style", "border-width:thin;border-style:solid;display:none;width:100%");
             $('#MasterReport').attr("style", "border-width:thin;border-style:solid;display:none;width:100%"); 
             SearchEmployee();
         },
         failure: function (response) {
+            $('#btnSaveEmployee').removeAttr("disabled");
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {
@@ -387,6 +394,7 @@ function CreateEmployee(empModel) {
             }
         },
         error: function (response) {
+            $('#btnSaveEmployee').removeAttr("disabled");
             if (JSON.parse(response.responseText).Errors.length > 0) {
                 MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
             } else {

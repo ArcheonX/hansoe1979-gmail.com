@@ -61,7 +61,31 @@ namespace LDMS.Services
                 return new ServiceResult(x);
             }
         }
-         
+
+        public async Task<ServiceResult> Delete(int analyticId)
+        {
+            try
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@ID_CompetenceAnalytic", analyticId);
+                parameter.Add("@paramUpdateBy", CurrentUserId);
+
+                using (IDbConnection conn = Connection)
+                {
+                    var items = Connection.Query<SQLError>(_schema + ".[usp_CompetenceAnalytic_Delete]", param: parameter, commandType: CommandType.StoredProcedure, commandTimeout: 0);
+                    if (items != null && items.Any())
+                    {
+                        return new ServiceResult(new Exception(items.FirstOrDefault().ErrorMessage));
+                    } 
+                    return new ServiceResult();
+                }
+            }
+            catch (Exception x)
+            {
+                _logger.LogError(x.Message);
+                return new ServiceResult(x);
+            }
+        }
         public async Task<ServiceResult> CreateCompetence(
             ViewModels.TCompetenceAnalytic competenceAnalytic,
             List<ViewModels.TCompetenceAnalyticEmployee> employees, 
