@@ -28,6 +28,7 @@ function Search() {
                         "mData": "LastUpdate",
                         "bSortable": true,
                         "title": 'Last Update',
+                        "className": "text-center",
                         "mRender": function (data, type, row) {
                             return moment(data).format("DD/MM/YYYY HH:mm:ss");
                         }
