@@ -104,146 +104,146 @@
                             </div>
                             <div class="col-sm-2 col-md-2" style="margin-left:-55px">
                                 <a id="btnAddTopic" class="btn btn-outline-success waves-effect waves-light" style="width:80%;" onclick="OpenEmployee()">
-                                    <img style="width:25px;height:20px" src="~/assets/images/svg/add-button-circle.svg" /><br />Add Topic
+                                    <img style="width:25px;height:20px" src="~/assets/images/svg/add-button-circle.svg" alt='homepage' title="Find" /><br />Add Topic
                                 </a>
                                 <!-- Modal -->
-                                <div class="modal" id="modSearhEmployee" style="padding-top:-25px;" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
-                                    <div class="modal-dialog modal-lg" alt='homepage' title="Find" style="background-color:white;border-radius:2%;width:150%" >
 
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-body " style="margin-left:auto">
-                                                <button type="button" class="close" onclick="ClosedEmployee()">&times;</button>
-                                                <h4 class="modal-title">Employee Search</h4>
-                                            </div>
-                                            <div class="modal-body" style="min-height:20px">
-                                                <div class="form-horizontal" style="margin-top:20px">
-                                                    <div class="row form-group" style="margin-top:10px">
-                                                        <div class="col-sm-2 col-md-2">
-                                                            <span class="pull-right">
-                                                                <label class="LabelCaption">Employee ID</label>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-sm-2 col-md-4">
-                                                            <input type="text" id="txtFilterEmployeeID" class="form-control input-sm" />
-                                                        </div>
-                                                        <div class="col-sm-2 col-md-2">
-                                                            <span class="pull-right">
-                                                                <label class="LabelCaption">Emp Name</label>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-sm-4 col-md-4">
-                                                            <input type="text" id="txtFilterEmployeeName" class="form-control input-sm" />
-                                                        </div>
-                                                    </div>
+                            </div>
+                        </div>
+                </form>
+                <div class="modal" id="modSearhEmployee" style="padding-top:-25px;" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-lg" style="background-color:white;border-radius:2%;width:150%">
 
-
-                                                    <div class="row form-group">
-                                                        <div class="col-sm-2 col-md-2">
-                                                            <span class="pull-right">
-                                                                <label class="LabelCaption">Plant ID</label>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-sm-4 col-md-4">
-                                                            <select id="selectPlantEmp"
-                                                                    name="selectPlantEmp"
-                                                                    title="Please Enter Plant"
-                                                                    class="form-control required"
-                                                                    style="width: 100%">
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-2 col-md-2">
-                                                            <span class="pull-right">
-                                                                <label class="LabelCaption">Center</label>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-sm-3 col-md-3">
-                                                            <select id="selectCenterEmp"
-                                                                    name="selectCenterEmp"
-                                                                    title="Please Enter Center"
-                                                                    class="form-control required"
-                                                                    style="width: 100%"
-                                                                    disabled="disabled">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-sm-2 col-md-2">
-                                                            <span class="pull-right">
-                                                                <label class="LabelCaption">Divison</label>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-sm-4 col-md-4">
-                                                            <select id="selectDivisionEmp"
-                                                                    name="selectDivisionEmp"
-                                                                    title="Please Enter Division"
-                                                                    class="form-control required"
-                                                                    style="width: 100%"
-                                                                    disabled="disabled">
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-2 col-md-2">
-                                                            <span class="pull-right">
-                                                                <label class="LabelCaption">Department</label>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <select id="selectDepartmentEmp"
-                                                                    name="selectDepartmentEmp"
-                                                                    title="Please Enter Department"
-                                                                    class="form-control required"
-                                                                    style="width: 100%"
-                                                                    disabled="disabled">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col-sm-2 col-md-2 offset-10" style="padding-right:25px;">
-                                                        <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%" onclick="SearchEmployee();">
-                                                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" /><br />Search
-                                                        </button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="panel-body">
-                                                <div class="table-responsive" style="overflow-y:auto; height:300px">
-                                                    <table class="display dataTable" id="dtEmployeeEmp" style="padding-top:5px">
-                                                        <thead class="sticky-top">
-                                                            <tr>
-                                                                <!--<th style="text-align:center;width:100px">No</th>-->
-                                                                <th style="text-align:center;width:100px">EMP ID</th>
-                                                                <th style="text-align:center">Emp Name</th>
-                                                                <th style="text-align:center">Department</th>
-                                                                <th style="text-align:center">Division</th>
-                                                                <th style="text-align:center">Center</th>
-                                                                <th style="text-align:center">Plant</th>
-                                                                <th style="text-align:center"></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="modal-header">
-                                                <div class="col-sm-2 col-md-2 offset-10">
-                                                    <button id="btnSeacrh" class="btn btn-outline-secondary waves-effect waves-light" style="width:80%" onclick="ClosedEmployee()">
-                                                        <img style="width:25px;height:20px" src="~/assets/images/svg/closed-red.svg" /><br />Close
-                                                    </button>
-
-                                                </div>
-                                            </div>
-
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-body " style="margin-left:auto">
+                                <button type="button" class="close" onclick="ClosedEmployee()">&times;</button>
+                                <h4 class="modal-title">Employee Search</h4>
+                            </div>
+                            <div class="modal-body" style="min-height:20px">
+                                <div class="form-horizontal" style="margin-top:20px">
+                                    <div class="row form-group" style="margin-top:10px">
+                                        <div class="col-sm-2 col-md-2">
+                                            <span class="pull-right">
+                                                <label class="LabelCaption">Employee ID</label>
+                                            </span>
                                         </div>
+                                        <div class="col-sm-2 col-md-4">
+                                            <input type="text" id="txtFilterEmployeeID" class="form-control input-sm" />
+                                        </div>
+                                        <div class="col-sm-2 col-md-2">
+                                            <span class="pull-right">
+                                                <label class="LabelCaption">Emp Name</label>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="text" id="txtFilterEmployeeName" class="form-control input-sm" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row form-group">
+                                        <div class="col-sm-2 col-md-2">
+                                            <span class="pull-right">
+                                                <label class="LabelCaption">Plant ID</label>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4">
+                                            <select id="selectPlantEmp"
+                                                    name="selectPlantEmp"
+                                                    title="Please Enter Plant"
+                                                    class="form-control required"
+                                                    style="width: 100%">
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2 col-md-2">
+                                            <span class="pull-right">
+                                                <label class="LabelCaption">Center</label>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-3 col-md-3">
+                                            <select id="selectCenterEmp"
+                                                    name="selectCenterEmp"
+                                                    title="Please Enter Center"
+                                                    class="form-control required"
+                                                    style="width: 100%"
+                                                    disabled="disabled">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-2 col-md-2">
+                                            <span class="pull-right">
+                                                <label class="LabelCaption">Divison</label>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4">
+                                            <select id="selectDivisionEmp"
+                                                    name="selectDivisionEmp"
+                                                    title="Please Enter Division"
+                                                    class="form-control required"
+                                                    style="width: 100%"
+                                                    disabled="disabled">
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2 col-md-2">
+                                            <span class="pull-right">
+                                                <label class="LabelCaption">Department</label>
+                                            </span>
+                                        </div>
+                                        <div class="col-3">
+                                            <select id="selectDepartmentEmp"
+                                                    name="selectDepartmentEmp"
+                                                    title="Please Enter Department"
+                                                    class="form-control required"
+                                                    style="width: 100%"
+                                                    disabled="disabled">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sm-6 col-md-3 " style="margin-left:25rem; margin-top:20px">
+                                        <a id="btnSearch" class="btn btn-outline-success waves-effect waves-light" style="width:70%" onclick="SearchEmployee();">
+                                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" /><br/>Search
+                                        </a>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="panel-body">
+                                <div class="table-responsive" style="overflow-y:auto; height:300px">
+                                    <table class="display dataTable" id="dtEmployee" style="padding-top:5px">
+                                        <thead class="sticky-top">
+                                            <tr>
+                                                <!--<th style="text-align:center;width:100px">No</th>-->
+                                                <th style="text-align:center;width:100px">EMP ID</th>
+                                                <th style="text-align:center">Emp Name</th>
+                                                <th style="text-align:center">Department</th>
+                                                <th style="text-align:center">Division</th>
+                                                <th style="text-align:center">Center</th>
+                                                <th style="text-align:center">Plant</th>
+                                                <th style="text-align:center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-header">
+                                <div class="col-sm-2 col-md-2">
+                                    <button id="btnSeacrh" class="btn btn-outline-secondary waves-effect waves-light" style="width:80%" onclick="ClosedEmployee()">
+                                        <img style="width:25px;height:20px" src="~/assets/images/svg/closed-red.svg" /><br />Close
+                                    </button>
+
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         @*<div class="table-responsive m-t-40">*@
@@ -601,7 +601,7 @@
                 }
                 function ClosedEmployee() {
                     $('#modSearhEmployee').modal('hide');
-                    $("#dtEmployeeEmp tbody > tr").remove();
+                    $("#dtEmployeeSearch tbody > tr").remove();
                   //  $("#selectEmp_all").checked = false;
                 }
         function ReloadDepartment($, divisionId, callback) {
@@ -684,7 +684,7 @@
                 }
         function SearchEmployee() {
 
-          //  MessageController.BlockUI({ boxed: true, target: '#dtEmployeeEmp' });
+            MessageController.BlockUI({ boxed: true, target: '#dtEmployee' });
                     $.ajax({
                         url: "/MyTeamIDP/EmployeeSearch",
                         type: "Post",
@@ -701,28 +701,20 @@
                  //           alert(JSON.stringify(e));
                             RenderEmplooyee(e);
                           //  alert("pass");
-                            MessageController.UnblockUI('#dtEmployeeEmp');
+                            MessageController.UnblockUI('#dtEmployee');
                          //   alert(e.text);
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                            MessageController.Error(response.responseText, "Error");
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
-                            MessageController.Error(response.responseText, "Error");
                         }
                     })
                 }
-        function RenderEmplooyee(e) {
-            if ($.fn.dataTable.isDataTable('#dtEmployeeEmp')) {
-                        var table = $('#dtEmployeeEmp').DataTable();
+                function RenderEmplooyee(e) {
+                    if ($.fn.dataTable.isDataTable('#dtEmployee')) {
+                        var table = $('#dtEmployee').DataTable();
                         table.destroy();
-             }
-            $("#dtEmployeeEmp tbody > tr").remove();
+                    }
+                    $("#dtEmployee tbody > tr").remove();
            // alert(e.length);
             for (i = 0; i < e.length; i++) {
-             //   alert(i);
+             //  alert(i);
                         var row = $("<tr />");
                       //  var url = '@Url.Content("~/MyTemaIDP/Detail")';
                         //var icon = '@Url.Content("~/assets/images/svg/icon-select-L.svg")';
@@ -730,7 +722,7 @@
                         ////row.append('<td style="text-align:center">' + e[i].rownumber +'</td>');
                         row.append('<td style="text-align:center">' + e[i].EmployeeID + '</td>');
                         row.append('<td style="text-align:center">' + e[i].EmployeeName + '</td>');
-                       row.append('<td style="text-align:center">' + e[i].DepartmentName_EN + '</td>');
+                        row.append('<td style="text-align:center">' + e[i].DepartmentName_EN + '</td>');
                         row.append('<td style="text-align:center">' + e[i].DivisionName_EN + '</td>');
                         row.append('<td style="text-align:center">' + e[i].CenterName_EN + '</td>');
                         row.append('<td style="text-align:center">' + e[i].PlantName_EN + '</td>');
@@ -738,7 +730,7 @@
                         row.append('<td <a href="#"><img src= @Url.Content("~/assets/images/svg/icon-edit-blue.svg") class="light - logo" alt="homepage" /></a> </td>');
             }
 
-                    $('#dtEmployeeEmp').DataTable({
+                    $('#dtEmployee').DataTable({
                         'processing': true,
                         'paging': true,
                         "ordering": false,
