@@ -1671,7 +1671,14 @@
                 row.append('<td style="text-align:center">' + e[i].Capacity + '</td>');
                 row.append('<td style="text-align:center">' + e[i].RoomName_EN + '</td>');
                 row.append('<td style="text-align:center">' + e[i].ClassStatus + '</td>');
-                row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-check-cycle.svg") width="28" height="28" onclick="LoadClassRegister('+ e[i].ID + ')" ></img></a></td>');
+
+                if (e[i].ClassStatus == 'Register') {
+                    row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-check-cycle-green.svg") width="28" height="28" onclick="LoadClassRegister(' + e[i].ID + ')" ></img></a></td>');
+                }
+                else {
+                    row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-check-cycle.svg") width="28" height="28" onclick="LoadClassRegister('+ e[i].ID + ')" ></img></a></td>');
+                }
+                
                 row.append('<td class="text-center"><a href="#"><img src=@Url.Content("~/assets/images/svg/icon-edit-blue.svg") width="28" height="28" onclick="LoadClassEdit('+ e[i].ID +')" ></a></td>');
                 //row.append('<td class="text-center"><img src=@Url.Content("~/assets/images/svg/icon-delete-red.svg") class="btn"></img></td>');
                 row.append('<td style="text-align:center"><input type="checkbox" class="chkSingleClass" style="text-align:center; name="selectClass_' + i + '" value="selectClass_' + i + '" id="selectClass_' + i + '"/><label for="selectClass_'+ i +'"> </label> </td>');
