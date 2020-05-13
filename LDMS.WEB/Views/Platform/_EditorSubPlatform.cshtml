@@ -318,56 +318,6 @@
         });
     }
 
-    function SaveSubPlatformCourse(ID) {
-       // alert('SaveSubplatformCourse');
-        var model = [];
-        var i = 1;
-        /*while ($("#selectCourse_" + i).val() === ("selectCourse_" + i)) {
-            if ($("#selectCourse_" + i).prop("checked")) {
-                var obj = {
-                    ID_SubPlatform: $("#hID").val(), //SubPlatformID
-                    ID_Course: $("#hdSelect_ID_" + i).val(),
-                };
-                model.push(obj);
-            }
-            i++;
-        }*/
-
-        var table = $('#dtSubPlatformCourses').DataTable();
-        //alert(table);
-            table
-            .column( 1 )
-            .data()
-                .each(function (value, index) {
-                 //alert('value : ' + value + ' index : ' + index );
-                 var obj = {
-                         ID_SubPlatform: ID, //SubPlatformID
-                         ID_Course: value,
-                };
-                model.push(obj);
-                i++;
-            } );
-
-
-        //alert(JSON.stringify(model));
-        //alert('Have ID : ' + $('#hID').val());
-        $.ajax({
-            url: "/Platform/InsertSubPlatformCourse",
-            type: "GET",
-            data: {
-                'model': JSON.stringify(model),
-                'ID_SubPlatform' : ID,
-                'ID_Platform' : $("#hID_Platform").val()
-            },
-            success: function (e) {
-                 window.location.href = '@Url.Content("~/Platform/EditPlatform/")' + e;
-            },
-
-        });
-
-        return false;
-    }
-
     function LoadSubPlatformCourse(ID) {
 
         //alert('LoadSubPlatformCourse ' + ID );
@@ -457,7 +407,7 @@
     });
     }
 
-        function SearchCourse() {
+    function SearchCourse() {
             MessageController.BlockUI({ boxed: true, target: '#modSearhCourse' });
             var searchmodel = {
                 CourseID: $("#txtFilterCourseID").val(),
@@ -502,7 +452,7 @@
                     row.append('<input type="hidden" id="hdSelect_CourseName_' + i + '" name="hdSelect_CourseName_' + i + '" value="' + e[i].CourseName + '" />');
                     row.append('<input type="hidden" id="hdSelect_Course_LearnMethodName_EN_' + i + '" name="hdSelect_Course_LearnMethodName_EN_' + i + '" value="' + e[i].Course_LearnMethodName_EN + '" />');
                     row.append('<input type="hidden" id="hdSelect_CourseStatus_' + i + '" name="hdSelect_CourseStatus_' + i + '" value="' + e[i].CourseStatus + '" />');
-                    row.append('<td style="text-align:center"><input type="checkbox" style="text-align:center; name="selectCourse_' + i + '" value="selectCourse_' + i + '" id="selectCourse_' + i + '"/><label for="selectCourse_' + i + '"> </label> </td>');
+                    row.append('<td style="text-align:center"><input type="checkbox" style="text-align:center; name="selectCourse_' + i + '" value="selectCourse_' + i + '" id="selectCourse_' + i + '" /><label for="selectCourse_' + i + '"> </label> </td>');
                 }
                 if ($.fn.dataTable.isDataTable('#dtmodalCourse')) {
                     var table = $('#dtmodalCourse').DataTable();
@@ -572,7 +522,11 @@
                     { data: 'CourseStatus' },
                     {
                         "mData": "ID",
-                        "mRender": function (data, type, row) { return "<a href='#' onclick='DeleteCourse(" + data + ")'><img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class='light-logo' alt='homepage' /></a>"; }
+                        "mRender": function (data, type, row) {
+
+                            var name = row['CourseName'];
+                            return "<a href='#' onclick=\"DeleteCourse('"+data+"','"+name+"') \"'><img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class='light-logo' alt='homepage' /></a>";
+                        }
                     }
                  ],
                  "columnDefs": [
@@ -586,25 +540,34 @@
             });
     }
 
-    function DeleteCourse(ID) {
+    function DeleteCourse(ID, name) {
         //alert('DeleteCourse : ' + ID);
-        $.ajax({
-            url: "/Platform/DeleteSubPlatformCourse",
-            type: "GET",
-            data: {
-                'ID_SubPlatform' :  $('#hID').val(),
-                'ID_Course' : ID
-            },
-            success: function (e) {
-                alert('Delete Complete');
-                LoadSubPlatformCourseList(e);
-            },
 
+        MessageController.ConfirmCallback("Are you sure you want to delete Course '" + name + "' ?", "Confirm Delete!", function (res) {
+            if (res) {
+
+                $.ajax({
+                    url: "/Platform/DeleteSubPlatformCourse",
+                    type: "GET",
+                    data: {
+                        'ID_SubPlatform': $('#hID').val(),
+                        'ID_Course': ID
+                    },
+                    success: function (e) {
+                        alert('Delete Complete');
+                        LoadSubPlatformCourseList(e);
+                    },
+
+                })
+
+
+            }
         });
+
     }
 
     function SaveSubPlatFormCourse() {
-        //alert('SaveSubPlatFormCourse');
+        alert('SaveSubPlatFormCourse');
         var model = [];
         var i = 0;
 
@@ -631,8 +594,16 @@
             },
             success: function (e) {
                  //window.location.href = '@Url.Content("~/Platform/EditPlatform/")' + e;
-                 $('#modSearhCourse').modal('hide');
-                LoadSubPlatformCourseList(e);
+
+                if (e.result) {
+                    alert(e.message);
+                    $('#modSearhCourse').modal('hide');
+                    LoadSubPlatformCourseList($('#hID').val());
+                }
+                else {
+                    alert(e.message);
+                }
+                 
             },
 
         });
