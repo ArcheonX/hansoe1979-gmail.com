@@ -81,11 +81,11 @@ namespace LDMS.Services
     }
     public class SQLError
     {
-        public int ErrorNumber { get; set; }
-        public int ErrorSeverity { get; set; }
-        public int ErrorState { get; set; }
+        public long ErrorNumber { get; set; }
+        public long ErrorSeverity { get; set; }
+        public long ErrorState { get; set; }
         public string ErrorProcedure { get; set; }
-        public int ErrorLine { get; set; }
+        public long ErrorLine { get; set; }
         public string ErrorMessage { get; set; }
     }
     public enum DataLogType : int
