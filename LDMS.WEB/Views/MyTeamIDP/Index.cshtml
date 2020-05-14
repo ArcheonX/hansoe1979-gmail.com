@@ -716,8 +716,8 @@
             for (i = 0; i < e.length; i++) {
              //  alert(i);
                         var row = $("<tr />");
-                      //  var url = '@Url.Content("~/MyTemaIDP/Detail")';
-                        //var icon = '@Url.Content("~/assets/images/svg/icon-select-L.svg")';
+                        var url = '@Url.Content("~/MyTemaIDP/MyTeamIDPDetail")';
+                        var icon = '@Url.Content("~/assets/images/svg/icon-edit-blue.svg")';
                         $("#dtEmployee tbody").append(row);
                         ////row.append('<td style="text-align:center">' + e[i].rownumber +'</td>');
                         row.append('<td style="text-align:center">' + e[i].EmployeeID + '</td>');
@@ -727,7 +727,7 @@
                         row.append('<td style="text-align:center">' + e[i].CenterName_EN + '</td>');
                         row.append('<td style="text-align:center">' + e[i].PlantName_EN + '</td>');
 
-                        row.append('<td <a href="#"><img src= @Url.Content("~/assets/images/svg/icon-edit-blue.svg") class="light - logo" alt="homepage" /></a> </td>');
+                        row.append('<td <a href=' + url + '#"><img src= ' + icon + ' class="light - logo" alt="homepage" /></a> </td>');
             }
 
                     $('#dtEmployee').DataTable({

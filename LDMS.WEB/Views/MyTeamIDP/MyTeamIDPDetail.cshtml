@@ -11,15 +11,15 @@
         <div class="panel-body" style="width:100%;">
             <form id="frmMain" class="form" method="post" enctype="multipart/form-data" style="width:100%">
                 @Html.AntiForgeryToken()
-                @if (Model != null)
+                @*@if (Model != null)
                 {
-                    <input type="hidden" id="hID" name="hID" value=@Model.ID />
+                    <input type="hidden" id="hID" name="hID" value=1 />
 
                 }
                 else
                 {
                     <input type="hidden" id="hID_CoachingReviewHead" name="hID_CoachingReviewHead" value="" />
-                }
+                }*@
                 <div class="form-horizontal" style="margin-top:25px">
                     <div class="row form-group">
                         <div class="col-sm-8 col-md-8">
@@ -39,16 +39,16 @@
                         <div class="col-sm-1 col-md-1">
                             <div class="user-profile-coaching">
                                 <div class="profile-img">
-                                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
+                                    <img src='~/assets/images/users/Sarah.jpg' alt="user" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-4 col-md-4" style="margin-top:20px; margin-left:30px">
                             <div class="profile-text">
-                                <a aria-expanded="false">Name : @Model.EmployeeName </a>
+                                <a aria-expanded="false">Name : Mr. Mohamed Salah </a>
                             </div>
                             <div class="profile-text">
-                                <a aria-expanded="false">Position :@Model.Position</a>
+                                <a aria-expanded="false">Position :Attacking Midfield</a>
                             </div>
                             <div class="profile-text">
                                 <a aria-expanded="false">Service (Year) : 5 </a>
@@ -57,13 +57,13 @@
                                 <a aria-expanded="false">IDP Time Line : 1 year 1 month 5 Day </a>
                             </div>
                             <div class="profile-text">
-                                <a aria-expanded="false">IDP Start : @Model.IDP_StartDate </a>
+                                <a aria-expanded="false">IDP Start : 1 May 2020 </a>
                             </div>
                             <div class="profile-text">
-                                <a aria-expanded="false">IDP End : @Model.IDP_EndDate</a>
+                                <a aria-expanded="false">IDP End : 30 April 2021</a>
                             </div>
                             <div class="profile-text">
-                                <a aria-expanded="false">IDP Status : @Model.IDP_StatusName </a>
+                                <a aria-expanded="false">IDP Status : New Status  </a>
                             </div>
                         </div>
 
@@ -201,7 +201,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //LoadTopic();
-            LoadTopicList();
+          //  LoadTopicList();
 
            /* $('#dtTopicList tbody').on('click', 'td.details-control', function () {
 
