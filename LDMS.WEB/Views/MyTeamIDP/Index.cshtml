@@ -727,12 +727,12 @@
                         row.append('<td style="text-align:center">' + e[i].CenterName_EN + '</td>');
                         row.append('<td style="text-align:center">' + e[i].PlantName_EN + '</td>');
 
-                        row.append('<td <a href=@Url.Content("~/MyTemaIDP/MyTeamIDPDetail")><img src= ' + icon + ' class="light - logo" alt="homepage" /></a> </td>');
-            }
+                        row.append('<td <a href="@Url.Content("~/MyTemaIDP/MyTeamIDPDetail")"><img src= ' + icon + ' class="light - logo" alt="homepage" /></a></td>');
+            }           // "<a href='"+url+"'><img src='"+icon+"' class='light-logo' alt='homepage' /></a>";
 
                     $('#dtEmployee').DataTable({
                         'processing': true,
-                        'paging': true,
+                        'paging': true,  
                         "ordering": false,
                         "searching": false,
                         "lengthChange": false,

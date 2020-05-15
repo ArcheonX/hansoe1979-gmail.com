@@ -76,6 +76,11 @@ namespace LDMS.WEB.Controllers
         //    return View("/Views/MyTeamIDP/MyTeamIDPDetail.cshtml");
 
         //}
+        public IActionResult MyTeamIDPDetail()
+        {
+            // var MyTeamIDP = MyTeamIDPService.GetMy_Team_IDP();
+            return View();
+        }
         public IActionResult _EmployeeSearch()
         {
             // var MyTeamIDP = MyTeamIDPService.GetMy_Team_IDP();
