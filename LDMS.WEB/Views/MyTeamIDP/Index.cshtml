@@ -716,7 +716,7 @@
             for (i = 0; i < e.length; i++) {
              //  alert(i);
                         var row = $("<tr />");
-                        var url = '@Url.Content("~/MyTemaIDP/MyTeamIDPDetail")';
+                        var url = '@Url.Content("~/MyTeamIDP/MyTeamIDPDetail")';
                         var icon = '@Url.Content("~/assets/images/svg/icon-edit-blue.svg")';
                         $("#dtEmployee tbody").append(row);
                         ////row.append('<td style="text-align:center">' + e[i].rownumber +'</td>');
@@ -727,12 +727,13 @@
                         row.append('<td style="text-align:center">' + e[i].CenterName_EN + '</td>');
                         row.append('<td style="text-align:center">' + e[i].PlantName_EN + '</td>');
 
-                        row.append('<td <a href="@Url.Content("~/MyTemaIDP/MyTeamIDPDetail")"><img src= ' + icon + ' class="light - logo" alt="homepage" /></a></td>');
-            }           // "<a href='"+url+"'><img src='"+icon+"' class='light-logo' alt='homepage' /></a>";
+                        row.append('<td style="text-align:center"><a href="'+url+'"><img src="'+icon+'" class="light-logo" width="28" height="28" alt="homepage" /></a></td>');
+                   }           // "<a href='"+url+"'><img src='"+icon+"' class='light-logo' alt='homepage' /></a>";
+                   //'<td style="text-align:center"><a href="'+url+'"><img src="'+icon+'" class="light-logo" width="28" height="28" alt="homepage" /></a></td>'
 
                     $('#dtEmployee').DataTable({
                         'processing': true,
-                        'paging': true,  
+                        'paging': true,
                         "ordering": false,
                         "searching": false,
                         "lengthChange": false,
@@ -808,15 +809,17 @@
                     {
                         data: null,
                         "mRender": function (data, type, row) {
+                            var url = "@Url.Content("~/MyTeamIDP/MyTeamIDPDetail")"
                             var iconimg = "<img src='" + iconEdit + "' class='light-logo' alt='edit' width='34' height='34'>&nbsp;&nbsp;";
                             if (row.statename == "Completed") {
                                 iconimg = "<img src='" + iconComplete + "' class='light-logo' alt='edit' width='34' height='34'>&nbsp;&nbsp;";
                             }
                             if (row.statename == "Not Start") {
                                 iconimg = iconimg + "<img src='" + iconDelete + "' class='light-logo' alt='edit' width='34' height='34'>";
+
                             }
 
-
+                            iconimg = "<a href='" + url + "'>" + iconimg + "</a>";
                                 return "<strong>Objective</strong> <br><textarea rows='4' cols='50' readonly>" + row.Objective +
                                     "</textarea > <br> <strong>Total Review: </strong>" + row.TotalReview + "<br> <strong> IDP Status: </strong >" +
                                     row.statename + "<br> <strong>Update Date: </strong>" + row.UpdateDate + "&nbsp;&nbsp;&nbsp;&nbsp;"
