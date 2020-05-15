@@ -1,0 +1,633 @@
+﻿@{
+    ViewData["Title"] = "Platform";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model LDMS.ViewModels.LDMS_M_SubPlatform;
+<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+    <form id="frmSubPlatformEditor">
+        <div class="panel-body" style="width:100%;">
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Platform ID</label>
+                        </span>
+                    </div>
+                    @Html.AntiForgeryToken()
+                    @if (Model != null)
+                    {
+                        <input type="hidden" id="hID" name="hID" value=@Model.ID />
+                        <input type="hidden" id="hID_Platform" name="hID_Platform" value=@Model.ID_Platform />
+
+                    }
+                    else
+                    {
+                        <input type="hidden" id="hID" name="hID" value=null />
+                        <input type="hidden" id="hID_Platform" name="hID_Platform" value="null" />
+                    }
+                    <div class="col-sm-4 col-md-4">
+                        <!--<input type="text" id="txtPlatformID" disabled="disabled" class="form-control input-sm" />-->
+                        <input type="text"
+                               title=""
+                               id="txtPlatformID"
+                               asp-for="PlatformID"
+                               style="width: 100%"
+                               class="form-control input-sm" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Platform Name</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <!--<input type="text" id="txtPlatformName" disabled="disabled" class="form-control input-sm" />-->
+                        <input type="text"
+                               title=""
+                               id="txtPlatformName"
+                               asp-for="PlatfromName"
+                               style="width: 100%"
+                               class="form-control input-sm" disabled="disabled" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Sub Platform Name</label>
+                        </span>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <!--<input type="text" id="txtSubPlatformName" class="form-control input-sm" />-->
+                        <input type="text"
+                               title=""
+                               id="txtSubPlatformName"
+                               asp-for="SubPlatformName_EN"
+                               style="width: 100%"
+                               class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <a id="btnUpdateSubPlatform" class="btn btn-outline-success waves-effect waves-light" style="width:70%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/save.svg" />&nbsp;&nbsp;Save
+                        </a>
+
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <a id="btnBacktoPlatform" class="btn btn-outline-danger inactive waves-effect waves-light" style="margin-left:-60px; width:70%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive" style="padding-left:5px; padding-right:5px">
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption" style="font-size:medium; margin-top:20px">Course</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2"></div>
+                    <div class="col-sm-2 col-md-2"></div>
+                    <div class="col-sm-2 col-md-2"></div>
+                    <div class="col-sm-2 col-md-2">
+
+                    </div>
+                    <div class="col-sm-0 col-md-0">
+                        <!--<a id="btnSearchCourse" class="btn btn-success inactive waves-effect waves-light" style="width:100%; color:white">Course</a>-->
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <!--<a id="btnDelete" class="btn btn-danger inactive waves-effect waves-light" onclick="deleteCourse()" style="width:100%; color:white">Delete</a>-->
+                        <a id="btnSearchCourse" class="btn btn-outline-success waves-effect waves-light" style="width:90%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/add-button-circle.svg" />&nbsp;&nbsp;Add Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive m-t-40">
+                <table class="display dataTable" width="100%" id="dtSubPlatformCourses">
+                    <thead>
+                        <tr>
+                            <!--<th style="text-align:center;width:100px">#</th>-->
+                            <th style="text-align:center">No</th>
+                            <th style="text-align:center">Course ID</th>
+                            <th style="text-align:center">Course Name</th>
+                            <th style="text-align:center">Learn Method</th>
+                            <th style="text-align:center">Status</th>
+                            <th style="text-align:center">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal" id="modSearhCourse" style="padding-top:-25px;" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" style="background-color:white;border-radius:2%;width:150%">
+        <div class="modal-content" style="width:120%">
+            <div class="modal-header card-header" style="padding-top:0px;">
+                <h4 class="modal-title" id="lblMATiltle">Search Course</h4>
+            </div>
+            <div class="modal-body" style="min-height:20px">
+                <div class="form-horizontal" style="margin-top:20px">
+
+                    <div class="row form-group" style="margin-top:10px">
+                        <div class="col-sm-2 col-md-2">
+                            <span class="pull-right">
+                                <label class="LabelCaption">Course ID</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" id="txtFilterCourseID" class="form-control input-sm" required />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2 col-md-2">
+                            <span class="pull-right">
+                                <label class="LabelCaption">Course Name</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" id="txtFilterCourseName" class="form-control input-sm" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2 col-md-2">
+                            <span class="pull-right">
+                                <label class="LabelCaption">Course Status</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="btn-group">
+                                <select id="selectCourseStatus" name="selectCourseStatus" class="form-control" style="width: 100%">
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-2 col-md-2">
+                            <span class="pull-right">
+                                <label class="LabelCaption">Learn Method</label>
+                            </span>
+                        </div>
+                        <div class="col-4">
+                            <div class="btn-group">
+                                <select id="selectLearnMetod" name="selectLearnMetod" class="form-control" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3">
+                            <button id="btnSeacrh" class="btn btn-outline-secondary waves-effect waves-light" style="width:70%">
+                                <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" />&nbsp;&nbsp;Search
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive" style="height:300px">
+                    <table class="display dataTable" id="dtmodalCourse">
+                        <thead class="sticky-top">
+                            <tr>
+                                <th style="text-align:center;width:100px">No</th>
+                                <th style="text-align:center;width:100px">ID</th>
+                                <th style="text-align:center">Course ID</th>
+                                <th style="text-align:center">Course Name</th>
+                                <th style="text-align:center">Learn Method</th>
+                                <th style="text-align:center">Status</th>
+                                <th style="text-align:center;margin-top:5px">
+                                    <input type='checkbox'
+                                           name='selectCourse_all'
+                                           value='selectCourse_all'
+                                           id="selectCourse_all" /><label for="selectCourse_all" style="top:15px"> </label>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row form-group" style="align-items:center">
+                <div class="col-sm-1 col-md-2 offset-10" style="margin-left:20rem; margin-top:20px">
+                    <a id="btnSave" class="btn btn-outline-primary waves-effect waves-light" style="width:100%" onclick="return SaveSubPlatFormCourse();">
+                        <img style="width:25px;height:20px" src="~/assets/images/svg/right.svg" />&nbsp;&nbsp;Select 
+                    </a>
+                </div>
+                <div class="col-sm-1 col-md-2" style="margin-top:20px">
+                    <a id="btnClose" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:100%">
+                    <img style="width:25px;height:20px" src="~/assets/images/svg/closed-red.svg" />&nbsp;&nbsp;Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+    <script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $('#btnUpdateSubPlatform').click(function () {
+        //alert('Update : ' + $('#hID').val() );
+        //SaveSubPlatformCourse($('#hID').val());
+        UpdateSubPlatform($("#hID_Platform").val(), $('#hID').val());
+        });
+
+       $('#btnBacktoPlatform').click(function () {
+             BacktoPlatform($("#hID_Platform").val());
+         });
+
+       $('#selectCourse_all').click(function () {
+         $('input:checkbox').prop('checked', this.checked);
+        });
+
+        $('#btnSearchCourse').click(function () {
+            $('#modSearhCourse').modal('toggle');
+            LoadCourseLearnMethod();
+            $('#dtmodalCourse tbody').empty();
+            SearchCourse();
+        });
+
+        $('#btnClose').click(function () {
+            $('#modSearhCourse').modal('hide');
+            $('#dtmodalCourse tbody').empty();
+            CreateDataTablePaging($);
+        });
+
+        $('#btnSearch').click(function () {
+            SearchCourse();
+        }); 
+        if ($('#hID').val() != 'null') { // Edit
+            //alert('Have ID : ' + $('#hID').val());
+            //LoadSubPlatformCourse($('#hID').val());
+            LoadSubPlatformCourseList($('#hID').val());
+        }
+        else { // new
+
+        }
+
+        deleteCourse();
+
+    });
+
+
+
+    /*$('#selCourse_all').click(function () {
+     $('input:checkbox').prop('checked', this.checked);
+    });*/
+
+
+
+    function deleteCourse() {
+        $('.table tbody').on('click', '.btn', function () {
+        $(this).closest('tr').remove();
+    });
+    }
+
+    function BacktoPlatform(ID) {
+        //alert('BacktoPlatform ' + ID);
+        $.ajax({
+            url: "/Platform/BacktoPlatform",
+            type: "GET",
+            data: {
+                'ID': ID
+            },
+            success: function(e) {
+                //alert(JSON.stringify(e));
+                window.location.href = '@Url.Content("~/Platform/EditPlatform/")' + e;
+
+            }
+        });
+    }
+
+    function LoadSubPlatformCourse(ID) {
+
+        //alert('LoadSubPlatformCourse ' + ID );
+
+        $.ajax({
+            url: "/Platform/LoadSubPlatformCourseByID",
+            type: "GET",
+            data: {
+                    'ID_SubPlatform' : ID
+                  },
+            success: function (e)
+            {
+                //alert(JSON.stringify(e));
+                RenderSubPlatormCourse(e);
+            }
+    })
+    .done(function (partialViewResult) {
+
+    });
+    }
+
+    function RenderSubPlatormCourse(e) {
+        //alert('RenderSubPlatormCourse');
+        $("#dtSubPlatformCourses tbody > tr").remove();
+            for (i = 0; i < e.length; i++) {
+                var row = $("<tr />");
+                $("#dtSubPlatformCourses tbody").append(row);
+                row.append('<td style="text-align:center">' + (i + 1) + '</td>');
+                row.append('<td style="text-align:center">' + e[i].ID + '</td>');
+                row.append('<td style="text-align:center">' + e[i].CourseID + '</td>');
+                row.append('<td style="text-align:center">' + e[i].CourseName + '</td>');
+                row.append('<td style="text-align:center">' + e[i].Course_LearnMethodName_EN + '</td>');
+                row.append('<td style="text-align:center">' + e[i].CourseStatus + '</td>');
+                row.append('<td class="text-center"><img src=@Url.Content("~/assets/images/svg/icon-delete-red.svg") class="btn"></img></td>');
+                row.append('<input type="hidden" id="hdSelect_RowIndex_' + i + '" name="hdSelect_RowIndex_' + i + '" value="' + e[i].ID + '" />');
+                //row.append('<input type="hidden" id="hdSelect_ID_' + e[i].RowIndex + '" name="hdSelect_ID_' + e[i].RowIndex + '" value="' + e[i].ID + '" />');
+                //row.append('<input type="hidden" id="hdSelect_CourseID_' + e[i].RowIndex + '" name="hdSelect_CourseID_' + e[i].RowIndex + '" value="' + e[i].CourseID + '" />');
+                //row.append('<input type="hidden" id="hdSelect_CourseName_' + e[i].RowIndex + '" name="hdSelect_CourseName_' + e[i].RowIndex + '" value="' + e[i].CourseName + '" />');
+                //row.append('<input type="hidden" id="hdSelect_Course_LearnMethodName_EN_' + e[i].RowIndexi + '" name="hdSelect_Course_LearnMethodName_EN_' + e[i].RowIndex + '" value="' + e[i].Course_LearnMethodName_EN + '" />');
+                //row.append('<input type="hidden" id="hdSelect_CourseStatus_' + e[i].RowIndex + '" name="hdSelect_CourseStatus_' + e[i].RowIndex + '" value="' + e[i].CourseStatus + '" />');
+        }
+    }
+
+    function ModalSelectCourse() {
+        //alert('SelectCourse');
+        var i = 1;
+        //var table = $('#dtSubPlatformCourses').DataTable();
+        var index = 1;
+        //$("#dtSubplatform tbody > tr").remove();
+         while ($("#selectCourse_" + i).val() === ("selectCourse_" + i)) {
+            if ($("#selectCourse_" + i).prop("checked")) {
+                  var row = $("<tr />");
+                $("#dtSubPlatformCourses tbody").append(row);
+                    row.append('<td style="text-align:center">' + index + '</td>');
+                    row.append('<td style="text-align:center">' + $("#hdSelect_ID_" + i).val() + '</td>');
+                    row.append('<td style="text-align:center">' + $("#hdSelect_CourseID_" + i).val() + '</td>');
+                    row.append('<td style="text-align:center">' + $("#hdSelect_CourseName_" + i).val() + '</td>');
+                    row.append('<td style="text-align:center">' + $("#hdSelect_Course_LearnMethodName_EN_" + i).val() + '</td>');
+                    row.append('<td style="text-align:center">' + $("#hdSelect_CourseStatus_" + i).val() + '</td>');
+                    row.append('<td class="text-center"><img src=@Url.Content("~/assets/images/svg/icon-delete-red.svg") class="btn"></img></td>');
+                    row.append('<input type="hidden" id="hdSelect_RowIndex_' + $("#hdSelect_RowIndex_" + i).val() + '" name="hdSelect_RowIndex_' + $("#hdSelect_RowIndex_" + i).val() + '" value="' + $("#hdSelect_RowIndex_" + i).val() + '" />');
+                    row.append('<input type="hidden" id="hdSelect_ID_' + $("#hdSelect_RowIndex_" + i).val() + '" name="hdSelect_ID_' + $("#hdSelect_RowIndex_" + i).val() + '" value="' + $("#hdSelect_ID_" + i).val() + '" />');
+                    row.append('<input type="hidden" id="hdSelect_CourseID_' + $("#hdSelect_RowIndex_" + i).val() + '" name="hdSelect_CourseID_' + $("#hdSelect_RowIndex_" + i).val() + '" value="' +$("#hdSelect_CourseID_" + i).val() + '" />');
+                    row.append('<input type="hidden" id="hdSelect_CourseName_' + $("#hdSelect_RowIndex_" + i).val() + '" name="hdSelect_CourseName_' + $("#hdSelect_RowIndex_" + i).val() + '" value="' + $("#hdSelect_CourseName_" + i).val() + '" />');
+                    row.append('<input type="hidden" id="hdSelect_Course_LearnMethodName_EN_' + $("#hdSelect_RowIndex_" + i).val() + '" name="hdSelect_Course_LearnMethodName_EN_' + i + '" value="' + $("#hdSelect_Course_LearnMethodName_EN_" + i).val() + '" />');
+                    row.append('<input type="hidden" id="hdSelect_CourseStatus_' + $("#hdSelect_RowIndex_" + i).val() + '" name="hdSelect_CourseStatus_' + $("#hdSelect_RowIndex_" + i).val() + '" value="' + $("#hdSelect_CourseStatus_" + i).val()  + '" />');
+                index++;
+            }
+            i++;
+        }
+        $('#modSearhCourse').modal('hide');
+        return false;
+    }
+
+    function LoadCourseLearnMethod() {
+        $('#selectLearnMetod').empty();
+         $.ajax({
+        url: "/Platform/GetAllCourseLearnMethod",
+        type: "GET",
+    }).done(function (items) {
+        var options = $('#selectLearnMetod');
+        options.append($("<option />").val(null).text("--- Select All---"));
+        $.each(items, function () {
+            options.append($("<option />").val(this.ID).text(this.Course_LearnMethodName_EN));
+        });
+        $('select[name="selectLearnMetod"]').val(null);
+    });
+    }
+
+    function SearchCourse() {
+            MessageController.BlockUI({ boxed: true, target: '#modSearhCourse' });
+            var searchmodel = {
+                CourseID: $("#txtFilterCourseID").val(),
+                CourseName: $("#txtFilterCourseName").val(),
+                CourseStatus: $("#selectCourseStatus").val(),
+                LearnMethod: $("#selectLearnMetod").val()
+            };
+
+            //alert('searmodel'+ JSON.stringify(searchmodel));
+
+            //alert('SearchCourse');
+            $.ajax({
+                url: "/Platform/SearchCourse",
+                type: "GET",
+                data: searchmodel,
+                success: function (e) {
+                    RendorCourse(e);
+                }
+            })
+                .done(function (partialViewResult) {
+                    //$('#CourseListContent').empty();
+                    //$('#CourseListContent').html(partialViewResult);
+                    //CreateDataTablePaging($);
+                });
+
+
+            function RendorCourse(e) {
+                // alert('RendorCourse');
+                $("#dtmodalCourse tbody > tr").remove();
+                for (i = 0; i < e.length; i++) {
+                    var row = $("<tr />");
+                    $("#dtmodalCourse tbody").append(row);
+                    row.append('<td style="text-align:center">' + (i + 1) + '</td>');
+                    row.append('<td style="text-align:center">' + e[i].RowIndex + '</td>');
+                    row.append('<td style="text-align:center">' + e[i].CourseID + '</td>');
+                    row.append('<td style="text-align:center">' + e[i].CourseName + '</td>');
+                    row.append('<td style="text-align:center">' + e[i].Course_LearnMethodName_EN + '</td>');
+                    row.append('<td style="text-align:center">' + e[i].CourseStatus + '</td>');
+                    row.append('<input type="hidden" id="hdSelect_RowIndex_' + i + '" name="hdSelect_RowIndex_' + i + '" value="' + e[i].ID + '" />');
+                    row.append('<input type="hidden" id="hdSelect_ID_' + i + '" name="hdSelect_ID_' + i + '" value="' + e[i].ID + '" />');
+                    row.append('<input type="hidden" id="hdSelect_CourseID_' + i + '" name="hdSelect_CourseID_' + i + '" value="' + e[i].CourseID + '" />');
+                    row.append('<input type="hidden" id="hdSelect_CourseName_' + i + '" name="hdSelect_CourseName_' + i + '" value="' + e[i].CourseName + '" />');
+                    row.append('<input type="hidden" id="hdSelect_Course_LearnMethodName_EN_' + i + '" name="hdSelect_Course_LearnMethodName_EN_' + i + '" value="' + e[i].Course_LearnMethodName_EN + '" />');
+                    row.append('<input type="hidden" id="hdSelect_CourseStatus_' + i + '" name="hdSelect_CourseStatus_' + i + '" value="' + e[i].CourseStatus + '" />');
+                    row.append('<td style="text-align:center"><input type="checkbox" style="text-align:center; name="selectCourse_' + i + '" value="selectCourse_' + i + '" id="selectCourse_' + i + '" /><label for="selectCourse_' + i + '"> </label> </td>');
+                }
+                if ($.fn.dataTable.isDataTable('#dtmodalCourse')) {
+                    var table = $('#dtmodalCourse').DataTable();
+                    table.destroy();
+                }
+                $('#dtmodalCourse').DataTable({
+                    'processing': true,
+                    'paging': true,
+                    "ordering": false,
+                    "searching": false,
+                    "lengthChange": false,
+                    "bAutoWidth": false,
+                    "Filter": false,
+                    "info": false,
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "pageLength": 5,
+                    "bJQueryUI": true, //Enable smooth theme
+                    "sPaginationType": "full_numbers", //Enable smooth theme
+                    "sDom": 'lfrtip'
+                });
+                $('.dataTables_length').addClass('bs-select');
+                MessageController.UnblockUI('#modSearhCourse');
+            }
+        }
+
+    function LoadSubPlatformCourseList( ID ) {
+             //alert('LoadSubPlatformCourseList : ' + ID );
+             dtData = $('#dtSubPlatformCourses').DataTable({
+                'processing': true,
+                  'serverSide': true,
+                  'paging': true,
+                  "ordering": false,
+                  "searching": false,
+                  "lengthChange": false,
+                  "bAutoWidth": false,
+                  "Filter": false,
+                  "info": false,
+                  "bPaginate": false,
+                  "bLengthChange": false,
+                  //"language": {
+                  //    "lengthMenu": "Display _MENU_ records per page",
+                  //    "zeroRecords": "    Nothing found - sorry",
+                  //    "info": "    page _PAGE_ of _PAGES_",
+                  //    "infoEmpty": "    No records available",
+                  //    "infoFiltered": "(filtered from _MAX_ total records)"
+                  //},
+                  "bJQueryUI": true, //Enable smooth theme
+                  "sPaginationType": "full_numbers", //Enable smooth theme
+                  "sDom": 'lfrtip',
+                 //retrieve: true,
+                 destroy: true,
+                'ajax': {
+                    'url': '@Url.Action("LoadSubPlatformCourse", "Platform")',
+                    'type': 'POST',
+                    'data': {
+                        'ID_SubPlatform': ID,
+                        'Keyword': '',
+                        "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
+                    },
+                },
+                'columns': [
+                    { data: 'rownumber' },
+                    { data: 'CourseID' },
+                    { data: 'CourseName' },
+                    { data: 'Course_LearnMethodName_EN' },
+                    { data: 'CourseStatus' },
+                    {
+                        "mData": "ID",
+                        "mRender": function (data, type, row) {
+
+                            var name = row['CourseName'];
+                            return "<a href='#' onclick=\"DeleteCourse('"+data+"','"+name+"') \"'><img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class='light-logo' alt='homepage' /></a>";
+                        }
+                    }
+                 ],
+                 "columnDefs": [
+                     { "orderable": false, "targets": 0, "className": "text-center",  "width": "4%" },
+                     { "orderable": false, "targets": 1, "className": "text-center" },
+                     { "orderable": false, "targets": 2, "className": "text-center" },
+                     { "orderable": false, "targets": 3, "className": "text-center" },
+                     { "orderable": false, "targets": 4, "className": "text-center" },
+                     { "orderable": false, "targets": 5, "className": "text-center" }
+                 ]
+            });
+    }
+
+    function DeleteCourse(ID, name) {
+        //alert('DeleteCourse : ' + ID);
+
+        MessageController.ConfirmCallback("Are you sure you want to delete Course '" + name + "' ?", "Confirm Delete!", function (res) {
+            if (res) {
+
+                $.ajax({
+                    url: "/Platform/DeleteSubPlatformCourse",
+                    type: "GET",
+                    data: {
+                        'ID_SubPlatform': $('#hID').val(),
+                        'ID_Course': ID
+                    },
+                    success: function (e) {
+                        alert('Delete Complete');
+                        LoadSubPlatformCourseList(e);
+                    },
+
+                })
+
+
+            }
+        });
+
+    }
+
+    function SaveSubPlatFormCourse() {
+        alert('SaveSubPlatFormCourse');
+        var model = [];
+        var i = 0;
+
+        while ($("#selectCourse_" + i).val() === ("selectCourse_" + i)) {
+            if ($("#selectCourse_" + i).prop("checked")) {
+                var obj = {
+                    ID_SubPlatform: $("#hID").val(), //SubPlatformID
+                    ID_Course: $("#hdSelect_ID_" + i).val(),
+                };
+                model.push(obj);
+            }
+            i++;
+        }
+
+        //alert(JSON.stringify(model));
+        //alert('Have ID : ' + $('#hID').val());
+        $.ajax({
+            url: "/Platform/InsertSubPlatformCourse",
+            type: "GET",
+            data: {
+                'model': JSON.stringify(model),
+                'ID_SubPlatform' :  $('#hID').val(),
+                'ID_Platform' : $("#hID_Platform").val()
+            },
+            success: function (e) {
+                 //window.location.href = '@Url.Content("~/Platform/EditPlatform/")' + e;
+
+                if (e.result) {
+                    alert(e.message);
+                    $('#modSearhCourse').modal('hide');
+                    LoadSubPlatformCourseList($('#hID').val());
+                }
+                else {
+                    alert(e.message);
+                }
+                 
+            },
+
+        });
+
+        return false;
+    }
+
+    function UpdateSubPlatform(ID_Platform, ID_SubPlatform) {
+         $.ajax({
+            url: "/Platform/UpdateSubPlatform",
+            type: "GET",
+             data: {
+                'ID_Platform' : ID_Platform,
+                'ID_SubPlatform' :  ID_SubPlatform,
+                'SubPlatformName_EN' : $('#txtSubPlatformName').val(),
+                'SubPlatformName_TH' : $('#txtSubPlatformName').val()
+            },
+            success: function (e) {
+                alert('Update Complete');
+                BacktoPlatform(ID_Platform);
+            },
+
+        });
+    }
+
+    </script>
+}

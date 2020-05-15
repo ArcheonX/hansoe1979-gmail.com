@@ -1,0 +1,58 @@
+﻿@model List<LDMS.ViewModels.LDMS_M_User>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<div class="panel panel-default" style="margin-top:-15px;width:100%;">
+    <div class="panel-body" style="width:100%;margin-top:25px;border-width: thin; border-style: solid;"> 
+            <table class="display dataTable" id="dtUserList">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;width:100px">#</th>
+                        <th style="text-align:center">Employee ID</th>
+                        <th style="text-align:center">Employee Name</th>
+                        <th style="text-align:center">Department</th>
+                        <th style="text-align:center;width:150px">Status(AD)</th>
+                        <th style="text-align: center;width:150px">Edit</th>
+                        <th style="text-align:center;width:150px;display:none">Delete</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var std in Model)
+                        {
+                    <tr>
+                        <td style="text-align:center">@std.RowIndex</td>
+                        <td style="text-align:center">@std.EmployeeID</td>
+                        <td style="text-align:center">@std.Name   @std.Surname</td>
+                        <td style="text-align:left">@std.LDMS_M_Department.DepartmentID  @std.LDMS_M_Department.DepartmentName_EN</td>
+                        <td style="text-align:center">
+                            @if (@std.IsAD)
+                            {
+                                <img src='@Url.Content("~/assets/images/svg/icon-check-green.svg")' class="light-logo" />
+                            }
+                            else
+                            {
+                                <img src='@Url.Content("~/assets/images/svg/icon-cross-red.svg")' class="light-logo" />
+                            }
+                        </td>
+                        <td style="text-align:center">
+                            <a onclick="EditEmployee('@std.EmployeeID')" style="cursor:pointer" id="btnEditEmployee">
+                                <img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")' class="light-logo svg-colorize-blue" alt="homepage" />
+                            </a>
+                        </td>
+                        <td style="text-align:center;display:none">
+                            @if (@std.IsAD || (@HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"] == @std.EmployeeID))
+                            {
+                                <img src='@Url.Content("~/assets/images/svg/icon-delete.svg")' class="light-logo" alt="homepage" />
+                            }
+                            else
+                            {
+                                <a onclick="DeleteEmployee('@std.EmployeeID')" style="cursor:pointer" id="btnDeleteEmployee"> <img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' class="light-logo" alt="homepage" /> </a>
+                            }
+                        </td> 
+                    </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+    </div>
+</div> 

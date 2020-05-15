@@ -1,0 +1,494 @@
+﻿@{
+    ViewData["Title"] = "User Profile";
+    ViewData["MainTitle"] = "I-Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+<div class="panel panel-primary" style="width:100%">
+    <div class="panel-body panel-body-begin">
+        <div class="form-horizontal">
+            <div class="row form-group" style="padding-top:5px;">
+                <div class="panel panel-default" style="width: 100%; border-width: thin; border-style: solid;">
+                    <div class="panel-body">
+                        <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                            <form id="frmUserEditor">
+                                <input type="hidden" id="userEditMode" value="false" />
+                                <input type="hidden" id="userCenterId" value="false" />
+                                <input type="hidden" id="userDivisionId" value="false" />
+                                <input type="hidden" id="userDepartmentId" value="false" />
+                                <input type="hidden" id="userSectionId" value="false" />
+
+                                <div class="row form-group">
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Employee ID <font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <input type="text"
+                                               title="Please Enter Employee ID"
+                                               id="txtEmployeeId"
+                                               style="width: 100%"
+                                               disabled
+                                               class="form-control required" />
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Job Grade<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <select id="selectJobGrade"
+                                                name="selectJobGrade"
+                                                disabled
+                                                title="Please Enter Job Grade"
+                                                class="form-control required"
+                                                style="width: 100%">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Employee Name<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <input type="text"
+                                               id="txtEmployeeName"
+                                               title="Please Enter Employee Name"
+                                               style="width: 100%"
+                                               disabled
+                                               placeholder="Employee Name"
+                                               class="form-control required" />
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <input type="text"
+                                               id="txtEmployeeSurName"
+                                               placeholder="Employee Surname"
+                                               title="Please Enter Employee Surname"
+                                               style="width: 100%"
+                                               disabled
+                                               class="form-control required" />
+                                    </div>
+
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Job Title<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <select id="selectJObTitle"
+                                                name="selectJObTitle"
+                                                title="Please Enter Job Title"
+                                                class="form-control required"
+                                                disabled
+                                                style="width: 100%">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Gender<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <select id="selectGender"
+                                                name="selectGender"
+                                                title="Please Enter Gender"
+                                                class="form-control required"
+                                                disabled
+                                                style="width: 100%">
+                                            <option value="null">Please select</option>
+                                            <option value="MALE">Male</option>
+                                            <option value="FEMALE">Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Center<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <select id="selectCenter"
+                                                name="selectCenter"
+                                                title="Please Enter Center"
+                                                class="form-control required"
+                                                disabled
+                                                style="width: 100%">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Nationality</label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <input type="text" id="txtNationality" disabled class="form-control input-sm" />
+                                    </div>
+
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Division<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <select id="selectDivision"
+                                                name="selectDivision"
+                                                title="Please Enter Division"
+                                                class="form-control required"
+                                                disabled
+                                                style="width: 100%">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Email</label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <input type="text"
+                                               title="Please Enter Email"
+                                               style="width: 100%"
+                                               id="txtEmail"
+                                               disabled
+                                               class="form-control" />
+                                    </div>
+
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Department<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <select id="selectDepartment"
+                                                name="selectDepartment"
+                                                title="Please Enter Department"
+                                                disabled
+                                                class="form-control required"
+                                                style="width: 100%">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Phone</label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <input type="text" id="txtPhone" disabled class="form-control input-sm" />
+                                    </div>
+
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Section<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <select id="selectSection"
+                                                name="selectSection"
+                                                title="Please Enter Section"
+                                                class="form-control required"
+                                                disabled
+                                                style="width: 100%">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Remark</label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <textarea id="txtRemark" disabled rows="5" style="width:100%"></textarea>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <label class="LabelCaption">Role<font color="#f60b0b">*</font></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <select id="selectRole"
+                                                name="selectRole"
+                                                title="Please Enter Role"
+                                                class="form-control required"
+                                                disabled
+                                                style="width: 100%">
+                                        </select>
+                                    </div> 
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-sm-2 col-md-2 offset-1">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <input type="checkbox" disabled="disabled" name="isInstructer" id="isInstructer" /><label for="isInstructer">Instructer</label>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <span class="pull-right" style="vertical-align:middle">
+                                            <input type="checkbox" disabled="disabled" name="isSectionHead" id="isSectionHead" /><label for="isSectionHead">Section Head</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row form-group">
+                                <div class="col-sm-2 col-md-2 offset-10">
+                                    <span class="pull-right">
+                                        <button id="btnChangePassword" class="btn btn-warning waves-effect waves-light" style="display:block;width:100%"> Change Password </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    (function ($) {
+        "use strict";
+        $(document).ready(function () {
+            $("#btnChangePassword").click(function () {
+                window.location.href = "/Account/ForceChange";
+            }); 
+            $.ajax({
+                type: "GET",
+                url: "/Account/ReadEmployee",
+                data: { "employeeId": CookiesController.getCookie("EMPLOYEEID")},
+                success: function (response) {
+                    var user = response.Data; 
+                    $("#txtEmployeeId").val(user.EmployeeId);
+                    $("#txtEmployeeName").val(user.EmployeeName);
+                    $("#txtEmployeeSurName").val(user.EmployeeSurName);
+                    $("#txtNationality").val(user.Nationality);
+                    $("#txtEmail").val(user.Email);
+                    $("#txtPhone").val(user.PhoneNumber);
+                    $("#txtRemark").val(user.Remark);
+                    $('select[name="selectGender"]').val(user.Gender).trigger('change');
+                    if (user.IsInstructer == true) {
+                        $("#isInstructer").prop("checked", true);
+                    } else {
+                        $("#isInstructer").prop("checked", false);
+                    }
+
+                    if (user.IsSectionHead == true) {
+                        $("#isSectionHead").prop("checked", true);
+                    } else {
+                        $("#isSectionHead").prop("checked", false);
+                    }
+                    $.ajax({
+                        type: "GET",
+                        url: "/Master/GetAllJobGrades",
+                        success: function (response) {
+                            var options = $('#selectJobGrade');
+                            options.append($("<option />").val(null).text("Please select"));
+                            $.each(response.Data, function () {
+                                options.append($("<option />").val(this.ID).text(this.JobGradeName_EN));
+                            });
+                            $('select[name="selectJobGrade"]').val(user.JobGradeId).trigger('change');
+                        },
+                        failure: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        },
+                        error: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        }
+                    });
+                    $.ajax({
+                        type: "GET",
+                        url: "/Master/GetAllJobTitles",
+                        success: function (response) {
+                            var options = $('#selectJObTitle');
+                            options.append($("<option />").val(null).text("Please select"));
+                            $.each(response.Data, function () {
+                                options.append($("<option />").val(this.ID).text(this.JobTitleName_EN));
+                            });
+                            $('select[name="selectJObTitle"]').val(user.JobTitleId).trigger('change');
+                        },
+                        failure: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        },
+                        error: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        }
+                    }); 
+                    $.ajax({
+                        type: "GET",
+                        url: "/Master/GetAllCenters",
+                        success: function (response) {
+                            var options = $('#selectCenter');
+                            options.append($("<option />").val(null).text("Please select"));
+                            $.each(response.Data, function () {
+                                options.append($("<option />").val(this.ID).text(this.CenterName_EN));
+                            });
+                            $('select[name="selectCenter"]').val(user.CenterId).trigger('change');
+                        },
+                        failure: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        },
+                        error: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        }
+                    }); 
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Master/GetAllDivisions",
+                        //data: { "centerId": user.CenterId},
+                        success: function (response) {
+                            var options = $('#selectDivision');
+                            options.append($("<option />").val(null).text("Please select"));
+                            $.each(response.Data, function () {
+                                options.append($("<option />").val(this.ID).text('(' + this.DivisionID + ') ' + this.DivisionName_EN));
+                            });
+                            $('select[name="selectDivision"]').val(user.DivisionId).trigger('change');
+                        },
+                        failure: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        },
+                        error: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        }
+                    }); 
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Master/GetAllDepartments",
+                        //data: { "divisionId": user.DivisionId },
+                        success: function (response) {
+                            var options = $('#selectDepartment');
+                            options.append($("<option />").val(null).text("Please select"));
+                            $.each(response.Data, function () {
+                                options.append($("<option />").val(this.ID_Department).text('(' + this.DepartmentID + ') ' + this.DepartmentName_EN));
+                            });
+                            $('select[name="selectDepartment"]').val(user.DepartmentId).trigger('change');
+                        },
+                        failure: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        },
+                        error: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        }
+                    }); 
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Master/GetAllSections",
+                        //data: { "departmentId": user.DepartmentId },
+                        success: function (response) {
+                            var options = $('#selectSection');
+                            options.append($("<option />").val(null).text("Please select"));
+                            $.each(response.Data, function () {
+                                options.append($("<option />").val(this.ID).text('(' + this.SectionID + ') ' + this.SectionName_EN));
+                            });
+                            $('select[name="selectSection"]').val(user.SectionId).trigger('change');
+                        },
+                        failure: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        },
+                        error: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        }
+                    }); 
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Master/GetAllRoles",
+                        //data: { "departmentId": user.DepartmentId },
+                        success: function (response) {
+                            var options = $('#selectRole');
+                            options.append($("<option />").val(null).text("Please select"));
+                            $.each(response.Data, function () {
+                                options.append($("<option />").val(this.RoleId).text(this.RoleName_EN));
+                            });
+                            $('select[name="selectRole"]').val(user.RoleId).trigger('change');
+                        },
+                        failure: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        },
+                        error: function (response) {
+                            if (JSON.parse(response.responseText).Errors.length > 0) {
+                                MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                            } else {
+                                MessageController.Error(response.responseText, "Error");
+                            }
+                        }
+                    }); 
+                },
+                failure: function (response) {
+                    if (JSON.parse(response.responseText).Errors.length > 0) {
+                        MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                    } else {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                },
+                error: function (response) {
+                    if (JSON.parse(response.responseText).Errors.length > 0) {
+                        MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                    } else {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                }
+            }); 
+        })
+    })(jQuery);
+</script>

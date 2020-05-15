@@ -1,0 +1,1147 @@
+﻿
+@{
+    ViewData["Title"] = "Class Information";
+    ViewData["MainTitle"] = "I-Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model LDMS.ViewModels.LDMS_T_Class;
+<div class="panel panel-primary" style="margin-top:-15px;width:100%;">
+    <form id="frmClassDetailEditor">
+        <div class="panel-body" style="width:100%;">
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                <div class="row form-group">
+                    <div class="col-sm-1 col-md-3">
+                        <h4><span class="pull-right">Class Infomation</span></h4>
+                    </div>
+                    <div class="col-sm-2 col-md-2 offset-5">
+                        <a id="btnSaveClass" onclick="SaveClass();" class="btn btn-outline-success waves-effect waves-light" style="width:90%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/save.svg" />&nbsp;&nbsp;Save
+                        </a>
+                    </div>
+                    <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                        <a id="btnBack" onclick="BacktoCourse(@Model.ID_Course)" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:90%;">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="divEvaluation" style="border-width:thin; border-style:solid; margin-left:20px; display:block; margin-top: 5px; margin-bottom:20px; width:95%;display:block">
+            </div>
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+
+                @if (Model != null)
+                {
+                    <input type="hidden" id="hID" name="hID" value=@Model.ID />
+                    <input type="hidden" id="hID_Class" name="hID_Class" value=@Model.ClassID />
+                    <input type="hidden" id="hID_LMS_PACD_courseID" name="hID_LMS_PACD_courseID" value=@Model.LMS_PACD_courseID />
+                    <input type="hidden" id="hID_Course" name="hID_Course" value=@Model.ID_Course />
+                    <input type="hidden" id="hID_LearnMethod" name="hID_LearnMethod" value=@Model.ID_LearnMethod />
+                    <input type="hidden" id="hID_CourseName" name="hID_CourseName" value=@Model.CourseName />
+                    <input type="hidden" id="hID_LearnTimeStart" name="hID_LearnTimeStart" value=@Model.LearnTimeStart />
+                    <input type="hidden" id="hID_LearnTimeEnd" name="hID_LearnTimeEnd" value=@Model.LearnTimeEnd />
+                    <input type="hidden" id="hID_PlantVenue" name="hID_PlantVenue" value=@Model.ID_PlantVenue />
+                    <input type="hidden" id="hID_VenueRoom" name="hID_VenueRoom" value=@Model.ID_VenueRoom />
+                    <input type="hidden" id="hID_PlaceLocation" name="hID_PlaceLocation" value=@Model.PlaceAndLocation />
+                    <input type="hidden" id="hID_ClassStatus" name="hID_ClassStatus" value=@Model.ClassStatus />
+                    <input type="hidden" id="hID_IsAttend" name="hID_IsAttend" value=@Model.IsAttend />
+                    <input type="hidden" id="hID_AttendNum" name="hID_AttendNum" value=@Model.AttendNum />
+                    <input type="hidden" id="hID_IsTest" name="hID_IsTest" value=@Model.IsTest />
+                    <input type="hidden" id="hID_TestFullScore" name="hID_TestFullScore" value=@Model.TestFullScore />
+                    <input type="hidden" id="hID_TestPercentage" name="hID_TestPercentage" value=@Model.TestPercentage />
+                    <input type="hidden" id="hID_IsSkill" name="hID_IsSkill " value=@Model.IsSkill />
+                    <input type="hidden" id="hID_IsCoaching" name="hID_IsCoaching" value=@Model.IsCoaching />
+                    <input type="hidden" id="hID_IsCertificate" name="hID_IsCertificate" value=@Model.IsCertificate />
+                    <input type="hidden" id="hID_IsAttachCert" name="hID_IsAttachCert" value=@Model.IsAttachCert />
+                    <input type="hidden" id="hInstructorID" name="hInstructorID" value=@Model.ID_Instructor />
+
+                    <!--<input type="hidden" id="hID_Plant" name="hID_Plant" value=@HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"] />-->
+                }
+                else
+                {
+                    <input type="hidden" id="hID" name="hID" value=null />
+                    <input type="hidden" id="hInstructorID" name="hInstructorID" value=null />
+                }
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Class ID</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="text"
+                               title="Auto Gen"
+                               id="txtClassID"
+                               value="Auto Genarate"
+                               asp-for="ClassID"
+                               disabled="disabled"
+                               style="width: 100%"
+                               class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">LDMS/PACD Course ID <font color="#f60b0b">*</font></label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="text"
+                               id="txtLDMSCourseID"
+                               asp-for="LMS_PACD_courseID"
+                               style="width: 100%"
+                               class="form-control input-sm"
+                               disabled />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Course Name</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="text"
+                               id="txtCourseName"
+                               asp-for="CourseName"
+                               disabled="disabled"
+                               style="width: 100%"
+                               class="form-control input-sm" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Instructor</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+
+                        <input type="text"
+                               id="txtInstructor"
+                               asp-for="InstructorName"
+                               disabled="disabled"
+                               style="width: 100%"
+                               class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <a id="findInstructor" class="btn" onclick="OpenModalInstructor()"><i class="fa fa-search"></i> </a>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Capacity</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="number"
+                               id="txtCapacity"
+                               asp-for="ClassCapacity"
+                               style="width: 100%"
+                               class="form-control input-sm" />
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Class Fee</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="number"
+                               id="txtClassFee"
+                               asp-for="ClassFee"
+                               style="width: 100%"
+                               class="form-control input-sm" />
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Fee Per Person</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <input type="number"
+                               id="txtFeePerson"
+                               style="width: 100%"
+                               value="0"
+                               disabled="disabled"
+                               class="form-control input-sm" />
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Learning Date <font color="#f60b0b">*</font></label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input id="dteLearningDateFrm" asp-for="LearnDateStart_Show" type="datetime" autocomplete="off" class="form-control" style="width: 100%" />
+                    </div>&nbsp;&nbsp;
+                    <div class="col-sm-2 col-md-2">
+                        <select id="selectTimeFrom"
+                                name="selectTimeFrom"
+                                title="Please Select Time"
+                                class="form-control"
+                                style="width: 100%">
+                        </select>
+
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <span class="pull-right">
+                            <label class="LabelCaption">To <font color="#f60b0b">*</font></label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input id="dteLearningDateTo" asp-for="LearnDateEnd_Show" type="datetime" autocomplete="off" class="form-control" style="width: 100%" />
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <select id="selectTimeTo"
+                                name="selectTimeTo"
+                                title="Please Select Time"
+                                class="form-control"
+                                style="width: 100%">
+                        </select>
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Register Date</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input id="dteRegisterDateFrm" asp-for="RegisterDateStart_Show" type="datetime" autocomplete="off" class="form-control" style="width: 100%" />
+                    </div>To
+
+                    <div class="col-sm-2 col-md-2">
+                        <input id="dteRegisterDateTo" asp-for="RegisterDateEnd_Show" type="datetime" autocomplete="off" class="form-control" style="width: 100%" />
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                <div class="row form-group">
+                    <div class="col-sm-1 col-md-2">
+                        <h4 style="font-size:large"><span class="pull-right">Venue</span></h4>
+                    </div>
+                    <div class="col-sm-1 col-md-1 offset-7"></div>
+                </div>
+            </div>
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Plant</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <select id="selectPlant"
+                                name="selectPlant"
+                                title="Please Enter Plant"
+                                class="form-control required"
+                                onchange="changePlant(this)"
+                                style="width: 100%">
+                        </select>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-left">
+                            <label class="LabelCaption">Place and Location</label>
+                        </span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Room</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <select id="selectRoom"
+                                name="selectRoom"
+                                title="Please Enter Room"
+                                class="form-control required"
+                                style="width: 100%">
+                        </select>
+                    </div>
+
+                    <div class="col-sm-5 col-md-5">
+                        <input type="text"
+                               id="txtPlace"
+                               style="width: 100%"
+                               class="form-control input-sm" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                <div class="row form-group">
+                    <div class="col-sm-1 col-md-3">
+                        <h4><span class="pull-right">Evaluation Criteria</span></h4>
+                    </div>
+                    <div class="col-sm-1 col-md-1 offset-7">
+
+                    </div>
+                    <div class="col-sm-1 col-md-1" style="margin-left:-25px">
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="divEvaluation" style="border-width:thin; border-style:solid; margin-left:20px; display:block; margin-top: 5px; margin-bottom:20px; width:95%;display:block">
+            </div>
+            <div class="form-horizontal" style="margin-right: 25px; margin-left: -25px; margin-top: 25px">
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Attend</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <input type='checkbox'
+                               name='chkAttend'
+                               value='@Model.IsAttend'
+                               id="chkAttend" /><label for="chkAttend" style="top:4px"> </label>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Test</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <input type='checkbox'
+                               name='chkTest'
+                               value='@Model.IsTest'
+                               id="chkTest"
+                               onclick="" /><label for="chkTest" style="top:4px"> </label>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Skill</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <input type='checkbox'
+                               name='chkSkill'
+                               value='@Model.IsSkill'
+                               id="chkSkill"
+                               onclick="" /><label for="chkSkill" style="top:4px"> </label>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Coaching</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <input type='checkbox'
+                               name='chkCoaching'
+                               value='@Model.IsCoaching'
+                               id="chkCoaching"
+                               onclick="" /><label for="chkCoaching" style="top:4px"> </label>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Certificate</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <input type='checkbox'
+                               name='chkCert'
+                               value='@Model.IsCertificate'
+                               id="chkCert"
+                               onclick="" /><label for="chkCert" style="top:4px"> </label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Scan</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input type="number"
+                               id="txtAttendNum"
+                               disabled="disabled"
+                               style="width: 100%"
+                               class="form-control input-sm" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Test Full Score</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input type="number"
+                               id="txtTestFullScore"
+                               asp-for="TestFullScore"
+                               style="width: 100%"
+                               disabled="disabled"
+                               class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-1 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">% Pass</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input type="number"
+                               id="txtPercentTestPass"
+                               asp-for="TestPercentage"
+                               style="width: 100%"
+                               disabled="disabled"
+                               class="form-control input-sm" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Skill Full Score</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input type="number"
+                               id="txtSkillFullScore"
+                               asp-for="SkillFullScore"
+                               style="width: 100%"
+                               disabled="disabled"
+                               class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-1 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">% Pass</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input type="number"
+                               id="txtPercentSkillPass"
+                               style="width: 100%"
+                               asp-for="SkillPercentage"
+                               disabled="disabled"
+                               class="form-control input-sm" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Certification</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input type="text"
+                               id="txtCertification"
+                               asp-for="CertificationRemark"
+                               style="width: 100%"
+                               disabled="disabled"
+                               class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Add Certificate</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <input type='checkbox'
+                               name='chkCertification'
+                               value='@Model.IsAttachCert'
+                               id="chkCertification"
+                               disabled="disabled" /><label for="chkCertification" style="top:4px"> </label>
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Reminder Duratioin</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <input type="number"
+                               id="txtReDuratioin"
+                               asp-for="ReminderDurationDay"
+                               style="width: 100%"
+                               disabled="disabled"
+                               class="form-control input-sm" />
+                    </div>
+
+                    <div class="col-sm-1 col-md-1">
+                        <span class="pull-left">
+                            <label class="LabelCaption">Day</label>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+    <div class="modal" id="modSearhInstructor" tabindex="-1" role="dialog" aria-labelledby="modAlertLabel" aria-hidden="false" data-backdrop="true" data-keyboard="false">
+        <div class="modal-dialog modal-lg" style="background-color:white;border-radius:2%;width:150%">
+            <div class="modal-content" style="margin-top:100px;width:120%">
+                <div class="modal-header card-header">
+                    <h4 class="modal-title" id="lblMATiltle">Search Instructor</h4>
+                </div>
+                <div class="modal-body" style="min-height:20px">
+                    <div class="form-horizontal" style="margin-top:20px">
+                        <div class="row form-group" style="margin-top:10px">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Instructor ID</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-2 col-md-4">
+                                <input type="text" id="txtFilterInstructorID" class="form-control input-sm" required />
+                            </div>
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right">
+                                    <label class="LabelCaption">Instructor Name</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" id="txtFilterInstructorName" class="form-control input-sm" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right" style="vertical-align:middle">
+                                    <label class="LabelCaption">Type</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <select id="selectInstructorType"
+                                        name="selectInstructorType"
+                                        title="Please Enter Type"
+                                        class="form-control required"
+                                        style="width: 100%">
+                                    <option value="ALL">All</option>
+                                    <option value="INT">Internal</option>
+                                    <option value="EXT">External</option>
+                                </select>
+
+                            </div>
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right" style="vertical-align:middle">
+                                    <label class="LabelCaption">Organization</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" id="txtFilterOrg" class="form-control input-sm" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2 col-md-2">
+                                <span class="pull-right" style="vertical-align:middle">
+                                    <label class="LabelCaption">Experience</label>
+                                </span>
+                            </div>
+                            <div class="col-sm-10 col-md-10">
+                                <input type="text" id="txtFilterExperience" class="form-control input-sm" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-3 col-md-3" style="margin-left:25rem; margin-top:20px">
+                                <a id="btnSearch" class="btn btn-outline-secondary waves-effect waves-light" style="width:70%" onclick="SearchInstructor();">
+                                    <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" />&nbsp;&nbsp;Search
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" style="overflow-y:auto; height:300px">
+                        <table class="display dataTable" id="dtInstructor" style="padding-top:5px">
+                            <thead class="sticky-top">
+                                <tr>
+                                    <!--<th style="text-align:center;width:100px">No</th>-->
+                                    <th style="text-align:center">Instructor ID</th>
+                                    <th style="text-align:center">Instructor Name</th>
+                                    <th style="text-align:center">Type</th>
+                                    <th style="text-align:center">Organization</th>
+                                    <th>
+                                        Select
+                                        <!--<input type='checkbox'
+                                        name='selectIns_all'
+                                        value='selectIns_all'
+                                        id="selectIns_all"
+                                        onclick="checkInstructorAll(this)" /><label for="selectIns_all" style="top:15px"> </label>-->
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row form-group" style="align-items:center">
+                    <div class="col-sm-1 col-md-2 offset-10" style="margin-left:20rem; margin-top:20px">
+                        <a id="btnSave" class="btn btn-outline-primary waves-effect waves-light" style="width:100%" onclick="return SelectInstructor();">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/right.svg" />&nbsp;&nbsp;Select
+                        </a>
+                    </div>
+                    <div class="col-sm-1 col-md-2" style="margin-top:20px">
+                        <a id="btnClose" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:100%" onclick="CloseModalInstructor()">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/closed-red.svg" />&nbsp;&nbsp;Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+
+    <script type="text/javascript">
+    //alert('document');
+    $(document).ready(function () {
+        $("input[type='datetime']").datepicker();
+
+       /*$("#dteLearningDateFrm([readonly])").datepicker()
+            .focus(function() {
+                $(this).prop("autocomplete", "off");
+                //              return false;
+            });*/
+
+        //alert($('#hID').val());
+
+        LoadTime();
+        loadPlant();
+        LoadClass();
+        validation();
+       
+
+        GetClassRemain($('#hID').val());
+        if ($('#hID_ClassStatus').val() === '30') {
+            
+            document.getElementById("chkAttend").disabled = true;
+            document.getElementById("chkTest").disabled = true;
+            document.getElementById("chkSkill").disabled = true;
+            document.getElementById("chkCoaching").disabled = true;
+            document.getElementById("chkCert").disabled = true;
+            document.getElementById("txtAttendNum").disabled = true;
+            document.getElementById("txtTestFullScore").disabled = true;
+            document.getElementById("txtPercentTestPass").disabled = true;
+            document.getElementById("txtSkillFullScore").disabled = true;
+            document.getElementById("txtPercentSkillPass").disabled = true;
+            document.getElementById("txtCertification").disabled = true;
+            document.getElementById("chkCertification").disabled = true;
+            document.getElementById("txtAttendNum").disabled = true;
+            document.getElementById("txtReDuratioin").disabled = true;
+            
+        }
+
+        // check LMS & PACD
+        if ($('#hID_LearnMethod').val() == 3 || $('#hID_LearnMethod').val() == 4 ) {
+            document.getElementById("txtLDMSCourseID").disabled = false;
+        }
+
+
+        $('#txtCapacity').keyup(function() {
+            $('#txtFeePerson').val($('#txtClassFee').val() / $('#txtCapacity').val());
+
+            if ($('#txtFeePerson').val() == 'Infinity' || $('#txtFeePerson').val() == 'NaN') {
+                $('#txtFeePerson').val(0);
+            }
+        });
+
+        $('#txtClassFee').keyup(function() {
+            $('#txtFeePerson').val($('#txtClassFee').val() / $('#txtCapacity').val());
+
+             if ($('#txtFeePerson').val() == 'Infinity' || $('#txtFeePerson').val() == 'NaN') {
+                $('#txtFeePerson').val(0);
+            }
+        });
+    });
+
+    function endAfterStart(start, end) {
+            var ds = new Date(start);
+            var dt = new Date(end);
+          return ds < dt;
+        }
+
+
+    function validation() {
+
+        /*$('#dteLearningDateTo').change(function () {
+
+            if (!endAfterStart($('#dteLearningDateFrm').val(), $('#dteLearningDateTo').val())) {
+                alert('กรุณาเลือกช่วงวันที่เรียนให้ถูกต้อง');
+            }
+        });
+
+
+        $('#dteLearningDateFrm').change(function () {
+
+            if (!endAfterStart($('#dteLearningDateFrm').val(), $('#dteLearningDateTo').val())) {
+                alert('กรุณาเลือกช่วงวันที่เรียนให้ถูกต้อง');
+            }
+        });
+
+         $('#dteRegisterDateFrm').change(function () {
+
+            if (!endAfterStart($('#dteRegisterDateFrm').val(), $('#dteRegisterDateTo').val())) {
+                alert('กรุณาเลือกช่วงวันที่ลงทะเบียนให้ถูกต้อง');
+            }
+         });
+
+         $('#dteRegisterDateTo').change(function () {
+
+            if (!endAfterStart($('#dteRegisterDateFrm').val(), $('#dteRegisterDateTo').val())) {
+                alert('กรุณาเลือกช่วงวันที่ลงทะเบียนให้ถูกต้อง');
+            }
+        });*/
+
+       $("#chkAttend").change( function(){
+           if( $(this).is(':checked') ) {
+               $("#txtAttendNum").val("1");
+               $("#chkAttend").val("1");
+               document.getElementById("txtAttendNum").disabled = false;
+            }else{
+
+               $("#txtAttendNum").val("");
+               $("#chkAttend").val("0");
+               document.getElementById("txtAttendNum").disabled = true;
+           }
+       });
+
+
+         $("#chkTest").change( function(){
+             if ($(this).is(':checked')) {
+               $("#chkTest").val("1");
+               document.getElementById("txtTestFullScore").disabled = false;
+               document.getElementById("txtPercentTestPass").disabled = false;
+            }else{
+               $("#chkTest").val("0");
+               document.getElementById("txtTestFullScore").disabled = true;
+               document.getElementById("txtPercentTestPass").disabled = true;
+
+           }
+         });
+
+         $("#chkSkill").change( function(){
+             if ($(this).is(':checked')) {
+                 $("#chkSkill").val("1");
+               document.getElementById("txtSkillFullScore").disabled = false;
+               document.getElementById("txtPercentSkillPass").disabled = false;
+            }else{
+               $("#chkSkill").val("0");
+               document.getElementById("txtSkillFullScore").disabled = true;
+               document.getElementById("txtPercentSkillPass").disabled = true;
+           }
+         });
+
+        $("#chkCert").change( function(){
+            if ($(this).is(':checked')) {
+                $("#chkCert").val("1");
+               document.getElementById("txtCertification").disabled = false;
+               document.getElementById("txtReDuratioin").disabled = false;
+               document.getElementById("chkCertification").disabled = false;
+            } else {
+                $("#chkCert").val("0");
+               document.getElementById("txtCertification").disabled = true;
+               document.getElementById("txtReDuratioin").disabled = true;
+               document.getElementById("chkCertification").disabled = true;
+           }
+        });
+
+        $("#chkCertification").change( function(){
+            if ($(this).is(':checked')) {
+                $("#chkCertification").val("1");
+
+            } else {
+                $("#chkCertification").val("0");
+
+           }
+        });
+
+
+         $("#chkCoaching").change( function(){
+            if ($(this).is(':checked')) {
+                $("#chkCoaching").val("1");
+
+            } else {
+                $("#chkCoaching").val("0");
+
+           }
+        });
+    }
+
+    function LoadClass() {
+        if ($('#hID').val() != '0') {
+            $('#txtCourseName').val($('#hID_CourseName').val());
+            $('#txtFeePerson').val($('#txtClassFee').val() / $('#txtCapacity').val());
+
+            if ($('#txtFeePerson').val() == 'Infinity' || $('#txtFeePerson').val() == 'NaN') {
+                $('#txtFeePerson').val(0);
+            }
+        }
+
+        if ($('#hID_IsAttend').val() == "1") {
+            $('#chkAttend').prop('checked', true);
+             document.getElementById("txtAttendNum").disabled = false;
+        }
+
+        if ($('#hID_IsTest').val() == "1") {
+            $('#chkTest').prop('checked', true);
+            document.getElementById("txtTestFullScore").disabled = false;
+            document.getElementById("txtPercentTestPass").disabled = false;
+        }
+
+        if ($('#hID_IsSkill').val() == "1") {
+            $('#chkSkill').prop('checked', true);
+            document.getElementById("txtSkillFullScore").disabled = false;
+            document.getElementById("txtPercentSkillPass").disabled = false;
+        }
+
+        if ($('#hID_IsCoaching').val() == "1") {
+            $('#chkCoaching').prop('checked', true);
+        }
+
+        if ($('#hID_IsCertificate').val() == "1") {
+            $('#chkCert').prop('checked', true);
+        }
+
+        if ($('#hID_IsAttachCert').val() == "1") {
+            $('#chkCertification').prop('checked', true);
+             document.getElementById("txtCertification").disabled = false;
+             document.getElementById("txtReDuratioin").disabled = false;
+             document.getElementById("chkCertification").disabled = false;
+        }
+
+        $('#txtPlace').val($('#hID_PlaceLocation').val());
+        $('#txtAttendNum').val($('#hID_AttendNum').val());
+        $('#txtCourseName').val($('#hID_CourseName').val());
+        $('#txtClassID').val($('#hID_Class').val());
+    }
+
+    function changePlant(sel) {
+        //$('#selectRoom').empty();
+        var plantId = sel.value;
+        //alert(' changePlant plantId ' + plantId);
+        ReloadVenuRoom($, plantId, null);
+    }
+
+    function OpenModalInstructor() {
+        $('#modSearhInstructor').modal('toggle');
+        SearchInstructor();
+
+    }
+
+    function CloseModalInstructor() {
+         $("#dtInstructor tbody > tr").remove();
+         $('#modSearhInstructor').modal('hide');
+    }
+
+    function LoadTime() {
+        $('#selectTimeFrom').empty();
+        $('#selectTimeTo').empty();
+        $.ajax({
+        url: "/Courses/GetTime",
+        type: "GET",
+            }).done(function (items) {
+                 var options = $('#selectTimeFrom');
+                 var options1 = $('#selectTimeTo');
+
+                 //options.append($("<option />").val(null).text("Please Select"));
+                 //options1.append($("<option />").val(null).text("Please Select"));
+                $.each(items, function () {
+                    options.append($("<option />").val(this.Key).text(this.value));
+                    options1.append($("<option />").val(this.key).text(this.value));
+                });
+
+                //$('#selectTimeFrom').find('option:selected').text($('#hID_LearnTimeStart').val());
+                if ($('#hID_LearnTimeStart').val() != "") {
+                    $('select[name="selectTimeFrom"]').val($('#hID_LearnTimeStart').val());
+                }
+
+                if ($('#hID_LearnTimeEnd').val() != "") {
+                    $('select[name="selectTimeTo"]').val($('#hID_LearnTimeEnd').val());
+                }
+       });
+    }
+
+    function loadPlant() {
+        //alert('hID_PlantVenue ' + $('#hID_PlantVenue').val());
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetAllPlants",
+            success: function (response) {
+                var options = $('#selectPlant');
+                options.append($("<option />").val(null).text("Please select"));
+                $.each(response.Data, function () {
+                    options.append($("<option />").val(this.ID_Plant).text(this.PlantName_EN));
+                });
+                if ($('#hID_PlantVenue').val() != "0") {
+                    $('select[name="selectPlant"]').val($('#hID_PlantVenue').val()).trigger('change');
+                }
+                else {
+                    $('select[name="selectPlant"]').val(null).trigger('change');
+                }
+            },
+            failure: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            },
+            error: function (response) {
+                MessageController.Error(response.responseText, "Error");
+            }
+        });
+    }
+
+    function ReloadVenuRoom($, plantId, callback) {
+
+        //alert('hID_VenueRoom ' + $('#hID_VenueRoom').val());
+
+        var options = $('#selectRoom');
+            options.empty();
+            if (plantId && plantId != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "/Courses/GetVenuRoomByPlantID",
+                    data: {
+                        ID_Plant : plantId
+                    },
+                    success: function (response) {
+                        options.append($("<option />").val(null).text("Please select"));
+                        $.each(response, function () {
+                            //if (this.ID_Plant == plantId) {
+                                options.append($("<option />").val(this.ID).text(this.RoomName_EN));
+                            //}
+                        });
+
+                        if ($('#hID_VenueRoom').val() != "0") {
+                            $('select[name="selectRoom"]').val($('#hID_VenueRoom').val()).trigger('change');
+                        }
+                        else {
+                             $('select[name="selectRoom"]').val(null).trigger('change');
+                        }
+
+                        if (callback) {
+                            //callback($("#userDivisionId").val());
+                        }
+                    },
+                    failure: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    },
+                    error: function (response) {
+                        MessageController.Error(response.responseText, "Error");
+                    }
+                });
+            }
+    }
+
+    function SearchInstructor() {
+        //alert('SearchInstructor');
+        $.ajax({
+            url: "/Courses/InstructorSearch",
+            type: "Post",
+            data: {
+                    'InstructorID': $("#txtFilterInstructorID").val(),
+                    'InstructorName': $("#txtFilterInstructorName").val(),
+                    'Type': $("#selectInstructorType").val(),
+                    'Organization':  $("#txtFilterOrg").val(),
+                    'Experience': $("#txtFilterExperience").val(),
+                    "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
+            },
+            success: function (e) {
+                RendorInstructor(e);
+            }
+        })
+    }
+
+    function RendorInstructor(e) {
+
+        //alert('RendorEmployee');
+        if ($.fn.dataTable.isDataTable('#dtInstructor')) {
+                var table = $('#dtInstructor').DataTable();
+                table.destroy();
+            }
+
+            $("#dtInstructor tbody > tr").remove();
+                for (i = 0; i < e.length; i++) {
+                    var row = $("<tr />");
+                    $("#dtInstructor tbody").append(row);
+                    //row.append('<td style="text-align:center">' + e[i].rownumber +'</td>');
+                    row.append('<td style="text-align:center">' + e[i].Instructor_ID + '</td>');
+                    row.append('<td style="text-align:center">' + e[i].Instructor_Name + '</td>');
+                    row.append('<td style="text-align:center">' + e[i].TypeName + '</td>');
+                    row.append('<td style="text-align:center">' + e[i].Organization + '</td>');
+                    //row.append('<td style="text-align:center">' + e[i].Course_Experience + '</td>');
+                    row.append('<input type="hidden" id="hdSelect_ID_' + i + '" name="hdSelect_ID_' + i + '" value="' + e[i].ID + '" />');
+                    row.append('<input type="hidden" id="hdSelect_InstructorName_' + i + '" name="hdSelect_InstructorName_' + i + '" value="' + e[i].Instructor_Name + '" />');
+                    row.append('<td style="text-align:center"><input type="checkbox" class="chkSingle" style="text-align:center; name="selectInstructor_' + i + '" value="selectInstructor_' + i + '" id="selectInstructor_' + i + '"/><label for="selectInstructor_'+ i +'"> </label> </td>');
+        }
+        $('#dtInstructor').DataTable({
+                'processing': true,
+                'paging': true,
+                "ordering": false,
+                "searching": false,
+                "lengthChange": false,
+                "bAutoWidth": false,
+                "Filter": false,
+                "info": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "pageLength": 8,
+                "bJQueryUI": true, //Enable smooth theme
+                "sPaginationType": "full_numbers", //Enable smooth theme
+                "sDom": 'lfrtip'
+            });
+            $('.dataTables_length').addClass('bs-select');
+
+    }
+
+    function SelectInstructor() {
+            var ID = '';
+            var Instructor_ID = '';
+            var i = 0;
+            var count = 0;
+            while ($("#selectInstructor_" + i).val() === ("selectInstructor_" + i)) {
+                if ($("#selectInstructor_" + i).prop("checked")) {
+                    Instructor_ID = $("#hdSelect_InstructorName_" + i).val();
+                    ID = $("#hdSelect_ID_" + i).val();
+                    count++;
+                }
+                i++;
+            }
+
+            //alert(jobGradelist);
+            //employeelist = employeelist.remove(employeelist.length);
+
+                if (count > 1) {
+                    alert('กรุณาเลือกได้เพียง 1 รายการ !!!!!!!!!!!');
+                }
+                else {
+                     $('#txtInstructor').val(Instructor_ID);
+                    $('#hInstructorID').val(ID);
+
+                    CloseModalInstructor();
+                }
+
+
+    }
+
+
+    function SaveClass() {
+        //alert('SaveClass');
+
+        if ($('#dteLearningDateFrm').val() == '') {
+             MessageController.Error('Please Select Learning Date Start', "Error");
+             return;
+         }
+         if ($("#dteLearningDateTo").val() == '') {
+             MessageController.Error('Please Select Learning Date To', "Error");
+             return;
+        }
+
+        // LMS / PACD Required
+        if ($('#hID_LearnMethod').val() == 3 || $('#hID_LearnMethod').val() == 4) {
+
+            if ($("#txtLDMSCourseID").val() == '') {
+                MessageController.Error('Please Key Enter LDMS / PACD CourseID', "Error");
+                return;
+            }
+        }
+
+
+        MessageController.BlockUI({ boxed: true, target: '#frmClassDetailEditor' });
+        //debugger;
+         $.ajax({
+                    url: "/Courses/InsertClass",
+                    type: "POST",
+                    data: {
+                        ID: $('#hID').val(),
+                        LMS_PACD_courseID : $('#txtLDMSCourseID').val(),
+                        ID_Course  : $('#hID_Course').val(),
+                        ID_Instructor : $('#hInstructorID').val(),
+                        ClassCapacity: $('#txtCapacity').val(),
+                        ClassFee: $('#txtClassFee').val(),
+                        LearnDateStart  : $('#dteLearningDateFrm').val(),
+                        LearnTimeStart: $('#selectTimeFrom').find('option:selected').text(), //$('#selectTimeFrom').val(),
+                        LearnDateEnd  : $('#dteLearningDateTo').val(),
+                        LearnTimeEnd: $('#selectTimeTo').find('option:selected').text(), //$('#selectTimeTo').val(),
+                        RegisterDateStart : $('#dteRegisterDateFrm').val(),
+                        RegisterDateEnd: $('#dteRegisterDateTo').val(),
+                        ID_PlantVenue: $('#selectPlant').val(),
+                        ID_VenueRoom: $('#selectRoom').val(),
+                        PlaceAndLocation: $('#txtPlace').val(),
+                        ClassStatus : '0',
+                        IsAttend : $('#chkAttend').val(),
+                        AttendNum :  $('#txtAttendNum').val(),
+                        IsTest: $('#chkTest').val(),
+                        TestFullScore: $('#txtTestFullScore').val(),
+                        TestPercentage: $('#txtPercentTestPass').val(),
+                        IsSkill: $('#chkSkill').val(),
+                        SkillFullScore: $('#txtSkillFullScore').val(),
+                        SkillPercentage: $('#txtPercentSkillPass').val(),
+                        IsCoaching: $('#chkCoaching').val(),
+                        IsCertificate: $('#chkCert').val(),
+                        IsAttachCert: $('#chkCertification').val(),
+                        CertificationRemark: $('#txtCertification').val(),
+                        ReminderDurationDay: $('#txtReDuratioin').val(),
+                        IsActive : '1'
+                },
+                success: function (e) {
+                    //debugger;
+                        //alert('Save Complete : ID_Course ' + e.ID_Course);
+                        $('#hID').val(e.ID);
+                        MessageController.BlockUI({ boxed: true, target: '#frmClassDetailEditor' });
+                        window.location.href = '@Url.Content("~/Courses/Detail/")' + e.ID_Course;
+
+                        //$('#txtCourseID').val(e.CourseID);
+                        //$('#divClass').attr("style", "display:block");
+                },
+                }
+            )
+    }
+
+     function BacktoCourse(ID) {
+        //alert('BacktoCourse ' + ID);
+        $.ajax({
+            url: "/Courses/BacktoCourse",
+            type: "GET",
+            data: {
+                'ID': ID
+            },
+            success: function(e) {
+                //alert(JSON.stringify(e));
+                window.location.href = '@Url.Content("~/Courses/Detail/")' + e;
+
+            }
+        });
+    }
+
+
+    function GetClassRemain(ID) {
+        $.ajax({
+            url: "/Courses/GetClassRemain",
+            type: "GET",
+            data: {
+                ID_Course: ID,
+                ID_Plant: @HttpContextAccessor.HttpContext.Request.Cookies["PLANTID"],
+                ID_Center: @HttpContextAccessor.HttpContext.Request.Cookies["CENTERID"],
+                ID_Division: @HttpContextAccessor.HttpContext.Request.Cookies["DIVISIONID"],
+                ID_Department: @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENTID"],
+                ID_Section : @HttpContextAccessor.HttpContext.Request.Cookies["SECTIONTID"]
+            },
+            success: function(e) {
+                $("#txtCapacity").val(e.Remain);
+            }
+        });
+    }
+
+    </script>
+}

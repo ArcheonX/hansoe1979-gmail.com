@@ -1,0 +1,54 @@
+﻿<div class="panel panel-default" style="width:100%;border-width:thin;border-style:solid;">
+    <div class="panel-body" style="width:100%;">
+        <div class="form-horizontal" style="margin-top:25px">
+            <div class="row form-group">
+                <div class="col-sm-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Employee ID</label>
+                    </span>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" id="txtFilterEmployeeID" class="form-control input-sm" />
+                </div>
+                <div class="col-sm-2 offset-2" style="display:block;">
+                    <button id="btnAddEmployee" class="btn btn-outline-success waves-effect waves-light" style="width:100%">
+                        <img style="width:25px;height:20px" src="~/assets/images/svg/add-button-circle.svg" />&nbsp;&nbsp;Add Employee
+                    </button>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Employee Name</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text" id="txtFilterEmployeeName" class="form-control input-sm" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2">
+                    <span class="pull-right">
+                        <label class="LabelCaption">Department</label>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <select id="selectFilterDepartment" multiple="multiple" class="form-control" style="width: 100%">  
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-2 col-md-2 offset-8" style="padding-right:25px;">
+                    <button id="btnSearchEmployee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
+                        <img style="width:25px;height:20px" src="~/assets/images/svg/icon-seach.svg" />&nbsp;&nbsp;Search
+                    </button>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <button id="btnImportEmpolyee" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
+                        <img style="width:25px;height:20px" src="~/assets/images/svg/icon-excel-green.svg" />&nbsp;&nbsp;Import
+                    </button>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>

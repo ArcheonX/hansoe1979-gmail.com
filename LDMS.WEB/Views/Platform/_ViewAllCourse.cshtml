@@ -1,0 +1,58 @@
+﻿@model List<LDMS.ViewModels.LDMS_M_Course>
+    <div class="panel panel-default" style="margin-top:-15px;width:100%;">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-fixed" id="dtCourse" style="padding-top:5px" >
+                    <thead style="background-color:#1e88e5;color:#ffffff" class="sticky-top">
+                        <tr>
+                            <th style="text-align:center;width:100px">#</th>
+                            <th style="text-align:center">Course ID</th>
+                            <th style="text-align:center">Course Name</th>
+                            <th style="text-align:center">Learn Method</th>
+                            <th style="text-align:center">Status</th>
+                            <th style="text-align:center;margin-top:5px">
+                                <input type='checkbox'
+                                       name='selectCourse_all'
+                                       value='selectCourse_all'
+                                       id="selectCourse_all" /><label for="selectCourse_all" style="top:15px"> </label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var c in Model)
+                            {
+                                <tr>
+                                    <td style="text-align:center">@c.RowIndex</td>
+                                    <td style="text-align:center">@c.CourseID</td>
+                                    <td style="text-align:center">@c.CourseName</td>
+                                    <td style="text-align:center">@c.Course_LearnMethodName_EN</td>
+                                    <td style="text-align:center">@c.CourseStatus</td>
+                                    <td style="text-align:center;">
+                                        <input type="hidden" id="hdSelect_RowIndex_@c.RowIndex" name="hdSelect_RowIndex_@c.RowIndex" value="@c.RowIndex" />
+                                        <input type="hidden" id="hdSelect_CourseID_@c.RowIndex" name="hdSelect_CourseID_@c.RowIndex" value="@c.CourseID" />
+                                        <input type="hidden" id="hdSelect_CourseName_@c.RowIndex" name="hdSelect_CourseName_@c.RowIndex" value="@c.CourseName" />
+                                        <input type="hidden" id="hdSelect_Course_LearnMethodName_EN_@c.RowIndex" 
+                                               name="hdSelect_Course_LearnMethodName_EN_@c.RowIndex" value="@c.Course_LearnMethodName_EN" />
+                                        <input type="hidden" id="hdSelect_CourseStatus_@c.RowIndex" name="hdSelect_CourseStatus_@c.RowIndex" value="@c.CourseStatus" />
+                                        <input type='checkbox' style="text-align:center;"
+                                               name='selectCourse_@c.RowIndex'
+                                               value='selectCourse_@c.RowIndex'
+                                               id="selectCourse_@c.RowIndex" /><label for="selectCourse_@c.RowIndex"> </label>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+   </div>
+<script>
+
+  $('#selectCourse_all').click(function () {    
+     $('input:checkbox').prop('checked', this.checked);    
+ });
+
+</script>

@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LDMS - @ViewData["Title"]</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--- JS Lib-->
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/tether/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/magnific-popup/dist/jquery.magnific-popup.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jslinq/linq.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/jslinq/linq.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <!--[if lt IE 9]>
+        <script src="~/lib/html5shiv/html5shiv.js"></script>
+        <script src="~/lib/respond.js/respond.min.js"></script>
+    <![endif]-->
+    <!--- JS plugins-->
+    <script type="text/javascript" src="~/lib/datatables/js/jquery.dataTables.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/datatables/js/dataTables.bootstrap.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/datatables/js/dataTables.jqueryui.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <link href="~/lib/datatables/css/dataTables.jqueryui.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="~/lib/selecttwo/js/select2.full.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <!--- JS highcharts-->
+    <script src="~/lib/highchart/highcharts.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/highcharts-more.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/modules/exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/modules/export-data.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/modules/accessibility.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script src="~/lib/highchart/modules/offline-exporting.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <!--- JS App-->
+    <script type="text/javascript" src="~/assets/app/MessageController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/assets/app/LDMSUtility.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+    @*<script type="text/javascript" src="~/js/waves.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
+    @*<script type="text/javascript" src="~/js/sidebarmenu.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
+    @*<script type="text/javascript" src="~/js/custom.js?v=bd93153bf9375d66780f086cda347bfb"></script>*@
+    <!--- CSS-->
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/fontawesome.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendor/css-hamburgers/hamburgers.min.css">
+    <link href="~/css/style.css" type="text/css" rel="stylesheet">
+    <link href="~/css/LDMS.css" type="text/css" rel="stylesheet">
+    <link href="~/css/colors/blue.css" id="theme" type="text/css" rel="stylesheet">
+    <link href="~/css/svg-colorize.css" type="text/css" rel="stylesheet">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="~/lib/jquery-ui/themes/ui-lightness/jquery-ui.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/selecttwo/css/select2.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/selecttwo/css/select2-bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
+    <link href="~/lib/magnific-popup/dist/magnific-popup.css?v=bd93153bf9375d66780f086cda347bfb" type="text/css" rel="stylesheet">
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Header", required: false)
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+</head>
+<body style="background:linear-gradient(bottom, #fff, #00c6fb);">
+    <header class="topbar">
+        <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">
+                    <b>
+                        <img src="~/assets/images/logo-light-icon.png" class="light-logo" alt="homepage" />
+                        <img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                    </b>
+                </a>
+            </div>
+            <div class="head-title"><h1>Learning and Development Management System</h1></div>
+            <div class="logo-img"><span class="pull-right"><img class="ldms-logo" src="~/assets/images/svg/STT.svg" alt="homepage" /></span></div>
+        </nav>
+    </header>
+    <div id="content" style="position:absolute; top:0; bottom:0; left:0px; right:0px;overflow:auto;">
+        <div id="mySidebar" class="sidebar" style="width:350px">
+            <div class="user-profile">
+                <div class="profile-img">
+                    <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
+                </div>
+                <div class="profile-text">
+                    <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                    <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                    <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                    <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
+                </div>
+            </div>
+            <div class="scroll-sidebar" id="scroll-sidebar">
+                <nav class="sidebar-nav" style="width:90%;">
+                    @await Component.InvokeAsync("NavigationMenu")
+                </nav>
+            </div>
+        </div>
+
+        <div id="main" style="margin-left:350px">
+            <div class="page-wrapper">
+                <div class="page-titles">
+                    <div class="col-md-5 col-8 align-self-center" style="margin-top:75px;">
+                        <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
+                        <ol class="breadcrumb" style="margin-top:10px;">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="page-body">
+                    <div style="margin-top:15px;">
+                        @RenderBody()
+                    </div>
+                </div>
+                <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
+            </div>
+            @*<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
+        <h2>Collapsed Sidebar</h2>
+        <p>  @RenderBody()</p>*@
+        </div>
+        @*<aside class="left-sidebar" style="height:70%;">
+                <div class="user-profile">
+                    <div class="profile-img">
+                        <img src='@Url.Content(@HttpContextAccessor.HttpContext.Request.Cookies["FACEIMAGE"])' alt="user" />
+                    </div>
+                    <div class="profile-text">
+                        <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">I am : @HttpContextAccessor.HttpContext.Request.Cookies["FULLNAME"]</a>
+                        <a href='@Url.Action("MyProfile", "Account")' aria-expanded="false">My ID : @HttpContextAccessor.HttpContext.Request.Cookies["EMPLOYEEID"]</a>
+                        <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Join Date : @HttpContextAccessor.HttpContext.Request.Cookies["JOINDATE"]</a>
+                        <a href="#" style="pointer-events: none; display: inline-block;" aria-expanded="false">Department : @HttpContextAccessor.HttpContext.Request.Cookies["DEPARTMENT"]</a>
+                        <a href="/Account/Logout" aria-expanded="false">Sign Out</a>
+                    </div>
+                </div>
+                <div class="scroll-sidebar" id="scroll-sidebar">
+                    <nav class="sidebar-nav" style="width:90%;">
+                        @await Component.InvokeAsync("NavigationMenu")
+                    </nav>
+                </div>
+            </aside>
+            <aside class="right-sidebar" style="height:100%;overflow:auto;">
+                <div class="page-wrapper">
+                    <div class="page-titles">
+                        <div class="col-md-5 col-8 align-self-center" style="margin-top:75px;">
+                            <h3 class="text-themecolor m-b-0 m-t-0">@ViewData["MainTitle"]</h3>
+                            <ol class="breadcrumb" style="margin-top:10px;">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">@ViewData["Title"]</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="page-body">
+                        <div style="margin-top:15px;">
+                            @RenderBody()
+                        </div>
+                    </div>
+                    <footer class="footer"> ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล </footer>
+                </div>
+            </aside>*@
+    </div>
+</body>
+</html> 
+<style>
+    /* The sidebar menu */
+.sidebar {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0;
+  left: 0; 
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+}
+
+/* The sidebar links */
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none; 
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px; 
+  margin-left: 50px;
+}
+
+/* The button used to open the sidebar */
+.openbtn { 
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s; /* If you want a transition effect */
+  padding: 20px;
+} 
+</style>
+<script>
+    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+</script>

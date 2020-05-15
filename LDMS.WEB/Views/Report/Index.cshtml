@@ -1,0 +1,240 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/assets/app/ReportController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+<div class="panel panel-primary" style="width:100%;">
+    <div class="panel-body panel-body-begin">
+        <div class="form-horizontal">
+            <div class="row form-group" style="margin-top:-25px;">
+                <div class="col-sm-2 col-md-2">
+                    <button id="btnNormalReport" class="btn btn-info waves-effect waves-light" onclick="OnChangeReport('NORMAL')" style="width:100%"> Normal</button>
+                </div>
+                <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                    <button id="btnEmployeeReport" class="btn btn-outline-info waves-effect waves-light" onclick="OnChangeReport('EMPLOYEE')" style="width:100%"> Employee Comparation</button>
+                </div>
+                <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                    <button id="btnCourseReport" class="btn btn-outline-info waves-effect waves-light" onclick="OnChangeReport('COURSEPLATFORM')" style="width:100%"> Course/Platform Comparation</button>
+                </div>
+                <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                    <button id="btnLegalReport" class="btn btn-outline-info waves-effect waves-light" onclick="OnChangeReport('LEGALCOMPLIANCE')" style="width:100%"> Legal and Compliance</button>
+                </div>
+                <div class="col-sm-2 col-md-2" style="margin-left:-25px">
+                    <button id="btnBasicReport" class="btn btn-outline-info waves-effect waves-light" onclick="OnChangeReport('BASICFIRE')" style="width:100%"> Basic Fire Fighting</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="width: 100%;">
+    <div id="pnReportNormal" style="display:block;width:100%">
+        @await Html.PartialAsync("_Normal")
+    </div>
+    <div id="pnReportEmployeeComparation" style="display:none;width:100%">
+        @await Html.PartialAsync("_EmployeeComparation")
+    </div>
+    <div id="pnReportCoursePlatformComparation" style="display:none;width:100%">
+        @await Html.PartialAsync("_CoursePlatformComparation")
+    </div>
+    <div id="pnReportLegalCompliance" style="display:none;width:100%">
+        @await Html.PartialAsync("_LegalCompliance")
+    </div>
+    <div id="pnReportBasicFireFighting" style="display:none;width:100%">
+        @await Html.PartialAsync("_BasicFireFighting")
+    </div>
+</div>
+<div id="search-platform-modal" class="white-popup-block mfp-hide" style="width:800px;height:600px;background-color:#ffffff;margin-left:25%;border:thin;">
+    <div class="panel panel-primary" style="width:100%;">
+        <div class="panel-body panel-body-begin">
+            <div class="form-horizontal" style="padding-top:25px;">
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2 offset-1">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Platform ID</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <input type="text"
+                               title="Please Enter Platform ID"
+                               id="txtPlatformID"
+                               style="width: 100%"
+                               class="form-control" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2 offset-1" ">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Platform Name</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <input type="text"
+                               title="Please Enter Platform Name"
+                               id="txtPlatformName"
+                               style="width: 100%"
+                               class="form-control" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2 offset-1">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Platform Status</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <select id="selectPlatformStatus" name="selectPlatformStatus" class="form-control" style="width: 100%"> 
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2 offset-1" ">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Platform Type</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <select id="selectPlatformType"
+                                name="selectPlatformType"
+                                title="Please Platform Type"
+                                class="form-control"
+                                style="width: 100%">
+                        </select>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <button id="btnSearchCourse"  onclick="SearchPlatform()" class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />Search
+                        </button>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="table-responsive" style="height:350px;">
+                            <table class="table table-striped table-hover table-fixed" id="dtPlatform">
+                                <thead style="background-color:#1e88e5;color:#ffffff">
+                                    <tr>
+                                        <th style="text-align:center;width:150px">Platform Code</th>
+                                        <th style="text-align:left;width:150px">Platform Name</th>
+                                        <th style="text-align:center;width:50px">Select</th>
+                                    </tr>
+                                </thead>
+                                <tbody />
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" style="margin-top:15px;margin-bottom:15px;">
+                    <div class="col-sm-2 col-md-2 offset-8">
+                        <button id="btnSelectPlatform" onclick="OnSelectPlatform()" class="btn btn-outline-primary waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/right.svg" />&nbsp;&nbsp;Select
+                        </button>
+                    </div>
+                    <div class="popup-modal-dismiss col-sm-2 col-md-2" style="margin-left:-25px;">
+                        <button id="btnBack" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="search-course-modal" class="white-popup-block mfp-hide" style="width:800px;height:600px;background-color:#ffffff;margin-left:25%;border:thin;">
+    <div class="panel panel-primary" style="width:100%;">
+        <div class="panel-body panel-body-begin">
+            <div class="form-horizontal" style="padding-top:25px;">
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2 offset-1">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Course ID</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <input type="text"
+                               title="Please Enter Course ID"
+                               id="txtCourseID"
+                               style="width: 100%"
+                               class="form-control" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2 offset-1" ">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Course Name</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <input type="text"
+                               title="Please Enter Course Name"
+                               id="txtCourseName"
+                               style="width: 100%"
+                               class="form-control" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2 offset-1">
+                        <span class="pull-right">
+                            <label class="LabelCaption">Course Status</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <select id="selectCourseStatus" name="selectCourseStatus" class="form-control" style="width: 100%"> 
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-2 col-md-2 offset-1" ">
+                        <span class="pull-right" style="vertical-align:middle">
+                            <label class="LabelCaption">Learn Method</label>
+                        </span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <select id="selectLearnMethod"
+                                name="selectLearnMethod"
+                                title="Please Learn Method"
+                                class="form-control"
+                                style="width: 100%">
+                        </select>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <button id="btnSearchCourse"  onclick="SearchCourse()"  class="btn btn-outline-secondary waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:25px" src="~/assets/images/svg/icon-seach.svg" />Search
+                        </button>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="table-responsive" style="height:350px;">
+                            <table class="table table-striped table-hover table-fixed" id="dtCourse">
+                                <thead style="background-color:#1e88e5;color:#ffffff">
+                                    <tr>
+                                        <th style="text-align:center;width:150px">Course Code</th>
+                                        <th style="text-align:left">Course Name</th>
+                                        <th style="text-align:left;width:75px">Select</th>
+                                    </tr>
+                                </thead>
+                                <tbody/>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" style="margin-top:15px;margin-bottom:15px;">
+                    <div class="col-sm-2 col-md-2 offset-8">
+                        <button id="btnSelectCourse" onclick="OnSelectCourse()"  class="btn btn-outline-primary waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/right.svg" />&nbsp;&nbsp;Select
+                        </button>
+                    </div>
+                    <div class="popup-modal-dismiss col-sm-2 col-md-2" style="margin-left:-25px;">
+                        <button id="btnBack" class="btn btn-outline-danger inactive waves-effect waves-light" style="width:100%">
+                            <img style="width:25px;height:20px" src="~/assets/images/svg/icon-l-red.svg" />&nbsp;&nbsp;Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

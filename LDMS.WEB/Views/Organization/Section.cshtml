@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "I-Manage Section";
+    ViewData["MainTitle"] = "I-Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+<script src="~/assets/app/SectionController.js"></script>
+<div class="panel panel-primary" style="width:100%;">
+    <div class="panel-body panel-body-begin"> 
+    </div>
+</div>
+<div id="viewAllUser" style="margin-top:-15px;width:100%;display:block;"> 
+        @await Html.PartialAsync("section/_userListView")  
+</div> 
+<div id="editSection" style="margin-top:-15px;width:100%;display:none;">
+    @await Html.PartialAsync("section/_SectionEditor")
+</div>

@@ -1,0 +1,37 @@
+﻿@model List<LDMS.ViewModels.LDMS_M_Section> 
+    <table class="display dataTable" id="dtSectionRows">
+        <thead>
+            <tr>
+                <th style="text-align:center;width:10%;">#</th>
+                <th style="text-align:center;width:40%;">Section abbreviation</th>
+                <th style="text-align:center;width:40%;">Section Name</th>
+                <th style="text-align:center;width:10%;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var std in Model) /*ViewData["Users"] as IList<LDMS.ViewModels.LDMS_M_User>)*/
+                {
+                    <tr>
+                        <th style="text-align: center; width: 100px">@std.RowIndex</th>
+                        <th style="text-align:center;">@std.SectionID</th>
+                        <th style="text-align:center">@std.SectionName_EN</th>
+                        <th style="text-align:center;width:100px">
+                            <a href="#section-Editor-modal" 
+                               data-var1="@std.ID_Section"
+                               data-var2="@std.SectionID"
+                               data-var3="@std.SectionName_EN"
+                               class="section-Editor-modal" style="cursor:pointer;width:45%" id="btnRowEditSection">
+                                <img src='@Url.Content("~/assets/images/svg/icon-edit-blue.svg")'  alt="homepage" />
+                            </a>
+                            <a onclick="DeleteSection('@std.ID_Section','@std.SectionID','@std.SectionName_EN')" style="cursor:pointer;width:45%" id="btnRowDeletedSection">
+                                <img src='@Url.Content("~/assets/images/svg/icon-delete-red.svg")' alt="homepage" />
+                            </a>
+
+                        </th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>

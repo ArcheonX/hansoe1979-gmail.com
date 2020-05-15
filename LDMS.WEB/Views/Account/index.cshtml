@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- Favicon icon -->
+        <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+        <title>LDMS- @ViewData["Title"]</title>
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/tether/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+
+        <script type="text/javascript" src="~/lib/crypto-js/core.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/crypto-js/cipher-core.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/crypto-js/enc-base64.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/crypto-js/enc-utf16.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/crypto-js/aes.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/crypto-js/pbkdf2.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/all.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/all.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/fontawesome.min.css" />
+        <link href="~/css/colors/blue.css" id="theme" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="~/css/vendor/animate/animate.css">
+        <link rel="stylesheet" type="text/css" href="~/css/vendor/css-hamburgers/hamburgers.min.css">
+        <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
+        <link href="~/css/Login.css" rel="stylesheet">
+        <script src="~/assets/app/loginController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script src="~/assets/app/MessageController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <!--[if lt IE 9]>
+    <script src="~/assets/lib/html5shiv/html5shiv.js"></script>
+    <script src="~/assets/lib/respond.js/respond.min.js"></script>
+    <![endif]-->
+    </head>
+<html> 
+<body>
+    <div id="header" style="position:absolute; top:0px; left:0px; height:0px; right:0px;overflow:no-content;">
+            <header class="topbar">
+                <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="index.html">
+                            <b>
+                                @*<img src="~/assets/images/logo-light-icon.png" class="light-logo" alt="homepage" />*@
+                                <img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                            </b>
+                        </a>
+                    </div>
+                    <div class="head-title"><h1>Learning and Development Management System</h1></div>
+                    <div class="logo-img"><span class="pull-right"><img class="ldms-logo" src="~/assets/images/svg/STT.svg" alt="homepage" /></span></div>
+                </nav>
+            </header>
+        </div>
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Sign In</h3>
+                </div>
+                <div class="card-body">
+                    <form id="frm-login">
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="txtUserName" placeholder="username">
+
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" class="form-control" id="txtPassword" placeholder="password">
+                        </div>
+                        @*<div class="row align-items-center remember">
+                            <input type="checkbox" id="chkRememberMe">Remember Me
+                        </div>*@
+                    </form>
+                    <div class="form-group">
+                        <input type="submit" onclick="OnAuthentication()" value="Login" class="btn float-right login_btn">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center">
+                        <a href="#">Forgot your password?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div id="footer" style="position:absolute; bottom:0px; height:50px; left:0px; right:0px; overflow:no-content;">
+        <span class="text-center d-flex" style="width:100%;margin-left:25%;color:#0026ff">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
+    </div>*@
+</body>
+</html>

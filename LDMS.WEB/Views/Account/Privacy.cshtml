@@ -1,0 +1,135 @@
+﻿@{
+    ViewData["Title"] = "Policy";
+    Layout = null;
+}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- Favicon icon -->
+        <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+        <title>LDMS- @ViewData["Title"]</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery-3.1.1.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/tether/js/tether.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sticky-kit-master/dist/sticky-kit.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sparkline/jquery.sparkline.min.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/styleswitcher/jQuery.style.switcher.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/sweetalert/sweetalert.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/js/jquery.slimscroll.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/lib/block-ui/jquery.blockUI.js?v=bd93153bf9375d66780f086cda347bfb"></script> 
+
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="~/lib/fontawesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/css/vendor/animate/animate.css">
+        <link rel="stylesheet" type="text/css" href="~/css/vendor/css-hamburgers/hamburgers.min.css">
+        <link href="~/lib/sweetalert/sweetalert.css" type="text/css" rel="stylesheet">
+        <link href="~/css/Privacy.css" rel="stylesheet">
+        <link href="~/css/colors/blue.css" id="theme" rel="stylesheet">
+        <script type="text/javascript" src="~/assets/app/MessageController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <script type="text/javascript" src="~/assets/app/CookiesController.js?v=bd93153bf9375d66780f086cda347bfb"></script>
+        <!--[if lt IE 9]>
+        <script src="~/assets/lib/html5shiv/html5shiv.js"></script>
+        <script src="~/assets/lib/respond.js/respond.min.js"></script>
+    <![endif]-->
+    </head>
+<body style="background:linear-gradient(bottom, #fff, #00c6fb);">
+    <div id="main-wrapper">
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">
+                        <b>
+                            <img src="~/assets/images/logo-light-icon.png" class="light-logo" alt="homepage" />
+                            <img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                        </b>
+                    </a>
+                </div>
+                <div class="head-title"><h1>Learning and Development Management System</h1></div>
+                <div class="logo-img"><img src="~/assets/images/svg/STT.svg" alt="homepage" /></div>
+            </nav>
+        </header>
+        <div class="page-wrapper">
+            <div class="container-login100">
+                <div class="wrap-login100 p-t-190 p-b-30">
+                    <div style="margin-top:50px;">
+                        <span>
+                            <h1>จริยธรรมว่าด้วยการรักษาความลับ การรักษาข้อมูล และการใช้ข้อมูลภายใน</h1>
+                        </span>
+                        <div style="margin-top:50px;">
+                            <span>
+                                คณะกรรมการบริษัท ยึดมั่นในการดำเนินธุรกิจด้วยความซื่อสัตย์ โปร่งใส เป็นธรรม และปฏิบัติต่อผู้มีส่วนได้เสียทุกฝ่ายอย่างเท่าเทียมกัน ดังกำหนดนโยบายและแนวทางปฏิบัติไว้ในจริยธรรมว่าด้วยการรักษาความลับ การรักษาข้อมูล และการใช้ข้อมูลภายใน ตามคู่มือการกำกับดูแลกิจการที่ดีและจริยธรรมธุรกิจ ดังนี้
+                            </span>
+                        </div>
+                        <div style="margin-top:50px;">
+                            <span>
+                                กำหนดให้บริษัทฯ ให้ความรู้และความเข้าใจแก่ กรรมการ ผู้บริหารของบริษัทฯ เกี่ยวกับการรายงานการถือหลักทรัพย์ และการเปลี่ยนแปลงการถือหลักทรัพย์ของบริษัทฯ ต่อ ก.ล.ต. ตามมาตรา 59 แห่ง พ.ร.บ. หลักทรัพย์และตลาดหลักทรัพย์ พ.ศ.2535 โดยกำหนดให้แจ้งต่อเลขานุการบริษัททราบทุกครั้ง เพื่อแจ้งให้ผู้ที่เกี่ยวข้องรับทราบต่อไป รวมทั้งได้แจ้งบทลงโทษหากมีการฝ่าฝืนหรือไม่ปฏิบัติตามข้อกำหนดดังกล่าว
+                                กำหนดให้กรรมการ กรรมการบริหาร และผู้บริหาร (ตามนิยามของ ก.ล.ต.) มีหน้าที่ในการรายงานการถือครองหลักทรัพย์ของบริษัทฯ (GRAMMY) ครั้งแรกที่ได้รับการแต่งตั้งเป็นกรรมการ และทุกครั้งที่มีการเปลี่ยนแปลง ซึ่งรวมถึงจำนวนหลักทรัพย์ที่ถือครองของบุคคลที่มีความเกี่ยวข้องตามมาตรา 59 แห่ง พ.ร.บ. หลักทรัพย์และตลาดหลักทรัพย์ฯ และกำหนดให้เลขานุการบริษัทสรุปรายงานการถือครองหลักทรัพย์ และการเปลี่ยนแปลงการถือหลักทรัพย์ฯ ต่อที่ประชุมคณะกรรมการบริษัททุกครั้งเพื่อรับทราบเป็นรายไตรมาส
+                                กำหนดในสัญญาจ้างแรงงาน ข้อบังคับบริษัทเกี่ยวกับการทำงาน ข้อพึงปฏิบัติของพนักงานต่อบริษัทฯ และถือเป็นจริยธรรมของพนักงาน ในการระมัดระวังรักษาข้อมูลให้เป็นความลับ ไม่ใช้ตำแหน่งหน้าที่ในบริษัทฯ หรือนำข้อมูลภายในหรือสารสนเทศที่มีสาระสำคัญซึ่งได้รับระหว่างการปฏิบัติงานในบริษัทฯที่ยังไม่ได้เปิดเผยต่อสาธารณะ ไปแสวงหาประโยชน์ในทางมิชอบหรือเปิดเผยกับบุคคลภายนอกเพื่อประโยชน์ส่วนตนและผู้เกี่ยวข้อง หรือทำให้ประโยชน์ของบริษัทฯ ลดลง หรือกระทำการอันก่อให้เกิดความขัดแย้งทางผลประโยชน์
+                                ให้ความสำคัญในการรักษาสารสนเทศที่เป็นความลับของลูกค้าอย่างจริงจังและสม่ำเสมอ โดยไม่นำสารสนเทศดังกล่าวมาใช้เพื่อผลประโยชน์ของตนเองและผู้เกี่ยวข้อง เว้นแต่เป็นข้อมูลที่ต้องเปิดเผยต่อบุคคลภายนอกตามกฎหมายต่างๆ ที่เกี่ยวข้อง
+                                ในกรณีที่บุคคลภายนอก มีส่วนร่วมในการทำงานเฉพาะกิจที่เกี่ยวกับข้อมูลที่ยังไม่ได้เปิดเผยต่อสาธารณะและอยู่ระหว่างการเจรจาซึ่งงานนั้นๆ เข้าข่ายการเก็บรักษาข้อมูลภายใน อันอาจมีผลต่อความเคลื่อนไหวของราคาหลักทรัพย์ของบริษัทฯ บุคคลภายนอกเหล่านั้นจะต้องทำสัญญาเก็บรักษาข้อมูลความลับ (Confidentiality Agreement) ไว้กับบริษัทฯ จนกว่าจะมีการเปิดเผยข้อมูลต่อ ตลท. และ ก.ล.ต.
+                                มีการกำหนดจริยธรรมว่าด้วยการใช้ระบบคอมพิวเตอร์ เทคโนโลยีสารสนเทศและการสื่อสาร เพื่อควบคุมและรักษาความปลอดภัยของข้อมูลในระบบสารสนเทศ และ/หรือ ป้องกันการเข้าถึงข้อมูลบริษัทฯ จากบุคคลภายนอก และการกำหนดระดับการเข้าถึงข้อมูลของบริษัทฯ ให้กับพนักงานในระดับต่าง ๆ ให้เหมาะสมกับความรับผิดชอบ
+                                บริษัทฯ จะใช้บทลงโทษตามระเบียบของบริษัทฯ หากพบว่า ผู้บริหาร หรือพนักงาน หรือผู้ที่เกี่ยวข้องได้ใช้ข้อมูลภายในหรือมีความประพฤติที่ส่อไปในทางที่จะทำให้บริษัทฯ ได้รับความเสื่อมเสียและความเสียหาย
+                                ในกรณีที่มีการใช้ข้อมูลภายในหรือมีความประพฤติที่ส่อไปในทางที่จะทำให้บริษัทฯ ได้รับความเสื่อมเสียและความเสียหาย ฝ่ายบริหารจะจัดทำรายงานเสนอต่อคณะกรรมการบริษัททราบ เป็นประจำทุกปี โดยในปี 2561 บริษัทฯ ไม่พบรายงานว่า กรรมการและผู้บริหารมีการซื้อขายหลักทรัพย์โดยใช้ข้อมูลภายใน
+                            </span>
+                        </div>
+                    </div>
+                    <div class="container-login100-form-btn p-t-10" style="margin-top:20px;">
+                        <button id="btn-frm-login" class="login100-form-btn">Accept </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <span class="text-center">ลิขสิทธิ์ © 2020 SONY TECHNOLOGY (THAILAND) CO., LTD. สงวนลิขสิทธิ์ เงื่อนไขในการใช้งานนโยบายส่วนบุคคล</span>
+    </footer>
+</body>
+<script>
+    (function ($) {
+        "use strict";
+        $(document).ready(function () {
+            $("#btn-frm-login").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/AllowGPP",
+                    data: {
+                        "employeeId": CookiesController.getCookie("EMPLOYEEID"),
+                        "IsAllow": true
+                    },
+                    success: function (response) { 
+                        window.location.href = response.Data;
+                    },
+                    failure: function (response) {
+                        if (JSON.parse(response.responseText).Errors.length > 0) {
+                            MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                        } else {
+                            MessageController.Error(response.responseText, "Error");
+                        }
+                    },
+                    error: function (response) {
+                        if (JSON.parse(response.responseText).Errors.length > 0) {
+                            MessageController.Error(JSON.parse(response.responseText).Errors[0].replace("Message:", ""), "Error");
+                        } else {
+                            MessageController.Error(response.responseText, "Error");
+                        }
+                    }
+                });
+            });
+        })
+    })(jQuery);
+</script>
